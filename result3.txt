@@ -1,0 +1,19 @@
+total 96
+drwxrwxrwx  8 akaya-oz piscine  4096 mei  7 18:06 .
+drwxr-xr-x 10 akaya-oz piscine   128 mei  7 13:56 ..
+drwxrwxr-x  4 akaya-oz piscine   151 mei  7 17:31 42_pipex_tester-main
+-rwxr-xr-x  1 akaya-oz piscine 38192 mei  7 13:56 checker_linux
+-rw-r--r--  1 akaya-oz piscine     0 mei  7 13:56 empty.txt
+drwxrwxrwx  2 akaya-oz piscine  4096 mei  7 17:57 ft_printf
+drwxrwxrwx  2 akaya-oz piscine    21 apr  5 10:35 Includes
+drwxrwxrwx  2 akaya-oz piscine  4096 mei  7 17:57 Libft
+-rwxr-xr-x  1 akaya-oz piscine  1668 mei  7 13:56 Makefile
+-rw-r--r--  1 akaya-oz piscine  2011 mei  7 13:56 my_test.sh
+drwxr-xr-x  2 akaya-oz piscine    41 mei  7 18:06 Objects
+-rwxr-xr-x  1 akaya-oz piscine     2 mei  7 13:56 outfile
+-rwxr-xr-x  1 akaya-oz piscine 24392 mei  7 18:06 pipex
+-rwxr-xr-x  1 akaya-oz piscine     0 mei  7 17:57 result2.txt
+-rwxr-xr-x  1 akaya-oz piscine     0 mei  7 18:06 result3.txt
+-rwxr-xr-x  1 akaya-oz piscine     0 mei  7 17:57 result.txt
+drwxrwxrwx  2 akaya-oz piscine    41 mei  7 13:56 Sources
+-rwxr-xr-x  1 akaya-oz piscine   124 mei  7 13:56 test.txt
