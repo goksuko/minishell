@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:34:42 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/01 00:15:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/01 20:52:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	*free_matrix(char **matrix)
 
 void	close_pipex(t_pipex *info, char **matrix)
 {
-	close(info->pipefd[0]);
-	close(info->pipefd[1]);
 	close(info->fd_in);
 	close(info->fd_out);
+	close(info->pipefd[0]);
+	close(info->pipefd[1]);
 	free(info);
 	if (matrix)
 		free_matrix(matrix);

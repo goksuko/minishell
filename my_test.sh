@@ -1,5 +1,17 @@
 clear
 make
+make bonus
+
+echo "bonus test"
+< test.txt grep a1 | cat -e | wc -w > result.txt
+./minishell test.txt "grep a1" "cat -e" "wc -w" result2.txt
+echo "difference:"
+diff result.txt result2.txt
+echo "now memory check for bonus"
+echo ""
+valgrind ./minishell ./Libft "ls -l" "wc -l" result2.txt
+echo "1st Done"
+echo ""
 
 echo "1. ex1 of subject"
 < ./Libft ls -l | wc -l > result.txt

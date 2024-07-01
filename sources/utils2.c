@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/30 23:23:28 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/01 00:12:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/01 21:27:23 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	close_safe(int fd, t_pipex *info)
 {
-	if (close(fd) != 0)
+	if (close(fd) < 0)
 	{
 		close_pipex(info, NULL);
+		ft_printf("pipefd[0]: %d\n", info->pipefd[0]);
+		ft_printf("pipefd[1]: %d\n", info->pipefd[1]);
 		ft_exit_perror(ERROR_CLOSE, "in close safe");
 	}
 	return (0);

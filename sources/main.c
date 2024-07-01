@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/01 00:13:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/01 22:15:49 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ pid_t	child_process(t_pipex *info, char **argv, char **envp)
 		{
 			if (dup2(info->fd_in, STDIN_FILENO) == -1)
 				ft_exit_perror(ERROR_DUP2, "dup2 for infile in child process");
-			close_safe(info->fd_in, info);
+			close_safe(info->fd_in, NULL);
 		}
-		close_safe(info->pipefd[0], info);
 		if (dup2(info->pipefd[1], STDOUT_FILENO) == -1)
 			ft_exit_perror(ERROR_DUP2, "dup2 for pipefd in child process");
-		close_safe(info->pipefd[1], info);
+		close_safe(info->pipefd[1], NULL);
 		start_exec(info, argv, envp);
 	}
 	return (pid);
@@ -48,7 +47,6 @@ pid_t	last_child_process(t_pipex *info, char **argv, char **envp)
 		ft_exit_perror(ERROR_FORK, "fork in last child process");
 	if (pid == 0)
 	{
-		close_safe(info->pipefd[1], info);
 		if (dup2(info->pipefd[0], STDIN_FILENO) == -1)
 			ft_exit_perror(ERROR_DUP2, "dup2 for pipefd in last child process");
 		close_safe(info->pipefd[0], info);
@@ -75,7 +73,6 @@ int	create_children(t_pipex *info, char *argv[], char **envp)
 		pid = child_process(info, argv, envp);
 		close_safe(info->pipefd[1], info);
 		dup2_safe(info->pipefd[0], STDIN_FILENO, info);
-		close_safe(info->pipefd[0], info);
 		info->curr_cmd++;
 		i++;
 	}
@@ -125,8 +122,6 @@ int	main(int argc, char *argv[], char **envp)
 	if (path_no == 0)
 		return (command_not_found(argv));
 	exit_code = create_children(info, argv, envp);
-	if (exit_code != 0)
-		return (free(info), exit_code);
 	free(info);
-	return (0);
+	return (exit_code);
 }
