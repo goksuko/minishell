@@ -8,6 +8,7 @@ SRCS = \
 		utils2.c \
 		ft_putstr2_fd.c \
 		path.c \
+		pipex.c \
 
 
 SRCS_DIR = sources

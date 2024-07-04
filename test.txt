@@ -7,4 +7,11 @@ asbajbdlabsdjad
 kdsfksdfshdkdsfsdflsh
 
 ldsfkdsflagfn vdf
-v
+vcheck_args
+check_pipe
+check_characters
+exit code: 
+check_args
+check_pipe
+check_characters
+exit code: 

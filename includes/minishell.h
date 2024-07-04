@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/01 00:13:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/02 12:55:43 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef enum e_error {
 	ERROR_CLOSE,
 	ERROR_DUP2,
 	ERROR_EXECVE,
+	ERROR_QUOTE,
+	ERROR_WRONG_CHAR,
 	UNDEFINED_ERROR,
 	ERROR_NOT_DIR = 127,
 }	t_error;
@@ -51,6 +53,14 @@ typedef struct s_pipex
 	int		curr_cmd;
 }	t_pipex;
 
+typedef struct s_info
+{
+	char	*cmd;
+	int		argc;
+	char	**argv;
+	char	**envp;
+	int		exit_code;
+}	t_info;
 
 // errors.c
 
@@ -90,5 +100,9 @@ void	ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 
 int	close_safe(int fd, t_pipex *info);
 int	dup2_safe(int oldfd, int newfd, t_pipex *info);
+
+// pipex.c
+
+int	pipex(int argc, char *argv[], char **envp);
 
 #endif

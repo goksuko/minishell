@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/17 19:26:05 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/05/27 11:02:49 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/02 11:56:14 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,29 @@ int	ft_printf_fd(int fd, const char *format, ...)
 
 int	ft_printf(const char *format, ...)
 {
-	int		total;
-	va_list	args;
-	
+	unsigned int	i;
+	char			*s;
+	va_list			args;
+	int				total;
+
+	va_start (args, format);
+	total = 0;
 	if (!format)
 		return (-1);
-	va_start(args, format);
-	total = 0;
-	total = ft_printf_fd(STDOUT_FILENO, format);
-	va_end(args);
+	s = (char *)format;
+	i = 0;
+	while (format && s[i] != 0)
+	{
+		if (s[i] != '%')
+			total += write(STDOUT_FILENO, &s[i], sizeof(char));
+		else
+		{
+			total += do_type(STDIN_FILENO, s[i + 1], args);
+			i++;
+		}
+		i++;
+	}
+	va_end (args);
 	return (total);
 }
+
