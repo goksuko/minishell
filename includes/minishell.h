@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/02 12:55:43 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/04 16:52:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../Libft/includes/libft.h"
 # include "../Libft/ft_utils/includes/ft_utils.h"
 # include "../Libft/ft_printf_fd/includes/ft_printf_fd.h"
+
+# define SUCCESS 0
 
 typedef enum e_error {
 	NO_ERROR,
@@ -53,14 +57,14 @@ typedef struct s_pipex
 	int		curr_cmd;
 }	t_pipex;
 
-typedef struct s_info
+typedef struct s_data
 {
-	char	*cmd;
-	int		argc;
-	char	**argv;
+	char	**cmd;
+	char	*line;
 	char	**envp;
 	int		exit_code;
-}	t_info;
+	int		arg_nb;
+}	t_data;
 
 // errors.c
 
@@ -103,6 +107,6 @@ int	dup2_safe(int oldfd, int newfd, t_pipex *info);
 
 // pipex.c
 
-int	pipex(int argc, char *argv[], char **envp);
+int	pipex(char *line, char **envp);
 
 #endif

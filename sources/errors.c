@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/02 11:58:06 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/04 16:19:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*ft_error(t_error code)
 {
 	static char	*str[] = {[NO_ERROR] = "No Error",
 			[ERROR_PERM] = "zsh: permission denied: \n",
-			[ERROR_ARGUMENT_COUNT] = "please provide: ./minishell file1 cmd1 cmd2 ... cmdn file2\n",
+			[ERROR_ARGUMENT_COUNT] = "please provide: ./minishell\n",
 			[ERROR_ALLOCATION] = "Allocation Failure",
 			[ERROR_NULL_PATH]	= "zsh: path not found\n",
 			[ERROR_WRONG_CHAR] = "Error: wrong character\n",

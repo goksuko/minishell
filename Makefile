@@ -20,12 +20,13 @@ OBJS_DIR = objects
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CFLAGS += -g
+SFLAGS = -Wall -Wextra -Werror -g -lreadline
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
 	@echo "Compilation in Progress"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(SFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo ""
 	@echo "********Completed********"
 #	$(CC) $(LFLAGS) -g -fsanitize=address $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)

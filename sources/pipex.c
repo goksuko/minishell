@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/02 12:23:05 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/04 16:54:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,38 +85,38 @@ int	create_children(t_pipex *info, char *argv[], char **envp)
 	return (0);
 }
 
-void	initialize_info(t_pipex *info, char *argv[], int argc)
+void	initialize_info(t_pipex *info, t_data *data)
 {
-	info->fd_in = open(argv[1], O_RDONLY, 0777);
+	info->fd_in = open(data->cmd[0], O_RDONLY, 0777);
 	if (info->fd_in < 0)
 	{
 		free(info);
 		ft_exit_perror(ERROR_FILE_OPEN, "infile in initialize");
 	}
-	info->fd_out = open(argv[argc - 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	info->fd_out = open(data->cmd[data->arg_nb - 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (info->fd_out < 0)
 	{
 		close(info->fd_in);
 		free(info);
 		ft_exit_perror(ERROR_FILE_OPEN, "outfile in initialize");
 	}
-	info->nbr_of_cmds = argc - 3;
+	info->nbr_of_cmds = data->arg_nb - 3; // 2???
 	info->curr_cmd = 2;
 }
 
-int	pipex(int argc, char *argv[], char **envp)
+int	pipex(t_data *data)
 {
 	int		path_no;
 	t_pipex	*info;
 	int		exit_code;
 
 	ft_printf("pipex\n");
-	if (argc < 5)
-		return (ft_print_error(ERROR_ARGUMENT_COUNT));
 	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "info in main");
-	initialize_info(info, argv, argc);
+	initialize_info(info, data);
+
+
 	path_no = find_path_index(envp);
 	if (envp[path_no] == NULL)
 		return (ft_print_error(ERROR_NULL_PATH));
