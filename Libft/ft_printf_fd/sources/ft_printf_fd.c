@@ -6,11 +6,32 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/17 19:26:05 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/02 11:56:14 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/05 22:56:08 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf_fd.h"
+
+static size_t	do_type_helper(int fd, char t, va_list args)
+{
+	static size_t	total;
+
+	total = 0;
+	if (t == 'x')
+		total += print_hexadecimal(fd, va_arg(args, unsigned int));
+	else if (t == 'X')
+		total += print_upp_hexadecimal(fd, va_arg(args, unsigned int));
+	else if (t == 'l')
+		total += print_long(fd, va_arg(args, long long));
+	else if (t == '%' || t == '\0')
+		total += write(fd, "%", sizeof(char));
+	else if (t != '%')
+	{
+		total += write(fd, "%", sizeof(char));
+		total += write(fd, &t, sizeof(char));
+	}
+	return (total);
+}
 
 static size_t	do_type(int fd, char t, va_list args)
 {
@@ -27,19 +48,8 @@ static size_t	do_type(int fd, char t, va_list args)
 		total += print_decimal(fd, va_arg(args, int));
 	else if (t == 'u')
 		total += print_unsign_decimal(fd, va_arg(args, unsigned int));
-	else if (t == 'x')
-		total += print_hexadecimal(fd, va_arg(args, unsigned int));
-	else if (t == 'X')
-		total += print_upp_hexadecimal(fd, va_arg(args, unsigned int));
-	else if (t == 'l')
-		total += print_long(fd, va_arg(args, long long));
-	else if (t == '%' || t == '\0')
-		total += write(fd, "%", sizeof(char));
-	else if (t != '%')
-	{
-		total += write(fd, "%", sizeof(char));
-		total += write(fd, &t, sizeof(char));
-	}
+	else
+		total += do_type_helper(fd, t, args);
 	return (total);
 }
 
@@ -50,7 +60,7 @@ int	ft_printf_fd(int fd, const char *format, ...)
 	va_list			args;
 	int				total;
 
-	va_start (args, format);
+	va_start(args, format);
 	total = 0;
 	if (!format)
 		return (-1);
@@ -67,7 +77,7 @@ int	ft_printf_fd(int fd, const char *format, ...)
 		}
 		i++;
 	}
-	va_end (args);
+	va_end(args);
 	return (total);
 }
 
@@ -78,7 +88,7 @@ int	ft_printf(const char *format, ...)
 	va_list			args;
 	int				total;
 
-	va_start (args, format);
+	va_start(args, format);
 	total = 0;
 	if (!format)
 		return (-1);
@@ -95,7 +105,6 @@ int	ft_printf(const char *format, ...)
 		}
 		i++;
 	}
-	va_end (args);
+	va_end(args);
 	return (total);
 }
-

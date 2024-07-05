@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 14:11:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/05/24 14:24:20 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/05 22:57:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,5 @@ char	*gnl_strdup(const char *s);
 
 int		ft_printf(const char *format, ...);
 int		ft_printf_fd(int fd, const char *format, ...);
-
 
 #endif

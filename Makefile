@@ -18,15 +18,14 @@ OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 OBJS_DIR = objects
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-CFLAGS += -g
+CFLAGS = -Wall -Wextra -Werror -g
 SFLAGS = -Wall -Wextra -Werror -g -lreadline
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
 	@echo "Compilation in Progress"
-	@$(CC) $(SFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(SFLAGS) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
 	@echo ""
 	@echo "********Completed********"
 #	$(CC) $(LFLAGS) -g -fsanitize=address $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)

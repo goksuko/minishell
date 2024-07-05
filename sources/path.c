@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/01 00:17:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/05 22:59:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,16 @@ char	*find_path(char *main_command, char **envp)
 }
 // strjoin controls recently added so that it has more than 25 lines
 
-int	command_not_found(char *argv[])
-{
-	char	*cmd_1;
-	char	*cmd_2;
+// int	command_not_found(char *cmds[])
+// {
+// 	char	*cmd_1;
+// 	char	*cmd_2;
 
-	cmd_1 = put_main_command(argv[2], ' ');
-	cmd_2 = put_main_command(argv[3], ' ');
-	ft_putstr2_fd("zsh: command not found: ", cmd_1, STDERR_FILENO);
-	ft_putstr3_fd("\nzsh: command not found: ", cmd_2, "\n", STDERR_FILENO);
-	free(cmd_1);
-	free(cmd_2);
-	return (127);
-}
-
+// 	cmd_1 = put_main_command(argv[2], ' ');
+// 	cmd_2 = put_main_command(argv[3], ' ');
+// 	ft_putstr2_fd("zsh: command not found: ", cmd_1, STDERR_FILENO);
+// 	ft_putstr3_fd("\nzsh: command not found: ", cmd_2, "\n", STDERR_FILENO);
+// 	free(cmd_1);
+// 	free(cmd_2);
+// 	return (127);
+// }
