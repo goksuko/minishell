@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 23:02:38 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/07 23:16:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 char	*ft_error(t_error code)
 {
-	static char	*str[] = {[NO_ERROR] = "No Error",
+	static char	*str[] = {[NO_ERROR] = "No Error\n",
 	[ERROR_PERM] = "zsh: permission denied: \n",
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
-	[ERROR_ALLOCATION] = "Allocation Failure",
+	[ERROR_ALLOCATION] = "Allocation Failure\n",
 	[ERROR_NULL_PATH] = "zsh: path not found\n",
 	[ERROR_CMD_NOT_FOUND] = "zsh: command not found: \n",
 	[ERROR_WRONG_CHAR] = "Error: wrong character\n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
-	[UNDEFINED_ERROR] = "Undefined Error",
+	[UNDEFINED_ERROR] = "Undefined Error\n",
+	[ERROR_FILE_NOT_FOUND] = "zsh: file not found: \n",
 	[ERROR_NOT_DIR] = "zsh: not a directory: \n"};
 
 	if (code < 0 || code >= UNDEFINED_ERROR)
@@ -84,11 +85,12 @@ void	ft_close_exit_perror(t_pipex *info, char **matrix, t_error code,
 
 void	free_system(t_data *data)
 {
+	ft_printf("free_system\n");	
 	// if (data->line && data->line[0] != '\0')
 	// 	free(data->line);
 	if (data->cmds && data->cmds[0] != NULL)
 		free_matrix(data->cmds);
-	if (data->info && data->info->cmds[0] != NULL)
+	if (data->info && data->cmds[0] != NULL)
 		free(data->info);
 	return ;
 }

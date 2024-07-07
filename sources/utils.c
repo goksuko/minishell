@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:34:42 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 21:48:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/08 00:05:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	*free_matrix(char **matrix)
 
 void	close_pipex(t_pipex *info, char **matrix)
 {
+	printf("close_pipex\n");
 	close(info->fd_in);
 	close(info->fd_out);
 	close(info->pipefd[0]);
@@ -44,47 +45,49 @@ void	close_pipex(t_pipex *info, char **matrix)
 		free_matrix(matrix);
 }
 
-char	*before_exec(char *long_command, t_pipex *info, char **cmd, char **envp)
+char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 {
 	char	*path;
 
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
-		close_pipex(info, cmd);
+		close_pipex(info, cmd_matrix);
 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
 	}
-	if (cmd[0])
-		path = find_path(cmd[0], envp);
+	if (cmd_matrix[0])
+		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
 	else
 	{
-		close_pipex(info, cmd);
+		close_pipex(info, cmd_matrix);
 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
 	}
 	if (!path)
 	{
-		ft_putstr3_fd("zsh: command not found: ", cmd[0], "\n", STDERR_FILENO);
-		close_pipex(info, cmd);
+		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
+		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
 	return (path);
 }
 
-void	start_exec(t_pipex *info, char **argv, char **envp)
+// start_exec(info, info->cmds, info->data->envp);
+void	start_exec(t_pipex *info, char **cmds)
 {
-	char	**cmd;
+	char	**cmd_matrix;
 	char	*path;
 	char	*long_command;
 
+	printf("start_exec\n");
 	path = NULL;
-	long_command = argv[info->curr_cmd];
-	cmd = ft_split(long_command, ' ');
-	if (!cmd || errno == ENOMEM)
-		ft_exit_perror(ERROR_ALLOCATION, "cmd in start_exec");
-	path = before_exec(long_command, info, cmd, envp);
-	if (execve(path, cmd, envp) == -1)
+	long_command = cmds[info->curr_cmd];
+	cmd_matrix = ft_split(long_command, ' ');
+	if (!cmd_matrix || errno == ENOMEM)
+		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
+	path = before_exec(long_command, info, cmd_matrix);
+	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
-		close_pipex(info, cmd);
+		close_pipex(info, cmd_matrix);
 		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 	}
 }

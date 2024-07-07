@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 22:59:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/07 00:26:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ int	check_pipe(char *line)
 	}
 	return (count);
 }
+
+int	find_path_index(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
 
 void	check_characters(char *line)
 {
@@ -72,6 +87,7 @@ void	check_characters(char *line)
 
 void	init_data(t_data *data, char *line, char **envp)
 {
+	ft_printf("init_data\n");
 	data->line = line;
 	data->envp = envp;
 	data->exit_code = 0;
@@ -91,6 +107,28 @@ char	*rl_gets(void)
 	return (line_read);
 }
 
+void	make_initial_path_checks(char **envp)
+{
+	int	path_no;
+
+	ft_printf("make_initial_path_checks\n");
+	path_no = find_path_index(envp);
+	printf("path_no: %d\n", path_no);
+	if (envp[path_no] == NULL)
+	{
+		ft_print_error(ERROR_NULL_PATH);
+		exit(ERROR_NULL_PATH);
+	}
+	if (path_no == 0)
+	{
+		ft_print_error(ERROR_CMD_NOT_FOUND);
+		exit(ERROR_CMD_NOT_FOUND);
+	}
+	ft_printf("path_no: %d\n", path_no);
+	ft_printf("envp[path_no]: %s\n", envp[path_no]);
+	return ;
+}
+
 int	main(int argc, char **envp)
 {
 	char	*line;
@@ -98,6 +136,7 @@ int	main(int argc, char **envp)
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
+	// make_initial_path_checks(envp);
 	line = NULL;
 	while ((line = rl_gets()))
 	{

@@ -6,51 +6,51 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 22:59:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/07 21:19:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// envp = environment variables of the process
-int	find_path_index(char **envp)
-{
-	int	i;
+// path_from_getenv  
+// is a list of directories separated by colons (`:`) 
+// on Unix-like systems (Linux, macOS) or semicolons (`;`) on Windows. 
+// This list is what the shell and other programs use 
+// to find executables when a command is issued.
 
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-char	*find_path(char *main_command, char **envp)
+char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 {
 	char	*path;
 	char	**path_split;
-	int		i;
 	char	*tmp;
+	int		i;
 
-	i = 0;
+	printf("main_command: %s\n", main_command);
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	path_split = ft_split(envp[i] + 5, ':');
+	printf("main_command was not accssible\n");
+	path_split = ft_split(path_from_getenv, ':');
 	if (errno == ENOMEM || path_split == NULL)
-		ft_exit_perror(ERROR_ALLOCATION, "path_split in find_path");
+		ft_exit_perror(1, "path_split in find_path");
 	i = 0;
 	while (path_split[i])
 	{
+		printf("path_split[%d]: %s\n", i, path_split[i]);
+		if (is_file(path_split[i]))
+		{
+			if (info-> infile == NULL)
+				info->infile = path_split[i];
+			else
+				info->outfile = path_split[i];
+		}
 		tmp = ft_strjoin(path_split[i], "/");
+		printf("tmp: %s\n", tmp);
 		if (errno == ENOMEM || tmp == NULL)
-			ft_exit_perror(ERROR_ALLOCATION, "tmp in find_path");
+			ft_exit_perror(1, "tmp in find_path");
 		path = ft_strjoin(tmp, main_command);
+		printf("path: %s\n", path);
 		if (errno == ENOMEM || path == NULL)
-			ft_exit_perror(ERROR_ALLOCATION, "path in find_path");
+			ft_exit_perror(1, "path in find_path");
 		free(tmp);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free_matrix(path_split), path);
@@ -60,7 +60,6 @@ char	*find_path(char *main_command, char **envp)
 	free_matrix(path_split);
 	return (NULL);
 }
-// strjoin controls recently added so that it has more than 25 lines
 
 // int	command_not_found(char *cmds[])
 // {

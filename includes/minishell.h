@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 22:56:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/07 22:55:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define SUCCESS 0
 
@@ -47,6 +48,7 @@ typedef enum e_error
 	ERROR_EXECVE,
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
+	ERROR_FILE_NOT_FOUND,
 	UNDEFINED_ERROR,
 	ERROR_NOT_DIR = 127,
 }					t_error;
@@ -61,6 +63,7 @@ typedef struct s_pipex
 	int				nbr_of_cmds;
 	int				curr_cmd;
 	char			**cmds;
+	char			*path_from_getenv;
 	struct s_data	*data;
 }					t_pipex;
 
@@ -71,12 +74,13 @@ typedef struct s_data
 	char			**envp;
 	int				exit_code;
 	int				nbr_of_cmds;
-	t_pipex			*info;
+	struct s_pipex			*info;
 }					t_data;
 
 // main.c
 
 int					check_pipe(char *line);
+int					find_path_index(char **envp);
 
 // errors.c
 
@@ -105,14 +109,12 @@ void				*ft_calloc(size_t nmemb, size_t size);
 
 // Utils functions //
 char				*put_main_command(char *command, char space);
-void				start_exec(t_pipex *info, char **argv, char **envp);
+void	start_exec(t_pipex *info, char **cmds);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
 
 // Path functions //
-char				*find_path(char *cmd, char **envp);
-int					find_path_index(char **envp);
-int					command_not_found(char *argv[]);
+char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
 
 // Ft_putstr2_fd functions //
 void				ft_putstr2_fd(char *s1, char *s2, int fd);
@@ -126,5 +128,6 @@ int					dup2_safe(int oldfd, int newfd, t_pipex *info);
 // pipex.c
 
 int					pipex(t_data *data);
+int					is_file(const char *path);
 
 #endif
