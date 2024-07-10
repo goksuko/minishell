@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/08 00:19:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/09 10:13:14 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,17 @@ int	create_children(t_data *data)
 				"pipe in create children");
 		printf("pipefd[0]: %d\n", data->info->pipefd[0]);
 		printf("pipefd[1]: %d\n", data->info->pipefd[1]);
+		printf("curr_cmd: %d\n", data->info->curr_cmd);
 		pid = child_process(data->info);
 		// printf("pid: %d\n", pid);
 		// close_safe(data->info->pipefd[1], data->info);
-		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
+		// dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
 		// close(data->info->pipefd[1]);
 		// dup2(data->info->pipefd[0], STDIN_FILENO);
 		// close(data->info->pipefd[0]);
 		data->info->curr_cmd++;
 		i++;
+		sleep(2);
 	}
 	printf("sleep\n");
 	sleep(2);
@@ -262,6 +264,7 @@ int	pipex(t_data *data)
 	initialize_info(info, data);
 	printf("initilaization is done\n");
 	exit_code = create_children(data);
+	printf("exit_code: %d\n", exit_code);
 	free_system(data);
 	return (exit_code);
 }
