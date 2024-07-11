@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/09 10:13:14 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/11 12:28:23 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ pid_t	child_process(t_pipex *info)
 {
 	pid_t	pid;
 
-	printf("child_process\n");
+	printf("\nchild_process\n");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -33,17 +33,15 @@ pid_t	child_process(t_pipex *info)
 	}
 	if (pid == 0)
 	{
+		printf("pipefd[0]: %d\n", info->pipefd[0]);
+		printf("pipefd[1]: %d\n", info->pipefd[1]);
 		if (info->curr_cmd == 1)
 		{
-			// if (dup2(info->fd_in, STDIN_FILENO) == -1)
-			// 	ft_exit_perror(ERROR_DUP2, "dup2 for infile in child process");
 			dup2_safe(info->fd_in, STDIN_FILENO, info);
-			// close_safe(info->fd_in, NULL);
+			close_safe(info->fd_in, NULL);
 		}
-		// if (dup2(info->pipefd[1], STDOUT_FILENO) == -1)
-		// 	ft_exit_perror(ERROR_DUP2, "dup2 for pipefd in child process");
 		dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
-		// close_safe(info->pipefd[1], NULL);
+		close_safe(info->pipefd[1], NULL);
 		start_exec(info, info->cmds);
 	}
 	return (pid);
@@ -53,22 +51,18 @@ pid_t	last_child_process(t_pipex *info)
 {
 	pid_t	pid;
 
-	printf("last_child_process\n");
+	printf("\nlast_child_process\n");
 	pid = fork();
 	if (pid == -1)
 		ft_exit_perror(ERROR_FORK, "fork in last child process");
 	if (pid == 0)
 	{
-		// printf("pid: %d\n", pid);
-		// close(info->pipefd[1]);
-		// if (dup2(info->pipefd[0], STDIN_FILENO) == -1)
-		// 	ft_exit_perror(ERROR_DUP2, "dup2 for pipefd in last child process");
-		// close_safe(info->pipefd[0], info);
+		printf("pipefd[0]: %d\n", info->pipefd[0]);
+		printf("pipefd[1]: %d\n", info->pipefd[1]);
 		dup2_safe(info->pipefd[0], STDIN_FILENO, info);
+		close_safe(info->pipefd[0], info);
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
-		// if (dup2(info->fd_out, STDOUT_FILENO) == -1)
-		// 	ft_exit_perror(ERROR_DUP2, "dup2 for outfile in last child");
-		// close_safe(info->fd_out, info);
+		close_safe(info->fd_out, info);
 		printf("ready to start exec\n");
 		start_exec(info, info->cmds);
 	}
@@ -83,8 +77,6 @@ int	create_children(t_data *data)
 	int		status;
 
 	printf("create_children\n");
-	// printf("pipefd[0]: %d\n", data->info->pipefd[0]);
-	// printf("pipefd[1]: %d\n", data->info->pipefd[1]);
 	i = 0;
 	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds - 1)
@@ -97,17 +89,12 @@ int	create_children(t_data *data)
 		printf("pipefd[1]: %d\n", data->info->pipefd[1]);
 		printf("curr_cmd: %d\n", data->info->curr_cmd);
 		pid = child_process(data->info);
-		// printf("pid: %d\n", pid);
-		// close_safe(data->info->pipefd[1], data->info);
-		// dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
-		// close(data->info->pipefd[1]);
-		// dup2(data->info->pipefd[0], STDIN_FILENO);
-		// close(data->info->pipefd[0]);
 		data->info->curr_cmd++;
 		i++;
+		printf("sleeping before next child\n");
 		sleep(2);
 	}
-	printf("sleep\n");
+	printf("sleeping before last child\n");
 	sleep(2);
 	pid_last = last_child_process(data->info);
 	while (waitpid(pid, &status, 0) != -1)
@@ -138,7 +125,7 @@ char	*find_infile(t_pipex *info)
 	char	**cmd_split;
 	
 
-	ft_printf("find_infile\n");
+	ft_printf("\nfind_infile\n");
 	i = 0;
 	cmd_split = ft_split(info->cmds[0], ' ');
 	if (cmd_split == NULL || errno == ENOMEM)
@@ -148,7 +135,7 @@ char	*find_infile(t_pipex *info)
 		printf("cmd_split[%d]: %s\n", i, cmd_split[i]);
 		if (is_file(cmd_split[i]))
 		{
-			printf("is_file: cmd_split[%d]: %s\n", i, cmd_split[i]);
+			printf("is a file: cmd_split[%d]: %s\n", i, cmd_split[i]);
 			ft_strlcpy(info->infile, cmd_split[i], ft_strlen(cmd_split[i]) + 1);
 			info->fd_in = open(cmd_split[i], O_RDONLY, 0777);
 			printf("info->fd_in: %d\n", info->fd_in);
@@ -172,7 +159,7 @@ char	*find_outfile(t_pipex *info)
 	char	**cmd_split;
 	
 
-	ft_printf("find_outfile\n");
+	ft_printf("\nfind_outfile\n");
 	i = 0;
 	cmd_split = ft_split(info->cmds[info->nbr_of_cmds - 1], ' ');
 	if (cmd_split == NULL || errno == ENOMEM)
@@ -182,7 +169,7 @@ char	*find_outfile(t_pipex *info)
 		printf("cmd_split[%d]: %s\n", i, cmd_split[i]);
 		if (is_file(cmd_split[i]))
 		{
-			printf("is_file: cmd_split[%d]: %s\n", i, cmd_split[i]);
+			printf("is a file: cmd_split[%d]: %s\n", i, cmd_split[i]);
 			ft_strlcpy(info->outfile, cmd_split[i], ft_strlen(cmd_split[i]) + 1);
 			info->fd_out = open(cmd_split[i], O_CREAT | O_TRUNC | O_WRONLY, 0777);
 			printf("info->fd_out: %d\n", info->fd_out);
@@ -202,7 +189,7 @@ char	*find_outfile(t_pipex *info)
 
 void	initialize_info(t_pipex *info, t_data *data)
 {
-	ft_printf("initialize_info\n");
+	ft_printf("\ninitialize_info\n");
 	info->path_from_getenv = getenv("PATH");
 	if (info->path_from_getenv == NULL)
 	{
@@ -262,7 +249,7 @@ int	pipex(t_data *data)
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
 	initialize_cmds(data, info);
 	initialize_info(info, data);
-	printf("initilaization is done\n");
+	printf("initilaization is done\n\n*******\n\n");
 	exit_code = create_children(data);
 	printf("exit_code: %d\n", exit_code);
 	free_system(data);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/07 00:26:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/11 12:52:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,3 +154,16 @@ int	main(int argc, char **envp)
 	}
 	return (data->exit_code);
 }
+
+// int main(int argc, char *argv[], char **envp)
+// {
+//     int i = 0;
+// 	(void)argc;
+// 	(void)argv;
+//     while (envp[i] != NULL) {
+//         printf("%s\n", envp[i]);
+//         i++;
+//     }
+// 	return (0);
+
+// }
