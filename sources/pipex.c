@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/11 12:28:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/17 18:49:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,17 @@ pid_t	child_process(t_pipex *info)
 	}
 	if (pid == 0)
 	{
+		printf("curr_cmd: %d\n", info->curr_cmd);
 		printf("pipefd[0]: %d\n", info->pipefd[0]);
-		printf("pipefd[1]: %d\n", info->pipefd[1]);
+		printf("pipefd[1]: %d\n\n\n", info->pipefd[1]);
 		if (info->curr_cmd == 1)
 		{
 			dup2_safe(info->fd_in, STDIN_FILENO, info);
-			close_safe(info->fd_in, NULL);
+			close_safe(info->fd_in, info);
 		}
+		close_safe(info->pipefd[0], info);
 		dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
-		close_safe(info->pipefd[1], NULL);
+		close_safe(info->pipefd[1], info);
 		start_exec(info, info->cmds);
 	}
 	return (pid);
@@ -59,6 +61,7 @@ pid_t	last_child_process(t_pipex *info)
 	{
 		printf("pipefd[0]: %d\n", info->pipefd[0]);
 		printf("pipefd[1]: %d\n", info->pipefd[1]);
+		close_safe(info->pipefd[1], info);
 		dup2_safe(info->pipefd[0], STDIN_FILENO, info);
 		close_safe(info->pipefd[0], info);
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
@@ -77,9 +80,9 @@ int	create_children(t_data *data)
 	int		status;
 
 	printf("create_children\n");
-	i = 0;
+	i = 1;
 	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
-	while (i < data->nbr_of_cmds - 1)
+	while (i < data->nbr_of_cmds)
 	{
 		printf("i: %d\n", i);
 		if (pipe(data->info->pipefd) == -1)
@@ -89,16 +92,18 @@ int	create_children(t_data *data)
 		printf("pipefd[1]: %d\n", data->info->pipefd[1]);
 		printf("curr_cmd: %d\n", data->info->curr_cmd);
 		pid = child_process(data->info);
+		close_safe(data->info->pipefd[1], data->info);
+		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
+		close_safe(data->info->pipefd[0], data->info);
 		data->info->curr_cmd++;
 		i++;
-		printf("sleeping before next child\n");
-		sleep(2);
+		printf("sleeping after child (%d)\n", i);
+		sleep(3);
 	}
 	printf("sleeping before last child\n");
 	sleep(2);
 	pid_last = last_child_process(data->info);
-	while (waitpid(pid, &status, 0) != -1)
-		;
+	while (waitpid(pid, &status, 0) != -1);
 	waitpid(pid_last, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -249,6 +254,8 @@ int	pipex(t_data *data)
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
 	initialize_cmds(data, info);
 	initialize_info(info, data);
+	// printf("infile: %s\n", info->infile);
+	// printf("outfile: %s\n", info->outfile);
 	printf("initilaization is done\n\n*******\n\n");
 	exit_code = create_children(data);
 	printf("exit_code: %d\n", exit_code);

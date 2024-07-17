@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:34:42 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/08 00:05:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/17 19:00:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
+	printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -80,16 +81,18 @@ void	start_exec(t_pipex *info, char **cmds)
 
 	printf("start_exec\n");
 	path = NULL;
-	long_command = cmds[info->curr_cmd];
+	long_command = cmds[info->curr_cmd - 1];
 	cmd_matrix = ft_split(long_command, ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	path = before_exec(long_command, info, cmd_matrix);
+	printf("\npath: %s\n", path);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
 		close_pipex(info, cmd_matrix);
 		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 	}
+	return ;
 }
 
 char	*put_main_command(char *command, char space)

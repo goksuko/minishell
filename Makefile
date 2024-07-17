@@ -20,6 +20,8 @@ OBJS_DIR = objects
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 SFLAGS = -Wall -Wextra -Werror -g -lreadline
+CFLAGS += -fPIE -fPIC
+SFLAGS += -fPIE -fPIC
 
 all: $(NAME)
 

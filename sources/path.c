@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/07 21:19:38 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/17 18:17:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 		{
 			if (info-> infile == NULL)
 				info->infile = path_split[i];
-			else
+			else if (info->outfile != NULL) //check if this is correct
 				info->outfile = path_split[i];
 		}
 		tmp = ft_strjoin(path_split[i], "/");
