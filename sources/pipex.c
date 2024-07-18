@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/17 18:49:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/18 12:36:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ pid_t	child_process(t_pipex *info)
 		printf("pipefd[1]: %d\n\n\n", info->pipefd[1]);
 		if (info->curr_cmd == 1)
 		{
-			dup2_safe(info->fd_in, STDIN_FILENO, info);
+			dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
 			close_safe(info->fd_in, info);
 		}
 		close_safe(info->pipefd[0], info);
@@ -158,7 +158,7 @@ char	*find_infile(t_pipex *info)
 	return (NULL);
 }
 
-char	*find_outfile(t_pipex *info)
+char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 {
 	int		i;
 	char	**cmd_split;
@@ -204,10 +204,10 @@ void	initialize_info(t_pipex *info, t_data *data)
 	printf("path_from_getenv: %s\n", info->path_from_getenv);
 	info->infile = NULL;
 	info->outfile = NULL;
-	info->infile = find_infile(info);
+	info->infile = find_infile(info); //use strlcpy
 	if (info->infile == NULL)
 		info->fd_in = STDIN_FILENO;
-	info->outfile = find_outfile(info);
+	info->outfile = find_outfile(info); //use strlcpy
 	if (info->outfile == NULL)
 		info->fd_out = STDOUT_FILENO;
 	info->data = data;
@@ -245,12 +245,12 @@ int	pipex(t_data *data)
 	int		pipe_count;
 
 	ft_printf("pipex\n");
-	pipe_count = check_pipe(data->line);
 	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
-	info->nbr_of_cmds = pipe_count + 1;
 	data->info = info;
+	pipe_count = check_pipe(data->line);
+	info->nbr_of_cmds = pipe_count + 1;
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
 	initialize_cmds(data, info);
 	initialize_info(info, data);

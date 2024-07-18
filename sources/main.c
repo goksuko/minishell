@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/11 12:52:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/18 13:38:30 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,19 +137,25 @@ int	main(int argc, char **envp)
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
 	// make_initial_path_checks(envp);
+	// signal_handling();
 	line = NULL;
 	while ((line = rl_gets()))
 	{
-		check_characters(line);
+		check_characters(line); // to be put in lexical analysis
+		// lexically_analyse(line);
 		data = (t_data *)ft_calloc(1, sizeof(t_data));
 		if (data == NULL || errno == ENOMEM)
 		{
 			free(line);
 			ft_exit_perror(ERROR_ALLOCATION, "data in main");
 		}
-		init_data(data, line, envp);
+		// syntactically_analyse(line, data, envp);
+		init_data(data, line, envp); // to be put in syntactic analysis
+		// create_tree(data);
+		// semantic_analysis(data);
 		if (check_pipe(line))
-			data->exit_code = pipex(data);
+			data->exit_code = pipex(data); // to be put in semantic analysis
+		// 
 		free_system(data);
 	}
 	return (data->exit_code);

@@ -106,7 +106,7 @@ echo ""
 
 echo "5. unset PATH"
 echo "5th org"
-#unset PATH
+unset PATH
 output1=$(< ./Libft ls -l | wc -l > result.txt)
 echo "5th mine"
 output2=$(./minishell ./Libft "ls -l" "wc -l" result2.txt)
