@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/07 22:55:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/18 21:34:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/stat.h>
 
 # define SUCCESS 0
 
@@ -74,7 +74,7 @@ typedef struct s_data
 	char			**envp;
 	int				exit_code;
 	int				nbr_of_cmds;
-	struct s_pipex			*info;
+	struct s_pipex	*info;
 }					t_data;
 
 // main.c
@@ -109,12 +109,13 @@ void				*ft_calloc(size_t nmemb, size_t size);
 
 // Utils functions //
 char				*put_main_command(char *command, char space);
-void	start_exec(t_pipex *info, char **cmds);
+void				start_exec(t_pipex *info, char **cmds);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
 
 // Path functions //
-char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
+char				*find_path(t_pipex *info, char *main_command,
+						char *path_from_getenv);
 
 // Ft_putstr2_fd functions //
 void				ft_putstr2_fd(char *s1, char *s2, int fd);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/11 16:43:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/19 00:03:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_error(t_error code)
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
-	if (code < 0 || code >= UNDEFINED_ERROR)
+	if (code < 0 || (code >= UNDEFINED_ERROR && code != 127))
 		return (str[UNDEFINED_ERROR]);
 	else
 		return (str[code]);

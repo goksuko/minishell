@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/18 13:38:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/18 21:36:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	main(int argc, char **envp)
 		// create_tree(data); check if needed!
 		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
-		if (check_pipe(line))
+		// if (check_pipe(line)) 
 			data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
 		free_system(data);
