@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/17 18:17:27 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/19 00:19:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 	printf("main_command: %s\n", main_command);
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
-	printf("main_command was not accssible\n");
+	printf("main_command was not accessible\n");
 	path_split = ft_split(path_from_getenv, ':');
 	if (errno == ENOMEM || path_split == NULL)
 		ft_exit_perror(1, "path_split in find_path");

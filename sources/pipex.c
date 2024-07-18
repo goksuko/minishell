@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/19 00:06:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/19 00:22:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ pid_t	child_process(t_pipex *info)
 			close_safe(info->fd_in, info);
 		}
 		close_safe(info->pipefd[0], info);
-		// dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
+		if (info->curr_cmd == 1)
+			dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
 		close_safe(info->pipefd[1], info);
 		printf("ready to start exec\n");
 		start_exec(info, info->cmds);
@@ -175,6 +176,12 @@ char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 
 	ft_printf("\nfind_outfile\n");
 	i = 0;
+	if (info->nbr_of_cmds == 1)
+	{
+		info->outfile = NULL;
+		info->fd_out = STDOUT_FILENO;
+		return (NULL);
+	}
 	cmd_split = ft_split(info->cmds[info->nbr_of_cmds - 1], ' ');
 	if (cmd_split == NULL || errno == ENOMEM)
 		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "cmd_split in find_outfile");
