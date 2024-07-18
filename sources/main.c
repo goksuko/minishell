@@ -136,23 +136,24 @@ int	main(int argc, char **envp)
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
-	// make_initial_path_checks(envp);
-	// signal_handling();
+	// make_initial_path_checks(envp); LATER V
+	// signal_handling(); LATER V
 	line = NULL;
 	while ((line = rl_gets()))
 	{
-		check_characters(line); // to be put in lexical analysis
-		// lexically_analyse(line);
+		check_characters(line); // to be put in lexical analysis NOW V
+		// lexically_analyse(line); NOW V
 		data = (t_data *)ft_calloc(1, sizeof(t_data));
 		if (data == NULL || errno == ENOMEM)
 		{
 			free(line);
 			ft_exit_perror(ERROR_ALLOCATION, "data in main");
 		}
-		// syntactically_analyse(line, data, envp);
-		init_data(data, line, envp); // to be put in syntactic analysis
-		// create_tree(data);
-		// semantic_analysis(data);
+		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands)
+		init_data(data, line, envp); // to be put in syntax analysis
+		// create_tree(data); check if needed!
+		// built-in commands -- V or G depending on time
+		// semantic_analysis(data); G
 		if (check_pipe(line))
 			data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
