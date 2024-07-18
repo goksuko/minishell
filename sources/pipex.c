@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/19 00:22:11 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/19 00:32:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	create_children(t_data *data)
 			ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		pid = child_process(data->info);
 		close_safe(data->info->pipefd[1], data->info);
-		// dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
+		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
 		close_safe(data->info->pipefd[0], data->info);
 		data->info->curr_cmd++;
 		i++;
