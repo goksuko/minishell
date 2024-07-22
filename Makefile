@@ -9,6 +9,8 @@ SRCS = \
 		ft_putstr2_fd.c \
 		path.c \
 		pipex.c \
+		lexical_analysis.c \
+		read_line.c
 
 
 SRCS_DIR = sources

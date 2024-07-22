@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static char	*line_read = (char *)NULL;
+//static char	*line_read = (char *)NULL; To be uncommented again later!
 
 int	check_pipe(char *line)
 {
@@ -46,30 +46,7 @@ int	find_path_index(char **envp)
 }
 
 
-void	check_characters(char *line)
-{
-	int	i;
-	int	count;
-	int	wrong_char;
 
-	ft_printf("check_characters\n");
-	count = 0;
-	i = 0;
-	wrong_char = 0;
-	while (line && line[i])
-	{
-		if (line[i] == '"')
-			count++;
-		if (line[i] == '\\' || line[i] == ';')
-			wrong_char++;
-		i++;
-	}
-	if (count % 2 != 0)
-		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
-	if (wrong_char)
-		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
-	return ;
-}
 
 // int check_args(char *line, char **envp)
 // {
@@ -94,18 +71,7 @@ void	init_data(t_data *data, char *line, char **envp)
 	return ;
 }
 
-char	*rl_gets(void)
-{
-	if (line_read)
-	{
-		free(line_read);
-		line_read = (char *)NULL;
-	}
-	line_read = readline("\033[36mminishell of \U0001F9B8 \033[35mGoksu\033[36m & \U0001F9DA \033[33mVanessa\033[36m > \033[0m");
-	if (line_read && *line_read)
-		add_history(line_read);
-	return (line_read);
-}
+
 
 void	make_initial_path_checks(char **envp)
 {
@@ -139,10 +105,12 @@ int	main(int argc, char **envp)
 	// make_initial_path_checks(envp); LATER V
 	// signal_handling(); LATER V
 	line = NULL;
-	while ((line = rl_gets()))
+	while (1)
 	{
-		check_characters(line); // to be put in lexical analysis NOW V
-		// lexically_analyse(line); NOW V
+		if ((line = rl_gets()) == NULL)
+			break;
+		printf("Original string: %s\n", line); // to be removed later
+		lexical_analysis(line);
 		data = (t_data *)ft_calloc(1, sizeof(t_data));
 		if (data == NULL || errno == ENOMEM)
 		{

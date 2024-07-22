@@ -77,6 +77,19 @@ typedef struct s_data
 	struct s_pipex			*info;
 }					t_data;
 
+typedef enum s_tokens // ADJUST AS NECESSARY
+{
+	TOKEN_COMMAND,
+    TOKEN_ARGUMENT,
+    TOKEN_OPERATOR,
+    TOKEN_REDIRECTION,
+    TOKEN_PIPE,
+    TOKEN_BACKGROUND,
+    TOKEN_SEMICOLON,
+    TOKEN_UNKNOWN
+}	t_tokens;
+
+
 // main.c
 
 int					check_pipe(char *line);
@@ -94,6 +107,10 @@ void				ft_exit_data_error(t_data *data, t_error code);
 void				ft_close_exit_perror(t_pipex *info, char **matrix,
 						t_error code, char *s);
 
+// Lexical analysis
+char				*rl_gets(void);
+void	lexical_analysis(char *line);
+
 // Libft functions //
 
 size_t				ft_strlen(const char *s);
@@ -109,9 +126,11 @@ void				*ft_calloc(size_t nmemb, size_t size);
 
 // Utils functions //
 char				*put_main_command(char *command, char space);
-void	start_exec(t_pipex *info, char **cmds);
+void				start_exec(t_pipex *info, char **cmds);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
+bool				is_whitespace(char c);
+
 
 // Path functions //
 char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
