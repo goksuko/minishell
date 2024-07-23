@@ -10,7 +10,8 @@ SRCS = \
 		path.c \
 		pipex.c \
 		lexical_analysis.c \
-		read_line.c
+		read_line.c \
+		token_lst_utils.c \
 
 
 SRCS_DIR = sources

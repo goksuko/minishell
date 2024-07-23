@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
+# include "tokenize.h"
 
 # define SUCCESS 0
 
@@ -76,19 +77,6 @@ typedef struct s_data
 	int				nbr_of_cmds;
 	struct s_pipex			*info;
 }					t_data;
-
-typedef enum s_tokens // ADJUST AS NECESSARY
-{
-	TOKEN_COMMAND,
-    TOKEN_ARGUMENT,
-    TOKEN_OPERATOR,
-    TOKEN_REDIRECTION,
-    TOKEN_PIPE,
-    TOKEN_BACKGROUND,
-    TOKEN_SEMICOLON,
-    TOKEN_UNKNOWN
-}	t_tokens;
-
 
 // main.c
 
