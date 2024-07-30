@@ -58,6 +58,7 @@ char	**split_tokens(char *line, int number_tokens)
 				return (NULL);
 			}
 			tokens[k] = ft_strcpy(tokens[k], &line[j], i - j); // write strcpy function
+			printf("Token %d:%s\n", k, tokens[k]); // to remove later
 			k++;
 		}
 	}
@@ -80,8 +81,7 @@ int	count_tokens(char *line)
 		if (line[i] != '\0')
 		{
 			count++;
-			printf("Token count: %d\n", count);
-			printf("%c\n", line[i]);
+			printf("Token count: %d start of token: %c\n", count, line[i]);
 		}
 		while (is_whitespace(line[i]) == false && line[i] != '\0')
 			i++;
@@ -168,7 +168,7 @@ bool	meta_character_check(char *line)
 // 	return ;
 // }
 
-char	*clean_up_string(char *line)
+char	*clean_up_string(char *line)  // quotes should not be cleaned! NEED TO FIX
 {
 	char	*clean_string;
 	int		i;
@@ -185,6 +185,13 @@ char	*clean_up_string(char *line)
 	{
 		if (is_whitespace(line[i]) == false)
 			clean_string[j++] = line[i++];
+		if (line[i] == '\'' || line[i] == '\"')
+		{
+			i++;
+			while ((line[i] != '\'' || line[i] != '\"') && line[i] != '\0')
+				clean_string[j++] = line[i++];
+			clean_string[j++] = line[i++];
+		}
 		else
 		{
 			if (line[i] != '\0')
@@ -206,21 +213,15 @@ char	**lexical_analysis(char *line)
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	clean_line = clean_up_string(line);
+	clean_line = clean_up_string(line); // NEED TO FIX THE CLEAN UP FUNCTION!!!
 	printf("Cleaned up string: %s\n", clean_line); //  to be removed later
-	// check_characters(clean_line);
+	// check_characters(clean_line);  // Causes error for now
 	if (meta_character_check(clean_line) == false)
 		ft_exit_str_free_fd(ERROR_META, clean_line, STDERR_FILENO);
 	number_tokens = count_tokens(clean_line);
 	tokens = split_tokens(clean_line, number_tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	while (tokens != NULL) // to remove later
-	{
-		printf("%s\n", *tokens);
-		free(*tokens);
-		tokens++;
-	}
 	printf("Tokenization done\n");// to remove later
 	return (tokens);
 }
