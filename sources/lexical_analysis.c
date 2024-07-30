@@ -29,6 +29,7 @@ char	*ft_strcpy(char *dest, char *src, int len)
 
 char	**split_tokens(char *line, int number_tokens)
 {
+	printf("Split tokens.\n"); // to remove later
 	char	**tokens;
 	int		i;
 	int		j;
@@ -41,10 +42,10 @@ char	**split_tokens(char *line, int number_tokens)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	while (line[i] != '\0')
 	{
-		while(is_whitespace(line[i]) == true)
+		while(is_whitespace(line[i]) == true && line[i] != '\0')
 			i++;
 		j = i;
-		while (is_whitespace(line[i]) == false)
+		while (is_whitespace(line[i]) == false && line[i] != '\0')
 			i++;
 		if (i > j)
 		{
@@ -66,6 +67,7 @@ char	**split_tokens(char *line, int number_tokens)
 
 int	count_tokens(char *line)
 {
+	printf("Count tokens\n"); // to remove later
 	int	i;
 	int	count;
 
@@ -73,21 +75,24 @@ int	count_tokens(char *line)
 	count = 0;
 	while (line[i] != '\0')
 	{
-		while (is_whitespace(line[i]) == true)
+		while (is_whitespace(line[i]) == true && line[i] != '\0')
 			i++;
-		if (line[i] == '\'' || line[i] == '\"')
+		if (line[i] != '\0')
+		{
 			count++;
-		while (is_whitespace(line[i]) == true)
+			printf("Token count: %d\n", count);
+			printf("%c\n", line[i]);
+		}
+		while (is_whitespace(line[i]) == false && line[i] != '\0')
 			i++;
-		if (line[i] != '\0' && line[i] != '\'' && line[i] != '\"')
-			count++;
 	}
+	printf("Final token count: %d\n", count); // to remove later
 	return (count);
 }
 
 bool	further_meta_check(char *line, int i, char meta)
 {
-	printf("Further meta check\n");
+	printf("Further meta check\n"); // to remove later
 	if (line[i] == '\0' || line[i + 1] == '\0')
 		return (false);
 	else
@@ -110,7 +115,7 @@ bool	further_meta_check(char *line, int i, char meta)
 
 bool	meta_character_check(char *line)
 {
-	printf("Meta character check\n");
+	printf("Meta character check\n"); // to remove later
 	int		i;
 	char	quote;
 
@@ -119,9 +124,10 @@ bool	meta_character_check(char *line)
 	{
 		while (is_whitespace(line[i]) == true)
 			i++;
+		//write(1, &line[i], 1);
 		if (line[i] == '\'' || line[i] == '\"')
-			quote = line[i]; // just so quote has the same character and we can compare after 
 		{
+			quote = line[i]; // just so quote has the same character and we can compare after 
 			while (line[i] != '\0' && line[i] != quote)
 				i++;
 			if (line[i] == '\0')
@@ -203,17 +209,19 @@ char	**lexical_analysis(char *line)
 	clean_line = clean_up_string(line);
 	printf("Cleaned up string: %s\n", clean_line); //  to be removed later
 	// check_characters(clean_line);
-	if (meta_character_check(line) == false)
+	if (meta_character_check(clean_line) == false)
 		ft_exit_str_free_fd(ERROR_META, clean_line, STDERR_FILENO);
 	number_tokens = count_tokens(clean_line);
-	tokens = split_tokens(line, number_tokens);
+	tokens = split_tokens(clean_line, number_tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	while (tokens != NULL)
+	while (tokens != NULL) // to remove later
 	{
 		printf("%s\n", *tokens);
+		free(*tokens);
 		tokens++;
 	}
+	printf("Tokenization done\n");// to remove later
 	return (tokens);
 }
 
