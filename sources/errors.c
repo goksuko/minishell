@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/11 16:43:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/29 17:49:48 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 char	*ft_error(t_error code)
 {
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
-	[ERROR_PERM] = "zsh: permission denied: \n",
+	[ERROR_PERM] = "bash: permission denied: \n",
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
 	[ERROR_ALLOCATION] = "Allocation Failure\n",
-	[ERROR_NULL_PATH] = "zsh: path not found\n",
-	[ERROR_CMD_NOT_FOUND] = "zsh: command not found: \n",
+	[ERROR_NULL_PATH] = "bash: path not found\n",
+	[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
 	[ERROR_WRONG_CHAR] = "Error: wrong character\n",
-	[ERROR_FILE_NOT_FOUND] = "zsh: file not found: \n",
-	[ERROR_NOT_DIR] = "zsh: not a directory: \n",
+	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
+	[ERROR_NOT_DIR] = "bash: not a directory: \n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
+	[ERROR_SYNTAX] = "Error: wrong syntax\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
 	if (code < 0 || code >= UNDEFINED_ERROR)

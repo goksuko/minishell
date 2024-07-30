@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/07/22 15:18:43 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/07/29 18:09:20 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	command_check(char *str)
 		return (false);
 }
 
-t_token *tokenize(char *line)
+char **tokenize(char *line)
 {
 	char	**split_line;
 	t_token *new_token;
@@ -88,6 +88,21 @@ t_token *tokenize(char *line)
 		i++;
 	}
 	return (new_token);
+}
+
+bool	metacharacter_check(char *line) // to finish
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\'' || '\"')
+		{
+			quote = quote_check(line[i]); // to be added
+		}
+	}	
 }
 
 char	*clean_up_string(char *line)
@@ -122,17 +137,30 @@ char	*clean_up_string(char *line)
 
 void	lexical_analysis(char *line)
 {
-	t_token	*tokens;
+	char	**tokens;
+	int		number_tokens;
 	// char			**tokens;
 	//int		i = 0; //only used for printing out substrings of line
 
-	tokens = NULL;
+	if (line[0] == '\0')
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	line = clean_up_string(line);
 	printf("Cleaned up string: %s\n", line); //  to be removed later
+	//check meta data here
+	if (metacharacter_check(line) == false)
+		ft_exit_str_free_fd(ERROR_SYNTAX, line, STDERR_FILENO); // should maybe change to meta error
+	// number of tokens
+	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
+	if (tokens == NULL)
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	tokens = tokenize(line);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	ft_print_tokens(tokens);
+	while (tokens != NULL)
+	{
+		ft_print_tokens(tokens);
+		tokens++;
+	}
 	//during the tokenization nclude in the while loop that while() it is not ';' or '\' 
 
 	//check_characters(line);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/07 22:55:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/07/29 17:54:55 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef enum e_error
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
 	ERROR_FILE_NOT_FOUND,
+	ERROR_SYNTAX,
 	UNDEFINED_ERROR,
 	ERROR_NOT_DIR = 127,
 }					t_error;
