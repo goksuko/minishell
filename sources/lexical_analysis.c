@@ -12,98 +12,155 @@
 
 #include "../includes/minishell.h"
 
-void	check_characters(char *line)
+char	*ft_strcpy(char *dest, char *src, int len)
+{
+	int	i;
+
+	i = 0;
+	while(src[i] != '\0' && len != 0)
+	{
+		dest[i] = src[i];
+		i++;
+		len--;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	**split_tokens(char *line, int number_tokens)
+{
+	char	**tokens;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	k = 0;
+	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
+	if (tokens == NULL)
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	while (line[i] != '\0')
+	{
+		while(is_whitespace(line[i]) == true)
+			i++;
+		j = i;
+		while (is_whitespace(line[i]) == false)
+			i++;
+		if (i > j)
+		{
+			tokens[k] = malloc((i - j + 1) * sizeof(char));
+			if (tokens[k] == NULL)
+			{
+				while (k-- != 0) // not sure if it should be greater than -1 as I am unsure if 0 also gets freed;
+					free(tokens[k]);
+				free(tokens);
+				return (NULL);
+			}
+			tokens[k] = ft_strcpy(tokens[k], &line[j], i - j); // write strcpy function
+			k++;
+		}
+	}
+	tokens[k] = NULL;
+	return (tokens);
+}
+
+int	count_tokens(char *line)
 {
 	int	i;
 	int	count;
-	int	wrong_char;
 
-	ft_printf("check_characters\n");
+	i = 0;
 	count = 0;
-	i = 0;
-	wrong_char = 0;
-	while (line && line[i])
+	while (line[i] != '\0')
 	{
-		if (line[i] == '"') // make sure it does not handle unclosed quotes
+		while (is_whitespace(line[i]) == true)
+			i++;
+		if (line[i] == '\'' || line[i] == '\"')
 			count++;
-		if (line[i] == '\\' || line[i] == ';')
-			wrong_char++;
-		i++;
+		while (is_whitespace(line[i]) == true)
+			i++;
+		if (line[i] != '\0' && line[i] != '\'' && line[i] != '\"')
+			count++;
 	}
-	if (count % 2 != 0)
-		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
-	if (wrong_char)
-		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
-	return ;
+	return (count);
 }
 
-
-
-// void	tokenize(char *line, t_token *tokens)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (line[i] != '\0' && (line[i] != ';' || line[i] != '\\'))
-// 	{
-// 		if (line)
-// 		i++;
-// 	}
-
-
-// }
-
-bool	command_check(char *str)
+bool	further_meta_check(char *line, int i, char meta)
 {
-		if (ft_strncmp(str, "echo", 5) == 0 || ft_strncmp(str, "cd", 2) == 0 \
-		|| ft_strncmp(str, "pwd", 3) == 0 || ft_strncmp(str, "export", 6) == 0 \
-		|| ft_strncmp(str, "unset", 5) == 0 || ft_strncmp(str, "env", 3) == 0 \
-		|| ft_strncmp(str, "exit", 4) == 0)
-			return (true);
+	printf("Further meta check\n");
+	if (line[i] == '\0' || line[i + 1] == '\0')
 		return (false);
-}
-
-char **tokenize(char *line)
-{
-	char	**split_line;
-	t_token *new_token;
-	int	i;
-
-	split_line = ft_split(line, ' ');
-	if (split_line == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	// print substrings here for checking
-	new_token = NULL;
-	i = 0;
-	free(line);
-	while (split_line[i] != NULL) // && line[i] != '\\' || line[i] != ';')
+	else
 	{
-		// check if string is command
-		if (command_check(split_line[i]) == true)
-		{
-			new_token = ft_token_new(split_line[i], TOKEN_COMMAND);
-			//if (new_token == NULL)
-			//free substrings and exit program
-		}
-		i++;
+		if (meta == '>' && line[i] == '>' && line[i + 1] == ' ' && line[i + 1] != '\0') // not sure if +1 works here or if +2 is needed
+			return (true);
+		if (meta == '>' && line[i] == ' ' && line[i + 1] != '\0')
+			return (true);
+		if (meta == '<' && line[i] == '<' && line[i + 1] == ' ' && line[i + 1] != '\0') // not sure if +1 works here or if +2 is needed
+			return (true);
+		if (meta == '<' && line[i] == ' ' && line[i + 1] != '\0')
+			return (true);
+		if (meta == '|' && line[i] == ' ' && line[i + 1] != '\0')
+			return (true);
+		if (meta == '|' && line[i] == '|')
+			return (false);
 	}
-	return (new_token);
+	return (false);
 }
 
-bool	metacharacter_check(char *line) // to finish
+bool	meta_character_check(char *line)
 {
+	printf("Meta character check\n");
 	int		i;
 	char	quote;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '\'' || '\"')
+		while (is_whitespace(line[i]) == true)
+			i++;
+		if (line[i] == '\'' || line[i] == '\"')
+			quote = line[i]; // just so quote has the same character and we can compare after 
 		{
-			quote = quote_check(line[i]); // to be added
+			while (line[i] != '\0' && line[i] != quote)
+				i++;
+			if (line[i] == '\0')
+				return(false);
 		}
-	}	
+		if (line[i] == '>' || line[i] == '<' || line[i] == '|')
+		{
+			if (further_meta_check(line, i + 1, line[i]) == false)
+				return (false);
+		}
+		i++;
+	}
+	return (true);
 }
+
+// void	check_characters(char *line)
+// {
+// 	int	i;
+// 	int	count;
+// 	int	wrong_char;
+
+// 	ft_printf("check_characters\n");
+// 	count = 0;
+// 	i = 0;
+// 	wrong_char = 0;
+// 	while (line && line[i])
+// 	{
+// 		if (line[i] == '"') // make sure it does not handle unclosed quotes
+// 			count++;
+// 		if (line[i] == '\\' || line[i] == ';')
+// 			wrong_char++;
+// 		i++;
+// 	}
+// 	if (count % 2 != 0)
+// 		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
+// 	if (wrong_char)
+// 		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
+// 	return ;
+// }
 
 char	*clean_up_string(char *line)
 {
@@ -135,35 +192,29 @@ char	*clean_up_string(char *line)
 	return (clean_string);
 }
 
-void	lexical_analysis(char *line)
+char	**lexical_analysis(char *line)
 {
 	char	**tokens;
 	int		number_tokens;
-	// char			**tokens;
-	//int		i = 0; //only used for printing out substrings of line
+	char	*clean_line;
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	line = clean_up_string(line);
-	printf("Cleaned up string: %s\n", line); //  to be removed later
-	//check meta data here
-	if (metacharacter_check(line) == false)
-		ft_exit_str_free_fd(ERROR_SYNTAX, line, STDERR_FILENO); // should maybe change to meta error
-	// number of tokens
-	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
-	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	tokens = tokenize(line);
+	clean_line = clean_up_string(line);
+	printf("Cleaned up string: %s\n", clean_line); //  to be removed later
+	// check_characters(clean_line);
+	if (meta_character_check(line) == false)
+		ft_exit_str_free_fd(ERROR_META, clean_line, STDERR_FILENO);
+	number_tokens = count_tokens(clean_line);
+	tokens = split_tokens(line, number_tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	while (tokens != NULL)
 	{
-		ft_print_tokens(tokens);
+		printf("%s\n", *tokens);
 		tokens++;
 	}
-	//during the tokenization nclude in the while loop that while() it is not ';' or '\' 
-
-	//check_characters(line);
+	return (tokens);
 }
 
 

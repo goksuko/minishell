@@ -28,7 +28,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
-# include "tokenize.h"
+# include "tokenize.h" //erase if not used
 
 # define SUCCESS 0
 
@@ -50,6 +50,7 @@ typedef enum e_error
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
 	ERROR_FILE_NOT_FOUND,
+	ERROR_META,
 	ERROR_SYNTAX,
 	UNDEFINED_ERROR,
 	ERROR_NOT_DIR = 127,
@@ -98,7 +99,7 @@ void				ft_close_exit_perror(t_pipex *info, char **matrix,
 
 // Lexical analysis
 char				*rl_gets(void);
-void	lexical_analysis(char *line);
+char				**lexical_analysis(char *line);
 
 // Libft functions //
 
