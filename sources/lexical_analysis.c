@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/07/29 18:09:20 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/02 12:41:42 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,47 @@ char	*ft_strcpy(char *dest, char *src, int len)
 	return (dest);
 }
 
+// Helper function to skip whitespace
+int skip_whitespace(char *line, int i)
+{
+    while (is_whitespace(line[i]) == true && line[i] != '\0')
+        i++;
+    return i;
+}
+
+int	handle_quotes(char *line, int i, char quote_char)
+{
+	while (line[i] != '\0' && line[i] != quote_char)
+		i++;
+	if (line[i] == quote_char) // not sure about this
+		i++;
+	return (i);
+}
+
+char	*substring_from_quote(char *line, int *i)
+{
+	char	*substring;
+	int		j;
+	char	quote_char;
+
+	quote_char = line[*i];
+	j = *i;
+	while (line[*i] != '\0' && line[*i] != quote_char)
+		i++;
+	if (line[*i] == quote_char)
+	{
+		substring = malloc((*i - j + 1) * sizeof(char));
+		if (substring == NULL)
+			return (NULL);
+		substring = ft_strcpy(substring, &line[j], *i - j);
+		i++;
+		return (substring);
+	}
+	return (NULL);
+}
+
 char	**split_tokens(char *line, int number_tokens)
 {
-	printf("Split tokens.\n"); // to remove later
 	char	**tokens;
 	int		i;
 	int		j;
@@ -42,22 +80,26 @@ char	**split_tokens(char *line, int number_tokens)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	while (line[i] != '\0')
 	{
-		while(is_whitespace(line[i]) == true && line[i] != '\0')
-			i++;
+		i = skip_whitespace(line, i);
 		j = i;
-		while (is_whitespace(line[i]) == false && line[i] != '\0')
-			i++;
+		if (line[i] == '\'' || line[i] == '\"')
+			tokens[k] = substring_from_quote(&line[j], &i); //NULL check needed
+		else
+		{
+			while (is_whitespace(line[i]) == false && line[i] != '\0')
+				i++;
+		}
 		if (i > j)
 		{
 			tokens[k] = malloc((i - j + 1) * sizeof(char));
 			if (tokens[k] == NULL)
 			{
-				while (k-- != 0) // not sure if it should be greater than -1 as I am unsure if 0 also gets freed;
+				while (--k >= 0)
 					free(tokens[k]);
 				free(tokens);
 				return (NULL);
 			}
-			tokens[k] = ft_strcpy(tokens[k], &line[j], i - j); // write strcpy function
+			tokens[k] = ft_strcpy(tokens[k], &line[j], i - j);
 			printf("Token %d:%s\n", k, tokens[k]); // to remove later
 			k++;
 		}
@@ -66,11 +108,26 @@ char	**split_tokens(char *line, int number_tokens)
 	return (tokens);
 }
 
+bool	is_quote(char c)
+{
+	if (c == '\'' || c == '\"')
+		return (true);
+	return (false);
+}
+
+bool	is_meta(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (true);
+	return (false);
+}
+
+int	handle_quotes // need to write function 
+
 int	count_tokens(char *line)
 {
-	printf("Count tokens\n"); // to remove later
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 
 	i = 0;
 	count = 0;
@@ -78,15 +135,23 @@ int	count_tokens(char *line)
 	{
 		while (is_whitespace(line[i]) == true && line[i] != '\0')
 			i++;
-		if (line[i] != '\0')
+		if (line[i] != '\0' && is_whitespace(line[i]) == false)
+		{
+			if (is_quote(line[i]) == true)
+			{
+				count++;
+				i = handle_quotes(line, i, line[i]);
+			}
+			while (line[i] != '\0' && line[i] != quote_char)
+				i++;
+		}
+		if (line[i] != '\0' && is_whitespace(line[i]) == false)
 		{
 			count++;
-			printf("Token count: %d start of token: %c\n", count, line[i]);
+			while (is_whitespace(line[i]) == false && line[i] != '\0')
+				i++;
 		}
-		while (is_whitespace(line[i]) == false && line[i] != '\0')
-			i++;
 	}
-	printf("Final token count: %d\n", count); // to remove later
 	return (count);
 }
 
@@ -115,16 +180,13 @@ bool	further_meta_check(char *line, int i, char meta)
 
 bool	meta_character_check(char *line)
 {
-	printf("Meta character check\n"); // to remove later
 	int		i;
 	char	quote;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
-		while (is_whitespace(line[i]) == true)
-			i++;
-		//write(1, &line[i], 1);
+		i = skip_whitespace(line, i);
 		if (line[i] == '\'' || line[i] == '\"')
 		{
 			quote = line[i]; // just so quote has the same character and we can compare after 
@@ -143,83 +205,50 @@ bool	meta_character_check(char *line)
 	return (true);
 }
 
-// void	check_characters(char *line)
-// {
-// 	int	i;
-// 	int	count;
-// 	int	wrong_char;
-
-// 	ft_printf("check_characters\n");
-// 	count = 0;
-// 	i = 0;
-// 	wrong_char = 0;
-// 	while (line && line[i])
-// 	{
-// 		if (line[i] == '"') // make sure it does not handle unclosed quotes
-// 			count++;
-// 		if (line[i] == '\\' || line[i] == ';')
-// 			wrong_char++;
-// 		i++;
-// 	}
-// 	if (count % 2 != 0)
-// 		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
-// 	if (wrong_char)
-// 		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
-// 	return ;
-// }
-
-char	*clean_up_string(char *line)  // quotes should not be cleaned! NEED TO FIX
+void	check_characters(char *line)
 {
-	char	*clean_string;
-	int		i;
-	int		j;
+	int	i;
+	int	count_single_quote;
+	int	count_double_quote;
+	int	wrong_char;
 
+	count_single_quote = 0;
+	count_double_quote = 0;
 	i = 0;
-	j = 0;
-	clean_string = malloc((ft_strlen(line) + 1) * sizeof(char));
-	if (clean_string == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	while (is_whitespace(line[i]) == true)
-		i++;
-	while (line[i] != '\0')
+	wrong_char = 0;
+	while (line && line[i])
 	{
-		if (is_whitespace(line[i]) == false)
-			clean_string[j++] = line[i++];
-		if (line[i] == '\'' || line[i] == '\"')
-		{
-			i++;
-			while ((line[i] != '\'' || line[i] != '\"') && line[i] != '\0')
-				clean_string[j++] = line[i++];
-			clean_string[j++] = line[i++];
-		}
-		else
-		{
-			if (line[i] != '\0')
-				clean_string[j++] = ' ';
-			while (is_whitespace(line[i]) == true)
-				i++;
-		}
+		if (line[i] == '\'')
+			count_single_quote++;
+		else if (line[i] == '\"')
+			count_double_quote++;
+		else if (line[i] == '\\' || line[i] == ';')
+			wrong_char++;
+		i++;
 	}
-	clean_string[j] = '\0';
-	free(line);
-	return (clean_string);
+	if (count_single_quote % 2 != 0 || count_double_quote % 2 != 0)
+		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
+	if (wrong_char)
+		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
+	return ;
 }
 
 char	**lexical_analysis(char *line)
 {
 	char	**tokens;
 	int		number_tokens;
-	char	*clean_line;
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	clean_line = clean_up_string(line); // NEED TO FIX THE CLEAN UP FUNCTION!!!
-	printf("Cleaned up string: %s\n", clean_line); //  to be removed later
-	// check_characters(clean_line);  // Causes error for now
-	if (meta_character_check(clean_line) == false)
-		ft_exit_str_free_fd(ERROR_META, clean_line, STDERR_FILENO);
-	number_tokens = count_tokens(clean_line);
-	tokens = split_tokens(clean_line, number_tokens);
+	printf("Check characters\n"); // to be removed later
+	check_characters(line);
+	printf("Meta character check\n"); // to remove later
+	if (meta_character_check(line) == false)
+		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
+	number_tokens = count_tokens(line);
+	printf("Number of tokens: %d\n", number_tokens); // to be removed later
+	printf("Split tokens.\n"); // to remove later
+	tokens = split_tokens(line, number_tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	printf("Tokenization done\n");// to remove later
