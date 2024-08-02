@@ -12,83 +12,84 @@
 
 #include "../includes/minishell.h"
 
-char	*create_substr(char *line, int *i)
+void	free_array(char **array, int number_substr)
 {
-	char	*substring;
-	int		j;
-
-	j = *i;
-	while (line[*i] != '\0' && is_whitespace(line[*i]) == false \
-			&& is_quote(line[*i]) == false)
-		i++;
-	substring = malloc((*i - j + 1) * sizeof(char));
-	if (substring == NULL)
-		return (NULL);
-	substring = ft_strcpy(substring, &line[j], *i - j);
-	if (substring == NULL)
-		return (NULL);
-	return (substring);
+	number_substr--;
+	while (number_substr >= 0)
+	{
+		free (array[number_substr]);
+		number_substr--;
+	}
+	free (array);
 }
 
-char	*substring_from_quote(char *line, int *i)
+char	*create_substr(char *line, int len)
 {
-	char	*substring;
+	char *substr;
+
+	substr = malloc((len + 1) * sizeof(char));
+	if (substr == NULL)
+		return (NULL);
+	substr = ft_strcpy(substr, line, len);
+	if (substr == NULL)
+		return (NULL);
+	return (substr);
+}
+
+int	new_token_start(char *line, int i)
+{
+	while (line[i] != '\0' && is_whitespace(line[i]) == true)
+		i++;
+	return (i);
+}
+
+int	len_new_token(char *line, int i)
+{
 	int		j;
 	char	quote;
 
-	quote = line[*i];
-	j = *i;
-	while (line[*i] != '\0' && line[*i] != quote)
+	j = 0;
+	while (line[i] != '\0' && is_whitespace(line[i]) == true)
 		i++;
-	if (line[*i] == quote)
+	j = i;
+	// not sure if meta character check should be included here 
+	while (line[i] != '\0' && is_whitespace(line[i]) == false)
 	{
-		substring = malloc((*i - j + 1) * sizeof(char));
-		if (substring == NULL)
-			return (NULL);
-		substring = ft_strcpy(substring, &line[j], *i - j);
-		if (substring == NULL)
-			return (NULL);
-		i++;
-		return (substring);
-	}
-	return (NULL);
-}
-
-char	**split_tokens(char *line, int number_tokens)
-{
-	char	**tokens;
-	int		i;
-	int		k;
-
-	i = 0;
-	k = 0;
-	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
-	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	while (line[i] != '\0')
-	{
-		i = skip_whitespace(line, i);
-		printf("Position of i: %d\n", i);
 		if (is_quote(line[i]) == true)
 		{
-			tokens[k] = substring_from_quote(&line[i], &i);
-			printf("Position of i: %d\n", i);
+			quote = line[i];
+			i = skip_quotes(line, i);
 		}
-		else if (is_quote(line[i]) == false && is_whitespace(line[i]) \
-				== false && line[i] != '\0')
-		{
-			tokens[k] = create_substr(&line[i], &i);
-			printf("Position of i: %d\n", i);
-		}
+		i++;
+	}
+	i = i - j;
+	return (i);
+}
+
+char	**split_tokens(char *line, int number_tokens, char **tokens)
+{
+	int		token_start;
+	int		token_len;
+	int		k;
+
+	token_start = 0;
+	token_len = 0;
+	k = 0;
+	
+	while (k < number_tokens)
+	{
+		token_start = new_token_start(line, token_start + token_len);
+		printf("New token start: %d\n", token_start); // erase later
+		token_len = len_new_token(line, token_start);
+		printf("Token length: %d \n", token_len); // erase later
+		tokens[k] = create_substr(&line[token_start], token_len);
 		if (tokens[k] == NULL)
 		{
-			while (k > 0) // Need to check this part again if correct
-				free(tokens[k--]);
-			free(tokens);
-			return (NULL);
+			free_array(tokens, k);
+			return	(NULL);
 		}
-		else
-			k++;
+		printf("Substring: %s\n", tokens[k]); // erase later
+		k++;
 	}
 	tokens[k] = NULL;
 	return (tokens);

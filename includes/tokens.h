@@ -40,9 +40,9 @@ typedef struct s_token
 char	**create_tokens(char *line);
 void	check_characters(char *line);
 int		count_tokens(char *line);
-char	**split_tokens(char *line, int number_tokens);
+// char	**split_tokens(char *line, int number_tokens);
+char	**split_tokens(char *line, int number_tokens, char **tokens);
 char	*substring_from_quote(char *line, int *i);
-int		handle_quotes(char *line, int i, char quote_char);
 
 // Tokens Utils
 bool	is_meta(char c);

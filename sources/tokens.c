@@ -68,7 +68,7 @@ void	check_characters(char *line)
 
 char	**create_tokens(char *line)
 {
-	char	**tokens = NULL; // to be adjusted later
+	char	**tokens;
 	int		number_tokens;
 
 	if (line[0] == '\0')
@@ -82,7 +82,10 @@ char	**create_tokens(char *line)
 	number_tokens = count_tokens(line);
 	printf("Number of tokens: %d\n", number_tokens); // to be removed later
 	printf("Split tokens.\n"); // to remove later
-	tokens = split_tokens(line, number_tokens);
+	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
+	if (tokens == NULL)
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	printf("Tokenization done\n");// to remove later
