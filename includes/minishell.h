@@ -28,7 +28,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
-# include "tokenize.h" //erase if not used
+# include "tokens.h" //erase if not used
 
 # define SUCCESS 0
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tokenize.h                                         :+:    :+:            */
+/*   tokens.h                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -36,10 +36,23 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-// Token list utils
-t_token	*ft_token_new(char *str, t_token_type type);
-void	ft_token_lst_add_back(t_token **tokens, t_token *new_token);
-t_token	*ft_token_last(t_token *token);
-void	ft_print_tokens(t_token *tokens);
+// Tokens
+char	**create_tokens(char *line);
+void	check_characters(char *line);
+int		count_tokens(char *line);
+char	**split_tokens(char *line, int number_tokens);
+char	*substring_from_quote(char *line, int *i);
+int		handle_quotes(char *line, int i, char quote_char);
+
+// Tokens Utils
+bool	is_meta(char c);
+bool	is_quote(char c);
+int 	skip_whitespace(char *line, int i);
+char	*ft_strcpy(char *dest, char *src, int len);
+int		skip_quotes(char *line, int i);
+
+// Meta character check
+bool	further_meta_check(char *line, int i, char meta);
+bool	meta_character_check(char *line);
 
 #endif

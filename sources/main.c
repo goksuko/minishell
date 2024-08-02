@@ -110,7 +110,7 @@ int	main(int argc, char **envp)
 		if ((line = rl_gets()) == NULL)
 			break;
 		printf("Original string: %s\n", line); // to be removed later
-		lexical_analysis(line);
+		create_tokens(line);
 		data = (t_data *)ft_calloc(1, sizeof(t_data));
 		if (data == NULL || errno == ENOMEM)
 		{
