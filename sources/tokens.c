@@ -12,11 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
-// skip whitespaces
-// count strings, hence increase i while there is no whitespace and increase count only with the first character encountered
-// when quote encountered, increase count by 1 and loop over qoute
-
 int	count_tokens(char *line)
 {
 	int	i;
@@ -42,36 +37,6 @@ int	count_tokens(char *line)
 	}
 	return (count);
 }
-
-// int	count_tokens(char *line)
-// {
-// 	int		i;
-// 	int		count;
-
-// 	i = 0;
-// 	count = 0;
-// 	while (line[i] != '\0')
-// 	{
-// 		i = skip_whitespace(line, i);
-// 		if (line[i] != '\0' && is_whitespace(line[i]) == false)
-// 		{
-// 			if (is_quote(line[i]) == true)
-// 			{
-// 				count++;
-// 				i = skip_quotes(line, i);
-// 			}
-// 			count++;
-// 			i++;
-// 		}
-// 		if (line[i] != '\0' && is_whitespace(line[i]) == false)
-// 		{
-// 			count++;
-// 			while (is_whitespace(line[i]) == false && line[i] != '\0')
-// 				i++;
-// 		}
-// 	}
-// 	return (count);
-// }
 
 void	check_characters(char *line)
 {
@@ -103,7 +68,7 @@ void	check_characters(char *line)
 
 char	**create_tokens(char *line)
 {
-	char	**tokens;
+	char	**tokens = NULL; // to be adjusted later
 	int		number_tokens;
 
 	if (line[0] == '\0')

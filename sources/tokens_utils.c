@@ -17,6 +17,7 @@ int	skip_quotes(char *line, int i)
 	char	quote;
 
 	quote = line[i];
+	i++;
 	while (line[i] != '\0' && line[i] != quote)
 		i++;
 	if (line[i] != '\0' && line[i] == quote)
@@ -43,7 +44,7 @@ int skip_whitespace(char *line, int i)
 {
     while (is_whitespace(line[i]) == true && line[i] != '\0')
         i++;
-    return i;
+    return (i);
 }
 
 bool	is_quote(char c)

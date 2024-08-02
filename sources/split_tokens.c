@@ -12,31 +12,42 @@
 
 #include "../includes/minishell.h"
 
-int	handle_quotes(char *line, int i, char quote_char)
+char	*create_substr(char *line, int *i)
 {
-	while (line[i] != '\0' && line[i] != quote_char)
+	char	*substring;
+	int		j;
+
+	j = *i;
+	while (line[*i] != '\0' && is_whitespace(line[*i]) == false \
+			&& is_quote(line[*i]) == false)
 		i++;
-	if (line[i] == quote_char) // not sure about this
-		i++;
-	return (i);
+	substring = malloc((*i - j + 1) * sizeof(char));
+	if (substring == NULL)
+		return (NULL);
+	substring = ft_strcpy(substring, &line[j], *i - j);
+	if (substring == NULL)
+		return (NULL);
+	return (substring);
 }
 
 char	*substring_from_quote(char *line, int *i)
 {
 	char	*substring;
 	int		j;
-	char	quote_char;
+	char	quote;
 
-	quote_char = line[*i];
+	quote = line[*i];
 	j = *i;
-	while (line[*i] != '\0' && line[*i] != quote_char)
+	while (line[*i] != '\0' && line[*i] != quote)
 		i++;
-	if (line[*i] == quote_char)
+	if (line[*i] == quote)
 	{
 		substring = malloc((*i - j + 1) * sizeof(char));
 		if (substring == NULL)
 			return (NULL);
 		substring = ft_strcpy(substring, &line[j], *i - j);
+		if (substring == NULL)
+			return (NULL);
 		i++;
 		return (substring);
 	}
@@ -47,7 +58,6 @@ char	**split_tokens(char *line, int number_tokens)
 {
 	char	**tokens;
 	int		i;
-	int		j;
 	int		k;
 
 	i = 0;
@@ -58,28 +68,27 @@ char	**split_tokens(char *line, int number_tokens)
 	while (line[i] != '\0')
 	{
 		i = skip_whitespace(line, i);
-		j = i;
-		if (line[i] == '\'' || line[i] == '\"')
-			tokens[k] = substring_from_quote(&line[j], &i); //NULL check needed
+		printf("Position of i: %d\n", i);
+		if (is_quote(line[i]) == true)
+		{
+			tokens[k] = substring_from_quote(&line[i], &i);
+			printf("Position of i: %d\n", i);
+		}
+		else if (is_quote(line[i]) == false && is_whitespace(line[i]) \
+				== false && line[i] != '\0')
+		{
+			tokens[k] = create_substr(&line[i], &i);
+			printf("Position of i: %d\n", i);
+		}
+		if (tokens[k] == NULL)
+		{
+			while (k > 0) // Need to check this part again if correct
+				free(tokens[k--]);
+			free(tokens);
+			return (NULL);
+		}
 		else
-		{
-			while (is_whitespace(line[i]) == false && line[i] != '\0')
-				i++;
-		}
-		if (i > j)
-		{
-			tokens[k] = malloc((i - j + 1) * sizeof(char));
-			if (tokens[k] == NULL)
-			{
-				while (--k >= 0)
-					free(tokens[k]);
-				free(tokens);
-				return (NULL);
-			}
-			tokens[k] = ft_strcpy(tokens[k], &line[j], i - j);
-			printf("Token %d:%s\n", k, tokens[k]); // to remove later
 			k++;
-		}
 	}
 	tokens[k] = NULL;
 	return (tokens);
