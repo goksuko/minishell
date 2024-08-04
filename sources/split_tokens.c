@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 12:28:46 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 21:03:32 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@ char	*create_substr(char *line, int len)
 	return (substr);
 }
 
-int	new_token_start(char *line, int i)
+void new_token_start(char *line, int *i)
 {
-	while (line[i] != '\0' && is_whitespace(line[i]) == true)
-		i++;
-	return (i);
+    while (line[*i] != '\0' && is_whitespace(line[*i]) == true)
+        (*i)++;
 }
 
 int	len_new_token(char *line, int i)
@@ -55,7 +54,7 @@ int	len_new_token(char *line, int i)
 	while (line[i] != '\0' && is_whitespace(line[i]) == false)
 	{
 		if (is_quote(line[i]) == true)
-			i = skip_quotes(line, i);
+			skip_quotes(line, &i);
 			if (line[i] != '\0' && is_whitespace(line[i]) == true)
 				break ;
 		i++;
@@ -76,7 +75,8 @@ char	**split_tokens(char *line, int number_tokens, char **tokens)
 	
 	while (k < number_tokens)
 	{
-		token_start = new_token_start(line, token_start + token_len);
+		token_start = token_start + token_len;
+		new_token_start(line, &token_start);
 		printf("New token start: %d\n", token_start); // erase later
 		token_len = len_new_token(line, token_start);
 		printf("Token length: %d \n", token_len); // erase later

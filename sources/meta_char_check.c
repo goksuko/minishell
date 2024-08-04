@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:22:17 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 21:05:11 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ bool	meta_character_check(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		i = skip_whitespace(line, i);
+		// i = skip_whitespace(line, i);
+		skip_whitespace(line, &i);
 		if (is_quote(line[i]) == true)
 		{
 			closed_quote = quote_closed_check(line, i, line[i]); // still unsure about this

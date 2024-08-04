@@ -6,29 +6,20 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:42:00 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 21:06:28 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	skip_quotes(char *line, int i)
+void skip_quotes(char *line, int *i)
 {
-	char	quote;
+    char quote;
 
-	quote = line[i];
-	printf("%c\n", quote);
-	i++;
-	while (line[i] != '\0' && line[i] != quote)
-	{
-		printf("%c\n", line[i]);
-		i++;
-	}
-	// if (line[i] != '\0' && line[i] == quote)
-	// 	i++;
-	printf("\n");
-	printf("\n");
-	return (i);
+    quote = line[*i];
+    (*i)++;
+    while (line[*i] != '\0' && line[*i] != quote)
+        (*i)++;
 }
 
 char	*ft_strcpy(char *dest, char *src, int len)
@@ -46,11 +37,17 @@ char	*ft_strcpy(char *dest, char *src, int len)
 	return (dest);
 }
 
-int skip_whitespace(char *line, int i)
+// int skip_whitespace(char *line, int i)
+// {
+//     while (is_whitespace(line[i]) == true && line[i] != '\0')
+//         i++;
+//     return (i);
+// }
+
+void skip_whitespace(char *line, int *i)
 {
-    while (is_whitespace(line[i]) == true && line[i] != '\0')
-        i++;
-    return (i);
+    while (line[*i] != '\0' && isspace(line[*i]))
+        (*i)++;
 }
 
 bool	is_quote(char c)
@@ -67,10 +64,9 @@ bool	is_meta(char c)
 	return (false);
 }
 
-int	skip_meta(char *line, int i, char meta)
+void skip_meta(char *line, int *i, char meta)
 {
-	i++;
-	if (line[i] == meta)
-		i++;
-	return (i);
+    (*i)++;
+    if (line[*i] == meta)
+        (*i)++;
 }
