@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/07/23 14:39:03 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:42:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	check_characters(char *line);
 int		count_tokens(char *line);
 // char	**split_tokens(char *line, int number_tokens);
 char	**split_tokens(char *line, int number_tokens, char **tokens);
-char	*substring_from_quote(char *line, int *i);
 
 // Tokens Utils
 bool	is_meta(char c);
@@ -50,6 +49,7 @@ bool	is_quote(char c);
 int 	skip_whitespace(char *line, int i);
 char	*ft_strcpy(char *dest, char *src, int len);
 int		skip_quotes(char *line, int i);
+int	skip_meta(char *line, int i, char meta);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/02 15:34:08 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 12:28:46 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	new_token_start(char *line, int i)
 int	len_new_token(char *line, int i)
 {
 	int		j;
-	char	quote;
 
 	j = 0;
 	while (line[i] != '\0' && is_whitespace(line[i]) == true)
@@ -56,10 +55,9 @@ int	len_new_token(char *line, int i)
 	while (line[i] != '\0' && is_whitespace(line[i]) == false)
 	{
 		if (is_quote(line[i]) == true)
-		{
-			quote = line[i];
 			i = skip_quotes(line, i);
-		}
+			if (line[i] != '\0' && is_whitespace(line[i]) == true)
+				break ;
 		i++;
 	}
 	i = i - j;

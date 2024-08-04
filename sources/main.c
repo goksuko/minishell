@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/18 13:38:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/08/04 15:05:28 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	init_data(t_data *data, char *line, char **envp)
 	data->exit_code = 0;
 	return ;
 }
-
-
 
 void	make_initial_path_checks(char **envp)
 {
