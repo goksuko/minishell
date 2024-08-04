@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 21:03:32 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/04 21:38:45 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	len_new_token(char *line, int i)
 	while (line[i] != '\0' && is_whitespace(line[i]) == true)
 		i++;
 	j = i;
-	// not sure if meta character check should be included here 
+	if (is_meta(line[j]) == true)
+	{
+		//include meta check here
+	}
 	while (line[i] != '\0' && is_whitespace(line[i]) == false)
 	{
 		if (is_quote(line[i]) == true)
