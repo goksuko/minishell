@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 21:38:45 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/09 18:46:15 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ int	len_new_token(char *line, int i)
 	j = i;
 	if (is_meta(line[j]) == true)
 	{
-		//include meta check here
+		skip_meta(&line[i], &i);
+		return (i - j);
 	}
-	while (line[i] != '\0' && is_whitespace(line[i]) == false)
+	while (line[i] != '\0' && is_whitespace(line[i]) == false && is_meta(line[i]) == false)
 	{
 		if (is_quote(line[i]) == true)
-			skip_quotes(line, &i);
+				skip_quotes(line, &i);
 			if (line[i] != '\0' && is_whitespace(line[i]) == true)
-				break ;
+				break ; //not sure if needed
 		i++;
 	}
-	i = i - j;
-	return (i);
+	return (i - j);
 }
 
 char	**split_tokens(char *line, int number_tokens, char **tokens)
