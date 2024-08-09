@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/04 21:05:11 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/09 20:03:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdbool.h>
 
-int quote_closed_check(char *line, int i, char quote)
+int	quote_closed_check(char *line, int i, char quote)
 {
 	int	j;
 
@@ -28,7 +28,6 @@ int quote_closed_check(char *line, int i, char quote)
 
 bool	further_meta_check(char *line, int i, char meta)
 {
-	printf("Further meta check\n"); // to remove later
 	if (line[i] == '\0' || line[i + 1] == '\0')
 		return (false);
 	else
@@ -57,11 +56,10 @@ bool	meta_character_check(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		// i = skip_whitespace(line, i);
 		skip_whitespace(line, &i);
 		if (is_quote(line[i]) == true)
 		{
-			closed_quote = quote_closed_check(line, i, line[i]); // still unsure about this
+			closed_quote = quote_closed_check(line, i, line[i]);
 			i = closed_quote;
 		}
 		if (is_meta(line[i]) == true)

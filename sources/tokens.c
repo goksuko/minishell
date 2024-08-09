@@ -6,13 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/09 18:46:09 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/09 19:57:14 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	count_tokens(char *line) 
+int	count_tokens(char *line)
 {
 	int	i;
 	int	count;
@@ -22,19 +22,18 @@ int	count_tokens(char *line)
 	while (line[i] != '\0')
 	{
 		skip_whitespace(line, &i);
-		if (line[i] != '\0' && is_whitespace(line[i]) == false && is_quote(line[i]) == false && is_meta(line[i]) == false)
+		if (line[i] == '\0')
+			break ;
+		count++;
+		if (is_quote(line[i]) == true)
+			skip_quotes(line, &i);
+		else if (is_meta(line[i]) == true)
+			skip_meta(&line[i], &i);
+		else if (line[i] != '\0' && is_whitespace(line[i]) == false \
+		&& is_quote(line[i]) == false && is_meta(line[i]) == false)
 		{
-			count++;
-			while(line[i] != '\0' && is_whitespace(line[i]) == false)
+			while (line[i] != '\0' && is_whitespace(line[i]) == false)
 				i++;
-		}
-		if (line[i] != '\0' && is_whitespace(line[i]) == false)
-		{
-			count++;
-			if (is_quote(line[i]) == true)
-				skip_quotes(line, &i);
-			else if (is_meta(line[i]) == true)
-				skip_meta(&line[i], &i);
 		}
 		i++;
 	}
@@ -44,26 +43,16 @@ int	count_tokens(char *line)
 void	check_characters(char *line)
 {
 	int	i;
-	// int	count_single_quote;
-	// int	count_double_quote;
 	int	wrong_char;
 
-	// count_single_quote = 0;
-	// count_double_quote = 0;
 	i = 0;
 	wrong_char = 0;
 	while (line && line[i])
 	{
-		// if (line[i] == '\'')
-		// 	count_single_quote++;
-		// else if (line[i] == '\"')
-		// 	count_double_quote++;
 		if (line[i] == '\\' || line[i] == ';')
 			wrong_char++;
 		i++;
 	}
-	// if (count_single_quote % 2 != 0 || count_double_quote % 2 != 0)
-		// ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
 	if (wrong_char)
 		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
 	return ;
@@ -76,25 +65,19 @@ char	**create_tokens(char *line)
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	printf("Check characters\n"); // to be removed later
 	check_characters(line);
-	printf("Meta character check\n"); // to remove later
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
-	printf("Count tokens\n");
 	number_tokens = count_tokens(line);
-	printf("Number of tokens: %d\n", number_tokens); // to be removed later
-	printf("Split tokens.\n"); // to remove later
+	printf("number_tokens: %d\n", number_tokens);
 	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	printf("Tokenization done\n");// to remove later
 	return (tokens);
 }
-
 
 // 1. Input preprocessing: cleaning up the input text and preparing it for
 	// the lexical analysis. E.g. removing comments, whitespaces and other non-essential characters
