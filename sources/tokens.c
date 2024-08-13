@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/13 20:55:49 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 21:16:43 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,39 +58,35 @@ void	check_characters(char *line)
 	return ;
 }
 
-void array_to_list(t_token **token_lst, char **tokens)
+void	array_to_list(t_token **token_lst, char **tokens)
 {
-    printf("----Array to list----\n"); // erase later
-    t_token *head;
-    t_token *prev;
-    int i;
+	printf("----Array to list----\n"); // erase later
+	t_token	*head;
+	t_token	*prev;
+	t_token	*new_token;
+	int		i;
 
 	i = 0;
-	head = NULL;
-	prev = NULL;
-    while (tokens[i] != NULL)
-    {
-        t_token *new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
-        if (new_token == NULL)
-            free_list_array_exit(head, tokens);
-        if (head == NULL)
-            head = new_token;
-        new_token->prev = prev;
-        if (prev != NULL)
-            prev->next = new_token;
-        prev = new_token;
-        i++;
-    }
-    if (prev != NULL)
-        prev->next = NULL;
-    if (head != NULL)
-    {
-        head->head = head;
-        head->tail = prev;
-    }
-    *token_lst = head;
+	head = ft_token_new(tokens[i], token_type_check(tokens[i]));
+	if (head == NULL)
+		free_list_array_exit(head, tokens);
+	prev = head;
+	i++;
+	while (tokens[i] != NULL)
+	{
+		new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
+		if (new_token == NULL)
+			free_list_array_exit(head, tokens);
+		new_token->prev = prev;
+		prev->next = new_token;
+		prev = new_token;
+		i++;
+	}
+	prev->next = NULL;
+	head->head = head;
+	head->tail = prev;
+	*token_lst = head;
 }
-
 
 char	**lexical_analysis(char *line)
 {
