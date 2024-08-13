@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/13 19:01:08 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 21:01:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
 void	free_2d_array(char **tokens);
+void	check_unclosed_quotes(char **tokens);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);

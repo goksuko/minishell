@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/13 18:44:54 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 20:55:49 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	**lexical_analysis(char *line)
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	//free(line); //causes a double free error.. Need to investigate
+	check_unclosed_quotes(tokens);
 	token_lst = init_list();
 	// if (token_lst == NULL)
 		// add error handling
