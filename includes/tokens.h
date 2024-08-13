@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/09 18:46:34 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/12 21:30:26 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ typedef enum s_token_type // ADJUST AS NECESSARY
 	TOKEN_FLAG, // e.g. echo -n
     TOKEN_REDIRECTION, // <, <<, >, >>
     TOKEN_PIPE, // |
-	TOKEN_O_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-	TOKEN_C_QUOTES, //single quotes and double quotes closing 
+	TOKEN_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
 	TOKEN_LITERAL, // for strings within quotation marks?
 	TOKEN_ENV_VARIABLE, // $VAR, or $?
     TOKEN_UNKNOWN // anyhting not defined and not categorized in tokens

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/09 19:57:14 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/12 21:43:05 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,53 @@ void	check_characters(char *line)
 	return ;
 }
 
+void	free_2d_array(char **tokens) // add to errors.c
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i] != NULL)
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
+	ft_exit_data_error(NULL, ERROR_ALLOCATION); // to correct to have the correct error code
+}
+
+t_token	*array_to_list(char **tokens) //verify if correct
+{
+	t_token	*token;
+	t_token	*head;
+	t_token	*prev;
+	int		i;
+
+	i = 0;
+	head = NULL;
+	prev = NULL;
+	while (tokens[i] != NULL)
+	{
+		token = (t_token *)malloc(sizeof(t_token));
+		if (token == NULL)
+			free_2d_array(tokens);
+		token->value = tokens[i];
+		if (i == 0)
+			head = token;
+		token->prev = prev;
+		if (prev != NULL)
+			prev->next = token;
+		prev = token; // unsure about this part especially
+		i++;
+	}
+	token->next = NULL;
+	return (head);
+}
+
 char	**create_tokens(char *line)
 {
 	char	**tokens;
 	int		number_tokens;
+	t_token	*token;
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
@@ -76,6 +119,7 @@ char	**create_tokens(char *line)
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	token = array_to_list(tokens);
 	return (tokens);
 }
 

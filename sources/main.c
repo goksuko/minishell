@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/04 15:05:28 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 09:56:47 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,8 @@ int	main(int argc, char **envp)
 			free(line);
 			ft_exit_perror(ERROR_ALLOCATION, "data in main");
 		}
-		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands)
+		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands) + abstract syntax tree
 		init_data(data, line, envp); // to be put in syntax analysis
-		// create_tree(data); check if needed!
 		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
 		if (check_pipe(line))
