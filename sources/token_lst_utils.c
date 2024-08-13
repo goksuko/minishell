@@ -62,3 +62,20 @@ void	ft_print_tokens(t_token *tokens)
 		i++;
 	}
 }
+
+
+t_token	*init_list(void)
+{
+	t_token	*lst;
+
+	lst = (t_token *)malloc(sizeof(t_token));
+	if (lst == NULL)
+		return (NULL);
+	lst->type = TOKEN_UNKNOWN;
+	lst->value = NULL;
+	lst->next = NULL;
+	lst->prev = NULL;
+	lst->head = lst;
+	lst->tail = lst;
+	return (lst);
+}

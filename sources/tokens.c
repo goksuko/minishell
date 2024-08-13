@@ -87,7 +87,7 @@ t_token	*array_to_list(char **tokens) //verify if correct
 	return (head);
 }
 
-t_token	*array_to_list(char **tokens)
+t_token	*array_to_list(t_token **token_lst, char **tokens)
 {
 	t_token *token;
 	t_token	*head;
@@ -121,7 +121,7 @@ char	**create_tokens(char *line)
 {
 	char	**tokens;
 	int		number_tokens;
-	t_token	*token;
+	t_token	*token_lst;
 
 	if (line[0] == '\0')
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
@@ -137,9 +137,12 @@ char	**create_tokens(char *line)
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	free(line);
-	token = array_to_list(tokens);
+	token_lst = init_list();
+	// if (token_lst == NULL)
+		// add error handling
+	array_to_list(&token_lst, tokens); //not sure about pointer to a pointer.. TBC!
 	// categorize_tokens(token);
-	return (tokens);
+	return (tokens); // to be ajdusted
 }
 
 // 1. Input preprocessing: cleaning up the input text and preparing it for

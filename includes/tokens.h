@@ -42,6 +42,7 @@ char	**create_tokens(char *line);
 void	check_characters(char *line);
 int		count_tokens(char *line);
 char	**split_tokens(char *line, int number_tokens, char **tokens);
+t_token	*array_to_list(t_token **token_lst, char **tokens);
 
 // Tokens Utils
 bool	is_meta(char c);
@@ -55,5 +56,10 @@ void	free_2d_array(char **tokens);
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
 bool	meta_character_check(char *line);
+
+// Token list utils
+t_token	*init_list(void);
+void	ft_print_tokens(t_token *tokens);
+t_token	*ft_token_new(char *str, t_token_type type);
 
 #endif
