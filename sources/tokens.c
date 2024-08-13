@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/12 21:43:05 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 18:44:54 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,90 +58,64 @@ void	check_characters(char *line)
 	return ;
 }
 
-t_token	*array_to_list(char **tokens) //verify if correct
+void array_to_list(t_token **token_lst, char **tokens)
 {
-	t_token	*token;
-	t_token	*head;
-	t_token	*prev;
-	int		i;
+    printf("----Array to list----\n"); // erase later
+    t_token *head;
+    t_token *prev;
+    int i;
 
 	i = 0;
 	head = NULL;
 	prev = NULL;
-	while (tokens[i] != NULL)
-	{
-		token = (t_token *)malloc(sizeof(t_token));
-		if (token == NULL)
-			free_2d_array(tokens);
-			//free tokens that have been previously created
-		token->value = tokens[i];
-		if (i == 0)
-			head = token;
-		token->prev = prev;
-		if (prev != NULL)
-			prev->next = token;
-		prev = token; // unsure about this part especially
-		i++;
-	}
-	token->next = NULL;
-	return (head);
+    while (tokens[i] != NULL)
+    {
+        t_token *new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
+        if (new_token == NULL)
+            free_list_array_exit(head, tokens);
+        if (head == NULL)
+            head = new_token;
+        new_token->prev = prev;
+        if (prev != NULL)
+            prev->next = new_token;
+        prev = new_token;
+        i++;
+    }
+    if (prev != NULL)
+        prev->next = NULL;
+    if (head != NULL)
+    {
+        head->head = head;
+        head->tail = prev;
+    }
+    *token_lst = head;
 }
 
-t_token	*array_to_list(t_token **token_lst, char **tokens)
-{
-	t_token *token;
-	t_token	*head;
-	t_token	*prev;
-	int		i;
 
-	i = 0;
-	head = NULL;
-	prev = NULL;
-	while (tokens[i] != NULL)
-	{
-		token = ft_token_new(tokens[i], token_type_check(tokens[i]));
-			if (token == NULL)
-			{
-				free_2d_array(tokens);
-				// if (i > 0)
-					// add free list function() here
-			}
-		if (i == 0)
-			head = token;
-		token->prev = prev;
-		if (prev != NULL)
-			prev->next = token;
-		i++;
-	}
-	token->next = NULL;
-	return (head);
-}
-
-char	**create_tokens(char *line)
+char	**lexical_analysis(char *line)
 {
 	char	**tokens;
 	int		number_tokens;
 	t_token	*token_lst;
 
-	if (line[0] == '\0')
+	if (line[0] == '\0') // also need to check if only a space is entered
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	check_characters(line);
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
 	number_tokens = count_tokens(line);
-	printf("number_tokens: %d\n", number_tokens);
 	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	free(line);
+	//free(line); //causes a double free error.. Need to investigate
 	token_lst = init_list();
 	// if (token_lst == NULL)
 		// add error handling
-	array_to_list(&token_lst, tokens); //not sure about pointer to a pointer.. TBC!
-	// categorize_tokens(token);
+	array_to_list(&token_lst, tokens);
+	ft_print_tokens(token_lst);
 	return (tokens); // to be ajdusted
 }
 

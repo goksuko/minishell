@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/09 20:02:42 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 17:59:50 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
-# include "tokens.h" //erase if not used
+# include "lexer.h"
 
 # define SUCCESS 0
 
@@ -84,6 +84,7 @@ typedef struct s_data
 
 int					check_pipe(char *line);
 int					find_path_index(char **envp);
+char				*rl_gets(void);
 
 // errors.c
 
@@ -96,10 +97,6 @@ void				ft_exit_data_perror(t_data *data, t_error code, char *s);
 void				ft_exit_data_error(t_data *data, t_error code);
 void				ft_close_exit_perror(t_pipex *info, char **matrix,
 						t_error code, char *s);
-
-// Lexical analysis
-char				*rl_gets(void);
-char				**lexical_analysis(char *line);
 
 // Libft functions //
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/13 09:56:47 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 18:21:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ int	main(int argc, char **envp)
 	{
 		if ((line = rl_gets()) == NULL)
 			break;
-		printf("Original string: %s\n", line); // to be removed later
-		create_tokens(line);
+		lexical_analysis(line);
 		data = (t_data *)ft_calloc(1, sizeof(t_data));
 		if (data == NULL || errno == ENOMEM)
 		{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   tokens.h                                           :+:    :+:            */
+/*   lexer.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/12 21:30:26 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 19:01:08 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 typedef enum s_token_type // ADJUST AS NECESSARY
 //NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
 {
-	TOKEN_COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
-    TOKEN_ARGUMENT, //path for cd, variables for export, and unset
-	TOKEN_FLAG, // e.g. echo -n
-    TOKEN_REDIRECTION, // <, <<, >, >>
-    TOKEN_PIPE, // |
-	TOKEN_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-	TOKEN_LITERAL, // for strings within quotation marks?
-	TOKEN_ENV_VARIABLE, // $VAR, or $?
-    TOKEN_UNKNOWN // anyhting not defined and not categorized in tokens
+	COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
+    ARGUMENT, //path for cd, variables for export, and unset
+	FLAG, // e.g. echo -n
+    REDIRECTION, // <, <<, >, >>
+    PIPE, // |
+	DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
+	SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
+	ENV_VARIABLE, // $VAR, or $?
+    UNKNOWN // anything not defined and not categorized in tokens
 }	t_token_type;
 
 typedef struct s_token
@@ -38,11 +38,11 @@ typedef struct s_token
 }	t_token;
 
 // Tokens
-char	**create_tokens(char *line);
+char	**lexical_analysis(char *line);
 void	check_characters(char *line);
 int		count_tokens(char *line);
 char	**split_tokens(char *line, int number_tokens, char **tokens);
-t_token	*array_to_list(t_token **token_lst, char **tokens);
+void	array_to_list(t_token **token_lst, char **tokens);
 
 // Tokens Utils
 bool	is_meta(char c);
@@ -61,5 +61,18 @@ bool	meta_character_check(char *line);
 t_token	*init_list(void);
 void	ft_print_tokens(t_token *tokens);
 t_token	*ft_token_new(char *str, t_token_type type);
+void	free_list_array_exit(t_token *tokens_lst, char **array);
+void	free_list(t_token *tokens);
+
+// Token types check
+const char		*token_type_to_string(t_token_type type);
+t_token_type	token_type_check(char *token);
+t_token_type	check_flag(char *token);
+t_token_type	check_pipes(char *token);
+t_token_type	check_redirection(char *token);
+t_token_type	check_env_variable(char *token);
+t_token_type	check_command(char *token);
+t_token_type	check_double_quotes(char *token);
+t_token_type	check_single_quotes(char *token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/09 20:00:20 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/13 18:22:10 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	len_new_token(char *line, int i)
 
 char	**split_tokens(char *line, int number_tokens, char **tokens)
 {
+	printf("----Split_tokens----\n");
 	int		token_start;
 	int		token_len;
 	int		k;
