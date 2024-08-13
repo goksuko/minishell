@@ -24,30 +24,30 @@ t_token	*ft_token_new(char *str, t_token_type type)
 	return (new_token);
 }
 
-void	ft_token_lst_add_back(t_token **tokens, t_token *new_token)
-{
-		t_token	*temp;
-		t_token	*current;
+// void	ft_token_lst_add_back(t_token **tokens, t_token *new_token)
+// {
+// 		t_token	*temp;
+// 		t_token	*current;
 
-		if (*tokens == NULL)
-		{
-			*tokens = new_token;
-			return ;
-		}
-		current = *tokens;
-		temp = ft_token_last(*tokens);
-		new_token->next = NULL;
-		new_token->prev = current;
-}
+// 		if (*tokens == NULL)
+// 		{
+// 			*tokens = new_token;
+// 			return ;
+// 		}
+// 		current = *tokens;
+// 		temp = ft_token_last(*tokens);
+// 		new_token->next = NULL;
+// 		new_token->prev = current;
+// }
 
-t_token	*ft_token_last(t_token *token)
-{
-	if (token == NULL)
-		return (NULL);
-	while (token->next != NULL)
-		token = token->next;
-	return (token);
-}
+// t_token	*ft_token_last(t_token *token)
+// {
+// 	if (token == NULL)
+// 		return (NULL);
+// 	while (token->next != NULL)
+// 		token = token->next;
+// 	return (token);
+// }
 
 void	ft_print_tokens(t_token *tokens)
 {

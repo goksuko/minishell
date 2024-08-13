@@ -58,20 +58,6 @@ void	check_characters(char *line)
 	return ;
 }
 
-void	free_2d_array(char **tokens) // add to errors.c
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
-	ft_exit_data_error(NULL, ERROR_ALLOCATION); // to correct to have the correct error code
-}
-
 t_token	*array_to_list(char **tokens) //verify if correct
 {
 	t_token	*token;
@@ -87,6 +73,7 @@ t_token	*array_to_list(char **tokens) //verify if correct
 		token = (t_token *)malloc(sizeof(t_token));
 		if (token == NULL)
 			free_2d_array(tokens);
+			//free tokens that have been previously created
 		token->value = tokens[i];
 		if (i == 0)
 			head = token;
@@ -94,6 +81,36 @@ t_token	*array_to_list(char **tokens) //verify if correct
 		if (prev != NULL)
 			prev->next = token;
 		prev = token; // unsure about this part especially
+		i++;
+	}
+	token->next = NULL;
+	return (head);
+}
+
+t_token	*array_to_list(char **tokens)
+{
+	t_token *token;
+	t_token	*head;
+	t_token	*prev;
+	int		i;
+
+	i = 0;
+	head = NULL;
+	prev = NULL;
+	while (tokens[i] != NULL)
+	{
+		token = ft_token_new(tokens[i], token_type_check(tokens[i]));
+			if (token == NULL)
+			{
+				free_2d_array(tokens);
+				// if (i > 0)
+					// add free list function() here
+			}
+		if (i == 0)
+			head = token;
+		token->prev = prev;
+		if (prev != NULL)
+			prev->next = token;
 		i++;
 	}
 	token->next = NULL;
@@ -119,7 +136,9 @@ char	**create_tokens(char *line)
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	free(line);
 	token = array_to_list(tokens);
+	// categorize_tokens(token);
 	return (tokens);
 }
 

@@ -33,6 +33,8 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
+	struct s_token	*head;
+	struct s_token	*tail;
 }	t_token;
 
 // Tokens
@@ -48,6 +50,7 @@ void 	skip_whitespace(char *line, int *i);
 char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
+void	free_2d_array(char **tokens);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);

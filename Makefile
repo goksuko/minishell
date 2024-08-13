@@ -13,7 +13,9 @@ SRCS = \
 		tokens.c \
 		meta_char_check.c \
 		tokens_utils.c \
-		split_tokens.c
+		tokens_utils2.c \
+		split_tokens.c \
+		token_lst_utils.c \
 
 SRCS_DIR = sources
 

@@ -24,7 +24,7 @@ char	*ft_error(t_error code)
 	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
 	[ERROR_NOT_DIR] = "bash: not a directory: \n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
-	[ERROR_META] = "Error: wrong meta character",
+	[ERROR_META] = "Error: wrong meta character", //not sure about the added error codes
 	[ERROR_SYNTAX] = "Error: wrong syntax\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
