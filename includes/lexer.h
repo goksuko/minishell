@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/13 21:01:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/14 22:10:07 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 typedef enum s_token_type // ADJUST AS NECESSARY
 //NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
 {
-	COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
-    ARGUMENT, //path for cd, variables for export, and unset
-	FLAG, // e.g. echo -n
-    REDIRECTION, // <, <<, >, >>
-    PIPE, // |
-	DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-	SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-	ENV_VARIABLE, // $VAR, or $?
-    UNKNOWN // anything not defined and not categorized in tokens
+	T_COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
+    T_ARGUMENT, //path for cd, variables for export, and unset
+	T_FLAG, // e.g. echo -n
+    T_REDIRECTION, // <, <<, >, >>
+    T_PIPE, // |
+	T_DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
+	T_SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
+	T_ENV_VARIABLE, // $VAR, or $?
+    T_UNKNOWN // anything not defined and not categorized in tokens
 }	t_token_type;
 
 typedef struct s_token
@@ -33,16 +33,23 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
-	struct s_token	*head;
-	struct s_token	*tail;
 }	t_token;
 
 // Tokens
-char	**lexical_analysis(char *line);
+t_token	*lexical_analysis(char *line); // new
 void	check_characters(char *line);
 int		count_tokens(char *line);
-char	**split_tokens(char *line, int number_tokens, char **tokens);
-void	array_to_list(t_token **token_lst, char **tokens);
+
+// Splt Tokens
+void	split_tokens(char *line, int number_tokens, t_token **token_lst); //NEW
+t_token	*create_and_link_token(char *line, t_token *prev);
+void	link_new_token(t_token *new_token, t_token *prev);
+t_token	*create_new_token(char *substr);
+char	*create_substr_and_update_token_start(char *line, \
+		int *token_start, int *token_len);
+int		len_new_token(char *line, int i);
+void	new_token_start(char *line, int *i);
+char	*create_substr(char *line, int len);
 
 // Tokens Utils
 bool	is_meta(char c);
@@ -51,8 +58,7 @@ void 	skip_whitespace(char *line, int *i);
 char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
-void	free_2d_array(char **tokens);
-void	check_unclosed_quotes(char **tokens);
+void	check_unclosed_quotes(t_token *token_lst);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
@@ -62,8 +68,8 @@ bool	meta_character_check(char *line);
 t_token	*init_list(void);
 void	ft_print_tokens(t_token *tokens);
 t_token	*ft_token_new(char *str, t_token_type type);
-void	free_list_array_exit(t_token *tokens_lst, char **array);
-void	free_list(t_token *tokens);
+void	free_list_line_exit(t_token **tokens_lst, char *line);
+void	free_list(t_token **tokens);
 
 // Token types check
 const char		*token_type_to_string(t_token_type type);

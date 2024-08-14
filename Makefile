@@ -15,8 +15,9 @@ SRCS = \
 		tokens_utils.c \
 		tokens_utils2.c \
 		split_tokens.c \
+		split_tokens2.c \
 		token_lst_utils.c \
-		token_lst_utils2.c \
+		token_lst_free.c \
 		token_types.c \
 		token_types2.c \
 

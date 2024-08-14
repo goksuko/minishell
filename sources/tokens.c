@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/13 21:16:43 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/14 22:14:13 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,39 +58,8 @@ void	check_characters(char *line)
 	return ;
 }
 
-void	array_to_list(t_token **token_lst, char **tokens)
+t_token	*lexical_analysis(char *line)
 {
-	printf("----Array to list----\n"); // erase later
-	t_token	*head;
-	t_token	*prev;
-	t_token	*new_token;
-	int		i;
-
-	i = 0;
-	head = ft_token_new(tokens[i], token_type_check(tokens[i]));
-	if (head == NULL)
-		free_list_array_exit(head, tokens);
-	prev = head;
-	i++;
-	while (tokens[i] != NULL)
-	{
-		new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
-		if (new_token == NULL)
-			free_list_array_exit(head, tokens);
-		new_token->prev = prev;
-		prev->next = new_token;
-		prev = new_token;
-		i++;
-	}
-	prev->next = NULL;
-	head->head = head;
-	head->tail = prev;
-	*token_lst = head;
-}
-
-char	**lexical_analysis(char *line)
-{
-	char	**tokens;
 	int		number_tokens;
 	t_token	*token_lst;
 
@@ -100,32 +69,12 @@ char	**lexical_analysis(char *line)
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
 	number_tokens = count_tokens(line);
-	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
-	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	tokens = split_tokens(line, number_tokens, tokens);
-	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
-	//free(line); //causes a double free error.. Need to investigate
-	check_unclosed_quotes(tokens);
 	token_lst = init_list();
-	// if (token_lst == NULL)
-		// add error handling
-	array_to_list(&token_lst, tokens);
+	if (token_lst == NULL)
+		free(line); // and return NULL
+	split_tokens(line, number_tokens, &token_lst); // in case of unclosed quote, it does not splt the tokens correctly
+	//free(line); //causes a double free error.. Need to investigate
+	// check_unclosed_quotes(token_lst); //need to adjust to new list
 	ft_print_tokens(token_lst);
-	return (tokens); // to be ajdusted
+	return (token_lst);
 }
-
-// 1. Input preprocessing: cleaning up the input text and preparing it for
-	// the lexical analysis. E.g. removing comments, whitespaces and other non-essential characters
-	// 2. Tokenization: breaking the input text into a sequence of tokens. Usually done by
-	// matching the characters in the input text against a set of patterns or regular expressions
-	// that define the different types of tokens
-	// 3. Token classification: lexer determines the type of each token. 
-	// E.g., keywords, identifiers, operators, and punctuation 
-	// 4. Token validation: lexer checks that each token is valid according to the rules of the programming languague
-	// E.g. migt check that a variable name is a valid identifier, or that an operator has correct syntax
-	// 5. Output generation: lexer generates the output of the lexical analysis process, which is typically a list of tokens
-	// list of tokens can be passed to the next stage, such as compilation or interpretation
-	// 6. Lexical analyzer identifies the error with the help of the grammar of the C language, and gives
-	// it row number and column number of the error
