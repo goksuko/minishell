@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/14 22:14:13 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/15 11:55:06 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,57 @@ void	check_characters(char *line)
 	return ;
 }
 
+void	array_to_list(t_token **token_lst, char **tokens)
+{
+	printf("----Array to list----\n"); // erase later
+	t_token	*head;
+	t_token	*prev;
+	t_token	*new_token;
+	int		i;
+
+	i = 0;
+	head = ft_token_new(tokens[i], token_type_check(tokens[i]));
+	if (head == NULL)
+		free_list_array_exit(head, tokens);
+	prev = head;
+	i++;
+	while (tokens[i] != NULL)
+	{
+		new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
+		if (new_token == NULL)
+			free_list_array_exit(head, tokens);
+		new_token->prev = prev;
+		prev->next = new_token;
+		prev = new_token;
+		i++;
+	}
+	prev->next = NULL;
+	*token_lst = head;
+}
+
 t_token	*lexical_analysis(char *line)
 {
+	char	**tokens;
 	int		number_tokens;
 	t_token	*token_lst;
-
 	if (line[0] == '\0') // also need to check if only a space is entered
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	check_characters(line);
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
 	number_tokens = count_tokens(line);
-	token_lst = init_list();
-	if (token_lst == NULL)
-		free(line); // and return NULL
-	split_tokens(line, number_tokens, &token_lst); // in case of unclosed quote, it does not splt the tokens correctly
+	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
+	if (tokens == NULL)
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	tokens = split_tokens(line, number_tokens, tokens);
+	if (tokens == NULL)
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	//free(line); //causes a double free error.. Need to investigate
-	// check_unclosed_quotes(token_lst); //need to adjust to new list
+	token_lst = init_list();
+	// if (token_lst == NULL)
+		// add error handling
+	array_to_list(&token_lst, tokens);
 	ft_print_tokens(token_lst);
-	return (token_lst);
+	check_unclosed_quotes(token_lst);
+	return (token_lst); // to be ajdusted
 }

@@ -1,5 +1,20 @@
 #include "../includes/minishell.h"
 
+void	free_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (array == NULL)
+		return ;
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 void	free_list(t_token **tokens)
 {
 	t_token	*temp;
@@ -17,17 +32,9 @@ void	free_list(t_token **tokens)
 	}
 }
 
-void	free_list_line_exit(t_token **tokens_lst, char *line)
+void	free_list_array_exit(t_token *tokens_lst, char **array)
 {
-	printf("----Free list line exit----\n"); // erase later
-	free(line);
-	free_list(tokens_lst);
-	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-}
-
-void	free_line_exit(char *line)
-{
-	printf("----Free line exit----\n"); // erase later
-	free(line);
+	free_array(array);
+	free_list(&tokens_lst);
 	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }

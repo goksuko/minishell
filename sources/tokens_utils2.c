@@ -6,11 +6,25 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/14 22:09:53 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/15 11:50:34 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void    free_array_exit(char **arrray)
+{
+    int i;
+
+    i = 0;
+    while (arrray[i] != NULL)
+    {
+        free(arrray[i]);
+        i++;
+    }
+    free(arrray);
+    ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+}
 
 void	check_unclosed_quotes(t_token *token_lst)
 {

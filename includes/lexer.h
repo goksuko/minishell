@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/14 22:10:07 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/15 11:48:53 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ typedef struct s_token
 }	t_token;
 
 // Tokens
-t_token	*lexical_analysis(char *line); // new
+t_token	*lexical_analysis(char *line);
 void	check_characters(char *line);
 int		count_tokens(char *line);
 
 // Splt Tokens
-void	split_tokens(char *line, int number_tokens, t_token **token_lst); //NEW
-t_token	*create_and_link_token(char *line, t_token *prev);
-void	link_new_token(t_token *new_token, t_token *prev);
-t_token	*create_new_token(char *substr);
-char	*create_substr_and_update_token_start(char *line, \
-		int *token_start, int *token_len);
+char	**split_tokens(char *line, int number_tokens, char **tokens);
 int		len_new_token(char *line, int i);
 void	new_token_start(char *line, int *i);
 char	*create_substr(char *line, int len);
@@ -59,6 +54,8 @@ char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
 void	check_unclosed_quotes(t_token *token_lst);
+void    free_array_exit(char **arrray);
+void	free_array(char **array);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
@@ -68,8 +65,8 @@ bool	meta_character_check(char *line);
 t_token	*init_list(void);
 void	ft_print_tokens(t_token *tokens);
 t_token	*ft_token_new(char *str, t_token_type type);
-void	free_list_line_exit(t_token **tokens_lst, char *line);
 void	free_list(t_token **tokens);
+void	free_list_array_exit(t_token *tokens_lst, char **array);
 
 // Token types check
 const char		*token_type_to_string(t_token_type type);
