@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:28:33 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:38:37 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,26 @@ int	len_new_token(char *line, int i)
 
 char	**split_tokens(char *line, int number_tokens, char **tokens)
 {
-	printf("----Split_tokens----\n");
 	int		token_start;
 	int		token_len;
-	int		k;
+	int		i;
+
 	token_start = 0;
 	token_len = 0;
-	k = 0;
-	while (k < number_tokens)
+	i = 0;
+	while (i < number_tokens)
 	{
 		token_start = token_start + token_len;
 		new_token_start(line, &token_start);
 		token_len = len_new_token(line, token_start);
-		tokens[k] = create_substr(&line[token_start], token_len);
-		if (tokens[k] == NULL)
+		tokens[i] = create_substr(&line[token_start], token_len);
+		if (tokens[i] == NULL)
 		{
 			free_array(tokens);
 			return (NULL);
 		}
-		printf("Substring: %s\n", tokens[k]); // erase later
-		k++;
+		i++;
 	}
-	tokens[k] = NULL;
+	tokens[i] = NULL;
 	return (tokens);
 }

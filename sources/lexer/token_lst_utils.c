@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:28:59 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:41:24 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_token	*ft_token_new(char *str, t_token_type type)
 
 void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
-	printf("----Printing tokens list----\n"); // erase later
 	int	i;
 
 	i = 1;

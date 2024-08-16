@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:27:48 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:41:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ t_token	*lexical_analysis(char *line)
 	tokens = create_token_array(line);
 	//free(line); //causes a double free error.. Need to investigate
 	token_lst = create_token_list(tokens);
-	return (token_lst); // to be ajdusted
+	return (token_lst);
 }
