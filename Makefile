@@ -2,29 +2,29 @@ NAME = minishell
 LIBFT = ./Libft/libft.a
 
 LEXER = tokens.c \
-        meta_char_check.c \
-        tokens_utils.c \
-        tokens_utils2.c \
-        split_tokens.c \
-        token_lst_utils.c \
-        token_lst_free.c \
-        token_types.c \
-        token_types2.c
+		meta_char_check.c \
+		tokens_utils.c \
+		tokens_utils2.c \
+		split_tokens.c \
+		token_lst_utils.c \
+		token_lst_free.c \
+		token_types.c \
+		token_types2.c
 
 SRCS_DIR = sources
 OBJS_DIR = objects
 
 SRCS = $(addprefix $(SRCS_DIR)/, \
-        errors.c \
-        main.c \
-        utils.c \
-        utils2.c \
-        ft_putstr2_fd.c \
-        path.c \
-        pipex.c \
-        read_line.c \
-        $(addprefix lexer/, $(LEXER)) \
-    )
+		errors.c \
+		main.c \
+		utils.c \
+		utils2.c \
+		ft_putstr2_fd.c \
+		path.c \
+		pipex.c \
+		read_line.c \
+		$(addprefix lexer/, $(LEXER)) \
+	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
