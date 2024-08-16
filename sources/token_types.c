@@ -4,8 +4,11 @@ const char	*token_type_to_string(t_token_type type)
 {
 	static const char *str[] = {
 		[T_COMMAND] = "COMMAND",
-		[T_ARGUMENT] = "ARGUMENT",
-		[T_REDIRECTION] = "REDIRECTION",
+		[T_IDENTIFIER] = "IDENTIFIER",
+		[T_SMALLER] = "SMALLER",
+		[T_GREATER] = "GREATER",
+		[T_DSMALLER] = "DSMALLER",
+		[T_DGREATER] = "DGREATER",
 		[T_PIPE] = "PIPE",
 		[T_ENV_VARIABLE] = "ENV_VARIABLE",
 		[T_FLAG] = "FLAG",
@@ -47,14 +50,14 @@ t_token_type	check_env_variable(char *token)
 
 t_token_type	check_redirection(char *token)
 {
-	if (ft_strncmp(token, "<", 1) == 0)
-		return (T_REDIRECTION);
-	if (ft_strncmp(token, ">", 1) == 0)
-		return (T_REDIRECTION);
 	if (ft_strncmp(token, ">>", 2) == 0)
-		return (T_REDIRECTION);
+		return (T_DGREATER);
 	if (ft_strncmp(token, "<<", 2) == 0)
-		return (T_REDIRECTION);
+		return (T_DSMALLER);
+	if (ft_strncmp(token, "<", 1) == 0)
+		return (T_SMALLER);
+	if (ft_strncmp(token, ">", 1) == 0)
+		return (T_GREATER);
 	return (T_UNKNOWN);
 }
 

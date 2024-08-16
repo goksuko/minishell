@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/15 11:48:53 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 11:42:15 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ typedef enum s_token_type // ADJUST AS NECESSARY
 //NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
 {
 	T_COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
-    T_ARGUMENT, //path for cd, variables for export, and unset
+    T_IDENTIFIER, //path for cd, variables for export, and unset
 	T_FLAG, // e.g. echo -n
-    T_REDIRECTION, // <, <<, >, >>
+    T_SMALLER, // <
+	T_DSMALLER, // <<
+	T_GREATER, // >
+	T_DGREATER,// >>
     T_PIPE, // |
 	T_DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
 	T_SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
@@ -39,6 +42,8 @@ typedef struct s_token
 t_token	*lexical_analysis(char *line);
 void	check_characters(char *line);
 int		count_tokens(char *line);
+char	**create_token_array(char *line);
+t_token	*create_token_list(char **token_array);
 
 // Splt Tokens
 char	**split_tokens(char *line, int number_tokens, char **tokens);
