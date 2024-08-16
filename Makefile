@@ -1,59 +1,56 @@
 NAME = minishell
 LIBFT = ./Libft/libft.a
 
-SRCS = \
-		errors.c \
-		main.c \
-		utils.c \
-		utils2.c \
-		ft_putstr2_fd.c \
-		path.c \
-		pipex.c \
-		read_line.c \
-		tokens.c \
-		meta_char_check.c \
-		tokens_utils.c \
-		tokens_utils2.c \
-		split_tokens.c \
-		token_lst_utils.c \
-		token_lst_free.c \
-		token_types.c \
-		token_types2.c \
+LEXER = tokens.c \
+        meta_char_check.c \
+        tokens_utils.c \
+        tokens_utils2.c \
+        split_tokens.c \
+        token_lst_utils.c \
+        token_lst_free.c \
+        token_types.c \
+        token_types2.c
 
 SRCS_DIR = sources
-
-OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
-
 OBJS_DIR = objects
 
+SRCS = $(addprefix $(SRCS_DIR)/, \
+        errors.c \
+        main.c \
+        utils.c \
+        utils2.c \
+        ft_putstr2_fd.c \
+        path.c \
+        pipex.c \
+        read_line.c \
+        $(addprefix lexer/, $(LEXER)) \
+    )
+
+OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-SFLAGS = -Wall -Wextra -Werror -g -lreadline
-CFLAGS += -fPIE -fPIC
-SFLAGS += -fPIE -fPIC
+CFLAGS = -Wall -Wextra -Werror -g -fPIE -fPIC
+SFLAGS = -lreadline
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
 	@echo "Compilation in Progress"
-	@$(CC) $(SFLAGS) $(OBJS) -lreadline $(LIBFT) -o $(NAME)
+	@$(CC) $(SFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo ""
 	@echo "********Completed********"
-#	$(CC) $(LFLAGS) -g -fsanitize=address $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
-#	$(CC) $(CFLAGS) $(LFLAGS) -g -fPIE -fPIC -fsanitize=address $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
-#	$(CC) $(CFLAGS) $(LFLAGS) $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
-#	$(CC) $(CFLAGS) $(LFLAGS) -g -fPIE -fPIC $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
-#	$(CC) $(CFLAGS) $(LFLAGS) -g $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
-#	$(CC) $(LFLAGS) -g $(OBJS_1) $(OBJS_2) $(MINILIBX) $(FT_PRINTF) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -s -C ./Libft
 
 $(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/lexer
 
-$(OBJS_DIR)/%.o:$(SRCS_DIR)/%.c
-	@$(CC) $(CFLAGS) -c -o $@ $^
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR)/lexer/%.o: $(SRCS_DIR)/lexer/%.c | $(OBJS_DIR)/lexer
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning in Progress"

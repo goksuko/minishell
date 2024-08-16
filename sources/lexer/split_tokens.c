@@ -6,11 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/15 11:50:36 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:28:33 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*create_substr(char *line, int len)
 {

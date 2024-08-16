@@ -6,11 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/14 22:07:25 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:28:59 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_token	*ft_token_new(char *str, t_token_type type)
 {
@@ -84,5 +84,5 @@ t_token_type	token_type_check(char *token)
 	type = check_double_quotes(token);
 	if (type != T_UNKNOWN)
 		return (type);
-	return (T_ARGUMENT);
+	return (T_IDENTIFIER);
 }

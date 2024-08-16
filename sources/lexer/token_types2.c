@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 t_token_type	check_single_quotes(char *token)
 {

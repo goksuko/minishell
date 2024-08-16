@@ -6,11 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/15 11:41:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:28:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	skip_quotes(char *line, int *i)
 {

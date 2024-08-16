@@ -6,11 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/15 12:09:08 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:27:53 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void    free_array_exit(char **arrray)
 {

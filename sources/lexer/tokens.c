@@ -6,11 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 10:41:57 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 12:27:48 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	array_to_list(t_token **token_lst, char **tokens)
 {
