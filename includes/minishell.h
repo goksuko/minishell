@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/13 17:59:50 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 14:53:13 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include "lexer.h"
+# include "syntax.h"
 
 # define SUCCESS 0
 

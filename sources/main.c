@@ -6,13 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/13 18:21:35 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/16 15:14:25 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//static char	*line_read = (char *)NULL; To be uncommented again later!
+//static char	*line_read = (char *)NULL; NOT SURE IF ACTUALLY NEEDED!
 
 int	check_pipe(char *line)
 {
@@ -71,59 +71,66 @@ void	init_data(t_data *data, char *line, char **envp)
 	return ;
 }
 
-void	make_initial_path_checks(char **envp)
-{
-	int	path_no;
+// void	make_initial_path_checks(char **envp)
+// {
+// 	int	path_no;
 
-	ft_printf("make_initial_path_checks\n");
-	path_no = find_path_index(envp);
-	printf("path_no: %d\n", path_no);
-	if (envp[path_no] == NULL)
+// 	ft_printf("make_initial_path_checks\n");
+// 	path_no = find_path_index(envp);
+// 	printf("path_no: %d\n", path_no);
+// 	if (envp[path_no] == NULL)
+// 	{
+// 		ft_print_error(ERROR_NULL_PATH);
+// 		exit(ERROR_NULL_PATH);
+// 	}
+// 	if (path_no == 0)
+// 	{
+// 		ft_print_error(ERROR_CMD_NOT_FOUND);
+// 		exit(ERROR_CMD_NOT_FOUND);
+// 	}
+// 	ft_printf("path_no: %d\n", path_no);
+// 	ft_printf("envp[path_no]: %s\n", envp[path_no]);
+// 	return ;
+// }
+
+void	initial_path_checks(char **array) //useless function only written to overcome error in main as envp was not used. still need to write proper path check
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
 	{
-		ft_print_error(ERROR_NULL_PATH);
-		exit(ERROR_NULL_PATH);
+		printf("%s\n", array[i]);
+		i++;
 	}
-	if (path_no == 0)
-	{
-		ft_print_error(ERROR_CMD_NOT_FOUND);
-		exit(ERROR_CMD_NOT_FOUND);
-	}
-	ft_printf("path_no: %d\n", path_no);
-	ft_printf("envp[path_no]: %s\n", envp[path_no]);
-	return ;
 }
 
 int	main(int argc, char **envp)
 {
 	char	*line;
-	t_data	*data;
+	t_token *token;
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
-	// make_initial_path_checks(envp); LATER V
+	// make_initial_path_checks(envp); //LATER V
+	initial_path_checks(envp);
 	// signal_handling(); LATER V
 	line = NULL;
 	while (1)
 	{
 		if ((line = rl_gets()) == NULL)
 			break;
-		lexical_analysis(line);
-		data = (t_data *)ft_calloc(1, sizeof(t_data));
-		if (data == NULL || errno == ENOMEM)
-		{
-			free(line);
-			ft_exit_perror(ERROR_ALLOCATION, "data in main");
-		}
+		token = lexical_analysis(line);
+		syntax_analysis(token);
 		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands) + abstract syntax tree
-		init_data(data, line, envp); // to be put in syntax analysis
 		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
-		if (check_pipe(line))
-			data->exit_code = pipex(data); // to be put in semantic analysis
+		// if (check_pipe(line))
+			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
-		free_system(data);
+		// free_system(data);
 	}
-	return (data->exit_code);
+	// return (data->exit_code);
 }
 
 // int main(int argc, char *argv[], char **envp)
