@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/29 17:49:48 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/19 11:47:12 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_error(t_error code)
 	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
 	[ERROR_NOT_DIR] = "bash: not a directory: \n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
-	[ERROR_META] = "Error: wrong meta character", //not sure about the added error codes
+	[ERROR_META] = "Error: wrong meta character",
 	[ERROR_SYNTAX] = "Error: wrong syntax\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
