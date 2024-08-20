@@ -51,7 +51,7 @@ t_redirection	*init_redirection(t_tree **tree, t_token **token)
 	else
 	{
 		free(redirection);
-		free_list_tree_syntax_exit(tree, token);
+		free_list_tree_syntax_exit(token, tree);
 	}
 	return (redirection);
 }
@@ -63,6 +63,6 @@ void	handle_redirection(t_redirection **redirection_lst, \
 
 	new_redirection = init_redirection(node, token);
 	if (new_redirection == NULL)
-		free_list_tree_alloc_exit(node, token);
+		free_list_tree_alloc_exit(token, node);
 	append_new_redir_node(redirection_lst, new_redirection);
 }

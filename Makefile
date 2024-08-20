@@ -12,6 +12,10 @@ LEXICAL_ANALSYSIS = tokens.c \
 					token_types2.c
 
 SYNTAX_ANALSYSIS = syntax_analysis.c \
+					syntax_utils.c \
+					redirections.c \
+					nodes_utils.c \
+					free_tree_list_exit.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects

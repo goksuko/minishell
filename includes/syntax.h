@@ -57,7 +57,7 @@ t_redirection_type	check_redirection_type(t_token_type type);
 void				append_new_redir_node(t_redirection **list, t_redirection *new);
 
 // Free and exit
-void				free_list_tree_syntax_exit(t_tree **tree, t_token **tokens);
+void				free_list_tree_syntax_exit(t_token **tokens, t_tree **tree);
 void 				free_list_tree_alloc_exit(t_token **tokens, t_tree **tree);
 void				free_redirection_list(t_redirection **redirection);
 void    			free_tree(t_tree **tree);

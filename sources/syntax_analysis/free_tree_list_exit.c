@@ -44,11 +44,12 @@ void	free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
 	if (tokens != NULL) {
 		free_list(tokens);
 	}
+	printf("Parsing error\n");
 	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
 
-void	free_list_tree_syntax_exit(t_tree **tree, t_token **tokens)
+void	free_list_tree_syntax_exit(t_token **tokens, t_tree **tree)
 {
 	if (tree != NULL) {
 		free_tree(tree);
@@ -56,5 +57,6 @@ void	free_list_tree_syntax_exit(t_tree **tree, t_token **tokens)
 	if (tokens != NULL) {
 		free_list(tokens);
 	}
+	printf("Parsing error\n");
 	ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
 }
