@@ -2,18 +2,18 @@
 
 void	append_new_redir_node(t_redirection **list, t_redirection *new)
 {
-    t_redirection	*current;
+	t_redirection	*current;
 
-    if (*list == NULL)
-    {
-        *list = new;
-        return ;
-    }
-    current = *list;
-    while (current->next != NULL)
-        current = current->next;
-    current->next = new;
-    new->prev = current; // need to check if double linked given the init_node function below
+	if (*list == NULL)
+	{
+		*list = new;
+		return ;
+	}
+	current = *list;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = new;
+	new->prev = current;
 }
 
 t_redirection_type	check_redirection_type(t_token_type type)
@@ -30,41 +30,39 @@ t_redirection_type	check_redirection_type(t_token_type type)
 		return (REDIR_UNKNOWN);
 }
 
-t_redirection	*init_redirection(t_tree **tree, t_token **token, t_redirection *prev)
+t_redirection	*init_redirection(t_tree **tree, t_token **token)
 {
-    t_redirection	*redirection;
+	t_redirection	*redirection;
 
-    redirection = (t_redirection *)malloc(sizeof(t_redirection));
-    if (redirection == NULL)
-        free_list_tree_exit(tree, token, "ALLOC");
-    redirection->redirection_type = check_redirection_type((*token)->type);
-    if ((*token)->next->type == T_IDENTIFIER)
-    {
-        redirection->file = ft_strdup((*token)->next->value);
-        if (redirection->file == NULL)
-        {
-            free(redirection);
-            free_list_tree_exit(tree, token, "ALLOC");
-        }
-    }
-    else
-    {
-        free(redirection);
-        free_list_tree_exit(tree, token, "SYNTAX");
-    }
-    redirection->prev = prev;
-    return (redirection);
+	redirection = (t_redirection *)malloc(sizeof(t_redirection));
+	if (redirection == NULL)
+		return (NULL);
+	redirection->redirection_type = check_redirection_type((*token)->type);
+	if (redirection->redirection_type == REDIR_HEREDOC)
+		redirection->here_doc = true;
+	else
+		redirection->here_doc = false;
+	if ((*token)->next != NULL && (*token)->next->type == T_IDENTIFIER)
+	{
+		redirection->file = ft_strdup((*token)->next->value);
+		if (redirection->file == NULL)
+			return (free(redirection), NULL);
+	}
+	else
+	{
+		free(redirection);
+		free_list_tree_syntax_exit(tree, token);
+	}
+	return (redirection);
 }
 
-void	handle_redirection(t_redirection **redirection_lst, t_token **token, t_tree **node)
+void	handle_redirection(t_redirection **redirection_lst, \
+		t_token **token, t_tree **node)
 {
 	t_redirection	*new_redirection;
-	// (*node)->redirection = init_redirection(node, token);
-	// if ((*node)->redirection == NULL)
-	// 	free_list_tree_exit(node, token);
+
 	new_redirection = init_redirection(node, token);
-	append_new_redir_node(redirection_lst, new_redirection); //if somethinge goes wrong before this whole list needs to be freed as well
-
+	if (new_redirection == NULL)
+		free_list_tree_alloc_exit(node, token);
+	append_new_redir_node(redirection_lst, new_redirection);
 }
-
-

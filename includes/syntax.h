@@ -8,7 +8,7 @@ typedef struct s_tree
 	t_node_type			type;
 	t_redirection		*redirection;
 	char				*argument;
-	char				**expanded_arguemnt;
+	char				**expanded_argument;
 	struct s_tree		*prev;
 	struct s_tree		*next;
 }	t_tree;
