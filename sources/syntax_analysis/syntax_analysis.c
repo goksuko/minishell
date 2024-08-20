@@ -2,6 +2,7 @@
 
 t_tree	*parse_tokens(t_token **tokens)
 {
+	printf("----Parse_tokens----\n");
 	t_tree	*node;
 	t_tree	*pipe_node;
 
@@ -10,6 +11,7 @@ t_tree	*parse_tokens(t_token **tokens)
 		return (NULL);
 	while ((*tokens) != NULL)
 	{
+		ft_print_ast(node); // only for testing purposes
 		if ((*tokens)->type == T_COMMAND)
 		{
 			node->argument = ft_strdup((*tokens)->value);
@@ -25,6 +27,8 @@ t_tree	*parse_tokens(t_token **tokens)
 		else if ((*tokens)->type == T_PIPE)
 		{
 			free_and_next_token(tokens);
+			if ((*tokens) == NULL)
+				return (free(node), NULL);
 			pipe_node = create_new_node(N_PIPE);
 			if (pipe_node == NULL)
 				return (free(node), NULL);
@@ -42,6 +46,7 @@ t_tree	*parse_tokens(t_token **tokens)
 
 t_tree	*syntax_analysis(t_token *tokens)
 {
+	printf("----SYNTAX ANALYSIS----\n");
 	t_tree	*ast;
 
 	ast = parse_tokens(&tokens);
