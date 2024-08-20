@@ -2,7 +2,8 @@
 
 void	free_list_exit(t_token **tokens)
 {
-	free_list(tokens);
+	if (tokens != NULL)
+		free_list(tokens);
 	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
@@ -35,16 +36,25 @@ void    free_redirection_list(t_redirection **redirection)
 	}
 }
 
-void	free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
+void free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
 {
-	free_tree(tree);
-	free_list(tokens);
-	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+    if (tree != NULL) {
+        free_tree(tree);
+    }
+    if (tokens != NULL) {
+        free_list(tokens);
+    }
+    ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
-void	free_list_tree_syntax_exit(t_tree **tree, t_token **token)
+
+void	free_list_tree_syntax_exit(t_tree **tree, t_token **tokens)
 {
-	free_tree(tree);
-	free_list(token);
+    if (tree != NULL) {
+        free_tree(tree);
+    }
+    if (tokens != NULL) {
+        free_list(tokens);
+    }
 	ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
 }

@@ -28,3 +28,19 @@ bool	redirection_check(t_token *current)
 		return (true);
 	return (false);
 }
+
+t_tree	*init_node(t_node_type type)
+{
+	t_tree	*node;
+
+	node = (t_tree *)malloc(sizeof(t_tree));
+	if (node == NULL)
+		return (NULL);
+	node->type = type;
+	node->argument = NULL;
+	node->expanded_argument = NULL;
+	node->redirection = NULL;
+	node->prev = NULL;
+	node->next = NULL;
+	return (node);
+}
