@@ -9,17 +9,17 @@ void	free_list_exit(t_token **tokens)
 
 void    free_tree(t_tree **tree)
 {
-    t_tree	*tmp;
+	t_tree	*tmp;
 
-    while (*tree != NULL)
-    {
-        tmp = (*tree)->next;
+	while (*tree != NULL)
+	{
+		tmp = (*tree)->next;
 		free_redirection_list(&(*tree)->redirection);
-        free((*tree)->argument);
+		free((*tree)->argument);
 		free_array((*tree)->expanded_argument);
-        free(*tree);
-        *tree = tmp;
-    }
+		free(*tree);
+		*tree = tmp;
+	}
 }
 
 void    free_redirection_list(t_redirection **redirection)
@@ -36,25 +36,25 @@ void    free_redirection_list(t_redirection **redirection)
 	}
 }
 
-void free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
+void	free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
 {
-    if (tree != NULL) {
-        free_tree(tree);
-    }
-    if (tokens != NULL) {
-        free_list(tokens);
-    }
-    ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+	if (tree != NULL) {
+		free_tree(tree);
+	}
+	if (tokens != NULL) {
+		free_list(tokens);
+	}
+	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
 
 void	free_list_tree_syntax_exit(t_tree **tree, t_token **tokens)
 {
-    if (tree != NULL) {
-        free_tree(tree);
-    }
-    if (tokens != NULL) {
-        free_list(tokens);
-    }
+	if (tree != NULL) {
+		free_tree(tree);
+	}
+	if (tokens != NULL) {
+		free_list(tokens);
+	}
 	ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
 }

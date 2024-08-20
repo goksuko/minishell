@@ -39,14 +39,28 @@ typedef struct s_redirection
 }	t_redirection;
 
 // Syntax Analysis
-t_tree	*syntax_analysis(t_token *tokens);
-t_tree	*parse_tokens(t_token **tokens);
+t_tree				*syntax_analysis(t_token *tokens);
+t_tree				*parse_tokens(t_token **tokens);
+void				join_arguments(t_tree **node, t_token **token);
 
 // Utils
-t_tree	*create_new_node(t_node_type type);
-bool	redirection_check(t_token *current);
-void	join_arguments(t_tree **node, t_token **token);
-void	handle_redirection(t_redirection **redirection, t_token **token, t_tree **node);
-void	free_and_next_token(t_token **tokens);
+t_tree				*init_node(t_node_type type);
+bool				redirection_check(t_token *current);
+void				free_and_next_token(t_token **tokens);
+t_tree				*create_new_node(t_node_type type);
+
+// Redirections
+void				handle_redirection(t_redirection **redirection_lst, \
+		t_token **token, t_tree **node);
+t_redirection		*init_redirection(t_tree **tree, t_token **token);
+t_redirection_type	check_redirection_type(t_token_type type);
+void				append_new_redir_node(t_redirection **list, t_redirection *new);
+
+// Free and exit
+void				free_list_tree_syntax_exit(t_tree **tree, t_token **tokens);
+void 				free_list_tree_alloc_exit(t_token **tokens, t_tree **tree);
+void				free_redirection_list(t_redirection **redirection);
+void    			free_tree(t_tree **tree);
+void				free_list_exit(t_token **tokens);
 
 #endif
