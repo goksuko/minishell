@@ -47,7 +47,7 @@ void	ft_print_redirection(t_redirection *redirection_lst)
 	while (redirection_lst != NULL)
 	{
 		printf("Redirection number: %d\n", i);
-		printf("Redirection type: %d\n", redirection_lst->redirection_type);
+		printf("Redirection type: %s\n", redirection_type_to_string(redirection_lst->redirection_type));
 		if (redirection_lst->file != NULL)
 			printf("File: %s\n", redirection_lst->file);
 		if (redirection_lst->expanded_file != NULL)
@@ -65,6 +65,7 @@ void	ft_print_ast(t_tree *ast)
 	int	i;
 
 	i = 1;
+	printf("----Printing AST----\n");
 	while (ast != NULL)
 	{
 		printf("Node number: %d\n", i);
