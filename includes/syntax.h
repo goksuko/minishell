@@ -3,22 +3,6 @@
 
 # include "lexer.h"
 
-typedef struct s_tree
-{
-	t_node_type			type;
-	t_redirection		*redirection;
-	char				*argument;
-	char				**expanded_argument;
-	struct s_tree		*prev;
-	struct s_tree		*next;
-}	t_tree;
-
-typedef enum e_node_type
-{
-	N_COMMAND,
-	N_PIPE,
-}	t_node_type;
-
 typedef enum e_redirection_type
 {
 	REDIR_IN,
@@ -37,6 +21,22 @@ typedef struct s_redirection
 	struct s_redirection	*next;
 	struct s_redirection	*prev;
 }	t_redirection;
+
+typedef enum e_node_type
+{
+	N_COMMAND,
+	N_PIPE,
+}	t_node_type;
+
+typedef struct s_tree
+{
+	t_node_type			type;
+	t_redirection		*redirection;
+	char				*argument;
+	char				**expanded_argument;
+	struct s_tree		*prev;
+	struct s_tree		*next;
+}	t_tree;
 
 // Syntax Analysis
 t_tree				*syntax_analysis(t_token *tokens);
