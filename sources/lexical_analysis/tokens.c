@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:41:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/20 15:24:09 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token	*create_token_list(char **token_array)
 	if (token_lst == NULL)
 		free_array_exit(token_array);
 	array_to_list(&token_lst, token_array);
-	ft_print_tokens(token_lst);
+	ft_print_tokens(token_lst); // only for testing purposes
 	check_unclosed_quotes(token_lst);
 	return (token_lst);
 }

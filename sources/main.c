@@ -6,13 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/16 15:14:25 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/20 14:33:31 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//static char	*line_read = (char *)NULL; NOT SURE IF ACTUALLY NEEDED!
+//static char	*line_read = (char *)NULL; NOT SURE IF ACTUALLY NEEDED!We should only have one global variable in the whole project that is used for the signal handling
 
 int	check_pipe(char *line)
 {
@@ -109,6 +109,7 @@ int	main(int argc, char **envp)
 {
 	char	*line;
 	t_token *token;
+	t_tree	*ast;
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
@@ -121,8 +122,8 @@ int	main(int argc, char **envp)
 		if ((line = rl_gets()) == NULL)
 			break;
 		token = lexical_analysis(line);
-		syntax_analysis(token);
-		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands) + abstract syntax tree
+		ast = syntax_analysis(token);
+		ft_print_ast(ast); // only for testing purposes
 		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
 		// if (check_pipe(line))

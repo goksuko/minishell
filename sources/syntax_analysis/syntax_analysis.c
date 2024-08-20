@@ -34,7 +34,7 @@ t_tree	*parse_tokens(t_token **tokens)
 			node->next = pipe_node;
 		}
 		else if ((*tokens)->type == T_UNKNOWN)
-			free_list_tree_syntax_exit(&node, tokens); //unsure if correct - may need to reconsider this approach
+			free_list_tree_syntax_exit(tokens, &node); //unsure if correct - may need to reconsider this approach
 		free_and_next_token(tokens);
 	}
 	return (node);
