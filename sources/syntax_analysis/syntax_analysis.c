@@ -23,10 +23,15 @@ t_tree	*parse_tokens(t_token **tokens)
 		else if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 			(*tokens)->type == T_DOUBLE_QUOTES || (*tokens)->type == T_SINGLE_QUOTES)
 			join_arguments(&node, &tokens);
-		else if ((*tokens)->type == T_PIPE)
-			// handle pipes
 		else if (redirection_check(*tokens) == true)
 			handle_redirection(node->redirection, tokens, &node); // need to implement this function
+		else if ((*tokens)->type == T_PIPE)
+		{
+			*tokens = (*tokens)->next;
+			node->next = parse_tokens(tokens); // does this actually work since this function accepts a pointer to a pointer?
+			if (node->next == NULL)
+				return (free(node), NULL); // need to adjust this here probably
+		}
 		else if ((*tokens)->type == T_ENV_VARIABLE)
 			// handle env variables
 		else if ((*tokens)->type == T_UNKNOWN)
