@@ -18,5 +18,4 @@ void	join_arguments(t_tree **node, t_token **token)
 		if ((*node)->argument == NULL)
 			free_list_tree_alloc_exit(token, node);
 	}
-	//printf("----Argument: %s----\n", (*node)->argument);
 }

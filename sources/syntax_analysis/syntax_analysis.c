@@ -11,7 +11,7 @@ t_tree	*parse_tokens(t_token **tokens)
 		return (NULL);
 	while ((*tokens) != NULL)
 	{
-		ft_print_ast(node); // only for testing purposes
+		//ft_print_ast(node); // only for testing purposes
 		if ((*tokens)->type == T_COMMAND)
 		{
 			node->argument = ft_strdup((*tokens)->value);
