@@ -1,5 +1,7 @@
 #include "../../includes/minishell.h"
 
+// first node is always a command!
+
 t_tree	*parse_tokens(t_token **tokens)
 {
 	printf("----Parse_tokens----\n");
@@ -26,16 +28,21 @@ t_tree	*parse_tokens(t_token **tokens)
 			handle_redirection(&(node->redirection), tokens, &node);
 		else if ((*tokens)->type == T_PIPE)
 		{
+			printf("PIPE FOUND\n");
 			free_and_next_token(tokens);
 			if ((*tokens) == NULL)
 				return (free(node), NULL);
+			if ((*tokens)->type != T_COMMAND)
+				free_list_tree_syntax_exit(tokens, &node); //check again for correctness
+			printf("Token after PIPE: %s\n", (*tokens)->value);
 			pipe_node = create_new_node(N_PIPE);
 			if (pipe_node == NULL)
 				return (free(node), NULL);
-			pipe_node->next = parse_tokens(tokens);
-			if (pipe_node->next == NULL)
-				return (free(node), NULL);
-			node->next = pipe_node;
+			// pipe_node->next = parse_tokens(tokens);
+			// if (pipe_node->next == NULL)
+			// 	return (free(node), NULL);
+			// node->next = pipe_node;
+			//parse_tokens(tokens);
 		}
 		else if ((*tokens)->type == T_UNKNOWN)
 			free_list_tree_syntax_exit(tokens, &node); //unsure if correct - may need to reconsider this approach
@@ -49,6 +56,8 @@ t_tree	*syntax_analysis(t_token *tokens)
 	printf("----SYNTAX ANALYSIS----\n");
 	t_tree	*ast;
 
+	if (tokens->type != T_COMMAND)
+		ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
 	ast = parse_tokens(&tokens);
 	if (ast == NULL)
 	{
