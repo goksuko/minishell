@@ -13,7 +13,7 @@ void    free_tree(t_tree **tree)
 
 	while (*tree != NULL)
 	{
-		tmp = (*tree)->next;
+		tmp = (*tree)->right;
 		free_redirection_list(&(*tree)->redirection);
 		free((*tree)->argument);
 		free_array((*tree)->expanded_argument);

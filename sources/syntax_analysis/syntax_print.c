@@ -82,7 +82,7 @@ void	ft_print_ast(t_tree *ast)
 			printf("Redirection: \n");
 			ft_print_redirection(ast->redirection);
 		}
-		ast = ast->next;
+		ast = ast->right;
 		i++;
 	}
 }

@@ -34,19 +34,20 @@ typedef struct s_tree
 	t_redirection		*redirection;
 	char				*argument;
 	char				**expanded_argument;
-	struct s_tree		*prev;
-	struct s_tree		*next;
+	struct s_tree		*left;
+	struct s_tree		*right;
 }	t_tree;
 
 // Syntax Analysis
 t_tree				*syntax_analysis(t_token *tokens);
-t_tree				*parse_tokens(t_token **tokens);
+t_tree				*parse_tokens(t_token **tokens, int min_precedence);
 void				join_arguments(t_tree **node, t_token **token);
 
 // Utils
 t_tree				*init_node(t_node_type type);
 bool				redirection_check(t_token *current);
-void				free_and_next_token(t_token **tokens);
+void				free_and_next_token(t_token **tokens); // maybe not needed anymore
+void				next_token(t_token **tokens);
 t_tree				*create_new_node(t_node_type type);
 
 // Printing utils

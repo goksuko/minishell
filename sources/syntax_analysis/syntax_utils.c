@@ -11,7 +11,12 @@ t_tree	*create_new_node(t_node_type type)
 	return (new_node);
 }
 
-void	free_and_next_token(t_token **tokens)
+void	next_token(t_token **tokens)
+{
+	*tokens = (*tokens)->next;
+}
+
+void	free_and_next_token(t_token **tokens) // not sure if should be used because I am already freeing stuff and maybe I need the tokens later on
 {
 	t_token	*temp;
 
@@ -40,7 +45,7 @@ t_tree	*init_node(t_node_type type)
 	node->argument = NULL;
 	node->expanded_argument = NULL;
 	node->redirection = NULL;
-	node->prev = NULL;
-	node->next = NULL;
+	node->left = NULL;
+	node->right = NULL;
 	return (node);
 }
