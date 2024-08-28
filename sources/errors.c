@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/19 11:47:12 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/28 16:44:29 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_error(t_error code)
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
 	[ERROR_META] = "Error: wrong meta character",
 	[ERROR_SYNTAX] = "Error: wrong syntax\n",
+	[ERROR_EMPTY_LINE] = "Error: empty line\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
 	if (code < 0 || code >= UNDEFINED_ERROR)

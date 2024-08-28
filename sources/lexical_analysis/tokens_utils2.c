@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:37:10 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/28 16:45:33 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,18 @@ void	check_characters(char *line)
 	if (wrong_char)
 		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
 	return ;
+}
+
+bool	line_is_empty(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (is_whitespace(line[i]) == false)
+			return (false);
+		i++;
+	}
+	return (true);
 }

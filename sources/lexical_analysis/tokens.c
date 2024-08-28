@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/28 14:31:56 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/28 16:44:51 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ t_token	*lexical_analysis(char *line)
 	char	**tokens;
 	t_token	*token_lst;
 
-	if (line[0] == '\0') // also need to check if only a space is entered
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	if (line[0] == '\0' || line_is_empty(line) == true)
+		ft_exit_str_free_fd(ERROR_EMPTY_LINE, line, STDERR_FILENO); // need to change error code here but usally in bash empty line is not an error
 	check_characters(line);
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
