@@ -8,6 +8,11 @@ t_tree	*create_new_node(t_node_type type)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->type = type;
+	new_node->argument = NULL;
+	new_node->expanded_argument = NULL;
+	new_node->redirection = NULL;
+	new_node->left = NULL;
+	new_node->right = NULL;
 	return (new_node);
 }
 

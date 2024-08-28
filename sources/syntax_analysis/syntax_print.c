@@ -60,29 +60,73 @@ void	ft_print_redirection(t_redirection *redirection_lst)
 	}
 }
 
-void	ft_print_ast(t_tree *ast)
-{
-	int	i;
+// void	ft_print_ast(t_tree *ast)
+// {
+// 	int	i;
 
-	i = 1;
-	printf("----Printing AST----\n");
-	while (ast != NULL)
-	{
-		printf("Node number: %d\n", i);
-		printf("Node type: %s\n", node_type_to_string(ast->type));
-		if (ast->argument != NULL)
-			printf("Argument: %s\n", ast->argument);
-		if (ast->expanded_argument != NULL)
-		{
-			printf("Expanded argument: \n");
-			printf_array(ast->expanded_argument);
-		}
-		if (ast->redirection != NULL)
-		{
-			printf("Redirection: \n");
-			ft_print_redirection(ast->redirection);
-		}
-		ast = ast->right;
-		i++;
-	}
+// 	i = 1;
+// 	printf("----Printing AST----\n");
+// 	while (ast != NULL)
+// 	{
+// 		printf("Node number: %d\n", i);
+// 		printf("Node type: %s\n", node_type_to_string(ast->type));
+// 		if (ast->argument != NULL)
+// 			printf("Argument: %s\n", ast->argument);
+// 		if (ast->expanded_argument != NULL)
+// 		{
+// 			printf("Expanded argument: \n");
+// 			printf_array(ast->expanded_argument);
+// 		}
+// 		if (ast->redirection != NULL)
+// 		{
+// 			printf("Redirection: \n");
+// 			ft_print_redirection(ast->redirection);
+// 		}
+// 		ast = ast->right;
+// 		i++;
+// 	}
+// }
+
+void	ft_print_ast(t_tree *ast, int *node_count)
+{
+    if (ast == NULL)
+        return;
+
+    printf("Node number: %d\n", *node_count);
+    printf("Node type: %s\n", node_type_to_string(ast->type));
+    if (ast->argument != NULL)
+        printf("Argument: %s\n", ast->argument);
+    if (ast->expanded_argument != NULL)
+    {
+        printf("Expanded argument: \n");
+        printf_array(ast->expanded_argument);
+    }
+    if (ast->redirection != NULL)
+    {
+        printf("Redirection: \n");
+        ft_print_redirection(ast->redirection);
+    }
+
+    (*node_count)++;
+
+    if (ast->type == N_PIPE)
+    {
+        if (ast->left != NULL)
+        {
+            printf("----Left Node----\n");
+            ft_print_ast(ast->left, node_count);
+        }
+        if (ast->right != NULL)
+        {
+            printf("----Right Node----\n");
+            ft_print_ast(ast->right, node_count);
+        }
+    }
+}
+
+void	print_ast(t_tree *ast)
+{
+    int node_count = 1;
+    printf("----Printing AST----\n");
+    ft_print_ast(ast, &node_count);
 }

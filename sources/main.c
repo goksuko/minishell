@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/21 14:22:42 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/28 14:32:18 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,9 @@ int	main(int argc, char **envp)
 		if ((line = rl_gets()) == NULL)
 			break;
 		token = lexical_analysis(line);
+		ft_print_tokens(token); // only for testing purposes
 		ast = syntax_analysis(token);
-		ft_print_ast(ast); // only for testing purposes
+		print_ast(ast); // only for testing purposes
 		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
 		// if (check_pipe(line))
