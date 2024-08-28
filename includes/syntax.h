@@ -42,11 +42,12 @@ typedef struct s_tree
 t_tree				*syntax_analysis(t_token *tokens);
 t_tree				*parse_tokens(t_token **tokens);
 void				join_arguments(t_tree **node, t_token **token);
+t_tree				*get_command_node(t_token **tokens);
+t_tree				*combine_nodes(t_tree *left, t_tree *right);
 
 // Utils
 t_tree				*init_node(t_node_type type);
 bool				redirection_check(t_token *current);
-void				free_and_next_token(t_token **tokens); // maybe not needed anymore
 void				next_token(t_token **tokens);
 
 // Printing utils
