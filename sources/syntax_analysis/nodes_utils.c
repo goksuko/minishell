@@ -3,6 +3,7 @@
 // need to fix this function as it creates on big argukment event if there is a pipe or redirection
 void	join_arguments(t_tree **node, t_token **token)
 {
+	printf("----Join arguments----\n"); //delete later
 	char	*temp;
 
 	if ((*node)->argument == NULL)
@@ -24,4 +25,5 @@ void	join_arguments(t_tree **node, t_token **token)
 		if ((*node)->argument == NULL)
 			free_list_tree_alloc_exit(token, node);
 	}
+	printf("Argument after joining: %s\n", (*node)->argument); //delete later
 }

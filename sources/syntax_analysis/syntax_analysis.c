@@ -2,6 +2,7 @@
 
 t_tree	*combine_nodes(t_tree *left, t_tree *right)
 {
+	printf("----Combine nodes----\n"); //delete later
 	t_tree	*node;
 
 	node = create_new_node(N_PIPE);
@@ -22,10 +23,9 @@ t_tree	*get_command_node(t_token **tokens)
 	node->argument = ft_strdup((*tokens)->value);
 	if (node->argument == NULL)
 		return (free(node), NULL);
-	// next_token(tokens);
-	while (((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
-			(*tokens)->type == T_DOUBLE_QUOTES || (*tokens)->type == T_SINGLE_QUOTES || \
-			(*tokens)->type == T_ENV_VARIABLE || redirection_check(*tokens) == true) && (*tokens)->next != NULL)
+	next_token(tokens);
+	while ((*tokens) != NULL && (*tokens)->type != T_PIPE && \
+		(*tokens)->type != T_UNKNOWN)
 	{
 		if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 			(*tokens)->type == T_DOUBLE_QUOTES || (*tokens)->type == T_SINGLE_QUOTES || \
@@ -40,7 +40,7 @@ t_tree	*get_command_node(t_token **tokens)
 
 t_tree	*parse_tokens(t_token **tokens, int min_precedence)
 {
-	printf("----Parse_tokens----\n");
+	printf("----Parse_tokens----\n"); //delete later
 	t_tree	*left;
 	t_tree	*right;
 	int		numb_precedence;
@@ -48,26 +48,27 @@ t_tree	*parse_tokens(t_token **tokens, int min_precedence)
 	left = get_command_node(tokens);
 	if (left == NULL)
 		return (NULL);
-	while ((*tokens)->type == T_PIPE)
+	printf("Left node after get command node: %s\n", left->argument); //delete later
+	while ((*tokens)!= NULL && (*tokens)->type == T_PIPE)
 	{
-		printf("PIPE FOUND\n");
+		printf("PIPE FOUND\n"); //delete later
 		next_token(tokens);
 		if ((*tokens) == NULL)
-			return (free(left), NULL);
-		if ((*tokens)->type != T_COMMAND)
-			free_list_tree_syntax_exit(tokens, &left); //check again for correctness
-		printf("Token after PIPE: %s\n", (*tokens)->value);
+			return (free_tree(left), NULL);
+		// if ((*tokens)->type != T_COMMAND)
+		// 	free_list_tree_syntax_exit(tokens, &left); //check again for correctness
+		printf("Token after PIPE: %s\n", (*tokens)->value); //delete later
 		numb_precedence = min_precedence + 1;
 		right = parse_tokens(tokens, numb_precedence);
 		if (right == NULL)
-			return (free(left), NULL);
+			return (free_tree(left), NULL); // or only return left?
 		left = combine_nodes(left, right);
 		if (left == NULL)
 			return (free_tree(&right), free_tree(&left), NULL); //sure to free left here? unsure
 	}
+	printf("Left node before returning: %s\n", left->argument); //delete later
 	return (left);
 }
-
 
 t_tree	*syntax_analysis(t_token *tokens)
 {
