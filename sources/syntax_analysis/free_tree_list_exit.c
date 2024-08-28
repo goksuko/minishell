@@ -7,7 +7,7 @@ void	free_list_exit(t_token **tokens)
 	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
-void    free_tree(t_tree **tree)
+void	free_tree(t_tree **tree)
 {
 	t_tree	*tmp;
 
@@ -22,7 +22,7 @@ void    free_tree(t_tree **tree)
 	}
 }
 
-void    free_redirection_list(t_redirection **redirection)
+void	free_redirection_list(t_redirection **redirection)
 {
 	t_redirection	*tmp;
 
@@ -38,25 +38,20 @@ void    free_redirection_list(t_redirection **redirection)
 
 void	free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
 {
-	if (tree != NULL) {
+	if (tree != NULL)
 		free_tree(tree);
-	}
-	if (tokens != NULL) {
+	if (tokens != NULL)
 		free_list(tokens);
-	}
 	printf("Parsing error\n");
 	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 }
 
-
 void	free_list_tree_syntax_exit(t_token **tokens, t_tree **tree)
 {
-	if (tree != NULL) {
+	if (tree != NULL)
 		free_tree(tree);
-	}
-	if (tokens != NULL) {
+	if (tokens != NULL)
 		free_list(tokens);
-	}
 	printf("Parsing error\n");
 	ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
 }

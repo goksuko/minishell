@@ -16,7 +16,9 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 					redirections.c \
 					nodes_utils.c \
 					free_tree_list_exit.c \
-					syntax_print.c \
+					syntax_print1.c \
+					syntax_print2.c \
+
 
 SRCS_DIR = sources
 OBJS_DIR = objects

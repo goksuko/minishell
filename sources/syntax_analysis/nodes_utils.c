@@ -1,6 +1,5 @@
 #include "../../includes/minishell.h"
 
-// need to fix this function as it creates on big argukment event if there is a pipe or redirection
 void	join_arguments(t_tree **node, t_token **token)
 {
 	char	*temp;

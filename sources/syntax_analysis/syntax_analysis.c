@@ -29,8 +29,8 @@ t_tree	*get_command_node(t_token **tokens)
 		(*tokens)->type != T_UNKNOWN)
 	{
 		if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
-			(*tokens)->type == T_DOUBLE_QUOTES || (*tokens)->type == T_SINGLE_QUOTES || \
-			(*tokens)->type == T_ENV_VARIABLE)
+		(*tokens)->type == T_DOUBLE_QUOTES || \
+		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
 			join_arguments(&node, tokens);
 		else if (redirection_check(*tokens) == true)
 			handle_redirection(&(node->redirection), tokens, &node);
@@ -47,7 +47,7 @@ t_tree	*parse_tokens(t_token **tokens)
 	left = get_command_node(tokens);
 	if (left == NULL)
 		return (NULL);
-	while ((*tokens)!= NULL && (*tokens)->type == T_PIPE)
+	while ((*tokens) != NULL && (*tokens)->type == T_PIPE)
 	{
 		next_token(tokens);
 		if ((*tokens) == NULL)

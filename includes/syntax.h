@@ -51,9 +51,7 @@ void				next_token(t_token **tokens);
 t_tree				*create_new_node(t_node_type type);
 
 // Printing utils
-// void				ft_print_ast(t_tree *ast); // Only for testing purposes
 void				print_ast(t_tree *ast);
-void				ft_print_ast(t_tree *ast, int *node_count);
 const char			*node_type_to_string(t_node_type type); // to be deleted later
 const char			*redirection_type_to_string(t_redirection_type type); // only for testing purposes
 void				ft_print_redirection(t_redirection *redirection_lst); // Only for testing purposes
