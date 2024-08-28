@@ -75,5 +75,6 @@ t_tree	*syntax_analysis(t_token *tokens)
 		free_list(&tokens);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
+	free_list(&tokens);
 	return (abstract_syntax_tree);
 }
