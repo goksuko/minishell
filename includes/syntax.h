@@ -48,7 +48,6 @@ t_tree				*init_node(t_node_type type);
 bool				redirection_check(t_token *current);
 void				free_and_next_token(t_token **tokens); // maybe not needed anymore
 void				next_token(t_token **tokens);
-t_tree				*create_new_node(t_node_type type);
 
 // Printing utils
 void				print_ast(t_tree *ast);

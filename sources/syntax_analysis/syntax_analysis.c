@@ -6,7 +6,7 @@ t_tree	*combine_nodes(t_tree *left, t_tree *right)
 
 	if (left == NULL || right == NULL)
 		return (NULL);
-	node = create_new_node(N_PIPE);
+	node = init_node(N_PIPE);
 	if (node == NULL)
 		return (free_tree(&left), free_tree(&right), NULL);
 	node->left = left;
@@ -54,7 +54,7 @@ t_tree	*parse_tokens(t_token **tokens)
 			return (free_tree(&left), NULL);
 		right = parse_tokens(tokens);
 		if (right == NULL)
-			return (free_tree(&left), NULL); // or only return left?
+			return (left);
 		left = combine_nodes(left, right);
 		if (left == NULL)
 			return (free_tree(&right), NULL);
