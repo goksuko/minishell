@@ -21,6 +21,9 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 
 BUILTINS = 			builtins.c \
 					pwd.c \
+					env.c \
+
+EXECUTE =			execute.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -37,6 +40,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \
 		$(addprefix builtins/, $(BUILTINS)) \
+		$(addprefix execute/, $(EXECUTE)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -74,6 +78,10 @@ $(OBJS_DIR)/syntax_analysis/%.o: $(SRCS_DIR)/syntax_analysis/%.c | $(OBJS_DIR)/s
 $(OBJS_DIR)/builtins/%.o: $(SRCS_DIR)/builtins/%.c | $(OBJS_DIR)/builtins
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+
 clean:
 	@echo "Cleaning in Progress"
 	@rm -rf $(OBJS_DIR)
@@ -85,7 +93,7 @@ fclean:
 	@rm -f $(NAME) $(BONUS_NAME)
 	@rm -f ./a.out
 	@rm -f ./sources/a.out
-	@rm -f ./philo
+	@rm -f ./minishell
 	@rm -rf $(OBJS_DIR)
 	@$(MAKE) -s fclean -C ./Libft
 	@echo "***Cleaning Completed***"

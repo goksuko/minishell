@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/28 16:44:43 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/29 17:23:33 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,13 @@ typedef struct s_data
 	struct s_pipex			*info;
 }					t_data;
 
+typedef struct s_env
+{
+	char			*key; //  in the environment variable PATH=/usr/bin, PATH is the key.
+	char			*value; // In the PATH=/usr/bin example, /usr/bin is the value
+	struct s_env	*next;
+}					t_env;
+
 // main.c
 
 int					check_pipe(char *line);
@@ -122,7 +129,7 @@ bool				is_whitespace(char c);
 
 
 // Path functions //
-char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
+char				*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
 
 // Ft_putstr2_fd functions //
 void				ft_putstr2_fd(char *s1, char *s2, int fd);
@@ -137,5 +144,12 @@ int					dup2_safe(int oldfd, int newfd, t_pipex *info);
 
 int					pipex(t_data *data);
 int					is_file(const char *path);
+
+// Builtins
+bool				is_builtin(char *command);
+int					execute_builtin(char **arguments, t_env **env_var);
+int					ft_pwd(void);
+// int					ft_cd(char **arguments);
+int					ft_env(t_env **env_var);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/28 16:43:39 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/29 17:11:16 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int argc, char **envp)
 	char	*line;
 	t_token *token;
 	t_tree	*ast;
+	t_env	*env_var;
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
@@ -125,8 +126,8 @@ int	main(int argc, char **envp)
 		ft_print_tokens(token); // only for testing purposes
 		ast = syntax_analysis(token);
 		print_ast(ast); // only for testing purposes
-		// built-in commands -- V or G depending on time
 		// semantic_analysis(data); G
+		execute_shell(ast, env_var); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 

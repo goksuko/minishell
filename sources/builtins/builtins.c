@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	builtins(char **arguments)
+int	execute_builtin(char **arguments, t_env **env_var)
 {
 	if (ft_strncmp(arguments[0], "echo", 5) == 0)
 		return (ft_echo(arguments));
@@ -13,7 +13,7 @@ int	builtins(char **arguments)
 	if (ft_strncmp(arguments[0], "unset", 6) == 0)
 		return (ft_unset(arguments));
 	if (ft_strncmp(arguments[0], "env", 4) == 0)
-		return (ft_env());
+		return (ft_env(env_var));
 	if (ft_strncmp(arguments[0], "exit", 5) == 0)
 		return (ft_exit(arguments));
 	return (1);
