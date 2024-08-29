@@ -22,6 +22,7 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 BUILTINS = 			builtins.c \
 					pwd.c \
 					env.c \
+					echo.c \
 
 EXECUTE =			execute.c \
 
