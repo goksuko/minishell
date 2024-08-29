@@ -19,6 +19,7 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 					syntax_print1.c \
 					syntax_print2.c \
 
+BUILTINS = builtins.c
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -34,6 +35,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \
+		$(addprefix builtins/, $(BUILTINS)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -57,6 +59,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/lexical_analysis
 	@mkdir -p $(OBJS_DIR)/syntax_analysis
+	@mkdir -p $(OBJS_DIR)/builtins
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -65,6 +68,9 @@ $(OBJS_DIR)/lexical_analysis/%.o: $(SRCS_DIR)/lexical_analysis/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR)/syntax_analysis/%.o: $(SRCS_DIR)/syntax_analysis/%.c | $(OBJS_DIR)/syntax_analysis
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR)/builtins/%.o: $(SRCS_DIR)/builtins/%.c | $(OBJS_DIR)/builtins
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
