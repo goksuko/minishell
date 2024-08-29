@@ -19,7 +19,8 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 					syntax_print1.c \
 					syntax_print2.c \
 
-BUILTINS = builtins.c
+BUILTINS = 			builtins.c \
+					pwd.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
