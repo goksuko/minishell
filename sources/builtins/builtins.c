@@ -3,19 +3,20 @@
 int	builtins(char **arguments)
 {
 	if (ft_strncmp(arguments[0], "echo", 5) == 0)
-		return (ft_echo());
+		return (ft_echo(arguments));
 	if (ft_strncmp(arguments[0], "cd", 3) == 0)
-		return (ft_cd());
+		return (ft_cd(arguments));
 	if (ft_strncmp(arguments[0], "pwd", 4) == 0)
 		return (ft_pwd());
 	if (ft_strncmp(arguments[0], "export", 7) == 0)
-		return (ft_export());
+		return (ft_export(arguments));
 	if (ft_strncmp(arguments[0], "unset", 6) == 0)
-		return (ft_unset());
+		return (ft_unset(arguments));
 	if (ft_strncmp(arguments[0], "env", 4) == 0)
 		return (ft_env());
 	if (ft_strncmp(arguments[0], "exit", 5) == 0)
-		return (ft_exit());
+		return (ft_exit(arguments));
+	return (1);
 }
 
 bool	is_builtin(char *command)
