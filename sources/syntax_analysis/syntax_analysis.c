@@ -68,7 +68,7 @@ t_tree	*syntax_analysis(t_token *tokens)
 	t_tree	*abstract_syntax_tree;
 
 	if (tokens->type != T_COMMAND)
-		ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
+		ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
 	abstract_syntax_tree = parse_tokens(&tokens);
 	if (abstract_syntax_tree == NULL)
 	{

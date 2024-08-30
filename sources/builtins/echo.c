@@ -21,5 +21,5 @@ int	ft_echo(char **arguments)
 	}
 	if (n_flag == false)
 		ft_putchar_fd('\n', 1);
-	return (0);
+	return (SUCCESS);
 }

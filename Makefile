@@ -23,8 +23,11 @@ BUILTINS = 			builtins.c \
 					pwd.c \
 					env.c \
 					echo.c \
+					exit.c \
+					env_utils.c \
 
 EXECUTE =			execute.c \
+					execute_utils.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/28 16:44:29 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/30 12:44:19 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_error(t_error code)
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
 	[ERROR_PERM] = "bash: permission denied: \n",
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
+	[ERROR_TOO_MAY_ARGS] = "exit: too many arguments\n",
+	[ERROR_NUMERIC_ARG] = "exit: numeric argument required\n",
 	[ERROR_ALLOCATION] = "Allocation Failure\n",
 	[ERROR_NULL_PATH] = "bash: path not found\n",
 	[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",

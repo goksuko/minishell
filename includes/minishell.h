@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/30 10:52:17 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/30 12:48:55 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef enum e_error
 	NO_ERROR,
 	ERROR_PERM = 1,
 	ERROR_ARGUMENT_COUNT,
+	ERROR_TOO_MAY_ARGS,
+	ERROR_NUMERIC_ARG,
 	ERROR_INVALID_ARGUMENTS,
 	ERROR_ALLOCATION,
 	ERROR_FILE_OPEN,
@@ -147,14 +149,17 @@ int					is_file(const char *path);
 
 // Builtins
 bool				is_builtin(char *command);
-int					execute_builtin(char **arguments, t_env **env_var);
+int					execute_builtin(t_tree **ast, t_env **env_var);
 int					ft_pwd(void);
 // int					ft_cd(char **arguments);
-int					ft_env(t_env **env_var);
+// int					ft_env(t_env **env_var);
 int					ft_echo(char **arguments);
+void				ft_exit(t_tree **ast, t_env **env_var);
+void				free_env(t_env **env_var);
 
 // Execute
 void				execute_shell(t_tree **ast);
 t_env				*init_env_var(void);
+void				free_tree_env(t_tree **ast, t_env **env_var);
 
 #endif
