@@ -66,6 +66,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/lexical_analysis
 	@mkdir -p $(OBJS_DIR)/syntax_analysis
 	@mkdir -p $(OBJS_DIR)/builtins
+	@mkdir -p $(OBJS_DIR)/execute
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

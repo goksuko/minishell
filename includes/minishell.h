@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/29 17:57:03 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/30 10:52:17 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int					ft_env(t_env **env_var);
 int					ft_echo(char **arguments);
 
 // Execute
-void				execute_shell(t_tree **ast, t_env **env_var);
-void				init_env_var(t_env **env_var);
+void				execute_shell(t_tree **ast);
+t_env				*init_env_var(void);
 
 #endif
