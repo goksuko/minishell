@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/30 12:48:55 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/08/30 14:46:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ int					ft_pwd(void);
 // int					ft_env(t_env **env_var);
 int					ft_echo(char **arguments);
 void				ft_exit(t_tree **ast, t_env **env_var);
+int					exit_atoi(char *str, t_tree **ast, t_env **env_var);
+bool				arg_is_digit(char *str);
 void				free_env(t_env **env_var);
 
 // Execute

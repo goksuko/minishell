@@ -24,6 +24,7 @@ BUILTINS = 			builtins.c \
 					env.c \
 					echo.c \
 					exit.c \
+					exit_utils.c \
 					env_utils.c \
 
 EXECUTE =			execute.c \
