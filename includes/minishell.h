@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/18 21:34:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/08/30 14:46:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/stat.h>
+# include "lexer.h"
+# include "syntax.h"
 
 # define SUCCESS 0
 
@@ -36,6 +38,8 @@ typedef enum e_error
 	NO_ERROR,
 	ERROR_PERM = 1,
 	ERROR_ARGUMENT_COUNT,
+	ERROR_TOO_MAY_ARGS,
+	ERROR_NUMERIC_ARG,
 	ERROR_INVALID_ARGUMENTS,
 	ERROR_ALLOCATION,
 	ERROR_FILE_OPEN,
@@ -49,6 +53,9 @@ typedef enum e_error
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
 	ERROR_FILE_NOT_FOUND,
+	ERROR_META,
+	ERROR_SYNTAX,
+	ERROR_EMPTY_LINE,
 	UNDEFINED_ERROR,
 	ERROR_NOT_DIR = 127,
 }					t_error;
@@ -74,13 +81,21 @@ typedef struct s_data
 	char			**envp;
 	int				exit_code;
 	int				nbr_of_cmds;
-	struct s_pipex	*info;
+	struct s_pipex			*info;
 }					t_data;
+
+typedef struct s_env
+{
+	char			*key; //  in the environment variable PATH=/usr/bin, PATH is the key.
+	char			*value; // In the PATH=/usr/bin example, /usr/bin is the value
+	struct s_env	*next;
+}					t_env;
 
 // main.c
 
 int					check_pipe(char *line);
 int					find_path_index(char **envp);
+char				*rl_gets(void);
 
 // errors.c
 
@@ -112,10 +127,11 @@ char				*put_main_command(char *command, char space);
 void				start_exec(t_pipex *info, char **cmds);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
+bool				is_whitespace(char c);
+
 
 // Path functions //
-char				*find_path(t_pipex *info, char *main_command,
-						char *path_from_getenv);
+char				*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
 
 // Ft_putstr2_fd functions //
 void				ft_putstr2_fd(char *s1, char *s2, int fd);
@@ -130,5 +146,22 @@ int					dup2_safe(int oldfd, int newfd, t_pipex *info);
 
 int					pipex(t_data *data);
 int					is_file(const char *path);
+
+// Builtins
+bool				is_builtin(char *command);
+int					execute_builtin(t_tree **ast, t_env **env_var);
+int					ft_pwd(void);
+// int					ft_cd(char **arguments);
+// int					ft_env(t_env **env_var);
+int					ft_echo(char **arguments);
+void				ft_exit(t_tree **ast, t_env **env_var);
+int					exit_atoi(char *str, t_tree **ast, t_env **env_var);
+bool				arg_is_digit(char *str);
+void				free_env(t_env **env_var);
+
+// Execute
+void				execute_shell(t_tree **ast);
+t_env				*init_env_var(void);
+void				free_tree_env(t_tree **ast, t_env **env_var);
 
 #endif

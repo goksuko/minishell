@@ -6,13 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/18 21:36:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/02 10:22:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*line_read = (char *)NULL;
+//static char	*line_read = (char *)NULL; NOT SURE IF ACTUALLY NEEDED!We should only have one global variable in the whole project that is used for the signal handling
 
 int	check_pipe(char *line)
 {
@@ -46,30 +46,7 @@ int	find_path_index(char **envp)
 }
 
 
-void	check_characters(char *line)
-{
-	int	i;
-	int	count;
-	int	wrong_char;
 
-	ft_printf("check_characters\n");
-	count = 0;
-	i = 0;
-	wrong_char = 0;
-	while (line && line[i])
-	{
-		if (line[i] == '"')
-			count++;
-		if (line[i] == '\\' || line[i] == ';')
-			wrong_char++;
-		i++;
-	}
-	if (count % 2 != 0)
-		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
-	if (wrong_char)
-		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
-	return ;
-}
 
 // int check_args(char *line, char **envp)
 // {
@@ -94,72 +71,68 @@ void	init_data(t_data *data, char *line, char **envp)
 	return ;
 }
 
-char	*rl_gets(void)
-{
-	if (line_read)
-	{
-		free(line_read);
-		line_read = (char *)NULL;
-	}
-	line_read = readline("\033[36mminishell of \U0001F9B8 \033[35mGoksu\033[36m & \U0001F9DA \033[33mVanessa\033[36m > \033[0m");
-	if (line_read && *line_read)
-		add_history(line_read);
-	return (line_read);
-}
+// void	make_initial_path_checks(char **envp)
+// {
+// 	int	path_no;
 
-void	make_initial_path_checks(char **envp)
-{
-	int	path_no;
+// 	ft_printf("make_initial_path_checks\n");
+// 	path_no = find_path_index(envp);
+// 	printf("path_no: %d\n", path_no);
+// 	if (envp[path_no] == NULL)
+// 	{
+// 		ft_print_error(ERROR_NULL_PATH);
+// 		exit(ERROR_NULL_PATH);
+// 	}
+// 	if (path_no == 0)
+// 	{
+// 		ft_print_error(ERROR_CMD_NOT_FOUND);
+// 		exit(ERROR_CMD_NOT_FOUND);
+// 	}
+// 	ft_printf("path_no: %d\n", path_no);
+// 	ft_printf("envp[path_no]: %s\n", envp[path_no]);
+// 	return ;
+// }
 
-	ft_printf("make_initial_path_checks\n");
-	path_no = find_path_index(envp);
-	printf("path_no: %d\n", path_no);
-	if (envp[path_no] == NULL)
+void	initial_path_checks(char **array) //useless function only written to overcome error in main as envp was not used. still need to write proper path check
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
 	{
-		ft_print_error(ERROR_NULL_PATH);
-		exit(ERROR_NULL_PATH);
+		printf("%s\n", array[i]);
+		i++;
 	}
-	if (path_no == 0)
-	{
-		ft_print_error(ERROR_CMD_NOT_FOUND);
-		exit(ERROR_CMD_NOT_FOUND);
-	}
-	ft_printf("path_no: %d\n", path_no);
-	ft_printf("envp[path_no]: %s\n", envp[path_no]);
-	return ;
 }
 
 int	main(int argc, char **envp)
 {
 	char	*line;
-	t_data	*data;
+	t_token *token;
+	t_tree	*ast;
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
-	// make_initial_path_checks(envp); LATER V
+	// make_initial_path_checks(envp); //LATER V
+	initial_path_checks(envp);
 	// signal_handling(); LATER V
 	line = NULL;
-	while ((line = rl_gets()))
+	while (1)
 	{
-		check_characters(line); // to be put in lexical analysis NOW V
-		// lexically_analyse(line); NOW V
-		data = (t_data *)ft_calloc(1, sizeof(t_data));
-		if (data == NULL || errno == ENOMEM)
-		{
-			free(line);
-			ft_exit_perror(ERROR_ALLOCATION, "data in main");
-		}
-		// syntax_analysis(line, data, envp); NOW V -- Context-Free Grammar (designing grammar rules for shell commands)
-		init_data(data, line, envp); // to be put in syntax analysis
-		// create_tree(data); check if needed!
-		// built-in commands -- V or G depending on time
+		if ((line = rl_gets()) == NULL)
+			break;
+		token = lexical_analysis(line);
+		ft_print_tokens(token); // only for testing purposes
+		ast = syntax_analysis(token);
+		print_ast(ast); // only for testing purposes
 		// semantic_analysis(data); G
-		// if (check_pipe(line)) 
-			data->exit_code = pipex(data); // to be put in semantic analysis
+		execute_shell(&ast); // includes builtins
+		// if (check_pipe(line))
+			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
-		free_system(data);
+		// free_system(data);
 	}
-	return (data->exit_code);
+	// return (data->exit_code);
 }
 
 // int main(int argc, char *argv[], char **envp)

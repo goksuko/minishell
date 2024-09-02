@@ -115,3 +115,10 @@ char	*put_main_command(char *command, char space)
 	temp[i] = '\0';
 	return (temp);
 }
+
+bool	is_whitespace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (true);
+	return (false);
+}
