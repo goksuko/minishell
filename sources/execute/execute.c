@@ -27,6 +27,10 @@ void	execute_shell(t_tree **ast)
 	}
 	(*ast)->expanded_argument = ft_split((*ast)->argument, ' '); // only for testing purposes
 	// add NULL check but again this is only for testing purposes
+
+	// an initial check to check if the ast has a pipe inside it
+	// if it has, do the piping
+	// else, execute the command
 	if ((*ast)->type == N_COMMAND)
 	{
 		printf("%s\n", (*ast)->expanded_argument[0]);

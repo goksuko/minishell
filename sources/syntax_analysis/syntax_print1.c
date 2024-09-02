@@ -1,8 +1,8 @@
 #include "../../includes/minishell.h"
 
-const char	*redirection_type_to_string(t_redirection_type type)
+char	*redirection_type_to_string(t_redirection_type type)
 {
-	static const char	*str[] = {
+	static char	*str[] = {
 	[REDIR_IN] = "REDIR_IN",
 	[REDIR_OUT] = "REDIR_OUT",
 	[REDIR_APPEND] = "REDIR_APPEND",
@@ -42,7 +42,10 @@ void	ft_print_redirection(t_redirection *redirection_lst)
 void	ft_print_ast(t_tree *ast, int *node_count)
 {
 	if (ast == NULL)
+	{
+		printf("AST is NULL\n");
 		return ;
+	}
 	printf("Node number: %d\n", *node_count);
 	printf("Node type: %s\n", node_type_to_string(ast->type));
 	if (ast->argument != NULL)
@@ -71,6 +74,7 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 			ft_print_ast(ast->right, node_count);
 		}
 	}
+	// printf_array(ast->token_types);
 }
 
 void	print_ast(t_tree *ast)

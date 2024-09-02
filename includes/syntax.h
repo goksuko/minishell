@@ -32,10 +32,11 @@ typedef struct s_tree
 {
 	t_node_type			type;
 	t_redirection		*redirection;
-	char				*argument;
+	char				*argument; //echo hello
 	char				**expanded_argument;
 	struct s_tree		*left;
 	struct s_tree		*right;
+	// char				**token_types;
 }	t_tree;
 
 // Syntax Analysis
@@ -53,7 +54,7 @@ void				next_token(t_token **tokens);
 // Printing utils
 void				print_ast(t_tree *ast);
 const char			*node_type_to_string(t_node_type type); // to be deleted later
-const char			*redirection_type_to_string(t_redirection_type type); // only for testing purposes
+char				*redirection_type_to_string(t_redirection_type type); // only for testing purposes
 void				ft_print_redirection(t_redirection *redirection_lst); // Only for testing purposes
 void				printf_array(char **array);
 

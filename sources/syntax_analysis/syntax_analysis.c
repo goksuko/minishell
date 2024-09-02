@@ -14,6 +14,15 @@ t_tree	*combine_nodes(t_tree *left, t_tree *right)
 	return (node);
 }
 
+// void	add_token_type(t_tree **node, t_token_type type)
+// {
+// 	static int	i = 0;
+
+// 	(*node)->token_types[i] = token_type_to_string(type);
+// 	i++;
+// 	(*node)->token_types[i] = NULL;
+// }
+
 t_tree	*get_command_node(t_token **tokens)
 {
 	t_tree	*node;
@@ -31,7 +40,10 @@ t_tree	*get_command_node(t_token **tokens)
 		if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 		(*tokens)->type == T_DOUBLE_QUOTES || \
 		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
+		{
+			// add_token_type(&node, (*tokens)->type);
 			join_arguments(&node, tokens);
+		}
 		else if (redirection_check(*tokens) == true)
 			handle_redirection(&(node->redirection), tokens, &node);
 		next_token(tokens);
@@ -68,13 +80,18 @@ t_tree	*syntax_analysis(t_token *tokens)
 	t_tree	*abstract_syntax_tree;
 
 	if (tokens->type != T_COMMAND)
-		ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
+	{
+		ft_printf("token type is not a command, it is %s\n", token_type_to_string(tokens->type));
+		// ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
+
+	}
 	abstract_syntax_tree = parse_tokens(&tokens);
 	if (abstract_syntax_tree == NULL)
 	{
+		ft_printf("abstract_syntax_tree is NULL\n");
 		free_list(&tokens);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
-	free_list(&tokens);
+	// free_list(&tokens);
 	return (abstract_syntax_tree);
 }
