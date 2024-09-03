@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   free_tree_list_exit.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/09/03 14:32:04 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/09/03 14:32:04 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_list_exit(t_token **tokens)

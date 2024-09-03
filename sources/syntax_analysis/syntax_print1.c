@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   syntax_print1.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/09/03 14:32:16 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/09/03 14:32:16 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*redirection_type_to_string(t_redirection_type type)

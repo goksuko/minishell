@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   redirections.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/09/03 14:32:10 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/09/03 14:32:10 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	append_new_redir_node(t_redirection **list, t_redirection *new)

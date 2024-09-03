@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   nodes_utils.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/09/03 14:32:07 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/09/03 14:32:07 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	join_arguments(t_tree **node, t_token **token)
