@@ -50,7 +50,7 @@ char	**create_token_array(char *line)
 		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO); // Need to check if tokens also needs to be freed here but the tokens array would be freed in case of an error within the split_tokens function
 	return (tokens);
 }
 

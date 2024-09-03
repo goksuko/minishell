@@ -37,7 +37,7 @@ t_tree	*get_command_node(t_token **tokens)
 		return (NULL);
 	node->argument = ft_strdup((*tokens)->value);
 	if (node->argument == NULL)
-		return (free(node), NULL);
+		return (free_tree(&node), NULL);
 	next_token(tokens);
 	while ((*tokens) != NULL && (*tokens)->type != T_PIPE && \
 		(*tokens)->type != T_UNKNOWN)
@@ -62,7 +62,7 @@ t_tree	*parse_tokens(t_token **tokens)
 	left = get_command_node(tokens);
 	if (left == NULL)
 		return (NULL);
-	while ((*tokens) != NULL && (*tokens)->type == T_PIPE)
+	while ((*tokens) != NULL && (*tokens)->type == T_PIPE) //also add token type array here for pipes!!
 	{
 		next_token(tokens);
 		if ((*tokens) == NULL)
@@ -72,7 +72,7 @@ t_tree	*parse_tokens(t_token **tokens)
 			return (left);
 		left = combine_nodes(left, right);
 		if (left == NULL)
-			return (free_tree(&right), NULL);
+			return (free_tree(&right), NULL); // dont think this is necessary because right already gets freed in combine_nodes in case of an error!
 	}
 	return (left);
 }
@@ -91,9 +91,9 @@ t_tree	*syntax_analysis(t_token *tokens)
 	if (abstract_syntax_tree == NULL)
 	{
 		ft_printf("abstract_syntax_tree is NULL\n");
-		free_list(&tokens);
+		free_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
-	free_list(&tokens);
+	free_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
 	return (abstract_syntax_tree);
 }
