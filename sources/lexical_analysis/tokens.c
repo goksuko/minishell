@@ -77,7 +77,7 @@ t_token	*lexical_analysis(char *line)
 	if (meta_character_check(line) == false)
 		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
 	tokens = create_token_array(line);
-	//free(line); //causes a double free error.. Need to investigate
+	// free(line); // not sure if needed although I am prety sire. Need to properly check the valgrind message again
 	token_lst = create_token_list(tokens);
 	return (token_lst);
 }

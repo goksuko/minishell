@@ -113,9 +113,9 @@ int	main(int argc, char **envp)
 
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
+	// signal_handling();
 	// make_initial_path_checks(envp); //LATER V
 	initial_path_checks(envp);
-	// signal_handling(); LATER V
 	line = NULL;
 	while (1)
 	{
