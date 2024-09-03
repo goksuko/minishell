@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:37 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:37 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/03 19:30:59 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*token_type_to_string(t_token_type type) // to be deleted later
 {
 	static char	*str[] = {
-	[T_COMMAND] = "COMMAND",
+	[T_BUILTIN] = "BUILTIN",
 	[T_IDENTIFIER] = "IDENTIFIER",
 	[T_SMALLER] = "SMALLER",
 	[T_GREATER] = "GREATER",
@@ -36,19 +36,19 @@ char	*token_type_to_string(t_token_type type) // to be deleted later
 t_token_type	check_command(char *token)
 {
 	if (ft_strncmp(token, "echo", 4) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "cd", 2) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "pwd", 3) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "export", 6) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "unset", 5) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "env", 3) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	if (ft_strncmp(token, "exit", 4) == 0)
-		return (T_COMMAND);
+		return (T_BUILTIN);
 	return (T_UNKNOWN);
 }
 

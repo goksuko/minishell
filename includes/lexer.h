@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/02 14:07:16 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/03 19:30:16 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef enum s_token_type // ADJUST AS NECESSARY
 //NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
 {
-	T_COMMAND, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
+	T_BUILTIN, //echo (with option -n), cd, pwd, export, unset, env, exit, etc.
     T_IDENTIFIER, //path for cd, variables for export, and unset
 	T_FLAG, // e.g. echo -n
     T_SMALLER, // <
