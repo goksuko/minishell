@@ -26,5 +26,6 @@ t_tree	*init_node(t_node_type type)
 	new_node->redirection = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->token_types = NULL;
 	return (new_node);
 }

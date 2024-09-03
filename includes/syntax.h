@@ -36,7 +36,7 @@ typedef struct s_tree
 	char				**expanded_argument;
 	struct s_tree		*left;
 	struct s_tree		*right;
-	// char				**token_types;
+	char				**token_types;
 }	t_tree;
 
 // Syntax Analysis
@@ -71,5 +71,11 @@ void 				free_list_tree_alloc_exit(t_token **tokens, t_tree **tree);
 void				free_redirection_list(t_redirection **redirection);
 void    			free_tree(t_tree **tree);
 void				free_list_exit(t_token **tokens);
+
+// Token types array
+void				allocate_token_types_array(t_token **tokens, t_tree **node);
+int					count_tokens_in_list(t_token **tokens);
+void				add_token_type(t_tree **node, t_token **tokens);
+void				token_types_array(t_token **tokens, t_tree **node);
 
 #endif

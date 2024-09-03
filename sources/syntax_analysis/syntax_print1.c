@@ -74,7 +74,7 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 			ft_print_ast(ast->right, node_count);
 		}
 	}
-	// printf_array(ast->token_types);
+	printf_array(ast->token_types);
 }
 
 void	print_ast(t_tree *ast)

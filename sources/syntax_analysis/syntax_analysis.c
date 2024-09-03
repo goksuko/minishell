@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   syntax_analysis.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/09/03 12:05:14 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 t_tree	*combine_nodes(t_tree *left, t_tree *right)
@@ -14,19 +26,12 @@ t_tree	*combine_nodes(t_tree *left, t_tree *right)
 	return (node);
 }
 
-// void	add_token_type(t_tree **node, t_token_type type)
-// {
-// 	static int	i = 0;
-
-// 	(*node)->token_types[i] = token_type_to_string(type);
-// 	i++;
-// 	(*node)->token_types[i] = NULL;
-// }
-
 t_tree	*get_command_node(t_token **tokens)
 {
 	t_tree	*node;
+	t_token	*temp;
 
+	temp = *tokens;
 	node = init_node(N_COMMAND);
 	if (node == NULL)
 		return (NULL);
@@ -40,14 +45,12 @@ t_tree	*get_command_node(t_token **tokens)
 		if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 		(*tokens)->type == T_DOUBLE_QUOTES || \
 		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
-		{
-			// add_token_type(&node, (*tokens)->type);
 			join_arguments(&node, tokens);
-		}
 		else if (redirection_check(*tokens) == true)
 			handle_redirection(&(node->redirection), tokens, &node);
 		next_token(tokens);
 	}
+	token_types_array(&temp, &node);
 	return (node);
 }
 
@@ -83,7 +86,6 @@ t_tree	*syntax_analysis(t_token *tokens)
 	{
 		ft_printf("token type is not a command, it is %s\n", token_type_to_string(tokens->type));
 		// ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
-
 	}
 	abstract_syntax_tree = parse_tokens(&tokens);
 	if (abstract_syntax_tree == NULL)
@@ -92,6 +94,6 @@ t_tree	*syntax_analysis(t_token *tokens)
 		free_list(&tokens);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
-	// free_list(&tokens);
+	free_list(&tokens);
 	return (abstract_syntax_tree);
 }

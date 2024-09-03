@@ -1,8 +1,8 @@
 #include "../../includes/minishell.h"
 
-const char	*token_type_to_string(t_token_type type) // to be deleted later
+char	*token_type_to_string(t_token_type type) // to be deleted later
 {
-	static const char	*str[] = {
+	static char	*str[] = {
 	[T_COMMAND] = "COMMAND",
 	[T_IDENTIFIER] = "IDENTIFIER",
 	[T_SMALLER] = "SMALLER",

@@ -75,7 +75,7 @@ void	free_list(t_token **tokens);
 void	free_list_array_exit(t_token *tokens_lst, char **array);
 
 // Token types check
-const char		*token_type_to_string(t_token_type type);
+char		*token_type_to_string(t_token_type type);
 t_token_type	token_type_check(char *token);
 t_token_type	check_flag(char *token);
 t_token_type	check_pipes(char *token);

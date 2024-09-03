@@ -17,6 +17,7 @@ void	free_tree(t_tree **tree)
 		free_redirection_list(&(*tree)->redirection);
 		free((*tree)->argument);
 		free_array((*tree)->expanded_argument);
+		free_array((*tree)->token_types);
 		free(*tree);
 		*tree = tmp;
 	}

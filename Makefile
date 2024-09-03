@@ -18,6 +18,7 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 					free_tree_list_exit.c \
 					syntax_print1.c \
 					syntax_print2.c \
+					token_types_array.c \
 
 BUILTINS = 			builtins.c \
 					pwd.c \
