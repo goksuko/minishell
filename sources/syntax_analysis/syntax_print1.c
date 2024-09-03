@@ -75,6 +75,7 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 	(*node_count)++;
 	if (ast->type == N_PIPE)
 	{
+		printf("NODE IS PIPE!!!!\n");
 		if (ast->left != NULL)
 		{
 			printf("----Left Node----\n");
@@ -86,7 +87,8 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 			ft_print_ast(ast->right, node_count);
 		}
 	}
-	printf_array(ast->token_types);
+	if (ast->token_types != NULL)
+		printf_array(ast->token_types);
 }
 
 void	print_ast(t_tree *ast)

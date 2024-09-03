@@ -62,7 +62,7 @@ t_tree	*parse_tokens(t_token **tokens)
 	left = get_command_node(tokens);
 	if (left == NULL)
 		return (NULL);
-	while ((*tokens) != NULL && (*tokens)->type == T_PIPE) //also add token type array here for pipes!!
+	while ((*tokens) != NULL && (*tokens)->type == T_PIPE)
 	{
 		next_token(tokens);
 		if ((*tokens) == NULL)
