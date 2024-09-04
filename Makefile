@@ -58,7 +58,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
 	@echo "Compilation in Progress"
-	@$(CC) $(SFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) -o $(NAME) $(SFLAGS) 
 	@echo ""
 	@echo "********Completed********"
 

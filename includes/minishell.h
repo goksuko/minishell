@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/30 14:46:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/03 22:41:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef enum e_error
 	ERROR_SYNTAX,
 	ERROR_EMPTY_LINE,
 	UNDEFINED_ERROR,
+	ERROR_INVALID_IDENTIFIER,
 	ERROR_NOT_DIR = 127,
 }					t_error;
 
@@ -81,7 +82,8 @@ typedef struct s_data
 	char			**envp;
 	int				exit_code;
 	int				nbr_of_cmds;
-	struct s_pipex			*info;
+	struct s_pipex	*info;
+	struct s_env	*env_list;
 }					t_data;
 
 typedef struct s_env
