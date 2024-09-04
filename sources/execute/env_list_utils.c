@@ -46,3 +46,29 @@ void	update_shell(t_env **env_list)
 	return ;
 }
 
+void update_path(t_data *shell_data)
+{
+	t_env	*env;
+	char	*path;
+
+	env = shell_data->env_list;
+	path = NULL;
+	while (env)
+	{
+		if (!ft_strncmp("PATH", env->key, 4))
+		{
+			path = env->value;
+			break ;
+		}
+		env = env->next;
+	}
+	if (!path)
+	{
+		path = ft_strdup("");
+		if (errno == ENOMEM || path == NULL)
+			ft_exit_perror(1, "path in update_path");
+	}
+	shell_data->path = path;
+	printf("path: %s\n", shell_data->path);
+	return ;
+}

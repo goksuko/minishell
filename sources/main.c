@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/04 23:35:39 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/04 23:50:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 		i++;
 	}
 	shell_data->env_list = head;
+	update_path(shell_data);
 	update_shell(&shell_data->env_list);
+
 	return ;
 }
 

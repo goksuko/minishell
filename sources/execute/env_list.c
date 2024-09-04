@@ -12,7 +12,6 @@ t_env	*ft_envp_node(char *envp_i)
 	return (new_node);
 }
 
-
 int	find_first_eq(char *envp_i)
 {
 	int	i;
