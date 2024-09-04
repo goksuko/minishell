@@ -45,9 +45,6 @@ int	find_path_index(char **envp)
 	return (0);
 }
 
-
-
-
 // int check_args(char *line, char **envp)
 // {
 // 	int		exit_code;
