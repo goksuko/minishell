@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 19:32:20 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:25:57 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef enum e_redirection_type
 typedef struct s_redirection
 {
 	t_redirection_type		redirection_type;
-	char					*file;
-	char					**expanded_file;
+	char					*value;
+	// char					**expanded_value; NOT IN USE AT THIS POINT
 	bool					here_doc;
 	struct s_redirection	*next;
 	struct s_redirection	*prev;
@@ -44,8 +44,8 @@ typedef struct s_tree
 {
 	t_node_type			type;
 	t_redirection		*redirection;
-	char				*argument; //echo hello
-	char				**expanded_argument;
+	char				**argument; //echo hello
+	// char				**expanded_argument;
 	struct s_tree		*left;
 	struct s_tree		*right;
 	char				**token_types;
@@ -54,14 +54,16 @@ typedef struct s_tree
 // Syntax Analysis
 t_tree				*syntax_analysis(t_token *tokens);
 t_tree				*parse_tokens(t_token **tokens);
-void				join_arguments(t_tree **node, t_token **token);
+// void				join_arguments(t_tree **node, t_token **token); NOT IN USE ANYMORE
 t_tree				*get_command_node(t_token **tokens);
 t_tree				*combine_nodes(t_tree *left, t_tree *right);
 
 // Utils
-t_tree				*init_node(t_node_type type);
+t_tree				*init_node(t_node_type type, t_token **tokens);
 bool				redirection_check(t_token *current);
 void				next_token(t_token **tokens);
+char 				**allocate_argument_array(t_token **tokens);
+int					count_arguments(t_token **tokens);
 
 // Printing utils
 void				print_ast(t_tree *ast);

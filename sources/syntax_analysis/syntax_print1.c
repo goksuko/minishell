@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:16 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:16 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:27:33 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	ft_print_redirection(t_redirection *redirection_lst)
 		printf("Redirection number: %d\n", i);
 		printf("Redirection type: %s\n", \
 		redirection_type_to_string(redirection_lst->redirection_type));
-		if (redirection_lst->file != NULL)
-			printf("File: %s\n", redirection_lst->file);
-		if (redirection_lst->expanded_file != NULL)
-		{
-			printf("Expanded file: \n");
-			printf_array(redirection_lst->expanded_file);
-		}
+		if (redirection_lst->value != NULL)
+			printf("Value: %s\n", redirection_lst->value);
+		// if (redirection_lst->expanded_value != NULL)
+		// {
+		// 	printf("Expanded value: \n");
+		// 	printf_array(redirection_lst->expanded_value);
+		// }
 		redirection_lst = redirection_lst->next;
 		i++;
 	}
@@ -61,12 +61,15 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 	printf("Node number: %d\n", *node_count);
 	printf("Node type: %s\n", node_type_to_string(ast->type));
 	if (ast->argument != NULL)
-		printf("Argument: %s\n", ast->argument);
-	if (ast->expanded_argument != NULL)
 	{
-		printf("Expanded argument: \n");
-		printf_array(ast->expanded_argument);
+		printf("Arguments:\n");
+		printf_array(ast->argument);
 	}
+	// if (ast->expanded_argument != NULL)
+	// {
+	// 	printf("Expanded argument: \n");
+	// 	printf_array(ast->expanded_argument);
+	// }
 	if (ast->redirection != NULL)
 	{
 		printf("Redirection: \n");
@@ -75,7 +78,6 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 	(*node_count)++;
 	if (ast->type == N_PIPE)
 	{
-		printf("NODE IS PIPE!!!!\n");
 		if (ast->left != NULL)
 		{
 			printf("----Left Node----\n");
@@ -88,7 +90,10 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 		}
 	}
 	if (ast->token_types != NULL)
+	{
+		printf("Token types:\n");
 		printf_array(ast->token_types);
+	}
 }
 
 void	print_ast(t_tree *ast)

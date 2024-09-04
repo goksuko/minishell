@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:04 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:04 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:26:23 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	free_tree(t_tree **tree)
 	{
 		tmp = (*tree)->right;
 		free_redirection_list(&(*tree)->redirection);
-		free((*tree)->argument);
-		free_array((*tree)->expanded_argument);
+		free_array((*tree)->argument);
+		// free_array((*tree)->expanded_argument);
 		free_array((*tree)->token_types);
 		free(*tree);
 		*tree = tmp;
@@ -42,8 +42,8 @@ void	free_redirection_list(t_redirection **redirection)
 	while (*redirection != NULL)
 	{
 		tmp = (*redirection)->next;
-		free((*redirection)->file);
-		free_array((*redirection)->expanded_file);
+		free((*redirection)->value);
+		// free_array((*redirection)->expanded_file);
 		free(*redirection);
 		*redirection = tmp;
 	}

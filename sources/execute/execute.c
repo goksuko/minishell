@@ -25,7 +25,6 @@ void	execute_shell(t_tree **ast)
 		free_tree(ast);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
-	(*ast)->expanded_argument = ft_split((*ast)->argument, ' '); // only for testing purposes
 	// add NULL check but again this is only for testing purposes
 
 	// an initial check to check if the ast has a pipe inside it
@@ -33,8 +32,8 @@ void	execute_shell(t_tree **ast)
 	// else, execute the command
 	if ((*ast)->type == N_COMMAND)
 	{
-		printf("%s\n", (*ast)->expanded_argument[0]);
-		if (is_builtin((*ast)->expanded_argument[0]) == true)
+		printf("%s\n", (*ast)->argument[0]);
+		if (is_builtin((*ast)->argument[0]) == true)
 			execute_builtin(ast, &env_var);
 		// else
 		// 	execute_command((*ast)->expanded_argument, env_var);

@@ -6,50 +6,47 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 19:33:31 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:34:02 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_tree	*combine_nodes(t_tree *left, t_tree *right)
+void	handle_token(t_tree **node, t_token **tokens, int *i)
 {
-	t_tree	*node;
-
-	if (left == NULL || right == NULL)
-		return (NULL);
-	node = init_node(N_PIPE);
-	if (node == NULL)
-		return (free_tree(&left), free_tree(&right), NULL);
-	node->left = left;
-	node->right = right;
-	return (node);
+	if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
+		(*tokens)->type == T_DOUBLE_QUOTES || \
+		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
+	{
+		(*node)->argument[*i] = ft_strdup((*tokens)->value);
+		if ((*node)->argument[*i] == NULL)
+			return ;
+		(*i)++;
+	}
+	else if (redirection_check(*tokens) == true)
+		handle_redirection(&((*node)->redirection), tokens, node);
 }
 
 t_tree	*get_command_node(t_token **tokens)
 {
 	t_tree	*node;
 	t_token	*temp;
+	int		i;
 
+	i = 0;
 	temp = *tokens;
-	node = init_node(N_COMMAND);
+	node = init_node(N_COMMAND, tokens);
 	if (node == NULL)
 		return (NULL);
-	node->argument = ft_strdup((*tokens)->value);
-	if (node->argument == NULL)
-		return (free_tree(&node), NULL);
+	node->argument[i++] = ft_strdup((*tokens)->value);
 	next_token(tokens);
 	while ((*tokens) != NULL && (*tokens)->type != T_PIPE && \
 		(*tokens)->type != T_UNKNOWN)
 	{
-		if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
-		(*tokens)->type == T_DOUBLE_QUOTES || \
-		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
-			join_arguments(&node, tokens);
-		else if (redirection_check(*tokens) == true)
-			handle_redirection(&(node->redirection), tokens, &node);
+		handle_token(&node, tokens, &i);
 		next_token(tokens);
 	}
+	node->argument[i] = NULL;
 	token_types_array(&temp, &node);
 	return (node);
 }
@@ -82,7 +79,7 @@ t_tree	*syntax_analysis(t_token *tokens)
 	printf("----SYNTAX ANALYSIS----\n");
 	t_tree	*abstract_syntax_tree;
 
-	if (tokens->type != T_BUILTIN) // not sure if necessary to check this
+	if (tokens->type != T_BUILTIN && tokens->type != T_IDENTIFIER) // not sure if necessary to check this
 	{
 		ft_printf("token type is not a command, it is %s\n", token_type_to_string(tokens->type));
 		// ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);

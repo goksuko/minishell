@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:10 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:23:29 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_redirection	*init_redirection(t_tree **tree, t_token **token)
 		redirection->here_doc = false;
 	if ((*token)->next != NULL && (*token)->next->type == T_IDENTIFIER)
 	{
-		redirection->file = ft_strdup((*token)->next->value);
-		if (redirection->file == NULL)
+		redirection->value = ft_strdup((*token)->next->value);
+		if (redirection->value == NULL)
 			return (free(redirection), NULL);
 	}
 	else

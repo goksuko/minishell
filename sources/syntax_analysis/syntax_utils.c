@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:22 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:22 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 13:10:54 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	redirection_check(t_token *current)
 	return (false);
 }
 
-t_tree	*init_node(t_node_type type)
+t_tree	*init_node(t_node_type type, t_token **tokens)
 {
 	t_tree	*new_node;
 
@@ -33,8 +33,15 @@ t_tree	*init_node(t_node_type type)
 	if (new_node == NULL)
 		return (NULL);
 	new_node->type = type;
-	new_node->argument = NULL;
-	new_node->expanded_argument = NULL;
+	if (type == N_COMMAND)
+	{
+		new_node->argument = allocate_argument_array(tokens);
+		if (new_node->argument == NULL)
+			return (free_tree(&new_node), NULL); //check if correct
+	}
+	else
+		new_node->argument = NULL;
+	// new_node->expanded_argument = NULL;
 	new_node->redirection = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
