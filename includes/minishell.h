@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/03 22:41:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/04 23:39:10 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,24 @@ void				free_env(t_env **env_var);
 void				execute_shell(t_tree **ast);
 t_env				*init_env_var(void);
 void				free_tree_env(t_tree **ast, t_env **env_var);
+
+// env_list_utils.c
+void	free_prev_nodes(t_env *head);
+void	update_shell(t_env **env_list);
+t_env	*ft_envp_node(char *envp_i);
+
+// env_list.c
+t_env	*ft_envp_node(char *envp_i);
+int		find_first_eq(char *envp_i);
+t_env	*ft_new_node(char *key, char *value);
+int		find_data_if_no_pos(char *envp_i, char **key, char **value);
+t_env	*create_node(char *envp_i, int pos);
+
+// env_key_funcs.c
+bool	key_rules(char c, int index);
+int		check_key(char *key);
+
+
+
 
 #endif

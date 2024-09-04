@@ -29,6 +29,9 @@ BUILTINS = 			builtins.c \
 
 EXECUTE =			execute.c \
 					execute_utils.c \
+					env_list.c \
+					env_list_utils.c \
+					env_key_funcs.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
