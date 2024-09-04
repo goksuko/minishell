@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/02 10:22:35 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/04 15:07:02 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	main(int argc, char **envp)
 		ft_print_tokens(token); // only for testing purposes
 		ast = syntax_analysis(token);
 		print_ast(ast); // only for testing purposes
-		// semantic_analysis(data); G
 		execute_shell(&ast); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis
