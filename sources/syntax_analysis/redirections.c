@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:23:29 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 15:21:31 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,7 @@ t_redirection	*init_redirection(t_tree **tree, t_token **token)
 	if (redirection == NULL)
 		return (NULL);
 	redirection->redirection_type = check_redirection_type((*token)->type);
-	if (redirection->redirection_type == REDIR_HEREDOC)
-		redirection->here_doc = true;
-	else
-		redirection->here_doc = false;
+	redirection->here_doc_fd = -1;
 	if ((*token)->next != NULL && (*token)->next->type == T_IDENTIFIER)
 	{
 		redirection->value = ft_strdup((*token)->next->value);

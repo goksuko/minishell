@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:25:57 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/04 15:19:53 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_redirection
 	t_redirection_type		redirection_type;
 	char					*value;
 	// char					**expanded_value; NOT IN USE AT THIS POINT
-	bool					here_doc;
+	int						here_doc_fd;
 	struct s_redirection	*next;
 	struct s_redirection	*prev;
 }	t_redirection;
