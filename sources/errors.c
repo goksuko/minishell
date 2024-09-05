@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/08/30 14:56:52 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/03 22:36:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_error(t_error code)
 	[ERROR_META] = "Error: wrong meta character", // to be erased perhaps...need to review error codes
 	[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
 	[ERROR_EMPTY_LINE] = "Error: empty line\n",
+	[ERROR_INVALID_IDENTIFIER] = "??????",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
 
 	if (code < 0 || code >= UNDEFINED_ERROR)

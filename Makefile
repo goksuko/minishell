@@ -42,6 +42,9 @@ BUILTINS = 			builtins.c \
 
 EXECUTE =			execute.c \
 					execute_utils.c \
+					env_list.c \
+					env_list_utils.c \
+					env_key_funcs.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -71,7 +74,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS)
 	@echo "Compilation in Progress"
-	@$(CC) $(SFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) -o $(NAME) $(SFLAGS) 
 	@echo ""
 	@echo "********Completed********"
 

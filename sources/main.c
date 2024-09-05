@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/04 15:07:02 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/05 13:36:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	find_path_index(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
+		printf("envp[%d]: %s\n", i, envp[i]);
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			return (i);
 		i++;
@@ -68,51 +69,55 @@ void	init_data(t_data *data, char *line, char **envp)
 	return ;
 }
 
-// void	make_initial_path_checks(char **envp)
-// {
-// 	int	path_no;
 
-// 	ft_printf("make_initial_path_checks\n");
-// 	path_no = find_path_index(envp);
-// 	printf("path_no: %d\n", path_no);
-// 	if (envp[path_no] == NULL)
-// 	{
-// 		ft_print_error(ERROR_NULL_PATH);
-// 		exit(ERROR_NULL_PATH);
-// 	}
-// 	if (path_no == 0)
-// 	{
-// 		ft_print_error(ERROR_CMD_NOT_FOUND);
-// 		exit(ERROR_CMD_NOT_FOUND);
-// 	}
-// 	ft_printf("path_no: %d\n", path_no);
-// 	ft_printf("envp[path_no]: %s\n", envp[path_no]);
-// 	return ;
-// }
-
-void	initial_path_checks(char **array) //useless function only written to overcome error in main as envp was not used. still need to write proper path check
+void	make_initial_path_checks(char **envp, t_data *shell_data)
 {
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
+	t_env	*head;
+	t_env	*node;
+	int		i;
+	
+	ft_printf("make_initial_path_checks\n");
+	if (!envp && !(*envp))
+		ft_printf("there is no envp\n"); // think of memory management
+	i = 1;
+	head = ft_envp_node(envp[0]);
+	shell_data->env_list = head;
+	node = head;
+	while (envp[i])
 	{
-		printf("%s\n", array[i]);
+		node->next = ft_envp_node(envp[i]);
+		if (!node->next)
+		{
+			free_prev_nodes(head); // rewrite memory stuff
+		}
+		node = node->next;
 		i++;
 	}
+	shell_data->env_list = head;
+	update_path(shell_data);
+	update_shell(&shell_data->env_list);
+
+	return ;
 }
 
-int	main(int argc, char **envp)
+int	main(int argc, char *argv[], char **envp)
 {
 	char	*line;
 	t_token *token;
 	t_tree	*ast;
+	t_data	*shell_data;
 
+	(void)argv;
 	if (argc != 1)
 		return (ft_print_error(ERROR_ARGUMENT_COUNT));
-	// signal_handling();
-	// make_initial_path_checks(envp); //LATER V
-	initial_path_checks(envp);
+	shell_data = ft_calloc(sizeof(t_data), 1);
+	if (errno == ENOMEM || shell_data == NULL)
+		ft_exit_perror(1, "shell_data in main");
+	printf("envp[0]: %s\n", envp[0]);
+	printf("envp[1]: %s\n", envp[1]);
+	printf("envp[2]: %s\n", envp[2]);
+	make_initial_path_checks(envp, shell_data);
+	// signal_handling(); LATER V
 	line = NULL;
 	while (1)
 	{
@@ -130,16 +135,3 @@ int	main(int argc, char **envp)
 	}
 	// return (data->exit_code);
 }
-
-// int main(int argc, char *argv[], char **envp)
-// {
-//     int i = 0;
-// 	(void)argc;
-// 	(void)argv;
-//     while (envp[i] != NULL) {
-//         printf("%s\n", envp[i]);
-//         i++;
-//     }
-// 	return (0);
-
-// }
