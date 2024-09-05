@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/04 23:53:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/05 14:42:34 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,11 @@ bool				arg_is_digit(char *str);
 void				free_env(t_env **env_var);
 
 // Execute
-void				execute_shell(t_tree **ast);
-t_env				*init_env_var(void);
+void				execute_shell(t_tree **ast, t_data *shell_data);
+// t_env				*init_env_var(void);
+void				execute_command(char **arguments, t_data *shell_data);
+
+// execute_utils.c
 void				free_tree_env(t_tree **ast, t_env **env_var);
 
 // env_list_utils.c
