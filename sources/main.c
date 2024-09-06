@@ -117,7 +117,7 @@ int	main(int argc, char *argv[], char **envp)
 	printf("envp[1]: %s\n", envp[1]);
 	printf("envp[2]: %s\n", envp[2]);
 	make_initial_path_checks(envp, shell_data);
-	// signal_handling(); LATER V
+	signal_handling();
 	line = NULL;
 	while (1)
 	{
