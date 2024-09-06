@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/19 00:32:24 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/06 16:39:19 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ pid_t	child_process(t_pipex *info)
 			dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
 		close_safe(info->pipefd[1], info);
 		printf("ready to start exec\n");
-		start_exec(info, info->cmds);
+		start_exec(info);
 	}
 	return (pid);
 }
@@ -79,7 +79,7 @@ pid_t	last_child_process(t_pipex *info)
 		// close_safe(info->pipefd[1], info);
 		// close_safe(info->pipefd[0], info);
 		printf("ready to start last exec\n");
-		start_exec(info, info->cmds);
+		start_exec(info);
 	}
 	return (pid);
 }
@@ -104,6 +104,7 @@ int	create_children(t_data *data)
 		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
 		close_safe(data->info->pipefd[0], data->info);
 		data->info->curr_cmd++;
+		data->ast = data->ast->right; //not sure if this is correct
 		i++;
 		printf("sleeping after child (%d)\n", i);
 		sleep(1);
@@ -210,24 +211,24 @@ char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 	return (NULL);
 }
 
-void	initialize_info(t_pipex *info, t_data *data)
-{
-	ft_printf("\ninitialize_info\n");
-	info->path_from_getenv = getenv("PATH");
-	if (info->path_from_getenv == NULL)
-	{
-		close_pipex(info, NULL);
-		ft_exit_data_error(data, ERROR_NULL_PATH);
-	}
-	printf("path_from_getenv: %s\n", info->path_from_getenv);
-	find_infile(info);
-	find_outfile(info);
-	info->data = data;
-	info->curr_cmd = 1;
-	info->pipefd[0] = 0;
-	info->pipefd[1] = 0;
-	return ;
-}
+// void	initialize_info(t_pipex *info, t_data *data)
+// {
+// 	ft_printf("\ninitialize_info\n");
+// 	info->path_from_getenv = getenv("PATH");
+// 	if (info->path_from_getenv == NULL)
+// 	{
+// 		close_pipex(info, NULL);
+// 		ft_exit_data_error(data, ERROR_NULL_PATH);
+// 	}
+// 	printf("path_from_getenv: %s\n", info->path_from_getenv);
+// 	find_infile(info);
+// 	find_outfile(info);
+// 	info->data = data;
+// 	info->curr_cmd = 1;
+// 	info->pipefd[0] = 0;
+// 	info->pipefd[1] = 0;
+// 	return ;
+// }
 
 // void	make_path_checks(t_data *data)
 // {
@@ -252,27 +253,27 @@ void	initialize_info(t_pipex *info, t_data *data)
 // 	return ;
 // }
 
-int	pipex(t_data *data)
-{
-	t_pipex	*info;
-	int		exit_code;
-	int		pipe_count;
+// int	pipex(t_data *data)
+// {
+// 	t_pipex	*info;
+// 	int		exit_code;
+// 	int		pipe_count;
 
-	ft_printf("pipex\n");
-	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
-	if (info == NULL || errno == ENOMEM)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
-	data->info = info;
-	pipe_count = check_pipe(data->line);
-	info->nbr_of_cmds = pipe_count + 1;
-	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
-	initialize_cmds(data, info);
-	initialize_info(info, data);
-	// printf("infile: %s\n", info->infile);
-	// printf("outfile: %s\n", info->outfile);
-	printf("initilaization is done\n\n*******\n\n");
-	exit_code = create_children(data);
-	printf("exit_code: %d\n", exit_code);
-	free_system(data);
-	return (exit_code);
-}
+// 	ft_printf("pipex\n");
+// 	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+// 	if (info == NULL || errno == ENOMEM)
+// 		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
+// 	data->info = info;
+// 	pipe_count = check_pipe(data->line);
+// 	info->nbr_of_cmds = pipe_count + 1;
+// 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
+// 	initialize_cmds(data, info);
+// 	initialize_info(info, data);
+// 	// printf("infile: %s\n", info->infile);
+// 	// printf("outfile: %s\n", info->outfile);
+// 	printf("initilaization is done\n\n*******\n\n");
+// 	exit_code = create_children(data);
+// 	printf("exit_code: %d\n", exit_code);
+// 	free_system(data);
+// 	return (exit_code);
+// }

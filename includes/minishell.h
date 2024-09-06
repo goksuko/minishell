@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/06 13:47:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/06 16:39:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_pipex
 	int				nbr_of_cmds;
 	int				curr_cmd;
 	char			**cmds;
-	char			*path_from_getenv;
+	char			*path;
 	struct s_data	*data;
 }					t_pipex;
 
@@ -129,7 +129,7 @@ void				*ft_calloc(size_t nmemb, size_t size);
 
 // Utils functions //
 char				*put_main_command(char *command, char space);
-void				start_exec(t_pipex *info, char **cmds);
+void				start_exec(t_pipex *info);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
 bool				is_whitespace(char c);
@@ -151,6 +151,14 @@ int					dup2_safe(int oldfd, int newfd, t_pipex *info);
 
 int					pipex(t_data *data);
 int					is_file(const char *path);
+int 	is_file(const char *path);
+pid_t	child_process(t_pipex *info);
+pid_t	last_child_process(t_pipex *info);
+int		create_children(t_data *data);
+void	initialize_cmds(t_data *data, t_pipex *info);
+char	*find_infile(t_pipex *info);
+char	*find_outfile(t_pipex *info);
+
 
 // Builtins
 bool				is_builtin(char *command);

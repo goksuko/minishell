@@ -14,13 +14,90 @@
 // 	return (new_env_var);
 // }
 
+int find_child_nbr(t_tree *ast)
+{
+	int	nbr_of_chldrn;
+	int	i;
+
+	i = 0;
+	if (ast->type == N_PIPE)
+		return (1);
+	else
+	{
+		nbr_of_chldrn = 1;
+		while (ast->token_types[i] != NULL)
+		{
+			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || \
+				ast->token_types[i] == token_type_to_string(T_GREATER) || \
+				ast->token_types[i] == token_type_to_string(T_DSMALLER) || \
+				ast->token_types[i] == token_type_to_string(T_DGREATER))
+				nbr_of_chldrn++;
+			i++;
+		}
+		return (nbr_of_chldrn);
+	}
+}
+
+void	initialize_info(t_pipex *info, t_data *shell_data)
+{
+	ft_printf("\ninitialize_info\n");
+	info->path = shell_data->path;
+	find_infile(info);
+	find_outfile(info);
+	info->data = shell_data;
+	info->curr_cmd = 1;
+	info->pipefd[0] = 0;
+	info->pipefd[1] = 0;
+	return ;
+}
+
+void	execute_node(t_tree *ast, t_data *shell_data)
+{
+	printf("----EXECUTE NODE----\n");
+	int nbr_of_chldrn;
+	t_pipex	*info;
+	int		exit_code;
+
+	nbr_of_chldrn = find_child_nbr(ast);
+	printf("nbr_of_chldrn: %d\n", nbr_of_chldrn);
+	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+	if (info == NULL || errno == ENOMEM)
+		ft_exit_perror(ERROR_ALLOCATION, "info in pipex");
+	shell_data->info = info;
+	info->nbr_of_cmds = nbr_of_chldrn;
+	shell_data->nbr_of_cmds = info->nbr_of_cmds;
+	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
+	shell_data->cmds = shell_data->ast->argument;
+	info->cmds = shell_data->cmds;
+	initialize_info(info, shell_data);
+	// printf("infile: %s\n", info->infile);
+	// printf("outfile: %s\n", info->outfile);
+	printf("initilaization is done\n\n*******\n\n");
+	exit_code = create_children(shell_data);
+	printf("exit_code: %d\n", exit_code);
+	shell_data->exit_code = exit_code;
+}
+
 void	execute_shell(t_data *shell_data)
 {
 	printf("----EXECUTE SHELL----\n");
 	// t_env	*env_var;
 	t_tree *ast;
 
-	ast = shell_data->ast;	
+	ast = shell_data->ast;
+	shell_data->exit_code = 0;
+	while(ast->right != NULL)
+	{
+		if (ast->type == N_PIPE)
+			execute_pipe(ast, shell_data);
+		else
+			execute_node(ast, shell_data);
+		ast = ast->right;
+	}
+
+	
+		
+
 	// env_var = init_env_var();
 	// if (env_var == NULL)
 	// {
@@ -31,14 +108,16 @@ void	execute_shell(t_data *shell_data)
 	// an initial check to check if the ast has a pipe inside it
 	// if it has, do the piping
 	// else, execute the command
-	if (ast->type == N_COMMAND)
-	{
-		printf("%s\n", ast->argument[0]);
-		if (is_builtin(ast->argument[0]) == true)
-			execute_builtin(shell_data);
-		else
-			execute_command(shell_data);
-	}
+
+	// if (ast->type == N_COMMAND)
+	// {
+	// 	printf("%s\n", ast->argument[0]);
+	// 	if (is_builtin(ast->argument[0]) == true)
+	// 		execute_builtin(shell_data);
+	// 	else
+	// 		execute_command(shell_data);
+	// }
+
 	// else if ((*ast)->type == N_PIPE)
 	// 	execute_pipe(ast, shell_data);
 }
@@ -115,13 +194,14 @@ void execute_command(t_data *shell_data)
 	char *path;
 	char **arguments;
 
+	printf("----EXECUTE COMMAND----\n");
 	path = NULL;
 	arguments = shell_data->ast->argument;
 	path = before_exec2(arguments[0], shell_data, arguments);
 	printf("\npath: %s\n", path);
 	if (execve(path, arguments, shell_data->envp) == -1)
 	{
-		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		ft_exit_perror(ERROR_EXECVE, "execve in execute_command");
 	}
 	return ;
 
