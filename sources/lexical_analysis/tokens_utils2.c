@@ -64,7 +64,7 @@ int	count_tokens(char *line)
 		else if (line[i] != '\0' && is_whitespace(line[i]) == false \
 		&& is_quote(line[i]) == false && is_meta(line[i]) == false)
 		{
-			while (line[i] != '\0' && is_whitespace(line[i]) == false)
+			while (line[i] != '\0' && is_whitespace(line[i]) == false && is_meta(line[i]) == false)
 				i++;
 		}
 		i++;
