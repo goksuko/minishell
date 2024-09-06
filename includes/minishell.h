@@ -30,6 +30,7 @@
 # include <sys/stat.h>
 # include "lexer.h"
 # include "syntax.h"
+# include <termios.h>
 
 # define SUCCESS 0
 
