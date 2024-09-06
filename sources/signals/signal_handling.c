@@ -13,9 +13,10 @@
 #include "../../includes/minishell.h"
 
 /*
-Ctrl + c = SIGINT
-Ctrl + \ = SIGQUIT
-Ctrl + D = EOF
+Ctrl + c = SIGINT -> Set up a signal handler for SIGINT to handle interruptions and display a new prompt.
+Ctrl + \ = SIGQUIT -> Set up a signal handler for SIGQUIT to handle quitting the shell.
+Ctrl + D = EF -> Detect EOF in your input reading logic to exit the shell.
+
 */
 
 /*
@@ -34,24 +35,27 @@ struct termios {
 
 */
 
-// void	output_ctrl()
-// {
-// 	struct termios	term;
+void	output_ctrl()
+{
+	struct termios	term;
 
-// 	if (isatty(STDIN_FILENO) == 1)
-// 	{
-// 		// error handling;
-// 		printf("Error: isatty failed\n");
-// 	}
-// 	if (tcgetattr(STDIN_FILENO, term) == -1)
-// 	{
-// 		// error handling;
-// 		printf("Error: tcgetattr failed\n");
-// 	}
-// 	term->cl
-
-
-// }
+	if (isatty(STDIN_FILENO) == 1)
+	{
+		// error handling;
+		printf("Error: isatty failed\n");
+	}
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+	{
+		// error handling;
+		printf("Error: tcgetattr failed\n");
+	}
+	term.c_lflag |=  ECHO;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
+	{
+		// error handling;
+		printf("Error: tcsetattr failed\n");
+	}
+}
 
 void	handle_sigint(int signal)
 {
@@ -62,7 +66,7 @@ void	handle_sigint(int signal)
 	rl_redisplay();
 }
 
-void	handle_siquit(int signal)
+void	handle_siquit(int signal) // program keeps running after this signal it seems and I need to press Ctrl C to exit
 {
 	(void)signal;
 	rl_redisplay();
