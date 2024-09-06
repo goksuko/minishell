@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/05 13:51:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/06 13:42:42 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 int	main(int argc, char *argv[], char **envp)
 {
 	char	*line;
-	t_token *token;
-	t_tree	*ast;
 	t_data	*shell_data;
 
 	(void)argv;
@@ -113,9 +111,6 @@ int	main(int argc, char *argv[], char **envp)
 	shell_data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || shell_data == NULL)
 		ft_exit_perror(1, "shell_data in main");
-	printf("envp[0]: %s\n", envp[0]);
-	printf("envp[1]: %s\n", envp[1]);
-	printf("envp[2]: %s\n", envp[2]);
 	make_initial_path_checks(envp, shell_data);
 	// signal_handling(); LATER V
 	line = NULL;
@@ -123,11 +118,11 @@ int	main(int argc, char *argv[], char **envp)
 	{
 		if ((line = rl_gets()) == NULL)
 			break;
-		token = lexical_analysis(line);
-		ft_print_tokens(token); // only for testing purposes
-		ast = syntax_analysis(token);
-		print_ast(ast); // only for testing purposes
-		execute_shell(&ast, shell_data); // includes builtins
+		shell_data->tokens = lexical_analysis(line);
+		ft_print_tokens(shell_data->tokens); // only for testing purposes
+		shell_data->ast = syntax_analysis(shell_data->tokens);
+		print_ast(shell_data->ast); // only for testing purposes
+		execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 

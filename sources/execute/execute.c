@@ -14,11 +14,13 @@
 // 	return (new_env_var);
 // }
 
-void	execute_shell(t_tree **ast, t_data *shell_data)
+void	execute_shell(t_data *shell_data)
 {
 	printf("----EXECUTE SHELL----\n");
 	// t_env	*env_var;
-	
+	t_tree *ast;
+
+	ast = shell_data->ast;	
 	// env_var = init_env_var();
 	// if (env_var == NULL)
 	// {
@@ -29,16 +31,16 @@ void	execute_shell(t_tree **ast, t_data *shell_data)
 	// an initial check to check if the ast has a pipe inside it
 	// if it has, do the piping
 	// else, execute the command
-	if ((*ast)->type == N_COMMAND)
+	if (ast->type == N_COMMAND)
 	{
-		printf("%s\n", (*ast)->argument[0]);
-		if (is_builtin((*ast)->argument[0]) == true)
-			execute_builtin(ast, &shell_data->env_list);
+		printf("%s\n", ast->argument[0]);
+		if (is_builtin(ast->argument[0]) == true)
+			execute_builtin(shell_data);
 		else
-			execute_command((*ast)->argument, shell_data);
+			execute_command(shell_data);
 	}
 	// else if ((*ast)->type == N_PIPE)
-	// 	execute_pipe(ast, env_var);
+	// 	execute_pipe(ast, shell_data);
 }
 
 char	*find_path2(char *identifier, char *path_from_shell_data)
@@ -108,11 +110,13 @@ char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
 	return (path);
 }
 
-void execute_command(char **arguments, t_data *shell_data)
+void execute_command(t_data *shell_data)
 {
 	char *path;
+	char **arguments;
 
 	path = NULL;
+	arguments = shell_data->ast->argument;
 	path = before_exec2(arguments[0], shell_data, arguments);
 	printf("\npath: %s\n", path);
 	if (execve(path, arguments, shell_data->envp) == -1)
@@ -122,3 +126,41 @@ void execute_command(char **arguments, t_data *shell_data)
 	return ;
 
 }
+
+// void execute_pipe(t_tree **ast, t_data *shell_data)
+// {
+// 	t_pipex	*info;
+// 	int		exit_code;
+// 	int		pipe_count;
+
+// 	ft_printf("---EXECUTE PIPE---\n");
+// 	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+// 	if (info == NULL || errno == ENOMEM)
+// 		ft_exit_data_perror(shell_data, ERROR_ALLOCATION, "info in pipex");
+// 	shell_data->info = info;
+// 	pipe_count = check_pipe_count(ast);
+// 	info->nbr_of_cmds = pipe_count + 1;
+// 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
+// 	initialize_cmds(data, info);
+// 	initialize_info(info, data);
+// 	// printf("infile: %s\n", info->infile);
+// 	// printf("outfile: %s\n", info->outfile);
+// 	printf("initilaization is done\n\n*******\n\n");
+// 	exit_code = create_children(data);
+// 	printf("exit_code: %d\n", exit_code);
+// 	free_system(data);
+// 	return (exit_code);
+// }
+
+// int check_pipe_count(t_tree **ast)
+// {
+// 	int	pipe_count;
+
+// 	pipe_count = 0;
+// 	while ((*ast)->type == N_PIPE)
+// 	{
+// 		pipe_count++;
+// 		*ast = (*ast)->left;
+// 	}
+// 	return (pipe_count);
+// }
