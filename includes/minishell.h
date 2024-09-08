@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/08 22:55:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 00:07:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_pipex
 	int				curr_cmd;
 	char			**cmds;
 	char			*path;
+	char			*path_from_getenv;
 	struct s_data	*data;
 }					t_pipex;
 
@@ -85,6 +86,7 @@ typedef struct s_data
 	int				exit_code;
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
+	char			**cmds_for_pipe;
 	struct s_pipex	*info;
 	struct s_env	*env_list;
 	struct s_tree	*ast;
@@ -178,6 +180,8 @@ void				free_env(t_env **env_var);
 void				execute_shell(t_data *shell_data);
 // t_env				*init_env_var(void);
 void				execute_command(t_data *shell_data);
+void	initialize_info(t_pipex *info, t_data *shell_data);
+
 
 // execute_utils.c
 void				free_tree_env(t_tree **ast, t_env **env_var);

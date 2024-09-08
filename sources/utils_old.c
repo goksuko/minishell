@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-
 void	*free_matrix(char **matrix)
 {
 	int	i;
@@ -46,32 +45,32 @@ void	close_pipex(t_pipex *info, char **matrix)
 		free_matrix(matrix);
 }
 
-char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
-{
-	char	*path;
+// char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
+// {
+// 	char	*path;
 
-	path = NULL;
-	if (long_command[0] == ' ')
-	{
-		close_pipex(info, cmd_matrix);
-		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
-	}
-	if (cmd_matrix[0])
-		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
-	else
-	{
-		close_pipex(info, cmd_matrix);
-		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
-	}
-	if (!path)
-	{
-		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
-		close_pipex(info, cmd_matrix);
-		exit(127);
-	}
-	printf("path before exec: %s\n", path);
-	return (path);
-}
+// 	path = NULL;
+// 	if (long_command[0] == ' ')
+// 	{
+// 		close_pipex(info, cmd_matrix);
+// 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
+// 	}
+// 	if (cmd_matrix[0])
+// 		path = find_path(info, cmd_matrix[0], info->path);
+// 	else
+// 	{
+// 		close_pipex(info, cmd_matrix);
+// 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
+// 	}
+// 	if (!path)
+// 	{
+// 		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
+// 		close_pipex(info, cmd_matrix);
+// 		exit(127);
+// 	}
+// 	printf("path before exec: %s\n", path);
+// 	return (path);
+// }
 
 // start_exec(info, info->cmds, info->data->envp);
 void	start_exec(t_pipex *info)
@@ -81,7 +80,6 @@ void	start_exec(t_pipex *info)
 	// char	*long_command;
 
 	printf("start_exec\n");
-
 	if (info->data->ast->type == N_COMMAND)
 	{
 		printf("%s\n", info->data->ast->argument[0]);
@@ -90,12 +88,15 @@ void	start_exec(t_pipex *info)
 		else
 			execute_command(info->data);
 	}
-
+	// else
+	// {
+	// 	execute_pipe(info->data->ast, info->data);
+	// 	info->data->ast = info->data->ast->left;
+	// }
 
 	// path = NULL;
 	// long_command = cmds[info->curr_cmd - 1];
 	// cmd_matrix = ft_split(long_command, ' ');
-	// printf_array(cmd_matrix);
 	// if (!cmd_matrix || errno == ENOMEM)
 	// 	ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	// path = before_exec(long_command, info, cmd_matrix);
@@ -108,27 +109,26 @@ void	start_exec(t_pipex *info)
 	return ;
 }
 
-char	*put_main_command(char *command, char space)
-{
-	char	*temp;
-	int		i;
+// char	*put_main_command(char *command, char space)
+// {
+// 	char	*temp;
+// 	int		i;
 
-	i = 0;
-	while (command[i] != space && command[i] != '\0')
-		i++;
-	temp = (char *)ft_calloc(sizeof(char), (i + 1));
-	if (!temp || errno == ENOMEM)
-		ft_exit_perror(ERROR_ALLOCATION, "temp in put_main_command");
-	i = 0;
-	while (command[i] != space && command[i] != '\0')
-	{
-		temp[i] = command[i];
-		i++;
-	}
-	temp[i] = '\0';
-	return (temp);
-}
-
+// 	i = 0;
+// 	while (command[i] != space && command[i] != '\0')
+// 		i++;
+// 	temp = (char *)ft_calloc(sizeof(char), (i + 1));
+// 	if (!temp || errno == ENOMEM)
+// 		ft_exit_perror(ERROR_ALLOCATION, "temp in put_main_command");
+// 	i = 0;
+// 	while (command[i] != space && command[i] != '\0')
+// 	{
+// 		temp[i] = command[i];
+// 		i++;
+// 	}
+// 	temp[i] = '\0';
+// 	return (temp);
+// }
 
 bool	is_whitespace(char c)
 {

@@ -6,14 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/08 23:25:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/08 23:25:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-// path_from_getenv  
+// path  
 // is a list of directories separated by colons (`:`) 
 // on Unix-like systems (Linux, macOS) or semicolons (`;`) on Windows. 
 // This list is what the shell and other programs use 
@@ -30,7 +29,7 @@ char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
 	printf("main_command was not accessible\n");
-	path_split = ft_split(path_from_getenv, ':');
+	path_split = ft_split(path, ':');
 	if (errno == ENOMEM || path_split == NULL)
 		ft_exit_perror(1, "path_split in find_path");
 	i = 0;

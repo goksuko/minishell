@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pipex.c                                            :+:    :+:            */
+/*   pipex_old.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 00:09:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/08 23:30:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ pid_t	last_child_process(t_pipex *info)
 		// close_safe(info->pipefd[1], info);
 		// close_safe(info->pipefd[0], info);
 		printf("ready to start last exec\n");
-		printf_array(info->cmds);
 		start_exec(info);
 	}
 	return (pid);
@@ -105,6 +104,7 @@ int	create_children(t_data *data)
 		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
 		close_safe(data->info->pipefd[0], data->info);
 		data->info->curr_cmd++;
+		data->ast = data->ast->right; //not sure if this is correct
 		i++;
 		printf("sleeping after child (%d)\n", i);
 		sleep(1);
@@ -125,15 +125,11 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 
 	ft_printf("initialize_cmds\n");
 	cmds = ft_split(data->line, '|');
-	// cmds = data->ast->argument;
-	if (cmds)
-		printf_array(cmds);
-	else
-		printf("cmds is NULL\n");
 	if (cmds == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "cmds in initialize");
 	data->cmds = cmds;
 	info->cmds = cmds;
+	printf_array(data->cmds);
 	data->nbr_of_cmds = info->nbr_of_cmds;
 	return ;
 }
@@ -216,24 +212,27 @@ char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 	return (NULL);
 }
 
-void	initialize_info(t_pipex *info, t_data *data)
-{
-	ft_printf("\ninitialize_info\n");
-	info->path_from_getenv = getenv("PATH");
-	if (info->path_from_getenv == NULL)
-	{
-		close_pipex(info, NULL);
-		ft_exit_data_error(data, ERROR_NULL_PATH);
-	}
-	printf("path_from_getenv: %s\n", info->path_from_getenv);
-	find_infile(info);
-	find_outfile(info);
-	info->data = data;
-	info->curr_cmd = 1;
-	info->pipefd[0] = 0;
-	info->pipefd[1] = 0;
-	return ;
-}
+// void	initialize_info(t_pipex *info, t_data *data)
+// {
+// 	ft_printf("\ninitialize_info\n");
+// 	// info->path_from_getenv = getenv("PATH");
+// 	info->path = data->path;
+// 	// if (info->path_from_getenv == NULL)
+// 	if (info->path == NULL)
+// 	{
+// 		close_pipex(info, NULL);
+// 		ft_exit_data_error(data, ERROR_NULL_PATH);
+// 	}
+// 	// printf("path_from_getenv: %s\n", info->path_from_getenv);
+// 	printf("path: %s\n", info->path);
+// 	find_infile(info);
+// 	find_outfile(info);
+// 	info->data = data;
+// 	info->curr_cmd = 1;
+// 	info->pipefd[0] = 0;
+// 	info->pipefd[1] = 0;
+// 	return ;
+// }
 
 // void	make_path_checks(t_data *data)
 // {
@@ -269,7 +268,6 @@ int	pipex(t_data *data)
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
 	data->info = info;
-	// pipe_count = check_pipe(data->line);
 	pipe_count = data->nbr_of_pipes;
 	info->nbr_of_cmds = pipe_count + 1;
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
@@ -280,6 +278,6 @@ int	pipex(t_data *data)
 	printf("initilaization is done\n\n*******\n\n");
 	exit_code = create_children(data);
 	printf("exit_code: %d\n", exit_code);
-	free_system(data);
+	// free_system(data);
 	return (exit_code);
 }

@@ -38,18 +38,18 @@ int find_child_nbr(t_tree *ast)
 	}
 }
 
-void	initialize_info(t_pipex *info, t_data *shell_data)
-{
-	ft_printf("\ninitialize_info\n");
-	info->path = shell_data->path;
-	find_infile(info);
-	find_outfile(info);
-	info->data = shell_data;
-	info->curr_cmd = 1;
-	info->pipefd[0] = 0;
-	info->pipefd[1] = 0;
-	return ;
-}
+// void	initialize_info(t_pipex *info, t_data *shell_data)
+// {
+// 	ft_printf("\ninitialize_info\n");
+// 	info->path = shell_data->path;
+// 	find_infile(info);
+// 	find_outfile(info);
+// 	info->data = shell_data;
+// 	info->curr_cmd = 1;
+// 	info->pipefd[0] = 0;
+// 	info->pipefd[1] = 0;
+// 	return ;
+// }
 
 void	execute_node(t_tree *ast, t_data *shell_data)
 {
@@ -83,9 +83,10 @@ int		find_pipe_count(t_token *tokens)
 	int	pipe_count;
 
 	pipe_count = 0;
-	while (tokens->type == T_PIPE)
+	while (tokens->next != NULL)
 	{
-		pipe_count++;
+		if (tokens->type == T_PIPE)
+			pipe_count++;
 		tokens = tokens->next;
 	}
 	return (pipe_count);
@@ -96,9 +97,9 @@ void	execute_shell(t_data *shell_data)
 {
 	printf("----EXECUTE SHELL----\n");
 	// t_env	*env_var;
-	t_tree *ast;
+	// t_tree *ast;
 
-	ast = shell_data->ast;
+	// ast = shell_data->ast;
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
@@ -111,6 +112,10 @@ void	execute_shell(t_data *shell_data)
 	// 	ast = ast->right;
 	// }
 
+	if (shell_data->nbr_of_pipes == 0)
+		execute_node(shell_data->ast, shell_data);
+	else
+		shell_data->exit_code = pipex(shell_data);
 	
 		
 
