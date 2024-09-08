@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/06 16:39:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/08 22:55:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_data
 	char			*path;
 	int				exit_code;
 	int				nbr_of_cmds;
+	int				nbr_of_pipes;
 	struct s_pipex	*info;
 	struct s_env	*env_list;
 	struct s_tree	*ast;

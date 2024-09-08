@@ -78,6 +78,20 @@ void	execute_node(t_tree *ast, t_data *shell_data)
 	shell_data->exit_code = exit_code;
 }
 
+int		find_pipe_count(t_token *tokens)
+{
+	int	pipe_count;
+
+	pipe_count = 0;
+	while (tokens->type == T_PIPE)
+	{
+		pipe_count++;
+		tokens = tokens->next;
+	}
+	return (pipe_count);
+}
+
+
 void	execute_shell(t_data *shell_data)
 {
 	printf("----EXECUTE SHELL----\n");
@@ -86,14 +100,16 @@ void	execute_shell(t_data *shell_data)
 
 	ast = shell_data->ast;
 	shell_data->exit_code = 0;
-	while(ast->right != NULL)
-	{
-		if (ast->type == N_PIPE)
-			execute_pipe(ast, shell_data);
-		else
-			execute_node(ast, shell_data);
-		ast = ast->right;
-	}
+	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
+	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
+	// while(ast->right != NULL)
+	// {
+	// 	if (ast->type == N_PIPE)
+	// 		execute_pipe(ast, shell_data);
+	// 	else
+	// 		execute_node(ast, shell_data);
+	// 	ast = ast->right;
+	// }
 
 	
 		
