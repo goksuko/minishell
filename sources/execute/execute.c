@@ -54,22 +54,26 @@ int find_child_nbr(t_tree *ast)
 void	execute_node(t_tree *ast, t_data *shell_data)
 {
 	printf("----EXECUTE NODE----\n");
-	int nbr_of_chldrn;
+	// int nbr_of_chldrn;
 	t_pipex	*info;
 	int		exit_code;
+	(void)ast;
 
-	nbr_of_chldrn = find_child_nbr(ast);
-	printf("nbr_of_chldrn: %d\n", nbr_of_chldrn);
+
+	// nbr_of_chldrn = find_child_nbr(ast);
+	// printf("nbr_of_chldrn: %d\n", nbr_of_chldrn);
 	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "info in pipex");
 	shell_data->info = info;
-	info->nbr_of_cmds = nbr_of_chldrn;
+	// info->nbr_of_cmds = nbr_of_chldrn;
+	info->nbr_of_cmds = 1;
 	shell_data->nbr_of_cmds = info->nbr_of_cmds;
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
 	shell_data->cmds = shell_data->ast->argument;
 	info->cmds = shell_data->cmds;
 	initialize_info(info, shell_data);
+	initialize_cmds(shell_data, info);
 	// printf("infile: %s\n", info->infile);
 	// printf("outfile: %s\n", info->outfile);
 	printf("initilaization is done\n\n*******\n\n");

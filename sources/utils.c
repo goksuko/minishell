@@ -93,7 +93,9 @@ void	start_exec(t_pipex *info)
 
 
 	path = NULL;
+	printf("curr_cmd: %d\n", info->curr_cmd);
 	long_command = info->cmds[info->curr_cmd - 1];
+	printf("long_command: %s\n", long_command);
 	cmd_matrix = ft_split(long_command, ' ');
 	printf_array(cmd_matrix);
 	if (!cmd_matrix || errno == ENOMEM)
