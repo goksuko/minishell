@@ -46,6 +46,8 @@ EXECUTE =			execute.c \
 					env_list_utils.c \
 					env_key_funcs.c \
 
+SIGNALS = 			signal_handling.c
+
 SRCS_DIR = sources
 OBJS_DIR = objects
 
@@ -62,6 +64,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
+		$(addprefix signals/, $(SIGNALS)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -87,6 +90,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/syntax_analysis
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
+	@mkdir -p $(OBJS_DIR)/signals
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -103,6 +107,8 @@ $(OBJS_DIR)/builtins/%.o: $(SRCS_DIR)/builtins/%.c | $(OBJS_DIR)/builtins
 $(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning in Progress"

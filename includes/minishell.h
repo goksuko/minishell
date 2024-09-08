@@ -30,6 +30,7 @@
 # include <sys/stat.h>
 # include "lexer.h"
 # include "syntax.h"
+# include <termios.h>
 
 # define SUCCESS 0
 
@@ -197,7 +198,9 @@ t_env	*create_node(char *envp_i, int pos);
 bool	key_rules(char c, int index);
 int		check_key(char *key);
 
-
-
+// Signals
+void	signal_handling(void);
+void	handle_siquit(int signal);
+void	handle_sigint(int signal);
 
 #endif

@@ -113,7 +113,7 @@ int	main(int argc, char *argv[], char **envp)
 	if (errno == ENOMEM || shell_data == NULL)
 		ft_exit_perror(1, "shell_data in main");
 	make_initial_path_checks(envp, shell_data);
-	// signal_handling(); LATER V
+	signal_handling();
 	line = NULL;
 	while (1)
 	{
