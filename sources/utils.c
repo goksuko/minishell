@@ -76,35 +76,35 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 // start_exec(info, info->cmds, info->data->envp);
 void	start_exec(t_pipex *info)
 {
-	// char	**cmd_matrix;
-	// char	*path;
-	// char	*long_command;
+	char	**cmd_matrix;
+	char	*path;
+	char	*long_command;
 
 	printf("start_exec\n");
 
-	if (info->data->ast->type == N_COMMAND)
-	{
-		printf("%s\n", info->data->ast->argument[0]);
-		if (is_builtin(info->data->ast->argument[0]) == true)
-			execute_builtin(info->data);
-		else
-			execute_command(info->data);
-	}
-
-
-	// path = NULL;
-	// long_command = cmds[info->curr_cmd - 1];
-	// cmd_matrix = ft_split(long_command, ' ');
-	// printf_array(cmd_matrix);
-	// if (!cmd_matrix || errno == ENOMEM)
-	// 	ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	// path = before_exec(long_command, info, cmd_matrix);
-	// printf("\npath: %s\n", path);
-	// if (execve(path, cmd_matrix, info->data->envp) == -1)
+	// if (info->data->ast->type == N_COMMAND)
 	// {
-	// 	close_pipex(info, cmd_matrix);
-	// 	ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+	// 	printf("%s\n", info->data->ast->argument[0]);
+	// 	if (is_builtin(info->data->ast->argument[0]) == true)
+	// 		execute_builtin(info->data);
+	// 	else
+	// 		execute_command(info->data);
 	// }
+
+
+	path = NULL;
+	long_command = info->cmds[info->curr_cmd - 1];
+	cmd_matrix = ft_split(long_command, ' ');
+	printf_array(cmd_matrix);
+	if (!cmd_matrix || errno == ENOMEM)
+		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
+	path = before_exec(long_command, info, cmd_matrix);
+	printf("\npath: %s\n", path);
+	if (execve(path, cmd_matrix, info->data->envp) == -1)
+	{
+		close_pipex(info, cmd_matrix);
+		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+	}
 	return ;
 }
 
