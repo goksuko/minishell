@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 21:49:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 22:48:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef enum e_error
 typedef struct s_pipex
 {
 	int				pipefd[2];
+	int				fds[100][2];
 	int				fd_in;
 	int				fd_out;
 	char			*infile;

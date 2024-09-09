@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 00:09:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 23:31:42 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ pid_t	child_process(t_pipex *info)
 		printf("curr_cmd: %d\n", info->curr_cmd);
 		printf("pipefd[0]: %d\n", info->pipefd[0]);
 		printf("pipefd[1]: %d\n", info->pipefd[1]);
-		if (info->curr_cmd == 1 && info->infile != NULL)
+		if (info->curr_cmd == 1)
 		{
 			printf("first command**\n");
-			dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
-			close_safe(info->fd_in, info);
+			dup2_safe(info->fds[0][0], STDIN_FILENO, info); // it was fd_in before actually
+			close_safe(info->fds[0][0], info);
 		}
-		close_safe(info->pipefd[0], info);
+		close_safe(info->fds[info->curr_cmd - 1][0], info);
 		if (info->curr_cmd == 1)
-			dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
-		close_safe(info->pipefd[1], info);
+			dup2_safe(info->fds[0][1], STDOUT_FILENO, info);
+		close_safe(info->fds[info->curr_cmd - 1][1], info);
 		printf("ready to start exec\n");
 		start_exec(info);
 	}
@@ -69,11 +69,11 @@ pid_t	last_child_process(t_pipex *info)
 		// close_safe(info->pipefd[1], info);
 		// dup2_safe(info->pipefd[0], STDIN_FILENO, info);
 		// close_safe(info->pipefd[0], info);
-		if (info->outfile != NULL)
-		{
-			dup2_safe(info->fd_out, STDOUT_FILENO, info);
-			close_safe(info->fd_out, info);
-		}
+		// if (info->outfile != NULL)
+		// {
+			dup2_safe(info->fds[info->curr_cmd - 1][1], STDOUT_FILENO, info);
+			close_safe(info->fds[info->curr_cmd - 1][1], info);
+		// }
 		// dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
 		// close_safe(info->pipefd[1], info);
@@ -98,12 +98,12 @@ int	create_children(t_data *data)
 	while (i < data->nbr_of_cmds - 1)
 	{
 		printf("\nin while loop i: %d\n", i);
-		if (pipe(data->info->pipefd) == -1)
+		if (pipe(data->info->fds[i - 1]) == -1)
 			ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		pid = child_process(data->info);
-		close_safe(data->info->pipefd[1], data->info);
-		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
-		close_safe(data->info->pipefd[0], data->info);
+		close_safe(data->info->fds[i - 1][1], data->info);
+		dup2_safe(data->info->fds[i - 1][0], STDIN_FILENO, data->info);
+		close_safe(data->info->fds[i - 1][0], data->info);
 		data->info->curr_cmd++;
 		i++;
 		printf("sleeping after child (%d)\n", i);
@@ -216,6 +216,80 @@ char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 	return (NULL);
 }
 
+void	fill_fds(int *fds, char **cmd_split, t_pipex *info)
+{
+	int		i;
+	int		temp_fd;
+
+	i = 0;
+	while (cmd_split[i] != NULL)
+	{
+		if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			fds[1] = temp_fd;
+		}
+		else
+			fds[1] = STDOUT_FILENO;
+		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_RDONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "infile in fill_fds");
+			}
+			fds[0] = temp_fd;
+		}
+		else
+			fds[0] = STDIN_FILENO;
+		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			fds[1] = temp_fd;
+		}
+		else
+			fds[1] = STDOUT_FILENO;
+		i++;
+	}
+	return ;
+}
+
+void find_fds(char *line, t_pipex *info)
+{
+	int		i;
+	char	**cmds;
+	char	**cmd_split;
+
+	i = 0;
+	printf("------find_fds------\n");
+	ft_memset(info->fds, 0, sizeof(info->fds));
+	cmds = ft_split(line, '|');
+	if (cmds == NULL || errno == ENOMEM)
+		ft_exit_perror(ERROR_ALLOCATION, "cmds in find_fds");
+	while (cmds[i] != NULL)
+	{
+		cmd_split = ft_split(cmds[i], ' ');
+		if (cmd_split == NULL || errno == ENOMEM)
+			ft_exit_perror(ERROR_ALLOCATION, "cmd_split in find_fds");
+		fill_fds(info->fds[i], cmd_split, info);
+		free_matrix(cmd_split);
+		i++;
+	}
+	free_matrix(cmds);
+	return ;
+}
+
 void	initialize_info(t_pipex *info, t_data *data)
 {
 	ft_printf("\ninitialize_info\n");
@@ -226,12 +300,13 @@ void	initialize_info(t_pipex *info, t_data *data)
 		ft_exit_data_error(data, ERROR_NULL_PATH);
 	}
 	printf("path_from_getenv: %s\n", info->path_from_getenv);
+	find_fds(data->line, info);
 	find_infile(info);
 	find_outfile(info);
 	info->data = data;
 	info->curr_cmd = 1;
-	info->pipefd[0] = 0;
-	info->pipefd[1] = 0;
+	// info->pipefd[0] = 0;
+	// info->pipefd[1] = 0;
 	return ;
 }
 

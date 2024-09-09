@@ -14,29 +14,29 @@
 // 	return (new_env_var);
 // }
 
-int find_child_nbr(t_tree *ast)
-{
-	int	nbr_of_chldrn;
-	int	i;
+// int find_child_nbr(t_tree *ast)
+// {
+// 	int	nbr_of_chldrn;
+// 	int	i;
 
-	i = 0;
-	if (ast->type == N_PIPE)
-		return (1);
-	else
-	{
-		nbr_of_chldrn = 1;
-		while (ast->token_types[i] != NULL)
-		{
-			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || \
-				ast->token_types[i] == token_type_to_string(T_GREATER) || \
-				ast->token_types[i] == token_type_to_string(T_DSMALLER) || \
-				ast->token_types[i] == token_type_to_string(T_DGREATER))
-				nbr_of_chldrn++;
-			i++;
-		}
-		return (nbr_of_chldrn);
-	}
-}
+// 	i = 0;
+// 	if (ast->type == N_PIPE)
+// 		return (1);
+// 	else
+// 	{
+// 		nbr_of_chldrn = 1;
+// 		while (ast->token_types[i] != NULL)
+// 		{
+// 			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || 
+// 				ast->token_types[i] == token_type_to_string(T_GREATER) || 
+// 				ast->token_types[i] == token_type_to_string(T_DSMALLER) || 
+// 				ast->token_types[i] == token_type_to_string(T_DGREATER))
+// 				nbr_of_chldrn++;
+// 			i++;
+// 		}
+// 		return (nbr_of_chldrn);
+// 	}
+// }
 
 // void	initialize_info(t_pipex *info, t_data *shell_data)
 // {
@@ -147,90 +147,90 @@ void	execute_shell(t_data *shell_data)
 	// 	execute_pipe(ast, shell_data);
 }
 
-char	*find_path2(char *identifier, char *path_from_shell_data)
-{
-	char	*path;
-	char	**path_split;
-	char	*tmp;
-	int		i;
+// char	*find_path2(char *identifier, char *path_from_shell_data)
+// {
+// 	char	*path;
+// 	char	**path_split;
+// 	char	*tmp;
+// 	int		i;
 
-	printf("main_command: %s\n", identifier);
-	if (access(identifier, F_OK | X_OK) == 0)
-		return (identifier);
-	printf("main_command was not accessible\n");
-	path_split = ft_split(path_from_shell_data, ':');
-	if (errno == ENOMEM || path_split == NULL)
-		ft_exit_perror(1, "path_split in find_path");
-	i = 0;
-	while (path_split[i])
-	{
-		printf("path_split[%d]: %s\n", i, path_split[i]);
-		// if (is_file(path_split[i]))
-		// {
-		// 	if (info-> infile == NULL)
-		// 		info->infile = path_split[i];
-		// 	else if (info->outfile != NULL) //check if this is correct
-		// 		info->outfile = path_split[i];
-		// }
-		tmp = ft_strjoin(path_split[i], "/");
-		printf("tmp: %s\n", tmp);
-		if (errno == ENOMEM || tmp == NULL)
-			ft_exit_perror(1, "tmp in find_path");
-		path = ft_strjoin(tmp, identifier);
-		printf("path: %s\n", path);
-		if (errno == ENOMEM || path == NULL)
-			ft_exit_perror(1, "path in find_path");
-		free(tmp);
-		if (access(path, F_OK | X_OK) == 0)
-			return (free_matrix(path_split), path);
-		free(path);
-		i++;
-	}
-	free_matrix(path_split);
-	return (NULL);
-}
+// 	printf("main_command: %s\n", identifier);
+// 	if (access(identifier, F_OK | X_OK) == 0)
+// 		return (identifier);
+// 	printf("main_command was not accessible\n");
+// 	path_split = ft_split(path_from_shell_data, ':');
+// 	if (errno == ENOMEM || path_split == NULL)
+// 		ft_exit_perror(1, "path_split in find_path");
+// 	i = 0;
+// 	while (path_split[i])
+// 	{
+// 		printf("path_split[%d]: %s\n", i, path_split[i]);
+// 		// if (is_file(path_split[i]))
+// 		// {
+// 		// 	if (info-> infile == NULL)
+// 		// 		info->infile = path_split[i];
+// 		// 	else if (info->outfile != NULL) //check if this is correct
+// 		// 		info->outfile = path_split[i];
+// 		// }
+// 		tmp = ft_strjoin(path_split[i], "/");
+// 		printf("tmp: %s\n", tmp);
+// 		if (errno == ENOMEM || tmp == NULL)
+// 			ft_exit_perror(1, "tmp in find_path");
+// 		path = ft_strjoin(tmp, identifier);
+// 		printf("path: %s\n", path);
+// 		if (errno == ENOMEM || path == NULL)
+// 			ft_exit_perror(1, "path in find_path");
+// 		free(tmp);
+// 		if (access(path, F_OK | X_OK) == 0)
+// 			return (free_matrix(path_split), path);
+// 		free(path);
+// 		i++;
+// 	}
+// 	free_matrix(path_split);
+// 	return (NULL);
+// }
 
-char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
-{
-	char	*path;
+// char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
+// {
+// 	char	*path;
 
-	path = NULL;
-	if (identifier[0] == ' ')
-	{
-		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
-	}
-	if (arguments[0])
-		path = find_path2(arguments[0], shell_data->path);
-	else
-	{
-		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
-	}
-	if (!path)
-	{
-		ft_putstr3_fd("zsh: command not found: ", arguments[0], "\n", STDERR_FILENO);
-		exit(127);
-	}
-	printf("path before exec: %s\n", path);
-	return (path);
-}
+// 	path = NULL;
+// 	if (identifier[0] == ' ')
+// 	{
+// 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
+// 	}
+// 	if (arguments[0])
+// 		path = find_path2(arguments[0], shell_data->path);
+// 	else
+// 	{
+// 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
+// 	}
+// 	if (!path)
+// 	{
+// 		ft_putstr3_fd("zsh: command not found: ", arguments[0], "\n", STDERR_FILENO);
+// 		exit(127);
+// 	}
+// 	printf("path before exec: %s\n", path);
+// 	return (path);
+// }
 
-void execute_command(t_data *shell_data)
-{
-	char *path;
-	char **arguments;
+// void execute_command(t_data *shell_data)
+// {
+// 	char *path;
+// 	char **arguments;
 
-	printf("----EXECUTE COMMAND----\n");
-	path = NULL;
-	arguments = shell_data->ast->argument;
-	path = before_exec2(arguments[0], shell_data, arguments);
-	printf("\npath: %s\n", path);
-	if (execve(path, arguments, shell_data->envp) == -1)
-	{
-		ft_exit_perror(ERROR_EXECVE, "execve in execute_command");
-	}
-	return ;
+// 	printf("----EXECUTE COMMAND----\n");
+// 	path = NULL;
+// 	arguments = shell_data->ast->argument;
+// 	path = before_exec2(arguments[0], shell_data, arguments);
+// 	printf("\npath: %s\n", path);
+// 	if (execve(path, arguments, shell_data->envp) == -1)
+// 	{
+// 		ft_exit_perror(ERROR_EXECVE, "execve in execute_command");
+// 	}
+// 	return ;
 
-}
+// }
 
 // void execute_pipe(t_tree **ast, t_data *shell_data)
 // {
