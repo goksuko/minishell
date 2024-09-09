@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/05 13:53:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 15:05:17 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_tree
 {
 	t_node_type			type;
 	t_redirection		*redirection;
-	char				**argument; //echo hello
+	char				**argument;
 	// char				**expanded_argument;
 	struct s_tree		*left;
 	struct s_tree		*right;

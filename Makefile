@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/03 14:03:42 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/09 15:01:29 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ EXECUTE =			execute.c \
 					env_list_utils.c \
 					env_key_funcs.c \
 
-SIGNALS = 			signal_handling.c
+SIGNALS = 			interactive_signals.c \
+					noninteractive_signals.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 00:07:27 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 21:49:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <string.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -204,8 +205,14 @@ bool	key_rules(char c, int index);
 int		check_key(char *key);
 
 // Signals
-void	signal_handling(void);
-void	handle_siquit(int signal);
-void	handle_sigint(int signal);
+void	interactive_signals(void);
+void	noninteractive_signals(void);
+void	handle_siquit_interactive(int signal);
+void	handle_siquit_noninteractive(int signal);
+void	handle_sigint_interactive(int signal);
+void	handle_sigint_noninteractive(int signal);
+void	not_output_signal_keys();
+void	output_signal_keys();
+
 
 #endif

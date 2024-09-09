@@ -6,11 +6,24 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 15:06:47 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/09 15:17:28 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	is_file_check(t_token *token_lst)
+{
+	t_token	*current;
+
+	current = token_lst;
+	while (current != NULL)
+	{
+		if (is_file(current->value) == true)
+			current->is_file = true;
+		current = current->next;
+	}
+}
 
 void	array_to_list(t_token **token_lst, char **tokens)
 {
@@ -79,5 +92,6 @@ t_token	*lexical_analysis(char *line)
 	tokens = create_token_array(line);
 	// free(line); // not sure if needed although I am prety sire. Need to properly check the valgrind message again
 	token_lst = create_token_list(tokens);
+	is_file_check(token_lst);
 	return (token_lst);
 }

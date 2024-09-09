@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:41:24 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/09 15:21:13 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_token	*ft_token_new(char *str, t_token_type type)
 		return (NULL);
 	}
 	new_token->type = type;
+	new_token->is_file = false;
 	return (new_token);
 }
 
@@ -39,6 +40,7 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 		printf("Token number: %d\n", i);
 		printf("Value: %s\n", tokens->value);
 		printf("Token type: %s\n", token_type_to_string(tokens->type));
+		printf("Is file: %d\n", tokens->is_file);
 		tokens = tokens->next;
 		i++;
 	}
@@ -55,6 +57,7 @@ t_token	*init_list(void)
 	lst->value = NULL;
 	lst->next = NULL;
 	lst->prev = NULL;
+	lst->is_file = false;
 	return (lst);
 }
 

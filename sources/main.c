@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 00:13:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 21:51:36 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,13 @@ int	main(int argc, char *argv[], char **envp)
 	if (errno == ENOMEM || shell_data == NULL)
 		ft_exit_perror(1, "shell_data in main");
 	make_initial_path_checks(envp, shell_data);
-	signal_handling();
 	line = NULL;
 	while (1)
 	{
+		interactive_signals();
 		if ((line = rl_gets()) == NULL)
 			break;
+		noninteractive_signals();
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(line);
 		ft_print_tokens(shell_data->tokens); // only for testing purposes
