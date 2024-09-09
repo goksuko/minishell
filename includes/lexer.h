@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 19:30:16 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/09 15:19:05 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
+	bool			is_file;
 }	t_token;
 
 // Tokens
@@ -62,6 +63,7 @@ void	check_unclosed_quotes(t_token *token_lst);
 void    free_array_exit(char **arrray);
 void	free_array(char **array);
 bool	line_is_empty(char *line);
+void	is_file_check(t_token *token_lst);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
