@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/05 13:51:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/09 14:29:52 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,13 @@ int	main(int argc, char *argv[], char **envp)
 	printf("envp[1]: %s\n", envp[1]);
 	printf("envp[2]: %s\n", envp[2]);
 	make_initial_path_checks(envp, shell_data);
-	signal_handling();
 	line = NULL;
 	while (1)
 	{
+		interactive_signals();
 		if ((line = rl_gets()) == NULL)
 			break;
+		//noninteractive_signals();
 		token = lexical_analysis(line);
 		ft_print_tokens(token); // only for testing purposes
 		ast = syntax_analysis(token);

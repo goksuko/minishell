@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal_handling.c                                  :+:    :+:            */
+/*   signals.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
@@ -15,7 +15,7 @@
 /*
 Ctrl + c = SIGINT -> Set up a signal handler for SIGINT to handle interruptions and display a new prompt.
 Ctrl + \ = SIGQUIT -> Set up a signal handler for SIGQUIT to handle quitting the shell.
-Ctrl + D = EF -> Detect EOF in your input reading logic to exit the shell.
+Ctrl + D = EOF -> Detect EOF in your input reading logic to exit the shell.
 
 */
 
@@ -30,34 +30,29 @@ struct termios {
 	cc_t c_line;            // line discipline: 
 	cc_t c_cc[NCCS];        // control characters: Define special control characters like Ctrl+C or Ctrl+Z.
 };
-
-
-
 */
 
-void	output_ctrl()
+void	not_output_signal_keys()
 {
-	struct termios	term;
+	struct termios	termios;
 
-	if (isatty(STDIN_FILENO) == 1)
+	if (isatty(STDIN_FILENO))
 	{
-		// error handling;
-		printf("Error: isatty failed\n");
-	}
-	if (tcgetattr(STDIN_FILENO, &term) == -1)
-	{
-		// error handling;
-		printf("Error: tcgetattr failed\n");
-	}
-	term.c_lflag |=  ECHO;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
-	{
-		// error handling;
-		printf("Error: tcsetattr failed\n");
+		if (tcgetattr(STDIN_FILENO, &termios) == -1)
+		{
+			printf("Error: not print signal keys: tcgetattr failed: %s\n", strerror(errno));
+			return ;
+		}
+		termios.c_lflag &=  ~ECHO;
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &termios) == -1)
+		{
+			printf("Error: not print signal keys: tcsetattr failed: %s\n", strerror(errno));
+			return ;
+		}
 	}
 }
 
-void	handle_sigint(int signal)
+void	handle_sigint_interactive(int signal)
 {
 	(void)signal;
 	ft_putchar_fd('\n', 1);
@@ -66,16 +61,16 @@ void	handle_sigint(int signal)
 	rl_redisplay();
 }
 
-void	handle_siquit(int signal) // program keeps running after this signal it seems and I need to press Ctrl C to exit
+void	handle_siquit_interactive(int signal)
 {
 	(void)signal;
 	rl_redisplay();
 	ft_putstr_fd("Quit (core dumped)\n", 1);
 }
 
-void	signal_handling(void)
+void	interactive_signals(void)
 {
-	// output_ctrl();
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_siquit);
+	not_output_signal_keys();
+	signal(SIGINT, handle_sigint_interactive);
+	signal(SIGQUIT, handle_siquit_interactive);
 }
