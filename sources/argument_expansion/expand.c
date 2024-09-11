@@ -19,8 +19,8 @@ void	expand_arguments(t_tree **node)
 			printf("argument[%d]: %s\n", i, (*node)->argument[i]);
 			(*node)->expanded_argument[i] = s_quotes(node, (*node)->argument[i]);
 		}
-		// else if (ft_strncmp((*node)->token_types[i], "T_DOUBLE_QUOTES", 15) == 0)
-		// 	(*node)->expanded_argument[i] = d_quotes((*node)->argument[i]);
+		else if (ft_strncmp((*node)->token_types[i], "DOUBLE_QUOTES", 13) == 0)
+			(*node)->expanded_argument[i] = d_quotes((*node)->argument[i]);
 		// else if (ft_strncmp((*node)->token_types[i], "T_IDENTIFIER", 12) == 0)
 		// 	(*node)->expanded_argument[i] = identifier((*node)->argument[i]);
 		else
@@ -37,6 +37,8 @@ void	expand_arguments(t_tree **node)
 		i++;
 	}
 	(*node)->expanded_argument[i] = NULL;
+	// if ((*node)->redirection != NULL) TO DO LATER!!
+	// 	expand_redirection(node);
 }
 
 void	expansion(t_tree **node)

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/11 11:07:42 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/11 21:43:09 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,4 +221,5 @@ void	expand_arguments(t_tree **node);
 void	init_expanded_arguments(t_tree **node);
 char	*remove_quotation_marks(char *argument);
 char	*s_quotes(t_tree **node, char *argument);
+bool	dollar_sign_check(t_tree **node, char *argument);
 #endif
