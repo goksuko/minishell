@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 21:51:36 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/10 16:20:47 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ int	main(int argc, char *argv[], char **envp)
 	line = NULL;
 	while (1)
 	{
-		interactive_signals();
+		// set_signals_interactive();
 		if ((line = rl_gets()) == NULL)
 			break;
-		noninteractive_signals();
+		// set_signals_noninteractive();		
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(line);
 		ft_print_tokens(shell_data->tokens); // only for testing purposes
@@ -130,6 +130,7 @@ int	main(int argc, char *argv[], char **envp)
 			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
 		// free_system(data);
+		output_signal_keys();
 	}
 	// return (data->exit_code);
 }

@@ -70,7 +70,7 @@ void	execute_node(t_tree *ast, t_data *shell_data)
 	info->nbr_of_cmds = 1;
 	shell_data->nbr_of_cmds = info->nbr_of_cmds;
 	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
-	shell_data->cmds = shell_data->ast->argument;
+	shell_data->cmds = shell_data->ast->expanded_argument;
 	info->cmds = shell_data->cmds;
 	initialize_info(info, shell_data);
 	initialize_cmds(shell_data, info);
@@ -104,6 +104,7 @@ void	execute_shell(t_data *shell_data)
 	// t_tree *ast;
 
 	// ast = shell_data->ast;
+	expansion(&(shell_data->ast));
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
