@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 00:09:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 13:18:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,104 @@ int	create_children(t_data *data)
 		return (WEXITSTATUS(status));
 	return (SUCCESS);
 }
+
+char **clean_first_spaces(char **matrix)
+{
+	int		i;
+	char	*temp;
+
+	i = 0;
+	while (matrix[i] != NULL)
+	{
+		if (matrix[i][1] != '\0' && matrix[i][0] == ' ')
+		{
+			temp = ft_strdup(matrix[i] + 1);
+			if (temp == NULL || errno == ENOMEM)
+				ft_exit_perror(ERROR_ALLOCATION, "temp in clean_first_spaces");
+			free(matrix[i]);
+			matrix[i] = temp;
+		}
+		i++;
+	}
+	return (matrix);
+}
+
+// void	fill_fds(int *fds, char **cmd_split, t_pipex *info)
+// {
+// 	int		i;
+// 	int		temp_fd;
+
+// 	i = 0;
+// 	while (cmd_split[i] != NULL)
+// 	{
+// 		if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
+// 		{
+// 			temp_fd = open(cmd_split[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+// 			if (temp_fd == -1)
+// 			{
+// 				close_pipex(info, NULL);
+// 				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+// 			}
+// 			fds[1] = temp_fd;
+// 			printf("> fds[1]: %d\n", fds[1]);
+// 		}
+// 		else
+// 			fds[1] = STDOUT_FILENO;
+// 		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
+// 		{
+// 			temp_fd = open(cmd_split[i + 1], O_RDONLY, 0777);
+// 			if (temp_fd == -1)
+// 			{
+// 				close_pipex(info, NULL);
+// 				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "infile in fill_fds");
+// 			}
+// 			fds[0] = temp_fd;
+// 		}
+// 		else
+// 			fds[0] = STDIN_FILENO;
+// 		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
+// 		{
+// 			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
+// 			if (temp_fd == -1)
+// 			{
+// 				close_pipex(info, NULL);
+// 				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+// 			}
+// 			fds[1] = temp_fd;
+// 		}
+// 		else
+// 			fds[1] = STDOUT_FILENO;
+// 		i++;
+// 	}
+// 	return ;
+// }
+
+// void find_fds(char *line, t_pipex *info)
+// {
+// 	int		i;
+// 	char	**cmds;
+// 	char	**cmd_split;
+
+// 	i = 0;
+// 	printf("------find_fds------\n");
+// 	ft_memset(info->fds, 0, sizeof(info->fds));
+// 	cmds = ft_split(line, '|');
+// 	if (cmds == NULL || errno == ENOMEM)
+// 		ft_exit_perror(ERROR_ALLOCATION, "cmds in find_fds");
+// 	while (cmds[i] != NULL)
+// 	{
+// 		cmd_split = ft_split(cmds[i], ' ');
+// 		if (cmd_split == NULL || errno == ENOMEM)
+// 			ft_exit_perror(ERROR_ALLOCATION, "cmd_split in find_fds");
+// 		fill_fds(info->fds[i], cmd_split, info);
+// 		printf("fds[%d][0]: %d\n", i, info->fds[i][0]);
+// 		printf("fds[%d][1]: %d\n", i, info->fds[i][1]);
+// 		free_matrix(cmd_split);
+// 		i++;
+// 	}
+// 	free_matrix(cmds);
+// 	return ;
+// }
 
 void	initialize_cmds(t_data *data, t_pipex *info)
 {
