@@ -23,25 +23,25 @@ void	update_shell(t_env **env_list)
 	char	*cwd;
 
 	start = *env_list;
-	printf("start: %s\n", start->value);
+	// printf("start: %s\n", start->value);
 	env = *env_list;
 	cwd = NULL;
 	cwd = getcwd(0, 0);
-	printf("cwd: %s\n", cwd);
+	// printf("cwd: %s\n", cwd);
 	while (env)
 	{
 		if (!ft_strncmp("SHELL", env->key, 5))
 		{
-			printf("env->value: %s\n", env->value);
+			// printf("env->value: %s\n", env->value);
 			free(env->value);
 			env->value = cwd;
-			printf("env->value: %s\n", env->value);
+			// printf("env->value: %s\n", env->value);
 			return ;
 		}
 		env = env->next;
 	}
 	env_list = &start;
-	printf("env_list: %s\n", (*env_list)->value);
+	// printf("env_list: %s\n", (*env_list)->value);
 	free(cwd);
 	return ;
 }
@@ -69,6 +69,6 @@ void update_path(t_data *shell_data)
 			ft_exit_perror(1, "path in update_path");
 	}
 	shell_data->path = path;
-	printf("path: %s\n", shell_data->path);
+	// printf("path: %s\n", shell_data->path);
 	return ;
 }

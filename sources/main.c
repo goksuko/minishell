@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 21:51:36 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 13:43:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 	t_env	*node;
 	int		i;
 	
-	ft_printf("make_initial_path_checks\n");
+	// ft_printf("---make_initial_path_checks---\n");
 	if (!envp && !(*envp))
 		ft_printf("there is no envp\n"); // think of memory management
 	i = 1;
@@ -86,7 +86,7 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 	while (envp[i])
 	{
 		node->next = ft_envp_node(envp[i]);
-		if (!node->next)
+		if (!node->next) 
 		{
 			free_prev_nodes(head); // rewrite memory stuff
 		}
@@ -113,13 +113,14 @@ int	main(int argc, char *argv[], char **envp)
 	if (errno == ENOMEM || shell_data == NULL)
 		ft_exit_perror(1, "shell_data in main");
 	make_initial_path_checks(envp, shell_data);
+	shell_data->envp = envp;
 	line = NULL;
 	while (1)
 	{
-		interactive_signals();
+		// interactive_signals();
 		if ((line = rl_gets()) == NULL)
 			break;
-		noninteractive_signals();
+		// noninteractive_signals();
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(line);
 		ft_print_tokens(shell_data->tokens); // only for testing purposes

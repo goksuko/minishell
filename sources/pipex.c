@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/12 13:18:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 13:47:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ pid_t	last_child_process(t_pipex *info)
 {
 	pid_t	pid;
 
-	printf("\nlast_child_process\n");
+	printf("\n----last_child_process\n");
 	pid = fork();
 	if (pid == -1)
 		ft_exit_perror(ERROR_FORK, "fork in last child process");
@@ -79,7 +79,7 @@ pid_t	last_child_process(t_pipex *info)
 		// close_safe(info->pipefd[1], info);
 		// close_safe(info->pipefd[0], info);
 		printf("ready to start last exec\n");
-		printf_array(info->cmds);
+		// printf_array(info->cmds);
 		start_exec(info);
 	}
 	return (pid);
@@ -92,7 +92,7 @@ int	create_children(t_data *data)
 	pid_t	pid_last;
 	int		status;
 
-	printf("create_children\n");
+	printf("---create_children---\n");
 	i = 1;
 	printf("nbr_of_cmds: %d\n\n", data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds - 1)
@@ -221,13 +221,13 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 {
 	char	**cmds;
 
-	ft_printf("initialize_cmds\n");
+	ft_printf("---initialize_cmds---\n");
 	cmds = ft_split(data->line, '|');
 	// cmds = data->ast->argument;
-	if (cmds)
-		printf_array(cmds);
-	else
-		printf("cmds is NULL\n");
+	// if (cmds)
+	// 	printf_array(cmds);
+	// else
+	// 	printf("cmds is NULL\n");
 	if (cmds == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "cmds in initialize");
 	data->cmds = cmds;
@@ -316,20 +316,20 @@ char	*find_outfile(t_pipex *info) // if file does not exist, should be worked on
 
 void	initialize_info(t_pipex *info, t_data *data)
 {
-	ft_printf("\ninitialize_info\n");
+	ft_printf("\n---initialize_info---\n");
 	info->path_from_getenv = getenv("PATH");
 	if (info->path_from_getenv == NULL)
 	{
 		close_pipex(info, NULL);
 		ft_exit_data_error(data, ERROR_NULL_PATH);
 	}
-	printf("path_from_getenv: %s\n", info->path_from_getenv);
-	find_infile(info);
-	find_outfile(info);
+	// printf("path_from_getenv: %s\n", info->path_from_getenv);
+	// find_infile(info);
+	// find_outfile(info);
 	info->data = data;
 	info->curr_cmd = 1;
-	info->pipefd[0] = 0;
-	info->pipefd[1] = 0;
+	// info->pipefd[0] = 0;
+	// info->pipefd[1] = 0;
 	return ;
 }
 

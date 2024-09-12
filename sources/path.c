@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/08 23:25:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 13:50:51 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 	char	*tmp;
 	int		i;
 
-	printf("main_command: %s\n", main_command);
+	// printf("main_command: %s\n", main_command);
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
-	printf("main_command was not accessible\n");
+	// printf("main_command was not accessible\n");
 	path_split = ft_split(path_from_getenv, ':');
 	if (errno == ENOMEM || path_split == NULL)
 		ft_exit_perror(1, "path_split in find_path");
 	i = 0;
 	while (path_split[i])
 	{
-		printf("path_split[%d]: %s\n", i, path_split[i]);
+		// printf("path_split[%d]: %s\n", i, path_split[i]);
 		if (is_file(path_split[i]))
 		{
 			if (info-> infile == NULL)
@@ -45,11 +45,11 @@ char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
 				info->outfile = path_split[i];
 		}
 		tmp = ft_strjoin(path_split[i], "/");
-		printf("tmp: %s\n", tmp);
+		// printf("tmp: %s\n", tmp);
 		if (errno == ENOMEM || tmp == NULL)
 			ft_exit_perror(1, "tmp in find_path");
 		path = ft_strjoin(tmp, main_command);
-		printf("path: %s\n", path);
+		// printf("path: %s\n", path);
 		if (errno == ENOMEM || path == NULL)
 			ft_exit_perror(1, "path in find_path");
 		free(tmp);

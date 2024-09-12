@@ -14,29 +14,30 @@
 // 	return (new_env_var);
 // }
 
-int find_child_nbr(t_tree *ast)
-{
-	int	nbr_of_chldrn;
-	int	i;
+// int find_child_nbr(t_tree *ast)
+// {
+// 	int	nbr_of_chldrn;
+// 	int	i;
 
-	i = 0;
-	if (ast->type == N_PIPE)
-		return (1);
-	else
-	{
-		nbr_of_chldrn = 1;
-		while (ast->token_types[i] != NULL)
-		{
-			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || \
-				ast->token_types[i] == token_type_to_string(T_GREATER) || \
-				ast->token_types[i] == token_type_to_string(T_DSMALLER) || \
-				ast->token_types[i] == token_type_to_string(T_DGREATER))
-				nbr_of_chldrn++;
-			i++;
-		}
-		return (nbr_of_chldrn);
-	}
-}
+
+// 	i = 0;
+// 	if (ast->type == N_PIPE)
+// 		return (1);
+// 	else
+// 	{
+// 		nbr_of_chldrn = 1;
+// 		while (ast->token_types[i] != NULL)
+// 		{
+// 			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || \
+// 				ast->token_types[i] == token_type_to_string(T_GREATER) || \
+// 				ast->token_types[i] == token_type_to_string(T_DSMALLER) || \
+// 				ast->token_types[i] == token_type_to_string(T_DGREATER))
+// 				nbr_of_chldrn++;
+// 			i++;
+// 		}
+// 		return (nbr_of_chldrn);
+// 	}
+// }
 
 // void	initialize_info(t_pipex *info, t_data *shell_data)
 // {
@@ -154,6 +155,7 @@ char	*find_path2(char *identifier, char *path_from_shell_data)
 	char	*tmp;
 	int		i;
 
+	printf("----FIND PATH2----\n");
 	printf("main_command: %s\n", identifier);
 	if (access(identifier, F_OK | X_OK) == 0)
 		return (identifier);
@@ -194,6 +196,7 @@ char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
 {
 	char	*path;
 
+	printf("----BEFORE EXEC2----\n");
 	path = NULL;
 	if (identifier[0] == ' ')
 	{

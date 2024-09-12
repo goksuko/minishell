@@ -69,7 +69,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
-	printf("path before exec: %s\n", path);
+	// printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -93,15 +93,15 @@ void	start_exec(t_pipex *info)
 
 
 	path = NULL;
-	printf("curr_cmd: %d\n", info->curr_cmd);
+	// printf("curr_cmd: %d\n", info->curr_cmd);
 	long_command = info->cmds[info->curr_cmd - 1];
 	printf("long_command: %s\n", long_command);
 	cmd_matrix = ft_split(long_command, ' ');
-	printf_array(cmd_matrix);
+	// printf_array(cmd_matrix);
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	path = before_exec(long_command, info, cmd_matrix);
-	printf("\npath: %s\n", path);
+	// printf("\npath: %s\n", path);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
 		close_pipex(info, cmd_matrix);
