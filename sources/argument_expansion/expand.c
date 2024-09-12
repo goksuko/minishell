@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	expand_arguments(t_tree **node)
+void	expand_arguments(t_data **shell_data, t_tree **node)
 {
 	printf("----EXPAND_ARGUMENTS----\n");
 	int	i;
@@ -20,7 +20,7 @@ void	expand_arguments(t_tree **node)
 			(*node)->expanded_argument[i] = s_quotes(node, (*node)->argument[i]);
 		}
 		else if (ft_strncmp((*node)->token_types[i], "DOUBLE_QUOTES", 13) == 0)
-			(*node)->expanded_argument[i] = d_quotes((*node)->argument[i]);
+			(*node)->expanded_argument[i] = d_quotes(shell_data, (*node)->argument[i]);
 		// else if (ft_strncmp((*node)->token_types[i], "T_IDENTIFIER", 12) == 0)
 		// 	(*node)->expanded_argument[i] = identifier((*node)->argument[i]);
 		else
@@ -41,16 +41,16 @@ void	expand_arguments(t_tree **node)
 	// 	expand_redirection(node);
 }
 
-void	expansion(t_tree **node)
+void	expansion(t_data **shell_data, t_tree **node)
 {
 	printf("----EXPANSION----\n");
 	if (node == NULL)
 		return ;
 	if ((*node)->type == N_PIPE)
 	{
-		expansion(&(*node)->left);
-		expansion(&(*node)->right);
+		expansion(shell_data, &(*node)->left);
+		expansion(shell_data, &(*node)->right);
 	}
 	else
-		expand_arguments(node);
+		expand_arguments(shell_data, node);
 }

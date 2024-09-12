@@ -216,10 +216,12 @@ void	not_output_signal_keys();
 void	output_signal_keys();
 
 // Argument expansion
-void	expansion(t_tree **node);
-void	expand_arguments(t_tree **node);
+void	expansion(t_data **shell_data, t_tree **node);
+void	expand_arguments(t_data **shell_data, t_tree **node);
 void	init_expanded_arguments(t_tree **node);
 char	*remove_quotation_marks(char *argument);
 char	*s_quotes(t_tree **node, char *argument);
 bool	dollar_sign_check(t_tree **node, char *argument);
+char	*d_quotes(t_data **shell_data, t_tree **node, char *argument);
+
 #endif

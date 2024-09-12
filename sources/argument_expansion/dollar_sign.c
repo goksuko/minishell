@@ -1,6 +1,18 @@
 #include "../../includes/minishell.h"
 
-void	handle_dollar_sign(t_tree **node, char *str) // need to add shell_data struct
+//TO BE CONTINUED AT HOME!!
+char *create_expanded_str(char *str, int i, char *expanded_str)
+{
+	char	*temp;
+
+	temp = malloc(sizeof(char *) * (i + 1));
+	if (temp == NULL)
+	{
+		free
+	}
+}
+
+void	handle_dollar_sign(t_data **shell_data, t_tree **node, char *str) // need to add shell_data struct
 {
 	int		i;
 	int		start_dollar;
@@ -15,8 +27,8 @@ void	handle_dollar_sign(t_tree **node, char *str) // need to add shell_data stru
 			i++;
 			if (str[i] == '?')
 			{
-				//create a new string and remove the dollar sign and question mark and replace with exit status
-				//need to access the exit status from the shell_data struct
+				temp = create_expanded_str(str, i, ft_itoa((*shell_data)->exit_code));
+				//create a new string and remove the dollar sign and ? and replace with the exit code and add the rest of the string
 			}
 			if (strncmp(str + i, "HOME", 4) == 0)
 			{
