@@ -1,18 +1,25 @@
 #include "../../includes/minishell.h"
 
 //TO BE CONTINUED AT HOME!!
-char *create_expanded_str(char *str, int i, char *expanded_str)
+char *create_expanded_str(char *str, int len, char *expanded_str, int chars_to_remove)
 {
 	char	*temp;
 
-	temp = malloc(sizeof(char *) * (i + 1));
+	temp = malloc(sizeof(char *) * (len+ 1));
 	if (temp == NULL)
 	{
-		free
+		// free_shell_data(shell_data); // to be written 
+		// exit code and string to print
 	}
+	temp = ft_strcpy(temp, str, len);
+	temp = ft_strjoin(temp, expanded_str);
+	len+= chars_to_remove;
+	temp = ft_strjoin(temp, str + len);
+	printf("temp: %s\n", temp); // only for testing
+	return (temp);
 }
 
-void	handle_dollar_sign(t_data **shell_data, t_tree **node, char *str) // need to add shell_data struct
+char	*handle_dollar_sign(t_data **shell_data, char *str) // need to add shell_data struct
 {
 	int		i;
 	int		start_dollar;
@@ -25,32 +32,21 @@ void	handle_dollar_sign(t_data **shell_data, t_tree **node, char *str) // need t
 		{
 			start_dollar = i;
 			i++;
+			printf("ONLY FOR TESTING str[i]: %c\n", str[i]);
 			if (str[i] == '?')
 			{
-				temp = create_expanded_str(str, i, ft_itoa((*shell_data)->exit_code));
+				temp = create_expanded_str(str, start_dollar, ft_itoa((*shell_data)->exit_code), 2);
+				printf("temp: %s\n", temp); // only for testing
 				//create a new string and remove the dollar sign and ? and replace with the exit code and add the rest of the string
 			}
-			if (strncmp(str + i, "HOME", 4) == 0)
-			{
-				//create a new string and remove the dollar sign and HOME and replace with the HOME path
-				//need to access the HOME path from the shell_data struct
-			}
-			if (strncmp(str + i, "PWD", 3) == 0)
-			{
-				//create a new string and remove the dollar sign and PWD and replace with the PWD path
-				//need to access the PWD path from the shell_data struct
-			}
-			if (strncmp(str + i, "VAR", 3) == 0)
-			{
-				//create a new string and remove the dollar sign and VAR and replace with the VAR path
-				//need to access the VAR path from the shell_data struct
-			}
+			// env function to write for rest
 		}
 		i++;
 	}
+	return (temp);
 }
 
-bool	dollar_sign_check(t_tree **node, char *str)
+bool	dollar_sign_check(char *str)
 {
 	int		i;
 

@@ -17,7 +17,12 @@ void	expand_arguments(t_data **shell_data, t_tree **node)
 		{
 			printf("Token type is T_SINGLE_QUOTES\n");
 			printf("argument[%d]: %s\n", i, (*node)->argument[i]);
-			(*node)->expanded_argument[i] = s_quotes(node, (*node)->argument[i]);
+			(*node)->expanded_argument[i] = s_quotes((*node)->argument[i]);
+			if ((*node)->expanded_argument[i] == NULL)
+			{
+				//free_shell_data(shell_data); // need to write this function
+				ft_exit_perror(ERROR_ALLOCATION, "malloc in expand_arguments");
+			}
 		}
 		else if (ft_strncmp((*node)->token_types[i], "DOUBLE_QUOTES", 13) == 0)
 			(*node)->expanded_argument[i] = d_quotes(shell_data, (*node)->argument[i]);
@@ -44,8 +49,6 @@ void	expand_arguments(t_data **shell_data, t_tree **node)
 void	expansion(t_data **shell_data, t_tree **node)
 {
 	printf("----EXPANSION----\n");
-	if (node == NULL)
-		return ;
 	if ((*node)->type == N_PIPE)
 	{
 		expansion(shell_data, &(*node)->left);

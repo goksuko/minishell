@@ -2,28 +2,25 @@
 
 // include tilde check for cd and export and unset?
 
-char	*d_quotes(t_data **shell_data, t_tree **node, char *argument)
+char	*d_quotes(t_data **shell_data, char *argument)
 {
 	printf("----D_QUOTES----\n");
 	char	*clean_str;
-	char	*temp;
 
-	temp = (char *)malloc(sizeof(char) * (ft_strlen(argument) - 1) + 1);
-	if (temp == NULL)
-	{
-		free_tree(node); //free shell_data?
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in d_quotes");
-	}
-	temp = ft_strcpy(temp, argument + 1, ft_strlen(argument) - 2);
-	printf("temp: %s\n", temp);
-	if (dollar_sign_check(node, temp) == true)
-		handle_dollar_sign(shell_data, node, &argument);
-	clean_str = remove_quotation_marks(temp);
+	clean_str = remove_quotation_marks(argument);
 	if (clean_str == NULL)
 	{
-		free_tree(node); //free shell_data?
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in d_quotes");
+		// free_shell_data; //to be written
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in remove_quotation_marks");
 	}
-	free(temp);
+	if (dollar_sign_check(clean_str) == true)
+	{
+		clean_str = handle_dollar_sign(shell_data, clean_str);
+		if (clean_str == NULL)
+		{
+			// free_shell_data; //to be written
+			ft_exit_perror(ERROR_ALLOCATION, "malloc in handle_dollar_sign");
+		}
+	}
 	return (clean_str);
 }

@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/11 11:01:51 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/12 16:19:28 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,8 @@ SIGNALS = 				interactive_signals.c \
 ARGUMENT_EXPANSION =	expand.c \
 						expand_utils.c \
 						single_quotes.c \
+						double_quotes.c \
+						dollar_sign.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
