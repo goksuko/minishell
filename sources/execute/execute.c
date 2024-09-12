@@ -28,9 +28,9 @@
 // 		nbr_of_chldrn = 1;
 // 		while (ast->token_types[i] != NULL)
 // 		{
-// 			if (ast->token_types[i] == token_type_to_string(T_SMALLER) || \
-// 				ast->token_types[i] == token_type_to_string(T_GREATER) || \
-// 				ast->token_types[i] == token_type_to_string(T_DSMALLER) || \
+// 			if (ast->token_types[i] == token_type_to_string(T_SMALLER) ||
+// 				ast->token_types[i] == token_type_to_string(T_GREATER) ||
+// 				ast->token_types[i] == token_type_to_string(T_DSMALLER) ||
 // 				ast->token_types[i] == token_type_to_string(T_DGREATER))
 // 				nbr_of_chldrn++;
 // 			i++;

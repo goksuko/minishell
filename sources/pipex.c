@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/12 13:47:24 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 23:43:14 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,21 @@ pid_t	child_process(t_pipex *info)
 		printf("curr_cmd: %d\n", info->curr_cmd);
 		printf("pipefd[0]: %d\n", info->pipefd[0]);
 		printf("pipefd[1]: %d\n", info->pipefd[1]);
-		if (info->curr_cmd == 1 && info->infile != NULL)
+		if (info->fd_in != -10)
 		{
-			printf("first command**\n");
 			dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
 			close_safe(info->fd_in, info);
 		}
+		else if (info->curr_cmd != 1)
+		{
+			dup2_safe(info->pipe_read_end, STDIN_FILENO, info);
+			close_safe(info->pipe_read_end, info);
+		}
 		close_safe(info->pipefd[0], info);
-		if (info->curr_cmd == 1)
+		if (info->curr_cmd == 1 && info->fd_out == -10)
 			dup2_safe(info->pipefd[1], STDOUT_FILENO, info);
+		else
+			dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		close_safe(info->pipefd[1], info);
 		printf("ready to start exec\n");
 		start_exec(info);
@@ -69,10 +75,20 @@ pid_t	last_child_process(t_pipex *info)
 		// close_safe(info->pipefd[1], info);
 		// dup2_safe(info->pipefd[0], STDIN_FILENO, info);
 		// close_safe(info->pipefd[0], info);
-		if (info->outfile != NULL)
+		if (info->fd_out != -10)
 		{
 			dup2_safe(info->fd_out, STDOUT_FILENO, info);
 			close_safe(info->fd_out, info);
+		}
+		if (info->fd_in != -10)
+		{
+			dup2_safe(info->fd_in, STDIN_FILENO, info);
+			close_safe(info->fd_in, info);
+		}
+		else
+		{
+			dup2_safe(info->pipe_read_end, STDIN_FILENO, info);
+			close_safe(info->pipe_read_end, info);
 		}
 		// dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
@@ -85,6 +101,61 @@ pid_t	last_child_process(t_pipex *info)
 	return (pid);
 }
 
+void define_fd_in_out(t_pipex *info)
+{
+	char **cmd_split;
+	int		i;
+	int		temp_fd;
+
+	printf("define_fd_in_out\n");
+	cmd_split = ft_split(info->cmds[info->curr_cmd - 1], ' ');
+	if (cmd_split == NULL || errno == ENOMEM)
+		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "cmd_split in define_fd_in_out");
+	i = 0;
+	while (cmd_split[i] != NULL)
+	{
+		if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			info->fd_out = temp_fd;
+			printf("> fd_out: %d\n", info->fd_out);
+		}
+		else
+			info->fd_out = -10;
+		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_RDONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "infile in fill_fds");
+			}
+			info->fd_in = temp_fd;
+		}
+		else
+			info->fd_in = -10;
+		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			info->fd_out = temp_fd;
+		}
+		else
+			info->fd_out = -10;
+		i++;
+	}
+	return ;
+}
+
 int	create_children(t_data *data)
 {
 	int		i;
@@ -95,11 +166,15 @@ int	create_children(t_data *data)
 	printf("---create_children---\n");
 	i = 1;
 	printf("nbr_of_cmds: %d\n\n", data->nbr_of_cmds);
-	while (i < data->nbr_of_cmds - 1)
+	while (i < data->nbr_of_cmds)
 	{
 		printf("\nin while loop i: %d\n", i);
+		define_fd_in_out(data->info);
 		if (pipe(data->info->pipefd) == -1)
 			ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
+		if (data->info->pipe_read_end != STDIN_FILENO)
+			close(data->info->pipe_read_end);
+		data->info->pipe_read_end = data->info->pipefd[0];
 		pid = child_process(data->info);
 		close_safe(data->info->pipefd[1], data->info);
 		dup2_safe(data->info->pipefd[0], STDIN_FILENO, data->info);
@@ -111,6 +186,7 @@ int	create_children(t_data *data)
 	}
 	printf("\nsleeping before last child\n");
 	sleep(1);
+	define_fd_in_out(data->info);
 	pid_last = last_child_process(data->info);
 	while (waitpid(pid, &status, 0) != -1);
 	waitpid(pid_last, &status, 0);
@@ -223,6 +299,8 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 
 	ft_printf("---initialize_cmds---\n");
 	cmds = ft_split(data->line, '|');
+	// cmds = clean_first_spaces(cmds);
+	// printf_array(cmds);
 	// cmds = data->ast->argument;
 	// if (cmds)
 	// 	printf_array(cmds);
@@ -328,6 +406,7 @@ void	initialize_info(t_pipex *info, t_data *data)
 	// find_outfile(info);
 	info->data = data;
 	info->curr_cmd = 1;
+	info->pipe_read_end = STDIN_FILENO;
 	// info->pipefd[0] = 0;
 	// info->pipefd[1] = 0;
 	return ;

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/09 21:49:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/12 23:24:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_pipex
 	char			**cmds;
 	char			*path;
 	char			*path_from_getenv;
+	int				pipe_read_end;
 	struct s_data	*data;
 }					t_pipex;
 
