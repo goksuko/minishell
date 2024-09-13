@@ -1,0 +1,55 @@
+Sure, here are one-sentence explanations for each of the listed functions:
+
+- **readline**: Reads a line of input from the user, with support for editing.
+- **rl_clear_history**: Clears the history of input lines.
+- **rl_on_new_line**: Updates internal data structures to reflect that the cursor is on a new line.
+- **rl_replace_line**: Replaces the current line with a new line.
+- **rl_redisplay**: Redisplays the current input line.
+- **add_history**: Adds the current line to the history list.
+- **printf**: Prints formatted output to the standard output.
+- **malloc**: Allocates a specified number of bytes of memory.
+- **free**: Frees previously allocated memory.
+- **write**: Writes data to a file descriptor.
+- **access**: Checks a file's accessibility.
+- **open**: Opens a file and returns a file descriptor.
+- **read**: Reads data from a file descriptor.
+- **close**: Closes a file descriptor.
+- **fork**: Creates a new process by duplicating the current process.
+- **wait**: Waits for a child process to terminate.
+- **waitpid**: Waits for a specific child process to terminate.
+- **wait3**: Waits for a child process to terminate and returns resource usage information.
+- **wait4**: Waits for a specific child process to terminate and returns resource usage information.
+- **signal**: Sets a signal handler for a specific signal.
+- **sigaction**: Examines and changes a signal action.
+- **sigemptyset**: Initializes a signal set to exclude all signals.
+- **sigaddset**: Adds a signal to a signal set.
+- **kill**: Sends a signal to a process or a group of processes.
+- **exit**: Terminates the calling process.
+- **getcwd**: Gets the current working directory.
+- **chdir**: Changes the current working directory.
+- **stat**: Retrieves information about a file.
+- **lstat**: Retrieves information about a file, without following symbolic links.
+- **fstat**: Retrieves information about an open file.
+- **unlink**: Deletes a name from the filesystem.
+- **execve**: Executes a program, replacing the current process.
+- **dup**: Duplicates a file descriptor.
+- **dup2**: Duplicates a file descriptor to a specified value.
+- **pipe**: Creates a pair of file descriptors for inter-process communication.
+- **opendir**: Opens a directory stream.
+- **readdir**: Reads a directory entry from a directory stream.
+- **closedir**: Closes a directory stream.
+- **strerror**: Returns a string describing the error code.
+- **perror**: Prints a description of the last error.
+- **isatty**: Tests whether a file descriptor refers to a terminal.
+- **ttyname**: Returns the name of the terminal associated with a file descriptor.
+- **ttyslot**: Returns the index of the current user's terminal in the terminal list.
+- **ioctl**: Performs device-specific input/output operations.
+- **getenv**: Retrieves the value of an environment variable.
+- **tcsetattr**: Sets the parameters associated with the terminal.
+- **tcgetattr**: Gets the parameters associated with the terminal.
+- **tgetent**: Loads a terminal entry from the termcap database.
+- **tgetflag**: Gets the boolean value of a terminal capability.
+- **tgetnum**: Gets the numeric value of a terminal capability.
+- **tgetstr**: Gets the string value of a terminal capability.
+- **tgoto**: Computes a cursor movement string.
+- **tputs**: Outputs a terminal capability string with padding.

@@ -83,16 +83,18 @@ void	execute_node(t_tree *ast, t_data *shell_data)
 	shell_data->exit_code = exit_code;
 }
 
-int		find_pipe_count(t_token *tokens)
+int		find_pipe_count(char *line)
 {
 	int	pipe_count;
+	int i;
 
 	pipe_count = 0;
-	while (tokens->next != NULL)
+	i = 0;
+	while (line[i])
 	{
-		if (tokens->type == T_PIPE)
+		if (line[i] == '|')
 			pipe_count++;
-		tokens = tokens->next;
+		i++;
 	}
 	return (pipe_count);
 }
@@ -106,7 +108,7 @@ void	execute_shell(t_data *shell_data)
 
 	// ast = shell_data->ast;
 	shell_data->exit_code = 0;
-	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
+	shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
 	// while(ast->right != NULL)
 	// {
@@ -192,48 +194,48 @@ char	*find_path2(char *identifier, char *path_from_shell_data)
 	return (NULL);
 }
 
-char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
-{
-	char	*path;
+// char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
+// {
+// 	char	*path;
 
-	printf("----BEFORE EXEC2----\n");
-	path = NULL;
-	if (identifier[0] == ' ')
-	{
-		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
-	}
-	if (arguments[0])
-		path = find_path2(arguments[0], shell_data->path);
-	else
-	{
-		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
-	}
-	if (!path)
-	{
-		ft_putstr3_fd("zsh: command not found: ", arguments[0], "\n", STDERR_FILENO);
-		exit(127);
-	}
-	printf("path before exec: %s\n", path);
-	return (path);
-}
+// 	printf("----BEFORE EXEC2----\n");
+// 	path = NULL;
+// 	if (identifier[0] == ' ')
+// 	{
+// 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
+// 	}
+// 	if (arguments[0])
+// 		path = find_path2(arguments[0], shell_data->path);
+// 	else
+// 	{
+// 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
+// 	}
+// 	if (!path)
+// 	{
+// 		ft_putstr3_fd("zsh: command not found: ", arguments[0], "\n", STDERR_FILENO);
+// 		exit(127);
+// 	}
+// 	printf("path before exec: %s\n", path);
+// 	return (path);
+// }
 
-void execute_command(t_data *shell_data)
-{
-	char *path;
-	char **arguments;
+// void execute_command(t_data *shell_data)
+// {
+// 	char *path;
+// 	char **arguments;
 
-	printf("----EXECUTE COMMAND----\n");
-	path = NULL;
-	arguments = shell_data->ast->argument;
-	path = before_exec2(arguments[0], shell_data, arguments);
-	printf("\npath: %s\n", path);
-	if (execve(path, arguments, shell_data->envp) == -1)
-	{
-		ft_exit_perror(ERROR_EXECVE, "execve in execute_command");
-	}
-	return ;
+// 	printf("----EXECUTE COMMAND----\n");
+// 	path = NULL;
+// 	arguments = shell_data->ast->argument;
+// 	path = before_exec2(arguments[0], shell_data, arguments);
+// 	printf("\npath: %s\n", path);
+// 	if (execve(path, arguments, shell_data->envp) == -1)
+// 	{
+// 		ft_exit_perror(ERROR_EXECVE, "execve in execute_command");
+// 	}
+// 	return ;
 
-}
+// }
 
 // void execute_pipe(t_tree **ast, t_data *shell_data)
 // {

@@ -36,7 +36,7 @@ void	*free_matrix(char **matrix)
 
 void	close_pipex(t_pipex *info, char **matrix)
 {
-	printf("close_pipex\n");
+	// printf("close_pipex\n");
 	close(info->fd_in);
 	close(info->fd_out);
 	close(info->pipefd[0]);
@@ -50,6 +50,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 {
 	char	*path;
 
+	printf("---before_exec---\n");
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
@@ -80,7 +81,7 @@ void	start_exec(t_pipex *info)
 	char	*path;
 	char	*long_command;
 
-	printf("start_exec\n");
+	printf("---start_exec---\n");
 
 	// if (info->data->ast->type == N_COMMAND)
 	// {
