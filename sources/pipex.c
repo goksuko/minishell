@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/13 18:12:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/13 19:22:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,22 +389,23 @@ int	create_children(t_data *data)
 	return (SUCCESS);
 }
 
-char **clean_first_spaces(char **matrix)
+char **clean_spaces(char **matrix)
 {
 	int		i;
-	char	*temp;
+	// char	*temp;
 
 	i = 0;
 	while (matrix[i] != NULL)
 	{
-		if (matrix[i][1] != '\0' && matrix[i][0] == ' ')
-		{
-			temp = ft_strdup(matrix[i] + 1);
-			if (temp == NULL || errno == ENOMEM)
-				ft_exit_perror(ERROR_ALLOCATION, "temp in clean_first_spaces");
-			free(matrix[i]);
-			matrix[i] = temp;
-		}
+		// if (matrix[i][1] != '\0' && matrix[i][0] == ' ')
+		// {
+		// 	temp = ft_strdup(matrix[i] + 1);
+		// 	if (temp == NULL || errno == ENOMEM)
+		// 		ft_exit_perror(ERROR_ALLOCATION, "temp in clean_first_spaces");
+		// 	free(matrix[i]);
+		// 	matrix[i] = temp;
+		// }
+		matrix[i] = ft_strtrim(matrix[i], " ");
 		i++;
 	}
 	return (matrix);
@@ -487,33 +488,36 @@ char **clean_first_spaces(char **matrix)
 // 	return ;
 // }
 
-char **clean_up_to_redir(char ** matrix)
+char **clean_up_to_redir(char **matrix)
 {
 	int		i;
-	char	*temp;
+	char	**temp;
 
 	i = 0;
 	while (matrix[i] != NULL)
+		i++;
+	temp = ft_calloc(sizeof(char *), i + 1);
+	if (temp == NULL || errno == ENOMEM)
+		ft_exit_perror(ERROR_ALLOCATION, "temp in clean_up_to_redir");
+	i = 0;
+	while (matrix[i] != NULL)
 	{
-		if (matrix[i][0] != '<' || matrix[i][0] != '>')
+		if (matrix[i][0] == '<' || matrix[i][0] == '>')
 		{
-			matrix[i] = NULL;
+			temp[i] = NULL;
 			break;
 		}
 		else
 		{
-			temp = ft_strdup(matrix[i] + 1);
-			if (temp == NULL || errno == ENOMEM)
-				ft_exit_perror(ERROR_ALLOCATION, "temp in clean_up_to_redir");
-			free(matrix[i]);
-			matrix[i] = temp;
+			temp[i] = ft_strdup(matrix[i]);
+			if (temp[i] == NULL || errno == ENOMEM)
+				ft_exit_perror(ERROR_ALLOCATION, "temp[i] in clean_up_to_redir");
 		}
 		i++;
 	}
-	return (matrix);
+	free_matrix(matrix);
+	return (temp);
 }
-
-
 
 void	initialize_cmds(t_data *data, t_pipex *info)
 {
@@ -521,8 +525,8 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 
 	ft_printf("---initialize_cmds---\n");
 	cmds = ft_split(data->line, '|');
-	cmds = clean_first_spaces(cmds);
-	// cmds = clean_up_to_redir(cmds);
+	cmds = clean_spaces(cmds);
+	// cmds = clean_up_to_redir(cmds); //wromg place
 	// printf_array(cmds);
 	// cmds = data->ast->argument;
 	// if (cmds)
@@ -531,7 +535,7 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 	// 	printf("cmds is NULL\n");
 	if (cmds == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "cmds in initialize");
-	data->cmds = cmds;
+	// data->cmds = cmds;
 	info->cmds = cmds;
 	data->nbr_of_cmds = info->nbr_of_cmds;
 	return ;
@@ -684,3 +688,22 @@ int	pipex(t_data *data)
 	free_system(data);
 	return (exit_code);
 }
+
+// cat | cat | ls -l | wc -l
+// cat | cat | ls
+
+// valgrind --track-fds=yes --leak-check=full ./minishell 
+// if opened before fork, close both in parent and child
+
+// cat main.c > out
+// < main.c cat > out
+//  cat < main.c > out
+
+// akaya-oz@f0r3s18:~/codam/minishell$ echo $HOME
+// /home/akaya-oz
+// akaya-oz@f0r3s18:~/codam/minishell$ <<eof cat
+// > $HOME
+// > bla
+// > eof
+// /home/akaya-oz
+// bla

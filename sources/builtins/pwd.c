@@ -13,3 +13,5 @@ int	ft_pwd(void)
 	free(cwd);
 	return (SUCCESS);
 }
+
+//fd_out

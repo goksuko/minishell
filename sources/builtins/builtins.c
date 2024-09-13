@@ -9,7 +9,7 @@ int	execute_builtin(t_data *shell_data)
 	ast = &shell_data->ast;
 	env_var = &shell_data->env_list;	
 	if (ft_strncmp((*ast)->argument[0], "echo", 5) == 0)
-		return (ft_echo((*ast)->argument));
+		return (ft_echo((*ast)->argument, shell_data->info));
 	// if (ft_strncmp(arguments[0], "cd", 3) == 0)
 	// 	return (ft_cd(arguments));
 	if (ft_strncmp((*ast)->argument[0], "pwd", 4) == 0)
