@@ -1,5 +1,51 @@
 #include "../../includes/minishell.h"
 
+char	*ft_strjoin_c(char const *s1, char c)
+{
+	char	*new_str;
+	char	*temp;
+
+	if (s1 == NULL)
+		return (NULL);
+	new_str = (char *)ft_calloc((ft_strlen(s1)
+				+ 1 + 1), sizeof(char));
+	if (new_str == NULL)
+		return (NULL);
+	temp = new_str;
+	ft_strlcpy(new_str, s1, ft_strlen(s1) + 1);
+	new_str += ft_strlen(s1);
+	*new_str = c;
+	return (temp);
+}
+
+// char *ft_strnjoin(char *s1, char *s2, size_t n) {
+// 	char *result;
+// 	size_t i, j;
+
+// 	if (!s1 || !s2)
+// 		return NULL;
+
+// 	result = malloc(strlen(s1) + n + 1); // +1 for the null-terminator
+// 	if (!result)
+// 		return NULL;
+
+// 	i = 0;
+// 	while (s1[i]) {
+// 		result[i] = s1[i];
+// 		i++;
+// 	}
+
+// 	j = 0;
+// 	while (s2[j] && j < n) {
+// 		result[i] = s2[j];
+// 		i++;
+// 		j++;
+// 	}
+
+// 	result[i] = '\0';
+// 	return result;
+// }
+
 int	env_len(char *str)
 {
 	int		i;
@@ -10,27 +56,34 @@ int	env_len(char *str)
 	return (i);
 }
 
-int	get_len_to_skip(char *str)
+int	get_end_dollar(char *str, int i)
 {
-	printf("---REPLACE DOLLAR WITH ENV VALUE---\n");
-	printf("str: %s\n", str); // only for testing
-	int		len;
-	char	*temp;
-
-	temp = malloc((sizeof(char) * 1) + env_len(str));
-	if (temp == NULL)
-	{
-		// free_shell_data(shell_data); // to be written 
-		// exit code and string to print
-	}
-	temp = ft_strcpy(temp, str, env_len(str));
-	printf("temp: %s\n", temp); // only for testing
-	len = ft_strlen(temp);
-	printf("len: %d\n", len); // only for testing
-	return (len);
+	while (str[i] != '\0' && (ft_isalnum(str[i]) == 1 || str[i] == '_'))
+		i++;
+	return (i - 1);
 }
 
-char	*get_env_str(char *str, int *i) // need to add shell_data struct
+// int	get_len_to_skip(char *str)
+// {
+// 	printf("---REPLACE DOLLAR WITH ENV VALUE---\n");
+// 	printf("str: %s\n", str); // only for testing
+// 	int		len;
+// 	char	*temp;
+
+// 	temp = malloc((sizeof(char) * 1) + env_len(str));
+// 	if (temp == NULL)
+// 	{
+// 		// free_shell_data(shell_data); // to be written 
+// 		// exit code and string to print
+// 	}
+// 	temp = ft_strcpy(temp, str, env_len(str));
+// 	printf("temp: %s\n", temp); // only for testing
+// 	len = ft_strlen(temp);
+// 	printf("len: %d\n", len); // only for testing
+// 	return (len);
+// }
+
+char	*get_env_str(char *str) // need to add shell_data struct
 {
 	printf("---REPLACE DOLLAR WITH ENV VALUE---\n");
 	char	*temp;
@@ -51,82 +104,55 @@ char	*get_env_str(char *str, int *i) // need to add shell_data struct
 		// exit code and string to print
 	}
 	printf("env: %s\n", env); // only for testing
-	*i += ft_strlen(env);
 	return (env);
-}
-
-char	*expanded_string(char *original_string, int start_dollar, char *string_to_add, int chars_to_remove)
-{
-    char *temp;
-    int i = 0;
-    int j = 0;
-
-	printf("chars_to_remove in expanded_string: %d\n", chars_to_remove); // only for testing
-    temp = malloc(sizeof(char) * (start_dollar + 1));
-	// add error handling
-    while (i < start_dollar)
-	{
-        temp[j] = original_string[i];
-        j++;
-        i++;
-    }
-    temp[j] = '\0';
-    printf("after copying temp: %s\n", temp); // only for testing
-    temp = ft_strjoin(temp, string_to_add);
-    printf("first join temp: %s\n", temp); // only for testing
-    i += chars_to_remove;
-    temp = ft_strjoin(temp, original_string + i);
-    printf("second join temp: %s\n", temp); // only for testing
-    return temp;
 }
 
 char	*handle_dollar_sign(t_data **shell_data, char *str) // need to add shell_data struct
 {
 	int		i;
 	int		start_dollar;
-	char	*temp;
-	char	*env;
-	int		chars_to_remove;
+	int		end_dollar;
+	char	*start;
+	char	*middle_to_add;
 
 	i = 0;
-	temp = ft_strdup(str);
-	if (temp == NULL)
-	{
-		// free_shell_data(shell_data); // to be written 
-		// exit code and string to print
-	}
+	start_dollar = 0;
+	end_dollar = 0;
+	start = ft_strdup("");
+	//error handling
 	while (str[i] != '\0')
 	{
 		if (str[i] == '$')
 		{
+			printf("starting string: %s\n", start); // only for testing‚
 			start_dollar = i;
-			i++;
-			printf("ONLY FOR TESTING str[i]: %c\n", str[i]);
-			if (str[i] == '?' && str[i - 2] != '$') // check for correctness
+			if (str[i + 1] == '?') //  && str[i - 1] != '$' // check for correctness
 			{
-				chars_to_remove = get_len_to_skip(str + start_dollar);
-				temp = expanded_string(temp, start_dollar, ft_itoa((*shell_data)->exit_code), chars_to_remove);
-				printf("temp: %s\n", temp); // only for testing
-				//create a new string and remove the dollar sign and ? and replace with the exit code and add the rest of the string
+				middle_to_add = ft_itoa((*shell_data)->exit_code);
+				end_dollar = start_dollar + 2;
 			}
-			// if (str[i] == '$')
-			// // get process ID (pid) of the shell but if there is a ? right after this one the question mark needs to simply be printed
-			// {
-			// 	// create a new string and remove the dollar sign and $ and replace with the pid and add the rest of the string
-			// }
-			else if (str[i] != '\0' && str[i] != ' ' && str[i] != '$')
+			else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i + 1] == ' '))
 			{
-				chars_to_remove = get_len_to_skip(str + start_dollar);
-				printf("chars_to_remove in handle_dollar_sign: %d\n", chars_to_remove); // only for testing
-				env = get_env_str(str + i, &i);
-				printf("env back in handle_dollar_sign: %s\n", env); // only for testing
-				temp = expanded_string(temp, start_dollar, env, chars_to_remove);
-				printf("after env was replaced in handle_dollar_sign: temp: %s\n", temp); // only for testing
+				printf("start_dollar: %d\n",start_dollar); // only for testing
+				printf("char at start_dollar: %c\n",str[start_dollar]); // only for testing
+				printf("end_dollar: %d\n",end_dollar); // only for testing
+				printf("char at end_dollar: %c\n",str[end_dollar]); // only for testing
+				middle_to_add = get_env_str(str + i + 1);
+				end_dollar = get_end_dollar(str, i + 1); // + 1 because i is the index of the dollar sign
 			}
+			printf("middle_to_add: %s\n", middle_to_add); // only for testing
+			start = ft_strjoin(start, middle_to_add);
+			// error handling
+			// free middle to_add?
+			i = end_dollar + 1; // Jump to end_dollar
 		}
-		i++;
+		else
+		{
+			start = ft_strjoin_c(start, str[i]);
+			i++;
+		}
 	}
-	return (temp);
+	return (start);
 }
 
 bool	dollar_sign_check(char *str)
