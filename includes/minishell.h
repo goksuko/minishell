@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/14 18:35:22 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/14 21:53:19 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ char	*s_quotes(char *argument);
 bool	dollar_sign_check(char *argument);
 char	*d_quotes(t_data **shell_data, char *argument);
 char	*handle_dollar_sign(t_data **shell_data, char *str);
+char	*expand_identifier(t_data **t_shell_data, char *argument);
 char	*ft_strjoin_c(char const *s1, char c);
 
 // Free shell data

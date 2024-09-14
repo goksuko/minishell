@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/09 15:21:13 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/14 21:17:58 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ t_token_type	token_type_check(char *token)
 	t_token_type	type;
 
 	type = check_command(token);
-	if (type != T_UNKNOWN)
-		return (type);
-	type = check_env_variable(token);
 	if (type != T_UNKNOWN)
 		return (type);
 	type = check_redirection(token);

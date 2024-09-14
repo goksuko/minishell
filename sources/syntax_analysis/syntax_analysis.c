@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:34:02 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/14 21:18:06 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_token(t_tree **node, t_token **tokens, int *i)
 {
 	if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 		(*tokens)->type == T_DOUBLE_QUOTES || \
-		(*tokens)->type == T_SINGLE_QUOTES || (*tokens)->type == T_ENV_VARIABLE)
+		(*tokens)->type == T_SINGLE_QUOTES)
 	{
 		(*node)->argument[*i] = ft_strdup((*tokens)->value);
 		if ((*node)->argument[*i] == NULL)
