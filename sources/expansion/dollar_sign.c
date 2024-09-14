@@ -1,51 +1,5 @@
 #include "../../includes/minishell.h"
 
-char	*ft_strjoin_c(char const *s1, char c)
-{
-	char	*new_str;
-	char	*temp;
-
-	if (s1 == NULL)
-		return (NULL);
-	new_str = (char *)ft_calloc((ft_strlen(s1)
-				+ 1 + 1), sizeof(char));
-	if (new_str == NULL)
-		return (NULL);
-	temp = new_str;
-	ft_strlcpy(new_str, s1, ft_strlen(s1) + 1);
-	new_str += ft_strlen(s1);
-	*new_str = c;
-	return (temp);
-}
-
-// char *ft_strnjoin(char *s1, char *s2, size_t n) {
-// 	char *result;
-// 	size_t i, j;
-
-// 	if (!s1 || !s2)
-// 		return NULL;
-
-// 	result = malloc(strlen(s1) + n + 1); // +1 for the null-terminator
-// 	if (!result)
-// 		return NULL;
-
-// 	i = 0;
-// 	while (s1[i]) {
-// 		result[i] = s1[i];
-// 		i++;
-// 	}
-
-// 	j = 0;
-// 	while (s2[j] && j < n) {
-// 		result[i] = s2[j];
-// 		i++;
-// 		j++;
-// 	}
-
-// 	result[i] = '\0';
-// 	return result;
-// }
-
 int	env_len(char *str)
 {
 	int		i;
@@ -81,7 +35,7 @@ char	*get_env_str(char *str) // need to add shell_data struct
 	return (env);
 }
 
-char	*handle_dollar_sign(t_data **shell_data, char *str) // need to add shell_data struct
+char	*handle_dollar_sign(t_data **shell_data, char *str)
 {
 	int		i;
 	int		start_dollar;
