@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/12 16:19:28 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/14 18:33:58 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ EXECUTE =				execute.c \
 SIGNALS = 				interactive_signals.c \
 						noninteractive_signals.c \
 
-ARGUMENT_EXPANSION =	expand.c \
+EXPANSION =				expand.c \
 						expand_utils.c \
 						single_quotes.c \
 						double_quotes.c \
@@ -72,7 +72,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
-		$(addprefix argument_expansion/, $(ARGUMENT_EXPANSION)) \
+		$(addprefix expansion/, $(EXPANSION)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -99,7 +99,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
-	@mkdir -p $(OBJS_DIR)/argument_expansion
+	@mkdir -p $(OBJS_DIR)/expansion
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -119,7 +119,7 @@ $(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
 $(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJS_DIR)/argument_expansion/%.o: $(SRCS_DIR)/argument_expansion/%.c | $(OBJS_DIR)/argument_expansion
+$(OBJS_DIR)/expansion/%.o: $(SRCS_DIR)/expansion/%.c | $(OBJS_DIR)/expansion
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
