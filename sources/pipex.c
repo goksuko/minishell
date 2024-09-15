@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/15 10:33:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/15 10:43:51 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int is_file(const char *path)
 void do_first_child(t_pipex *info)
 {
 	printf("do_first_child\n");
-	if (info->fd_in != -10)
+	if (info->fd_in != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
 		// close_safe(info->fd_in, info);
 		// close_safe(info->pipefd[0], info);
 	}
-	if (info->fd_out != -10)
+	if (info->fd_out != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
@@ -45,7 +45,7 @@ void do_first_child(t_pipex *info)
 void do_middle_child(t_pipex *info)
 {
 	printf("do_middle_child\n");
-	if (info->fd_in != -10)
+	if (info->fd_in != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
 		// close_safe(info->fd_in, info);
@@ -56,7 +56,7 @@ void do_middle_child(t_pipex *info)
 		dup2_safe(info->pipe_read_end, STDIN_FILENO, info);
 		// close_safe(info->pipe_read_end, info);
 	}
-	if (info->fd_out != -10)
+	if (info->fd_out != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
@@ -72,12 +72,12 @@ void do_middle_child(t_pipex *info)
 void do_last_child(t_pipex *info)
 {
 	printf("do_last_child\n");
-	if (info->fd_out != -10)
+	if (info->fd_out != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
 	}
-	if (info->fd_in != -10)
+	if (info->fd_in != STDIN_FILENO)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info);
 		// close_safe(info->fd_in, info); //ben kapattim
@@ -115,11 +115,11 @@ pid_t	child_process(t_pipex *info)
 			do_first_child(info);
 		else
 			do_middle_child(info);
-		if (info->fd_out != -10)
+		if (info->fd_out != STDIN_FILENO)
 		{
 			close_safe(info->fd_out, info);
 		}
-		if (info->fd_in != -10)
+		if (info->fd_in != STDIN_FILENO)
 		{
 			close_safe(info->fd_in, info);
 		}
@@ -158,7 +158,7 @@ void define_fd_in_out(t_pipex *info)
 			printf("> fd_out: %d\n", info->fd_out);
 		}
 		else
-			info->fd_out = -10;
+			info->fd_out = STDOUT_FILENO;
 		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
 		{
 			temp_fd = open(cmd_split[i + 1], O_RDONLY, 0777);
@@ -170,7 +170,7 @@ void define_fd_in_out(t_pipex *info)
 			info->fd_in = temp_fd;
 		}
 		else
-			info->fd_in = -10;
+			info->fd_in = STDIN_FILENO;
 		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
 		{
 			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
@@ -182,7 +182,7 @@ void define_fd_in_out(t_pipex *info)
 			info->fd_out = temp_fd;
 		}
 		else
-			info->fd_out = -10;
+			info->fd_out = STDOUT_FILENO;
 		i++;
 	}
 	return ;
@@ -226,19 +226,10 @@ int	create_children(t_data *data)
 char **clean_spaces(char **matrix)
 {
 	int		i;
-	// char	*temp;
 
 	i = 0;
 	while (matrix[i] != NULL)
 	{
-		// if (matrix[i][1] != '\0' && matrix[i][0] == ' ')
-		// {
-		// 	temp = ft_strdup(matrix[i] + 1);
-		// 	if (temp == NULL || errno == ENOMEM)
-		// 		ft_exit_perror(ERROR_ALLOCATION, "temp in clean_first_spaces");
-		// 	free(matrix[i]);
-		// 	matrix[i] = temp;
-		// }
 		matrix[i] = ft_strtrim(matrix[i], " ");
 		i++;
 	}
