@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/17 22:46:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/17 23:03:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,14 @@ pid_t	child_process(t_pipex *info)
 			do_first_child(info);
 		else
 			do_middle_child(info);
-		if (info->fd_out != -10)
-			close_safe(info->fd_out, info);
-		if (info->fd_in != -10)
-			close_safe(info->fd_in, info);
-		if (info->pipe_read_end != STDIN_FILENO)
-			close_safe(info->pipe_read_end, info);
-		if (info->curr_cmd != 1)
-			close_safe(info->pipefd[1], info);
+		// if (info->fd_out != -10)
+		// 	close_safe(info->fd_out, info);
+		// if (info->fd_in != -10)
+		// 	close_safe(info->fd_in, info);
+		// if (info->pipe_read_end != STDIN_FILENO)
+		// 	close_safe(info->pipe_read_end, info);
+		// if (info->curr_cmd != 1)
+		// 	close_safe(info->pipefd[1], info);
 
 		printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
 		printf("ready to start exec\n");
@@ -154,25 +154,18 @@ void define_fd_in_out(t_pipex *info)
 	int		temp_fd;
 
 	printf("define_fd_in_out\n");
+	info->fd_in = -10;
+	info->fd_out = -10;
+	info->infile = NULL;
+	info->outfile = NULL;
+
 	cmd_split = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	if (cmd_split == NULL || errno == ENOMEM)
 		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "cmd_split in define_fd_in_out");
 	i = 0;
 	while (cmd_split[i] != NULL)
 	{
-		if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
-		{
-			temp_fd = open(cmd_split[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
-			if (temp_fd == -1)
-			{
-				close_pipex(info, NULL);
-				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
-			}
-			info->fd_out = temp_fd;
-			info->outfile = ft_strdup(cmd_split[i + 1]);
-			printf("> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
-		}
-		else if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
+		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
 		{
 			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
 			if (temp_fd == -1)
@@ -183,6 +176,18 @@ void define_fd_in_out(t_pipex *info)
 			info->fd_out = temp_fd;
 			info->outfile = ft_strdup(cmd_split[i + 1]);
 			printf(">> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
+		}
+		else if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			info->fd_out = temp_fd;
+			info->outfile = ft_strdup(cmd_split[i + 1]);
+			printf("> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
 		}
 		// else
 		// 	info->fd_out = -10;
