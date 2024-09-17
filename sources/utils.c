@@ -80,6 +80,7 @@ void	start_exec(t_pipex *info)
 	char	**cmd_matrix;
 	char	*path;
 	char	*long_command;
+	char	*long_corrected_command;
 
 	printf("---start_exec---\n");
 
@@ -97,11 +98,13 @@ void	start_exec(t_pipex *info)
 	// printf("curr_cmd: %d\n", info->curr_cmd);
 	long_command = info->cmds[info->curr_cmd - 1];
 	printf("long_command: %s\n", long_command);
-	cmd_matrix = ft_split(long_command, ' ');
+	long_corrected_command = clean_redirects(long_command);
+	printf("long_corrected_command: %s\n", long_corrected_command);
+	cmd_matrix = ft_split(long_corrected_command, ' ');
 	// printf_array(cmd_matrix);
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	path = before_exec(long_command, info, cmd_matrix);
+	path = before_exec(long_corrected_command, info, cmd_matrix);
 	// printf("\npath: %s\n", path);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{

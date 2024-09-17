@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/17 19:13:08 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/17 19:33:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,8 @@ int		find_pipe_count(char *line);
 void	initialize_cmds(t_data *data, t_pipex *info);
 void	initialize_info(t_pipex *info, t_data *data);
 char 	**clean_spaces(char **matrix);
+
+//semantic_utils2.c
+char *clean_redirects(char *long_command);
 
 #endif

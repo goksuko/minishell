@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/16 23:51:19 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/09/17 19:33:33 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 
 SEMANTIC_ANALYSIS = semantic.c \
 					semantic_utils.c \
+					semantic_utils2.c \
 
 BUILTINS = 			builtins.c \
 					pwd.c \

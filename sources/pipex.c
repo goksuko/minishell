@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/17 19:14:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/17 22:46:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ void do_middle_child(t_pipex *info)
 void do_last_child(t_pipex *info)
 {
 	printf("do_last_child\n");
+	printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	
+	printf("pipefd[0]: %d\n", info->pipefd[0]);	
+	printf("pipefd[1]: %d\n", info->pipefd[1]);
+	printf("fd_in: %d\n", info->fd_in);
+	printf("fd_out: %d\n", info->fd_out);
 	if (info->fd_out != -10)
 	{
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
@@ -165,10 +170,22 @@ void define_fd_in_out(t_pipex *info)
 			}
 			info->fd_out = temp_fd;
 			info->outfile = ft_strdup(cmd_split[i + 1]);
-			printf("> fd_out: %d\n", info->fd_out);
+			printf("> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
 		}
-		else
-			info->fd_out = -10;
+		else if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
+		{
+			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
+			if (temp_fd == -1)
+			{
+				close_pipex(info, NULL);
+				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+			}
+			info->fd_out = temp_fd;
+			info->outfile = ft_strdup(cmd_split[i + 1]);
+			printf(">> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
+		}
+		// else
+		// 	info->fd_out = -10;
 		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
 		{
 			temp_fd = open(cmd_split[i + 1], O_RDONLY, 0777);
@@ -179,22 +196,10 @@ void define_fd_in_out(t_pipex *info)
 			}
 			info->fd_in = temp_fd;
 			info->infile = ft_strdup(cmd_split[i + 1]);
+			printf("< fd_in: %d, infile: %s\n", info->fd_in, info->infile);
 		}
-		else
-			info->fd_in = -10;
-		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
-		{
-			temp_fd = open(cmd_split[i + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
-			if (temp_fd == -1)
-			{
-				close_pipex(info, NULL);
-				ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
-			}
-			info->fd_out = temp_fd;
-			info->outfile = ft_strdup(cmd_split[i + 1]);
-		}
-		else
-			info->fd_out = -10;
+		// else
+		// 	info->fd_in = -10;
 		i++;
 	}
 	return ;
@@ -216,11 +221,13 @@ int	create_children(t_data *data)
 	{
 		printf("\nin while loop i: %d\n", i);
 		define_fd_in_out(data->info);
+		printf("fd_out just after define_fd: %d\n", data->info->fd_out);
 		if (i != data->nbr_of_cmds)
 		{
 			if (pipe(data->info->pipefd) == -1)
 				ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		}
+		printf("fd_out just before child process: %d\n", data->info->fd_out);
 		pid = child_process(data->info);
 		data->info->pipe_read_end = data->info->pipefd[0];
 		data->info->curr_cmd++;
