@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/09 15:01:29 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/16 23:51:19 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ SYNTAX_ANALSYSIS = syntax_analysis.c \
 					syntax_print1.c \
 					syntax_print2.c \
 					token_types_array.c \
+
+SEMANTIC_ANALYSIS = semantic.c \
+					semantic_utils.c \
 
 BUILTINS = 			builtins.c \
 					pwd.c \
@@ -63,6 +66,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \
+		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
@@ -89,6 +93,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/lexical_analysis
 	@mkdir -p $(OBJS_DIR)/syntax_analysis
+	@mkdir -p $(OBJS_DIR)/semantic_analysis
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
@@ -100,6 +105,9 @@ $(OBJS_DIR)/lexical_analysis/%.o: $(SRCS_DIR)/lexical_analysis/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR)/syntax_analysis/%.o: $(SRCS_DIR)/syntax_analysis/%.c | $(OBJS_DIR)/syntax_analysis
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR)/semantic_analysis/%.o: $(SRCS_DIR)/semantic_analysis/%.c | $(OBJS_DIR)/semantic_analysis
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR)/builtins/%.o: $(SRCS_DIR)/builtins/%.c | $(OBJS_DIR)/builtins

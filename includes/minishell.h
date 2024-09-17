@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/13 18:55:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/17 19:13:08 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int 	is_file(const char *path);
 pid_t	child_process(t_pipex *info);
 pid_t	last_child_process(t_pipex *info);
 int		create_children(t_data *data);
-void	initialize_cmds(t_data *data, t_pipex *info);
+// void	initialize_cmds(t_data *data, t_pipex *info);
 char	*find_infile(t_pipex *info);
 char	*find_outfile(t_pipex *info);
 
@@ -182,7 +182,7 @@ void				free_env(t_env **env_var);
 void				execute_shell(t_data *shell_data);
 // t_env				*init_env_var(void);
 void				execute_command(t_data *shell_data);
-void	initialize_info(t_pipex *info, t_data *shell_data);
+// void	initialize_info(t_pipex *info, t_data *shell_data);
 
 
 // execute_utils.c
@@ -215,5 +215,14 @@ void	handle_sigint_noninteractive(int signal);
 void	not_output_signal_keys();
 void	output_signal_keys();
 
+
+//semantic.c
+void	semantic_analysis(t_data *shell_data);
+
+//semantic_utils.c
+int		find_pipe_count(char *line);
+void	initialize_cmds(t_data *data, t_pipex *info);
+void	initialize_info(t_pipex *info, t_data *data);
+char 	**clean_spaces(char **matrix);
 
 #endif

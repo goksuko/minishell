@@ -56,25 +56,25 @@ void	execute_node(t_tree *ast, t_data *shell_data)
 {
 	printf("----EXECUTE NODE----\n");
 	// int nbr_of_chldrn;
-	t_pipex	*info;
+	// t_pipex	*info;
 	int		exit_code;
 	(void)ast;
 
 
 	// nbr_of_chldrn = find_child_nbr(ast);
 	// printf("nbr_of_chldrn: %d\n", nbr_of_chldrn);
-	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
-	if (info == NULL || errno == ENOMEM)
-		ft_exit_perror(ERROR_ALLOCATION, "info in pipex");
-	shell_data->info = info;
-	// info->nbr_of_cmds = nbr_of_chldrn;
-	info->nbr_of_cmds = 1;
-	shell_data->nbr_of_cmds = info->nbr_of_cmds;
-	printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
-	shell_data->cmds = shell_data->ast->argument;
-	info->cmds = shell_data->cmds;
-	initialize_info(info, shell_data);
-	initialize_cmds(shell_data, info);
+	// info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+	// if (info == NULL || errno == ENOMEM)
+	// 	ft_exit_perror(ERROR_ALLOCATION, "info in pipex");
+	// shell_data->info = info;
+	// // info->nbr_of_cmds = nbr_of_chldrn;
+	// info->nbr_of_cmds = 1;
+	// shell_data->nbr_of_cmds = info->nbr_of_cmds;
+	// printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
+	// shell_data->cmds = shell_data->ast->argument;
+	// info->cmds = shell_data->cmds;
+	// initialize_info(info, shell_data);
+	// initialize_cmds(shell_data, info);
 	// printf("infile: %s\n", info->infile);
 	// printf("outfile: %s\n", info->outfile);
 	printf("initilaization is done\n\n*******\n\n");
@@ -83,21 +83,21 @@ void	execute_node(t_tree *ast, t_data *shell_data)
 	shell_data->exit_code = exit_code;
 }
 
-int		find_pipe_count(char *line)
-{
-	int	pipe_count;
-	int i;
+// int		find_pipe_count(char *line)
+// {
+// 	int	pipe_count;
+// 	int i;
 
-	pipe_count = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '|')
-			pipe_count++;
-		i++;
-	}
-	return (pipe_count);
-}
+// 	pipe_count = 0;
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		if (line[i] == '|')
+// 			pipe_count++;
+// 		i++;
+// 	}
+// 	return (pipe_count);
+// }
 
 
 void	execute_shell(t_data *shell_data)
@@ -107,9 +107,9 @@ void	execute_shell(t_data *shell_data)
 	// t_tree *ast;
 
 	// ast = shell_data->ast;
-	shell_data->exit_code = 0;
-	shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
-	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
+	// shell_data->exit_code = 0;
+	// shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
+	// printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
 	// while(ast->right != NULL)
 	// {
 	// 	if (ast->type == N_PIPE)
@@ -150,49 +150,49 @@ void	execute_shell(t_data *shell_data)
 	// 	execute_pipe(ast, shell_data);
 }
 
-char	*find_path2(char *identifier, char *path_from_shell_data)
-{
-	char	*path;
-	char	**path_split;
-	char	*tmp;
-	int		i;
+// char	*find_path2(char *identifier, char *path_from_shell_data)
+// {
+// 	char	*path;
+// 	char	**path_split;
+// 	char	*tmp;
+// 	int		i;
 
-	printf("----FIND PATH2----\n");
-	printf("main_command: %s\n", identifier);
-	if (access(identifier, F_OK | X_OK) == 0)
-		return (identifier);
-	printf("main_command was not accessible\n");
-	path_split = ft_split(path_from_shell_data, ':');
-	if (errno == ENOMEM || path_split == NULL)
-		ft_exit_perror(1, "path_split in find_path");
-	i = 0;
-	while (path_split[i])
-	{
-		printf("path_split[%d]: %s\n", i, path_split[i]);
-		// if (is_file(path_split[i]))
-		// {
-		// 	if (info-> infile == NULL)
-		// 		info->infile = path_split[i];
-		// 	else if (info->outfile != NULL) //check if this is correct
-		// 		info->outfile = path_split[i];
-		// }
-		tmp = ft_strjoin(path_split[i], "/");
-		printf("tmp: %s\n", tmp);
-		if (errno == ENOMEM || tmp == NULL)
-			ft_exit_perror(1, "tmp in find_path");
-		path = ft_strjoin(tmp, identifier);
-		printf("path: %s\n", path);
-		if (errno == ENOMEM || path == NULL)
-			ft_exit_perror(1, "path in find_path");
-		free(tmp);
-		if (access(path, F_OK | X_OK) == 0)
-			return (free_matrix(path_split), path);
-		free(path);
-		i++;
-	}
-	free_matrix(path_split);
-	return (NULL);
-}
+// 	printf("----FIND PATH2----\n");
+// 	printf("main_command: %s\n", identifier);
+// 	if (access(identifier, F_OK | X_OK) == 0)
+// 		return (identifier);
+// 	printf("main_command was not accessible\n");
+// 	path_split = ft_split(path_from_shell_data, ':');
+// 	if (errno == ENOMEM || path_split == NULL)
+// 		ft_exit_perror(1, "path_split in find_path");
+// 	i = 0;
+// 	while (path_split[i])
+// 	{
+// 		printf("path_split[%d]: %s\n", i, path_split[i]);
+// 		// if (is_file(path_split[i]))
+// 		// {
+// 		// 	if (info-> infile == NULL)
+// 		// 		info->infile = path_split[i];
+// 		// 	else if (info->outfile != NULL) //check if this is correct
+// 		// 		info->outfile = path_split[i];
+// 		// }
+// 		tmp = ft_strjoin(path_split[i], "/");
+// 		printf("tmp: %s\n", tmp);
+// 		if (errno == ENOMEM || tmp == NULL)
+// 			ft_exit_perror(1, "tmp in find_path");
+// 		path = ft_strjoin(tmp, identifier);
+// 		printf("path: %s\n", path);
+// 		if (errno == ENOMEM || path == NULL)
+// 			ft_exit_perror(1, "path in find_path");
+// 		free(tmp);
+// 		if (access(path, F_OK | X_OK) == 0)
+// 			return (free_matrix(path_split), path);
+// 		free(path);
+// 		i++;
+// 	}
+// 	free_matrix(path_split);
+// 	return (NULL);
+// }
 
 // char	*before_exec2(char *identifier, t_data *shell_data, char **arguments)
 // {
