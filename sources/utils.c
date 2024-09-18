@@ -96,7 +96,13 @@ void	start_exec(t_pipex *info)
 
 	path = NULL;
 	// printf("curr_cmd: %d\n", info->curr_cmd);
-	long_command = info->cmds[info->curr_cmd - 1];
+	if (info->special_command == NULL)
+		long_command = info->cmds[info->curr_cmd - 1];
+	else
+	{
+		long_command = info->special_command;
+		info->special_command = NULL;
+	}	
 	printf("long_command: %s\n", long_command);
 	long_corrected_command = clean_redirects(long_command);
 	printf("long_corrected_command: %s\n", long_corrected_command);

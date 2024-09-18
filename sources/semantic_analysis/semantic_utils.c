@@ -64,6 +64,7 @@ void	initialize_info(t_pipex *info, t_data *data)
 	info->data = data;
 	info->curr_cmd = 1;
 	info->pipe_read_end = STDIN_FILENO;
+	info->special_command = NULL;
 	// info->infile = NULL;
 	// info->outfile = NULL;
 	// info->fd_in = -10;
