@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/19 10:53:52 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/19 11:03:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,67 +352,30 @@ char **clean_up_to_redir(char **matrix)
 	return (temp);
 }
 
-// void	initialize_cmds(t_data *data, t_pipex *info)
+// int	pipex(t_data *data)
 // {
-// 	char	**cmds;
+// 	// t_pipex	*info;
+// 	int		exit_code;
+// 	// int		pipe_count;
 
-// 	ft_printf("---initialize_cmds---\n");
-// 	cmds = ft_split(data->line, '|');
-// 	cmds = clean_spaces(cmds);
-// 	// cmds = clean_up_to_redir(cmds); //wromg place
-// 	// printf_array(cmds);
-// 	// cmds = data->ast->argument;
-// 	// if (cmds)
-// 	// 	printf_array(cmds);
-// 	// else
-// 	// 	printf("cmds is NULL\n");
-// 	if (cmds == NULL || errno == ENOMEM)
-// 		ft_exit_data_perror(data, ERROR_ALLOCATION, "cmds in initialize");
-// 	// data->cmds = cmds;
-// 	info->cmds = cmds;
-// 	data->nbr_of_cmds = info->nbr_of_cmds;
-// 	return ;
+// 	ft_printf("pipex\n");
+// 	// info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+// 	// if (info == NULL || errno == ENOMEM)
+// 	// 	ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
+// 	// data->info = info;
+// 	// pipe_count = check_pipe(data->line);
+// 	// pipe_count = data->nbr_of_pipes;
+// 	// info->nbr_of_cmds = pipe_count + 1;
+// 	// printf("pipe_count: %d\n", pipe_count);
+// 	// printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
+// 	// initialize_cmds(data, info);
+// 	// initialize_info(info, data);
+// 	// printf("initilaization is done\n\n*******\n\n");
+// 	exit_code = create_children(data);
+// 	printf("exit_code: %d\n", exit_code);
+// 	free_system(data);
+// 	return (exit_code);
 // }
-
-// void	initialize_info(t_pipex *info, t_data *data)
-// {
-// 	ft_printf("\n---initialize_info---\n");
-// 	info->path_from_getenv = getenv("PATH");
-// 	if (info->path_from_getenv == NULL)
-// 	{
-// 		close_pipex(info, NULL);
-// 		ft_exit_data_error(data, ERROR_NULL_PATH);
-// 	}
-// 	info->data = data;
-// 	info->curr_cmd = 1;
-// 	info->pipe_read_end = STDIN_FILENO;
-// 	return ;
-// }
-
-int	pipex(t_data *data)
-{
-	// t_pipex	*info;
-	int		exit_code;
-	// int		pipe_count;
-
-	ft_printf("pipex\n");
-	// info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
-	// if (info == NULL || errno == ENOMEM)
-	// 	ft_exit_data_perror(data, ERROR_ALLOCATION, "info in pipex");
-	// data->info = info;
-	// pipe_count = check_pipe(data->line);
-	// pipe_count = data->nbr_of_pipes;
-	// info->nbr_of_cmds = pipe_count + 1;
-	// printf("pipe_count: %d\n", pipe_count);
-	// printf("nbr_of_cmds: %d\n", info->nbr_of_cmds);
-	// initialize_cmds(data, info);
-	// initialize_info(info, data);
-	// printf("initilaization is done\n\n*******\n\n");
-	exit_code = create_children(data);
-	printf("exit_code: %d\n", exit_code);
-	free_system(data);
-	return (exit_code);
-}
 
 // cat | cat | ls -l | wc -l
 // cat | cat | ls
