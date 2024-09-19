@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/18 22:54:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/19 10:53:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,38 +206,60 @@ void define_fd_in_out(t_pipex *info)
 			if (cmd_split[i + 2] != NULL)
 			{
 				j = i + 2;
+				if (info->special_command != NULL)
+					printf("special_command: %s\n", info->special_command);
+				else
+					printf("special_command is NULL\n");
 				while (cmd_split[j] != NULL && cmd_split[j][0] != '>')
 				{
-					info->special_command = ft_strjoin(info->special_command, cmd_split[j]);
-					if (info->special_command == NULL || errno == ENOMEM)
-						ft_exit_data_perror(info->data, ERROR_ALLOCATION, "special_command in fill_fds");
+					if (info->special_command == NULL)
+					{
+						info->special_command = ft_strdup(cmd_split[j]);
+						if (info->special_command == NULL || errno == ENOMEM)
+							ft_exit_data_perror(info->data, ERROR_ALLOCATION, "ft_strdup in define_fd_in_out");
+					}
+					else
+					{
+						info->special_command = ft_strjoin(info->special_command, cmd_split[j]);
+						if (info->special_command == NULL || errno == ENOMEM)
+							ft_exit_data_perror(info->data, ERROR_ALLOCATION, "ft_strjoin in define_fd_in_out");
+					}
+					j++;
+				}
+				if (info->special_command != NULL)
+					printf("special_command: %s\n", info->special_command);
+				else
+					printf("special_command is NULL\n");
+				while (cmd_split[j] != NULL)
+				{
+					if (ft_strnstr(cmd_split[j], ">>", ft_strlen(cmd_split[j])) != NULL)
+					{
+						temp_fd = open(cmd_split[j + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
+						if (temp_fd == -1)
+						{
+							close_pipex(info, NULL);
+							ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+						}
+						info->fd_out = temp_fd;
+						info->outfile = ft_strdup(cmd_split[j + 1]);
+						printf(">> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
+					}
+					else if (ft_strnstr(cmd_split[j], ">", ft_strlen(cmd_split[j])) != NULL)
+					{
+						temp_fd = open(cmd_split[j + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
+						if (temp_fd == -1)
+						{
+							close_pipex(info, NULL);
+							ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
+						}
+						info->fd_out = temp_fd;
+						info->outfile = ft_strdup(cmd_split[j + 1]);
+						printf("> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
+					}
 					j++;
 				}
 				// below is the same with above except for j instead of i
-				if (ft_strnstr(cmd_split[j], ">>", ft_strlen(cmd_split[j])) != NULL)
-				{
-					temp_fd = open(cmd_split[j + 1], O_CREAT | O_APPEND | O_WRONLY, 0777);
-					if (temp_fd == -1)
-					{
-						close_pipex(info, NULL);
-						ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
-					}
-					info->fd_out = temp_fd;
-					info->outfile = ft_strdup(cmd_split[j + 1]);
-					printf(">> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
-				}
-				else if (ft_strnstr(cmd_split[j], ">", ft_strlen(cmd_split[j])) != NULL)
-				{
-					temp_fd = open(cmd_split[j + 1], O_CREAT | O_TRUNC | O_WRONLY, 0777);
-					if (temp_fd == -1)
-					{
-						close_pipex(info, NULL);
-						ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "outfile in fill_fds");
-					}
-					info->fd_out = temp_fd;
-					info->outfile = ft_strdup(cmd_split[j + 1]);
-					printf("> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
-				}
+				
 			}
 		}
 		// else
@@ -410,3 +432,11 @@ int	pipex(t_data *data)
 // > eof
 // /home/akaya-oz
 // bla
+
+// cat bilge.sh > out.txt
+// < bilge.sh cat > out.txt
+// cat < bilge.sh > out.txt
+
+// cat bilge.sh >> out.txt
+// < bilge.sh cat >> out.txt
+// cat < bilge.sh >> out.txt
