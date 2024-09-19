@@ -45,6 +45,56 @@ void define_redir_append(t_pipex *info, char **cmd_split, int i)
 	printf(">> fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
 }
 
+void define_redir_heredoc(t_pipex *info, char **cmd_split, int i)
+{
+	int temp_fd;
+	
+	temp_fd = open("our_here_doc", O_CREAT | O_APPEND | O_WRONLY, 0777);
+	if (temp_fd == -1)
+	{
+		close_pipex(info, NULL);
+		ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "temp_fd in define_heredoc");
+	}
+	info->fd_out = temp_fd;
+	info->outfile = ft_strdup("our_here_doc");
+	if (ft_strlen(cmd_split[i]) == 2)
+	{
+		info->limiter = ft_strdup(cmd_split[i + 1]);
+		if (info->limiter == NULL || errno == ENOMEM)
+			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "info->limiter in define_redir_heredoc");
+	}
+	else
+	{
+		info->limiter = ft_strdup(cmd_split[i] + 2);
+		if (info->limiter == NULL || errno == ENOMEM)
+			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "info->limiter in define_redir_heredoc");
+	}
+	printf("<< fd_out: %d, outfile: %s\n", info->fd_out, info->outfile);
+	printf("limiter: %s\n", info->limiter);
+}
+
+// when limiter comes, we have to finish the heredoc
+void finish_redir_heredoc(t_pipex *info)
+{
+	int		exit_code;
+
+	printf("finish_redir_heredoc\n");
+	info->fd_in = open("our_here_doc", O_RDONLY, 0777);
+	if (info->fd_in == -1)
+	{
+		close_pipex(info, NULL);
+		ft_exit_data_perror(info->data, ERROR_FILE_OPEN, "info->fd_in in finish_redir_heredoc");
+	}
+	info->infile = ft_strdup("our_here_doc");
+	if (info->infile == NULL || errno == ENOMEM)
+		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "info->infile in finish_redir_heredoc");
+	info->fd_out = -10;
+	info->outfile = NULL;
+	exit_code = create_children(info->data);
+	unlink("our_here_doc");
+	printf("exit_code: %d\n", exit_code);
+	info->data->exit_code = exit_code;
+}
 
 
 void define_fd_in_out(t_pipex *info)
@@ -66,17 +116,13 @@ void define_fd_in_out(t_pipex *info)
 	i = 0;
 	while (cmd_split[i] != NULL)
 	{
-		if (ft_strnstr(cmd_split[i], ">>", ft_strlen(cmd_split[i])) != NULL)
-		{
+		if (ft_strnstr(cmd_split[i], ">>", 2) != NULL)
 			define_redir_append(info, cmd_split, i);
-		}
-		else if (ft_strnstr(cmd_split[i], ">", ft_strlen(cmd_split[i])) != NULL)
-		{
+		else if (ft_strnstr(cmd_split[i], ">", 1) != NULL)
 			define_redir_out(info, cmd_split, i);
-		}
-		// else
-		// 	info->fd_out = -10;
-		if (ft_strnstr(cmd_split[i], "<", ft_strlen(cmd_split[i])) != NULL)
+		else if (ft_strnstr(cmd_split[i], "<<", 2) != NULL)
+			define_redir_heredoc(info, cmd_split, i);
+		else if (ft_strnstr(cmd_split[i], "<", 1) != NULL)
 		{
 			define_redir_in(info, cmd_split, i);
 			if (cmd_split[i + 2] != NULL)
@@ -109,20 +155,14 @@ void define_fd_in_out(t_pipex *info)
 				while (cmd_split[j] != NULL)
 				{
 					if (ft_strnstr(cmd_split[j], ">>", ft_strlen(cmd_split[j])) != NULL)
-					{
 						define_redir_append(info, cmd_split, j);
-					}
 					else if (ft_strnstr(cmd_split[j], ">", ft_strlen(cmd_split[j])) != NULL)
-					{
 						define_redir_out(info, cmd_split, j);
-					}
 					j++;
 				}
 				
 			}
 		}
-		// else
-		// 	info->fd_in = -10;
 		i++;
 	}
 	return ;
