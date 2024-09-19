@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/17 19:33:33 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/09/19 11:43:50 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,11 +44,17 @@ BUILTINS = 			builtins.c \
 					exit_utils.c \
 					env_utils.c \
 
-EXECUTE =			execute.c \
+EXECUTE =			child_processes.c \
+					children.c \
+					define_fds.c \
+					execute.c \
 					execute_utils.c \
 					env_list.c \
 					env_list_utils.c \
 					env_key_funcs.c \
+					path.c \
+					utils.c \
+					utils2.c \
 
 SIGNALS = 			interactive_signals.c \
 					noninteractive_signals.c \
@@ -59,11 +65,7 @@ OBJS_DIR = objects
 SRCS = $(addprefix $(SRCS_DIR)/, \
 		errors.c \
 		main.c \
-		utils.c \
-		utils2.c \
 		ft_putstr2_fd.c \
-		path.c \
-		pipex.c \
 		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \

@@ -6,11 +6,11 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/30 23:23:28 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/13 17:10:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/19 11:41:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	close_safe(int fd, t_pipex *info)
 {

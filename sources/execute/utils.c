@@ -10,8 +10,7 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 void	*free_matrix(char **matrix)
 {

@@ -32,3 +32,4 @@ int	pipes(t_data *shell_data)
 	free_system(shell_data);
 	return (exit_code);
 }
+
