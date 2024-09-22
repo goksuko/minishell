@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:53:19 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/22 22:52:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ typedef struct s_pipex
 	int				nbr_of_cmds;
 	int				curr_cmd;
 	char			**cmds;
+	char			*special_command;
+	char 			*limiter;
 	char			*path;
 	char			*path_from_getenv;
+	int				pipe_read_end;
 	struct s_data	*data;
 }					t_pipex;
 
@@ -155,13 +158,11 @@ int					dup2_safe(int oldfd, int newfd, t_pipex *info);
 
 // pipex.c
 
-int					pipex(t_data *data);
-int					is_file(const char *path);
-int 	is_file(const char *path);
+// int 	is_file(const char *path);
 pid_t	child_process(t_pipex *info);
 pid_t	last_child_process(t_pipex *info);
 int		create_children(t_data *data);
-void	initialize_cmds(t_data *data, t_pipex *info);
+// void	initialize_cmds(t_data *data, t_pipex *info);
 char	*find_infile(t_pipex *info);
 char	*find_outfile(t_pipex *info);
 
@@ -172,21 +173,44 @@ int					execute_builtin(t_data *shell_data);
 int					ft_pwd(void);
 // int					ft_cd(char **arguments);
 // int					ft_env(t_env **env_var);
-int					ft_echo(char **arguments);
+int					ft_echo(char **arguments, t_pipex *info);
 void				ft_exit(t_tree **ast, t_env **env_var);
 int					exit_atoi(char *str, t_tree **ast, t_env **env_var);
 bool				arg_is_digit(char *str);
 void				free_env(t_env **env_var);
 
+// child_processes.c
+
+pid_t	child_process(t_pipex *info);
+int		create_children(t_data *data);
+
+
+
+// children.c
+
+void				do_first_child(t_pipex *info);
+void				do_middle_child(t_pipex *info);
+void				do_last_child(t_pipex *info);
+
+// define_fds.c
+
+void define_fd_in_out(t_pipex *info);
+void define_redir_in(t_pipex *info, char *file_name);
+void define_redir_out(t_pipex *info, char *file_name);
+void define_redir_append(t_pipex *info, char *file_name);
+void define_redir_heredoc(t_pipex *info, char *limiter);
+
 // Execute
 void				execute_shell(t_data *shell_data);
 // t_env				*init_env_var(void);
-void				execute_command(t_data *shell_data);
-void	initialize_info(t_pipex *info, t_data *shell_data);
-
+// void				execute_command(t_data *shell_data);
+int					pipes(t_data *data);
+// void	initialize_info(t_pipex *info, t_data *shell_data);
+void				execute_node(t_tree *ast, t_data *shell_data);
 
 // execute_utils.c
 void				free_tree_env(t_tree **ast, t_env **env_var);
+int					is_file(const char *path);
 
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);
@@ -229,5 +253,17 @@ char	*ft_strjoin_c(char const *s1, char c);
 
 // Free shell data
 void	free_shell_data(t_data *data);
+
+//semantic.c
+void	semantic_analysis(t_data *shell_data);
+
+//semantic_utils.c
+int		find_pipe_count(char *line);
+void	initialize_cmds(t_data *data, t_pipex *info);
+void	initialize_info(t_pipex *info, t_data *data);
+char 	**clean_spaces(char **matrix);
+
+//semantic_utils2.c
+char *clean_redirects(char *long_command);
 
 #endif

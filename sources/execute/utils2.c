@@ -6,20 +6,23 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/30 23:23:28 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/14 18:17:27 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/22 22:59:54 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	close_safe(int fd, t_pipex *info)
 {
 	printf("close_safe %d\n", fd);
-	if (close(fd) < 0)
-	{
-		close_pipex(info, NULL);
-		ft_exit_perror(ERROR_CLOSE, "in close safe");
-	}
+	// if (isatty(fd))
+	// {
+		if (close(fd) < 0)
+		{
+			close_pipex(info, NULL);
+			ft_exit_perror(ERROR_CLOSE, "in close safe");
+		}
+	// } 
 	return (0);
 }
 

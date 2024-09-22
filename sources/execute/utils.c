@@ -10,8 +10,7 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
+#include "../../includes/minishell.h"
 
 void	*free_matrix(char **matrix)
 {
@@ -36,7 +35,7 @@ void	*free_matrix(char **matrix)
 
 void	close_pipex(t_pipex *info, char **matrix)
 {
-	printf("close_pipex\n");
+	// printf("close_pipex\n");
 	close(info->fd_in);
 	close(info->fd_out);
 	close(info->pipefd[0]);
@@ -50,6 +49,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 {
 	char	*path;
 
+	printf("---before_exec---\n");
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
@@ -69,7 +69,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
-	printf("path before exec: %s\n", path);
+	// printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -79,8 +79,9 @@ void	start_exec(t_pipex *info)
 	char	**cmd_matrix;
 	char	*path;
 	char	*long_command;
+	char	*long_corrected_command;
 
-	printf("start_exec\n");
+	printf("---start_exec---\n");
 
 	// if (info->data->ast->type == N_COMMAND)
 	// {
@@ -93,15 +94,23 @@ void	start_exec(t_pipex *info)
 
 
 	path = NULL;
-	printf("curr_cmd: %d\n", info->curr_cmd);
-	long_command = info->cmds[info->curr_cmd - 1];
+	// printf("curr_cmd: %d\n", info->curr_cmd);
+	if (info->special_command == NULL)
+		long_command = info->cmds[info->curr_cmd - 1];
+	else
+	{
+		long_command = info->special_command;
+		info->special_command = NULL;
+	}	
 	printf("long_command: %s\n", long_command);
-	cmd_matrix = ft_split(long_command, ' ');
-	printf_array(cmd_matrix);
+	long_corrected_command = clean_redirects(long_command);
+	printf("long_corrected_command: %s\n", long_corrected_command);
+	cmd_matrix = ft_split(long_corrected_command, ' ');
+	// printf_array(cmd_matrix);
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	path = before_exec(long_command, info, cmd_matrix);
-	printf("\npath: %s\n", path);
+	path = before_exec(long_corrected_command, info, cmd_matrix);
+	// printf("\npath: %s\n", path);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
 		close_pipex(info, cmd_matrix);
