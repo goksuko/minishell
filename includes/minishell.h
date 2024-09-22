@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 22:52:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/22 23:10:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_data
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
 	char			**cmds_for_pipe;
+	char			**expanded_cmds; // to be freed properly!!
 	struct s_pipex	*info;
 	struct s_env	*env_list;
 	struct s_tree	*ast;
@@ -240,19 +241,28 @@ void	not_output_signal_keys();
 void	output_signal_keys();
 
 // Argument expansion
-void	expansion(t_data **shell_data, t_tree **node);
-void	expand_arguments(t_data **shell_data, t_tree **node);
-void	init_expanded_arguments(t_tree **node);
+void	begin_expansion(t_data *shell_data);
+void	expansion(t_data **shell_data, t_tree **node, int *i);
+char	*expand_arguments(t_data **shell_data, t_tree **node);
+void	init_expanded_cmds(t_data **shell_data);
+char	*create_arg_str(t_data **shell_data, t_tree **node, char *expanded_args);
+char	*add_redirection_to_cmd(t_data **shell_data, \
+		t_tree **node, char *expanded_args);
+char	*add_redirection(t_data **shell_data, t_tree **node);
+char	*redir_value(t_redirection_type type);
+char	*expand_argument(t_data **shell_data, t_tree *node, int i);
 char	*remove_quotation_marks(char *argument);
-char	*s_quotes(char *argument);
+char	*s_quotes(t_data **shell_data, char *argument);
 bool	dollar_sign_check(char *argument);
 char	*d_quotes(t_data **shell_data, char *argument);
 char	*handle_dollar_sign(t_data **shell_data, char *str);
-char	*expand_identifier(t_data **t_shell_data, char *argument);
+char	*expand_identifier(t_data **shell_data, char *argument);
 char	*ft_strjoin_c(char const *s1, char c);
+char	*add_space_to_str(t_data **shell_data, char *str);
+int		ast_size(t_tree *ast);
 
 // Free shell data
-void	free_shell_data(t_data *data);
+void	free_shell_data(t_data **data);
 
 //semantic.c
 void	semantic_analysis(t_data *shell_data);
