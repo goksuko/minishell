@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/19 22:49:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/22 22:02:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,9 +194,10 @@ void				do_last_child(t_pipex *info);
 // define_fds.c
 
 void define_fd_in_out(t_pipex *info);
-void define_redir_in(t_pipex *info, char **cmd_split, int i);
-void define_redir_out(t_pipex *info, char **cmd_split, int i);
-void define_redir_append(t_pipex *info, char **cmd_split, int i);
+void define_redir_in(t_pipex *info, char *file_name);
+void define_redir_out(t_pipex *info, char *file_name);
+void define_redir_append(t_pipex *info, char *file_name);
+void define_redir_heredoc(t_pipex *info, char *limiter);
 
 // Execute
 void				execute_shell(t_data *shell_data);

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:34:02 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/22 22:07:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ t_tree	*syntax_analysis(t_token *tokens)
 	printf("----SYNTAX ANALYSIS----\n");
 	t_tree	*abstract_syntax_tree;
 
-	if (tokens->type != T_BUILTIN && tokens->type != T_IDENTIFIER) // not sure if necessary to check this
-	{
-		ft_printf("token type is not a command, it is %s\n", token_type_to_string(tokens->type));
-		// ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
-	}
+	// if (tokens->type != T_BUILTIN && tokens->type != T_IDENTIFIER) // not sure if necessary to check this
+	// {
+	// 	// ft_printf("token type is not a command, it is %s\n", token_type_to_string(tokens->type));
+	// 	ft_exit_str_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
+	// }
 	abstract_syntax_tree = parse_tokens(&tokens);
 	if (abstract_syntax_tree == NULL)
 	{
