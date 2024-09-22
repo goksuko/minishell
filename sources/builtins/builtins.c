@@ -1,5 +1,32 @@
 #include "../../includes/minishell.h"
 
+// include tilde check for cd and export and unset
+
+
+char	*first_word(t_data **shell_data ,char *str)
+{
+	int		i;
+	char	*word;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != ' ')
+		i++;
+	word = malloc(sizeof(char) * (i + 1));
+	if (word == NULL)
+	{
+		free_shell_data(shell_data);
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in add_space_to_str");
+	}
+	i = 0;
+	while (str[i] && str[i] != ' ')
+	{
+		word[i] = str[i];
+		i++;
+	}
+	word[i] = '\0';
+	return (word);
+}
+
 int	execute_builtin(t_data *shell_data)
 {
 	printf("----EXECUTE BUILTIN----\n");
@@ -8,11 +35,11 @@ int	execute_builtin(t_data *shell_data)
 
 	ast = &shell_data->ast;
 	env_var = &shell_data->env_list;	
-	if (ft_strncmp((*ast)->expanded_argument[0], "echo", 5) == 0)
-		return (ft_echo((*ast)->expanded_argument));
+	if (ft_strncmp(first_word(&shell_data, *shell_data->expanded_cmds), "echo", 5) == 0)
+		return (ft_echo(shell_data->expanded_cmds));
 	// if (ft_strncmp(arguments[0], "cd", 3) == 0)
 	// 	return (ft_cd(arguments));
-	if (ft_strncmp((*ast)->expanded_argument[0], "pwd", 4) == 0)
+	if (ft_strncmp(first_word(&shell_data, *shell_data->expanded_cmds), "pwd", 4) == 0)
 		return (ft_pwd());
 	// if (ft_strncmp(arguments[0], "export", 7) == 0)
 	// 	return (ft_export(arguments));
@@ -20,8 +47,8 @@ int	execute_builtin(t_data *shell_data)
 	// 	return (ft_unset(arguments));
 	// if (ft_strncmp(arguments[0], "env", 4) == 0)
 	// 	return (ft_env(env_var));
-	if (ft_strncmp((*ast)->expanded_argument[0], "exit", 5) == 0)
-		ft_exit(ast, env_var);
+	if (ft_strncmp(first_word(&shell_data, *shell_data->expanded_cmds), "exit", 5) == 0)
+		ft_exit(ast, env_var); // pass shell_data instead of ast and env_var
 	return (1);
 }
 

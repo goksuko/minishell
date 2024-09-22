@@ -103,11 +103,13 @@ int		find_pipe_count(t_token *tokens)
 void	execute_shell(t_data *shell_data)
 {
 	printf("----EXECUTE SHELL----\n");
+
 	// t_env	*env_var;
 	// t_tree *ast;
 
 	// ast = shell_data->ast;
-	expansion(&shell_data, &(shell_data->ast));
+	// expansion(&shell_data, &(shell_data->ast), &i);
+	begin_expansion(shell_data);
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);

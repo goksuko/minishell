@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/14 22:06:17 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/22 22:41:17 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ EXPANSION =				expand.c \
 						double_quotes.c \
 						dollar_sign.c \
 						identifier.c \
-						tilde.c \
+						redirections.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects

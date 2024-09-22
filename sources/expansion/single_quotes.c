@@ -1,13 +1,14 @@
 #include "../../includes/minishell.h"
 
-char	*s_quotes(char *argument)
+char	*s_quotes(t_data **shell_data, char *argument)
 {
-	printf("----S_QUOTES----\n");
 	char	*clean_str;
 
 	clean_str = remove_quotation_marks(argument);
-	printf("clean string: %s\n", clean_str);
 	if (clean_str == NULL)
-		return (NULL);
+	{
+		free_shell_data(shell_data);
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in remove_quotation_marks");
+	}
 	return (clean_str);
 }

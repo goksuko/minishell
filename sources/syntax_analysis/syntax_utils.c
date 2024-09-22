@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:22 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:19:11 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/22 19:48:46 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_tree	*init_node(t_node_type type, t_token **tokens)
 	}
 	else
 		new_node->argument = NULL;
-	new_node->expanded_argument = NULL;
 	new_node->redirection = NULL;
 	new_node->left = NULL;
 	new_node->right = NULL;
