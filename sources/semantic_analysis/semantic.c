@@ -4,6 +4,7 @@ void semantic_analysis(t_data *shell_data)
 {
 	t_pipex *info;
 	
+	printf("---SEMANTIC ANALYSIS---\n");
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
