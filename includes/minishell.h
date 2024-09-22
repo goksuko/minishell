@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 22:02:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/22 23:25:06 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef enum e_error
 typedef struct s_pipex
 {
 	int				pipefd[2];
+	int				fds[100][2];
 	int				fd_in;
 	int				fd_out;
 	char			*infile;
@@ -91,6 +92,7 @@ typedef struct s_data
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
 	char			**cmds_for_pipe;
+	char			**expanded_cmds; // to be freed properly!!
 	struct s_pipex	*info;
 	struct s_env	*env_list;
 	struct s_tree	*ast;
@@ -238,17 +240,5 @@ void	handle_sigint_noninteractive(int signal);
 void	not_output_signal_keys();
 void	output_signal_keys();
 
-
-//semantic.c
-void	semantic_analysis(t_data *shell_data);
-
-//semantic_utils.c
-int		find_pipe_count(char *line);
-void	initialize_cmds(t_data *data, t_pipex *info);
-void	initialize_info(t_pipex *info, t_data *data);
-char 	**clean_spaces(char **matrix);
-
-//semantic_utils2.c
-char *clean_redirects(char *long_command);
 
 #endif

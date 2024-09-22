@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/09 15:19:05 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/14 21:18:03 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef enum s_token_type // ADJUST AS NECESSARY
     T_PIPE, // |
 	T_DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
 	T_SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-	T_ENV_VARIABLE, // $VAR, or $?
     T_UNKNOWN // anything not defined and not categorized in tokens
 }	t_token_type;
 
@@ -82,7 +81,6 @@ t_token_type	token_type_check(char *token);
 t_token_type	check_flag(char *token);
 t_token_type	check_pipes(char *token);
 t_token_type	check_redirection(char *token);
-t_token_type	check_env_variable(char *token);
 t_token_type	check_command(char *token);
 t_token_type	check_double_quotes(char *token);
 t_token_type	check_single_quotes(char *token);

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:37 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 19:30:59 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/14 21:18:00 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*token_type_to_string(t_token_type type) // to be deleted later
 	[T_DSMALLER] = "DSMALLER",
 	[T_DGREATER] = "DGREATER",
 	[T_PIPE] = "PIPE",
-	[T_ENV_VARIABLE] = "ENV_VARIABLE",
 	[T_FLAG] = "FLAG",
 	[T_SINGLE_QUOTES] = "SINGLE_QUOTES",
 	[T_DOUBLE_QUOTES] = "DOUBLE_QUOTES",
@@ -49,15 +48,6 @@ t_token_type	check_command(char *token)
 		return (T_BUILTIN);
 	if (ft_strncmp(token, "exit", 4) == 0)
 		return (T_BUILTIN);
-	return (T_UNKNOWN);
-}
-
-t_token_type	check_env_variable(char *token)
-{
-	if (ft_strncmp(token, "PATH", 4) == 0)
-		return (T_ENV_VARIABLE);
-	if (ft_strncmp(token, "$", 1) == 0)
-		return (T_ENV_VARIABLE);
 	return (T_UNKNOWN);
 }
 

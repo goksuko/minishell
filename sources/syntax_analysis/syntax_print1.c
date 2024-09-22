@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:16 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:27:33 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/22 19:48:49 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ void	ft_print_ast(t_tree *ast, int *node_count)
 		printf("Arguments:\n");
 		printf_array(ast->argument);
 	}
-	// if (ast->expanded_argument != NULL)
-	// {
-	// 	printf("Expanded argument: \n");
-	// 	printf_array(ast->expanded_argument);
-	// }
 	if (ast->redirection != NULL)
 	{
 		printf("Redirection: \n");

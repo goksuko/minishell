@@ -6,31 +6,35 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/19 11:43:50 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/09/22 23:26:21 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 LIBFT = ./Libft/libft.a
 
-LEXICAL_ANALSYSIS = tokens.c \
-					meta_char_check.c \
-					tokens_utils.c \
-					tokens_utils2.c \
-					split_tokens.c \
-					token_lst_utils.c \
-					token_lst_free.c \
-					token_types.c \
-					token_types2.c
+LEXICAL_ANALSYSIS =		tokens.c \
+						meta_char_check.c \
+						tokens_utils.c \
+						tokens_utils2.c \
+						split_tokens.c \
+						token_lst_utils.c \
+						token_lst_free.c \
+						token_types.c \
+						token_types2.c
 
-SYNTAX_ANALSYSIS = syntax_analysis.c \
-					syntax_utils.c \
-					redirections.c \
-					nodes_utils.c \
-					free_tree_list_exit.c \
-					syntax_print1.c \
-					syntax_print2.c \
-					token_types_array.c \
+SYNTAX_ANALSYSIS =		syntax_analysis.c \
+						syntax_utils.c \
+						redirections.c \
+						nodes_utils.c \
+						free_tree_list_exit.c \
+						syntax_print1.c \
+						syntax_print2.c \
+						token_types_array.c \
+
+SEMANTIC_ANALYSIS = semantic.c \
+					semantic_utils.c \
+					semantic_utils2.c \
 
 SEMANTIC_ANALYSIS = semantic.c \
 					semantic_utils.c \
@@ -56,8 +60,16 @@ EXECUTE =			child_processes.c \
 					utils.c \
 					utils2.c \
 
-SIGNALS = 			interactive_signals.c \
-					noninteractive_signals.c \
+SIGNALS = 				interactive_signals.c \
+						noninteractive_signals.c \
+
+EXPANSION =				expand.c \
+						expand_utils.c \
+						single_quotes.c \
+						double_quotes.c \
+						dollar_sign.c \
+						identifier.c \
+						redirections.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -73,6 +85,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
+		$(addprefix expansion/, $(EXPANSION)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -100,6 +113,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
+	@mkdir -p $(OBJS_DIR)/expansion
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -120,6 +134,9 @@ $(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR)/expansion/%.o: $(SRCS_DIR)/expansion/%.c | $(OBJS_DIR)/expansion
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
