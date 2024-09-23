@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 15:21:31 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:24:08 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_redirection_type	check_redirection_type(t_token_type type)
 		return (REDIR_UNKNOWN);
 }
 
-t_redirection	*init_redirection(t_tree **tree, t_token **token)
+// t_redirection	*init_redirection(t_tree **tree, t_token **token)
+t_redirection	*init_redirection(t_token **token)
 {
 	t_redirection	*redirection;
 
@@ -62,19 +63,22 @@ t_redirection	*init_redirection(t_tree **tree, t_token **token)
 	else
 	{
 		free(redirection);
-		free_list_tree_syntax_exit(token, tree);
+		//free_list_tree_syntax_exit(token, tree); free entire shell data as well!
 	}
 	return (redirection);
 }
 
+// void	handle_redirection(t_redirection **redirection_lst, \
+// 		t_token **token, t_tree **node)
 void	handle_redirection(t_redirection **redirection_lst, \
-		t_token **token, t_tree **node)
+		t_token **token)
 {
+	printf("----HANDLE REDIRECTION----\n");
 	t_redirection	*new_redirection;
 
-	new_redirection = init_redirection(node, token);
-	if (new_redirection == NULL)
-		free_list_tree_alloc_exit(token, node);
+	new_redirection = init_redirection(token); //also add node perhaps
+	// if (new_redirection == NULL)
+	// 	free_list_tree_alloc_exit(token, node); free entire shell data as well!
 	next_token(token);
 	append_new_redir_node(redirection_lst, new_redirection);
 }

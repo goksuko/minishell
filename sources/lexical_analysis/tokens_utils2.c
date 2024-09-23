@@ -6,27 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 15:10:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:17:39 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_array_exit(char **arrray)
-{
-	int	i;
-
-	i = 0;
-	while (arrray[i] != NULL)
-	{
-		free(arrray[i]);
-		i++;
-	}
-	free(arrray);
-	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-}
-
-void	check_unclosed_quotes(t_token *token_lst)
+void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst)
 {
 	t_token	*current;
 	char	quote;
@@ -38,7 +24,10 @@ void	check_unclosed_quotes(t_token *token_lst)
 		{
 			quote = current->value[0];
 			if ((current->value[ft_strlen(current->value) - 1]) != quote)
+			{
+				free_shell_data(&shell_data);
 				ft_exit_str_fd(ERROR_QUOTE, STDERR_FILENO);
+			}
 		}
 		current = current->next;
 	}
@@ -72,7 +61,7 @@ int	count_tokens(char *line)
 	return (count);
 }
 
-void	check_characters(char *line)
+void	check_characters(t_data *shell_data, char *line)
 {
 	int	i;
 	int	wrong_char;
@@ -86,7 +75,10 @@ void	check_characters(char *line)
 		i++;
 	}
 	if (wrong_char)
-		ft_exit_str_free_fd((ERROR_WRONG_CHAR), line, STDERR_FILENO);
+	{
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_WRONG_CHAR, STDERR_FILENO);
+	}
 	return ;
 }
 

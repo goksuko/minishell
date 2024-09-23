@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/09 15:17:28 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:13:03 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,7 @@ void	is_file_check(t_token *token_lst)
 	}
 }
 
-void	array_to_list(t_token **token_lst, char **tokens)
-{
-	t_token	*head;
-	t_token	*prev;
-	t_token	*new_token;
-	int		i;
-
-	i = 0;
-	head = ft_token_new(tokens[i], token_type_check(tokens[i]));
-	if (head == NULL)
-		free_list_array_exit(*token_lst, tokens); // maybe a separate function for this
-	prev = head;
-	i++;
-	while (tokens[i] != NULL)
-	{
-		new_token = ft_token_new(tokens[i], token_type_check(tokens[i]));
-		if (new_token == NULL)
-			free_list_array_exit(head, tokens); //not sure if this is correct because token_lst also needs to be freed!!
-		new_token->prev = prev;
-		prev->next = new_token;
-		prev = new_token;
-		i++;
-	}
-	prev->next = NULL;
-	*token_lst = head;
-}
-
-char	**create_token_array(char *line)
+char	**create_token_array(t_data *shell_data, char *line)
 {
 	int		number_tokens;
 	char	**tokens;
@@ -60,38 +33,80 @@ char	**create_token_array(char *line)
 	number_tokens = count_tokens(line);
 	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
 	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO);
+	{
+		free_array(tokens);
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+	}
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
-		ft_exit_str_free_fd(ERROR_ALLOCATION, line, STDERR_FILENO); // Need to check if tokens also needs to be freed here but the tokens array would be freed in case of an error within the split_tokens function
+	{
+		free_array(tokens);
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+	}
 	return (tokens);
 }
 
-t_token	*create_token_list(char **token_array)
+t_token	*array_to_list(char **tokens, int token_count)
+{
+	t_token	*head;
+	t_token	*current;
+	int		i;
+
+	i = 0;
+	head = ft_token_new(tokens[i], token_type_check(tokens[i]), token_count);
+	if (head == NULL)
+		return (free_array(tokens), NULL);
+	current = head;
+	i++;
+	while (tokens[i] != NULL)
+	{
+		current->next = ft_token_new(tokens[i], token_type_check(tokens[i]), token_count);
+		if (current->next == NULL)
+			return (free_array(tokens), NULL);
+		current = current->next;
+		i++;
+	}
+	free_array(tokens);
+	return (head);
+}
+
+t_token	*create_token_list(t_data *shell_data, char **token_array)
 {
 	t_token	*token_lst;
+	int		token_count;
 
-	token_lst = init_list();
+	token_count = count_tokens(shell_data->line);
+	token_lst = array_to_list(token_array, token_count);
 	if (token_lst == NULL)
-		free_array_exit(token_array);
-	array_to_list(&token_lst, token_array);
-	check_unclosed_quotes(token_lst);
+	{
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+	}
+	check_unclosed_quotes(shell_data, token_lst);
 	return (token_lst);
 }
 
-t_token	*lexical_analysis(char *line)
+t_token	*lexical_analysis(t_data *shell_data, char *line)
 {
 	char	**tokens;
 	t_token	*token_lst;
 
 	if (line[0] == '\0' || line_is_empty(line) == true)
-		ft_exit_str_free_fd(ERROR_EMPTY_LINE, line, STDERR_FILENO); // need to change error code here but usally in bash empty line is not an error
-	check_characters(line);
+	{
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_EMPTY_LINE, STDERR_FILENO);
+	}
+	check_characters(shell_data, line);
 	if (meta_character_check(line) == false)
-		ft_exit_str_free_fd(ERROR_META, line, STDERR_FILENO);
-	tokens = create_token_array(line);
-	// free(line); // not sure if needed although I am prety sire. Need to properly check the valgrind message again
-	token_lst = create_token_list(tokens);
+	{
+		free_shell_data(&shell_data);
+		ft_exit_str_fd(ERROR_META, STDERR_FILENO);
+	}
+	tokens = create_token_array(shell_data, line);
+	token_lst = create_token_list(shell_data, tokens);
 	is_file_check(token_lst);
 	return (token_lst);
 }
+

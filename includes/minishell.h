@@ -6,34 +6,29 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:47:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:10:30 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../Libft/ft_printf_fd/includes/ft_printf_fd.h"
-# include "../Libft/ft_utils/includes/ft_utils.h"
-# include "../Libft/includes/libft.h"
-# include <errno.h>
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <string.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
-# include <sys/stat.h>
-# include "lexer.h"
-# include "syntax.h"
-# include <termios.h>
-
-# define SUCCESS 0
+typedef struct s_data
+{
+	char			**cmds;
+	char			*line;
+	char			**envp;
+	char			*path;
+	int				exit_code;
+	int				nbr_of_cmds;
+	int				nbr_of_pipes;
+	char			**cmds_for_pipe;
+	char			**expanded_cmds; // to be freed properly!!
+	struct s_pipex	*info;
+	struct s_env	*env_list;
+	struct s_tree	*ast;
+	struct s_token	*tokens;
+}					t_data;
 
 typedef enum e_error
 {
@@ -82,29 +77,35 @@ typedef struct s_pipex
 	struct s_data	*data;
 }					t_pipex;
 
-typedef struct s_data
-{
-	char			**cmds;
-	char			*line;
-	char			**envp;
-	char			*path;
-	int				exit_code;
-	int				nbr_of_cmds;
-	int				nbr_of_pipes;
-	char			**cmds_for_pipe;
-	char			**expanded_cmds; // to be freed properly!!
-	struct s_pipex	*info;
-	struct s_env	*env_list;
-	struct s_tree	*ast;
-	struct s_token	*tokens;
-}					t_data;
-
 typedef struct s_env
 {
 	char			*key; //  in the environment variable PATH=/usr/bin, PATH is the key.
 	char			*value; // In the PATH=/usr/bin example, /usr/bin is the value
 	struct s_env	*next;
 }					t_env;
+
+# include "../Libft/ft_printf_fd/includes/ft_printf_fd.h"
+# include "../Libft/ft_utils/includes/ft_utils.h"
+# include "../Libft/includes/libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <string.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <sys/stat.h>
+# include "lexer.h"
+# include "syntax.h"
+# include <termios.h>
+# include "parser.h"
+
+# define SUCCESS 0
 
 // main.c
 

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:22:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/23 15:25:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handle_token(t_tree **node, t_token **tokens, int *i)
 {
+	printf("----HANDLE TOKEN----\n");
 	if ((*tokens)->type == T_IDENTIFIER || (*tokens)->type == T_FLAG || \
 		(*tokens)->type == T_DOUBLE_QUOTES || \
 		(*tokens)->type == T_SINGLE_QUOTES)
@@ -23,12 +24,17 @@ void	handle_token(t_tree **node, t_token **tokens, int *i)
 			return ;
 		(*i)++;
 	}
-	else if (redirection_check(*tokens) == true)
-		handle_redirection(&((*node)->redirection), tokens, node);
+	// else if (redirection_check(*tokens) == true)
+	// 	handle_redirection(&((*node)->redirection), tokens, node);
+	bool redirection = redirection_check(*tokens); // TESTING
+	printf("%s\n", redirection ? "true" : "false"); // TESTING
+	if (redirection == true) // TESTING
+		handle_redirection(&((*node)->redirection), tokens, node); // TESTING
 }
 
 t_tree	*get_command_node(t_token **tokens)
 {
+	printf("----GET COMMAND NODE----\n");
 	t_tree	*node;
 	t_token	*temp;
 	int		i;
@@ -39,10 +45,12 @@ t_tree	*get_command_node(t_token **tokens)
 	if (node == NULL)
 		return (NULL);
 	node->argument[i++] = ft_strdup((*tokens)->value);
+	printf("node->argument: %s\n", node->argument[i-1]); // debug
 	next_token(tokens);
 	while ((*tokens) != NULL && (*tokens)->type != T_PIPE && \
 		(*tokens)->type != T_UNKNOWN)
 	{
+		printf("token->value: %s\n", (*tokens)->value); // debug
 		handle_token(&node, tokens, &i);
 		next_token(tokens);
 	}
@@ -53,6 +61,7 @@ t_tree	*get_command_node(t_token **tokens)
 
 t_tree	*parse_tokens(t_token **tokens)
 {
+	printf("----PARSE TOKENS----\n");
 	t_tree	*left;
 	t_tree	*right;
 

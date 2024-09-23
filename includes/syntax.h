@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/22 18:43:36 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:24:23 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ void				ft_print_redirection(t_redirection *redirection_lst); // Only for testin
 void				printf_array(char **array);
 
 // Redirections
+// void				handle_redirection(t_redirection **redirection_lst, \
+// 		t_token **token, t_tree **node);
 void				handle_redirection(t_redirection **redirection_lst, \
-		t_token **token, t_tree **node);
-t_redirection		*init_redirection(t_tree **tree, t_token **token);
+		t_token **token);
+// t_redirection		*init_redirection(t_tree **tree, t_token **token);
+t_redirection		*init_redirection(t_token **token);
 t_redirection_type	check_redirection_type(t_token_type type);
 void				append_new_redir_node(t_redirection **list, t_redirection *new);
 
 // Free and exit
-void				free_list_tree_syntax_exit(t_token **tokens, t_tree **tree);
-void 				free_list_tree_alloc_exit(t_token **tokens, t_tree **tree);
 void				free_redirection_list(t_redirection **redirection);
 void    			free_tree(t_tree **tree);
-void				free_list_exit(t_token **tokens);
 
 // Token types array
 void				allocate_token_types_array(t_token **tokens, t_tree **node);

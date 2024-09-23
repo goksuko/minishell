@@ -6,18 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:04 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/22 19:00:36 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:16:29 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_list_exit(t_token **tokens)
-{
-	if (tokens != NULL)
-		free_list(tokens);
-	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-}
 
 void	free_tree(t_tree **tree)
 {
@@ -47,22 +40,3 @@ void	free_redirection_list(t_redirection **redirection)
 	}
 }
 
-void	free_list_tree_alloc_exit(t_token **tokens, t_tree **tree)
-{
-	if (tree != NULL)
-		free_tree(tree);
-	if (tokens != NULL)
-		free_list(tokens);
-	printf("Parsing error\n");
-	ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-}
-
-void	free_list_tree_syntax_exit(t_token **tokens, t_tree **tree)
-{
-	if (tree != NULL)
-		free_tree(tree);
-	if (tokens != NULL)
-		free_list(tokens);
-	printf("Parsing error\n");
-	ft_exit_str_fd(ERROR_SYNTAX, STDERR_FILENO);
-}

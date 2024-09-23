@@ -6,12 +6,12 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:18:03 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:18:00 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZE_H
-# define TOKENIZE_H
+#ifndef LEXER_H
+# define LEXER_H
 
 typedef enum s_token_type // ADJUST AS NECESSARY
 //NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
@@ -34,16 +34,16 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
-	struct s_token	*prev;
 	bool			is_file;
+	int				token_count;
 }	t_token;
 
 // Tokens
-t_token	*lexical_analysis(char *line);
-void	check_characters(char *line);
+t_token	*lexical_analysis(t_data *shell_data, char *line);
+void	check_characters(t_data *shell_data, char *line);
 int		count_tokens(char *line);
-char	**create_token_array(char *line);
-t_token	*create_token_list(char **token_array);
+char	**create_token_array(t_data *shell_data, char *line);
+t_token	*create_token_list(t_data *shell_data, char **token_array);
 
 // Splt Tokens
 char	**split_tokens(char *line, int number_tokens, char **tokens);
@@ -58,8 +58,7 @@ void 	skip_whitespace(char *line, int *i);
 char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
-void	check_unclosed_quotes(t_token *token_lst);
-void    free_array_exit(char **arrray);
+void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst);
 void	free_array(char **array);
 bool	line_is_empty(char *line);
 void	is_file_check(t_token *token_lst);
@@ -69,14 +68,12 @@ bool	further_meta_check(char *line, int i, char meta);
 bool	meta_character_check(char *line);
 
 // Token list utils
-t_token	*init_list(void);
 void	ft_print_tokens(t_token *tokens);
-t_token	*ft_token_new(char *str, t_token_type type);
-void	free_list(t_token **tokens);
-void	free_list_array_exit(t_token *tokens_lst, char **array);
+t_token	*ft_token_new(char *str, t_token_type type, int token_count);
+t_token	*array_to_list(char **tokens, int token_count);
 
 // Token types check
-char		*token_type_to_string(t_token_type type);
+char			*token_type_to_string(t_token_type type);
 t_token_type	token_type_check(char *token);
 t_token_type	check_flag(char *token);
 t_token_type	check_pipes(char *token);

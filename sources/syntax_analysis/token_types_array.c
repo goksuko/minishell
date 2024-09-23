@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:00 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 12:05:00 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:25:15 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	add_token_type(t_tree **node, t_token **tokens)
 		else
 			(*node)->token_types[i++] = ft_strdup(token_type_to_string \
 			(temp->type));
-		if ((*node)->token_types[i - 1] == NULL)
-			free_list_tree_alloc_exit(tokens, node);
+		// if ((*node)->token_types[i - 1] == NULL)
+		// 	free_list_tree_alloc_exit(tokens, node); free shell data
 		temp = temp->next;
 	}
 	(*node)->token_types[i] = NULL;
@@ -57,8 +57,8 @@ void	allocate_token_types_array(t_token **tokens, t_tree **node)
 
 	array_size = count_tokens_in_list(tokens);
 	(*node)->token_types = (char **)malloc((array_size + 1) * sizeof(char *));
-	if ((*node)->token_types == NULL)
-		free_list_tree_alloc_exit(tokens, node);
+	// if ((*node)->token_types == NULL)
+	// 	free_list_tree_alloc_exit(tokens, node); free shell data
 }
 
 void	token_types_array(t_token **tokens, t_tree **node)

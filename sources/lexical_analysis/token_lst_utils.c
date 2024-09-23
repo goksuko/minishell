@@ -6,13 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:17:58 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 18:13:12 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*ft_token_new(char *str, t_token_type type)
+t_token	*ft_token_new(char *str, t_token_type type, int token_count)
 {
 	t_token	*new_token;
 
@@ -27,6 +27,8 @@ t_token	*ft_token_new(char *str, t_token_type type)
 	}
 	new_token->type = type;
 	new_token->is_file = false;
+	new_token->token_count = token_count;
+	new_token->next = NULL;
 	return (new_token);
 }
 
@@ -44,21 +46,6 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 		tokens = tokens->next;
 		i++;
 	}
-}
-
-t_token	*init_list(void)
-{
-	t_token	*lst;
-
-	lst = (t_token *)malloc(sizeof(t_token));
-	if (lst == NULL)
-		return (NULL);
-	lst->type = T_UNKNOWN;
-	lst->value = NULL;
-	lst->next = NULL;
-	lst->prev = NULL;
-	lst->is_file = false;
-	return (lst);
 }
 
 t_token_type	token_type_check(char *token)

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:23:16 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/23 17:52:22 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,12 +122,12 @@ int	main(int argc, char *argv[], char **envp)
 			break;
 		// set_signals_noninteractive();		
 		shell_data->line = line;
-		shell_data->tokens = lexical_analysis(line);
+		shell_data->tokens = lexical_analysis(shell_data, line);
 		ft_print_tokens(shell_data->tokens); // only for testing purposes
-		shell_data->ast = syntax_analysis(shell_data->tokens);
+		// shell_data->ast = syntax_analysis(shell_data->tokens);
 		// print_ast(shell_data->ast); // only for testing purposes
-		semantic_analysis(shell_data);
-		execute_shell(shell_data); // includes builtins
+		//semantic_analysis(shell_data);
+		//execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 

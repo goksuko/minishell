@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:07 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/04 13:34:37 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/23 15:28:42 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	count_arguments(t_token **tokens)
 
 	temp = *tokens;
 	count = 0;
-	while (temp != NULL && temp->type != T_PIPE && \
-		temp->type != T_UNKNOWN && redirection_check(*tokens) == false)
+	// while (temp != NULL && temp->type != T_PIPE && \
+	// 	temp->type != T_UNKNOWN && redirection_check(*tokens) == false)
+	while (temp != NULL && temp->type != T_PIPE && temp->type != T_UNKNOWN)
 	{
 		temp = temp->next;
 		count++;
