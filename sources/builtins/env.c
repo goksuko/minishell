@@ -52,7 +52,7 @@ void	init_env_list(t_data *shell_data, char **envp)
 	new = init_env_list_node();
 	if (new == NULL)
 	{
-		// free_shell_data(shell_data);
+		free_shell_data(&shell_data);
 		ft_exit_perror(ERROR_ALLOCATION, "malloc in init_env_list");
 	}
 	shell_data->env_list = new;
@@ -67,7 +67,7 @@ void	init_env_list(t_data *shell_data, char **envp)
 			new->next = init_env_list_node();
 			if (new->next == NULL)
 			{
-				free_prev_nodes(shell_data->env_list);
+				//free_prev_nodes(shell_data->env_list);
 				ft_exit_perror(ERROR_ALLOCATION, "malloc in init_env_list");
 			}
 			new = new->next;
