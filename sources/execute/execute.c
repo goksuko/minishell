@@ -23,7 +23,7 @@ void	execute_shell(t_data *shell_data)
 	// expansion(&shell_data, &(shell_data->ast), &i);
 	begin_expansion(shell_data);
 	shell_data->exit_code = 0;
-	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
+	shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
 	// while(ast->right != NULL)
 	// {
@@ -47,6 +47,7 @@ int	pipes(t_data *shell_data)
 	ft_printf("pipes\n");
 	exit_code = create_children(shell_data);
 	printf("exit_code: %d\n", exit_code);
+	shell_data->exit_code = exit_code;
 	free_system(shell_data);
 	return (exit_code);
 }
