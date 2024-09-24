@@ -42,7 +42,11 @@ echo result: WORKS FINE
 echo 11
 < read.sh cat > out.txt
 echo result: permission denied 
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
+
+echo 11_2
+< read.sh cat
+echo result: ----SYNTAX ANALYSIS---- Segmentation fault
 
 echo 12
 cat < read.sh > out.txt
@@ -55,7 +59,7 @@ echo result: WORKS FINE
 echo 14
 < read.sh cat >> out.txt
 echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
 
 echo 15
 cat < read.sh >> out.txt
@@ -68,7 +72,7 @@ echo result: WORKS FINE
 echo 17
 < read.sh cat >out.txt
 echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
 
 echo 18
 cat < read.sh >out.txt
@@ -81,7 +85,7 @@ echo result: WORKS FINE
 echo 20
 < read.sh cat >>out.txt
 echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
 
 echo 21
 cat < read.sh >>out.txt
@@ -114,11 +118,12 @@ echo 26
 cat read.sh > out.txt > out2.txt
 echo result: WORKS FINE
 #but it creates a new file with the same name if it is done in another bash for testing
+#it does not do in Codam computer
 
 echo 27
 < read.sh cat > out.txt > out2.txt
 echo result: permission denied 
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
 
 echo 28
 cat < read.sh > out.txt > out2.txt
@@ -131,9 +136,13 @@ echo result: WORKS FINE
 echo 30
 < read.sh cat >> out.txt >> out2.txt
 echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+#because seg fault in syntax analysis
 
 echo 31
 cat < read.sh >> out.txt >> out2.txt
 echo result: WORKS FINE
 
+echo 32
+return
+echo Error: empty line
+#it additinally closes the program

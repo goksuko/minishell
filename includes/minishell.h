@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:47:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/24 10:25:48 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void				execute_shell(t_data *shell_data);
 // void				execute_command(t_data *shell_data);
 int					pipes(t_data *data);
 // void	initialize_info(t_pipex *info, t_data *shell_data);
-void				execute_node(t_tree *ast, t_data *shell_data);
+void				execute_node(t_data *shell_data);
 
 // execute_utils.c
 void				free_tree_env(t_tree **ast, t_env **env_var);
