@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/23 17:52:22 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 16:03:42 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,19 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 	return ;
 }
 
+void print_env(t_env *env)
+{
+	while (env)
+	{
+		printf("key: %s\n", env->key);
+		printf("value: %s\n", env->value);
+		env = env->next;
+	}
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
+	
 	char	*line;
 	t_data	*shell_data;
 
@@ -115,6 +126,7 @@ int	main(int argc, char *argv[], char **envp)
 	make_initial_path_checks(envp, shell_data);
 	shell_data->envp = envp;
 	line = NULL;
+	// print_env(shell_data->env_list);
 	while (1)
 	{
 		// set_signals_interactive();
@@ -123,11 +135,9 @@ int	main(int argc, char *argv[], char **envp)
 		// set_signals_noninteractive();		
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(shell_data, line);
-		ft_print_tokens(shell_data->tokens); // only for testing purposes
-		// shell_data->ast = syntax_analysis(shell_data->tokens);
-		// print_ast(shell_data->ast); // only for testing purposes
-		//semantic_analysis(shell_data);
-		//execute_shell(shell_data); // includes builtins
+		// ft_print_tokens(shell_data->tokens); // only for testing purposes
+		semantic_analysis(shell_data);
+		execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis
 		// 
