@@ -69,7 +69,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
-	// printf("path before exec: %s\n", path);
+	printf("path before exec: %s\n", path);
 	return (path);
 }
 

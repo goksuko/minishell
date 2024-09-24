@@ -29,7 +29,7 @@ int	create_children(t_data *data)
 		data->info->pipe_read_end = data->info->pipefd[0];
 		data->info->curr_cmd++;
 		// printf("sleeping after child (%d)\n", i);
-		// sleep(1);
+		sleep(1);
 		i++;
 	}
 	waitpid(pid, &status, 0);
@@ -53,9 +53,9 @@ pid_t	child_process(t_pipex *info)
 	}
 	else if (pid == 0)
 	{
-		// printf("curr_cmd: %d\n", info->curr_cmd);
-		// printf("pipefd[0]: %d\n", info->pipefd[0]);
-		// printf("pipefd[1]: %d\n", info->pipefd[1]);
+		printf("curr_cmd: %d\n", info->curr_cmd);
+		printf("pipefd[0]: %d\n", info->pipefd[0]);
+		printf("pipefd[1]: %d\n", info->pipefd[1]);
 
 		if (info->curr_cmd == info->nbr_of_cmds)
 			do_last_child(info);
@@ -73,7 +73,7 @@ pid_t	child_process(t_pipex *info)
 		// 	close_safe(info->pipefd[1], info);
 
 		// printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
-		// printf("ready to start exec\n");
+		printf("ready to start exec\n");
 		start_exec(info);
 	}
 	else

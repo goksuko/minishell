@@ -52,11 +52,11 @@ void do_middle_child(t_pipex *info)
 void do_last_child(t_pipex *info)
 {
 	printf("----do_last_child\n");
-	// printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	
-	// printf("pipefd[0]: %d\n", info->pipefd[0]);	
-	// printf("pipefd[1]: %d\n", info->pipefd[1]);
-	// printf("fd_in: %d\n", info->fd_in);
-	// printf("fd_out: %d\n", info->fd_out);
+	printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	
+	printf("pipefd[0]: %d\n", info->pipefd[0]);	
+	printf("pipefd[1]: %d\n", info->pipefd[1]);
+	printf("fd_in: %d\n", info->fd_in);
+	printf("fd_out: %d\n", info->fd_out);
 	if (info->fd_out != -10)
 	{
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);

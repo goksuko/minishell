@@ -123,7 +123,7 @@ echo result: WORKS FINE
 echo 27
 < read.sh cat > out.txt > out2.txt
 echo result: permission denied 
-#because seg fault in syntax analysis
+#because of th elong_command
 
 echo 28
 cat < read.sh > out.txt > out2.txt
@@ -157,6 +157,6 @@ echo WORKS FINE
 #but expansion array is null in that occasion
 
 echo 35
-cat read.sh >> out.txt >>out2 | cat out2
+cat read.sh > out.txt >>out2 | cat out2
 echo WORKS FINE
 #but expansion array is null in that occasion

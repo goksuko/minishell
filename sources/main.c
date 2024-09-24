@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/24 10:48:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/24 13:42:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,19 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 	return ;
 }
 
+void print_env(t_env *env)
+{
+	while (env)
+	{
+		printf("key: %s\n", env->key);
+		printf("value: %s\n", env->value);
+		env = env->next;
+	}
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
+	
 	char	*line;
 	t_data	*shell_data;
 
@@ -115,6 +126,7 @@ int	main(int argc, char *argv[], char **envp)
 	make_initial_path_checks(envp, shell_data);
 	shell_data->envp = envp;
 	line = NULL;
+	// print_env(shell_data->env_list);
 	while (1)
 	{
 		// set_signals_interactive();
