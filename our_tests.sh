@@ -146,3 +146,17 @@ echo 32
 return
 echo Error: empty line
 #it additinally closes the program
+
+echo 33
+cat read.sh >> out.txt | cat read.sh >> out.txt
+echo exit_code: 0, file is OK but after free_system there is: zsh: segmentation fault (core dumped) ./minishell
+
+echo 34
+cat read.sh >> out.txt >>out2 | cat read.sh >> out.txt
+echo WORKS FINE
+#but expansion array is null in that occasion
+
+echo 35
+cat read.sh >> out.txt >>out2 | cat out2
+echo WORKS FINE
+#but expansion array is null in that occasion
