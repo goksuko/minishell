@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 18:25:22 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:53:53 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,22 +101,21 @@ void	free_system(t_data *data)
 	return ;
 }
 
-void	free_shell_data(t_data **data) // to be checked!
+void	free_shell_data(t_data **data) // to be adjusted
 {
 	ft_printf("free_shell_data\n");
 	if ((*data)->line && (*data)->line[0] != '\0')
 		free((*data)->line);
-	if ((*data)->cmds && (*data)->cmds[0] != NULL)
-		free_matrix((*data)->cmds);
+	if ((*data)->tokens)
+		free_token_list(&(*data)->tokens);
+	close_pipex((*data)->info, (*data)->info->cmds); // Correct??
+	// if ((*data)->cmds && (*data)->cmds[0] != NULL)
+	// 	free_matrix((*data)->cmds);
 	if ((*data)->info && (*data)->cmds[0] != NULL)
 		free((*data)->info);
 	if ((*data)->path)
 		free((*data)->path);
-	if ((*data)->cmds_for_pipe)
-		free_matrix((*data)->cmds_for_pipe);
-	if ((*data)->ast)
-		free_tree(&(*data)->ast);
-	if ((*data)->tokens)
-		free_list(&(*data)->tokens);
+	// if ((*data)->cmds_for_pipe)
+	// 	free_matrix((*data)->cmds_for_pipe);
 	return ;
 }

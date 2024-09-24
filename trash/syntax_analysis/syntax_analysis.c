@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 12:05:14 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 15:25:35 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:40:51 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ t_tree	*syntax_analysis(t_token *tokens)
 	if (abstract_syntax_tree == NULL)
 	{
 		ft_printf("abstract_syntax_tree is NULL\n");
-		free_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
+		free_token_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
-	free_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
+	free_token_list(&tokens);// I think this pointer gets moved in parsed tokens, so this would mean that not the entire list gets freed 
 	return (abstract_syntax_tree);
 }

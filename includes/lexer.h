@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:18:00 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:41:08 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
+	struct s_token	*prev;
 	bool			is_file;
 	int				token_count;
 }	t_token;
@@ -60,6 +61,7 @@ void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
 void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst);
 void	free_array(char **array);
+void	free_token_list(t_token **tokens);
 bool	line_is_empty(char *line);
 void	is_file_check(t_token *token_lst);
 
@@ -69,7 +71,7 @@ bool	meta_character_check(char *line);
 
 // Token list utils
 void	ft_print_tokens(t_token *tokens);
-t_token	*ft_token_new(char *str, t_token_type type, int token_count);
+t_token	*init_new_token(char *str, t_token_type type, int token_count);
 t_token	*array_to_list(char **tokens, int token_count);
 
 // Token types check

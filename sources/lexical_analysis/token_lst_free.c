@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:32 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:15:27 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:40:51 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	free_list(t_token **tokens)
+void	free_token_list(t_token **tokens)
 {
 	t_token	*temp;
 	t_token	*current;

@@ -6,12 +6,31 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:10:30 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:56:29 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include "../Libft/ft_printf_fd/includes/ft_printf_fd.h"
+# include "../Libft/ft_utils/includes/ft_utils.h"
+# include "../Libft/includes/libft.h"
+# include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <string.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <sys/stat.h>
+# include "lexer.h"
+# include <termios.h>
 
 typedef struct s_data
 {
@@ -84,27 +103,6 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-# include "../Libft/ft_printf_fd/includes/ft_printf_fd.h"
-# include "../Libft/ft_utils/includes/ft_utils.h"
-# include "../Libft/includes/libft.h"
-# include <errno.h>
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <string.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
-# include <sys/stat.h>
-# include "lexer.h"
-# include "syntax.h"
-# include <termios.h>
-# include "parser.h"
-
 # define SUCCESS 0
 
 // main.c
@@ -176,8 +174,8 @@ int					ft_pwd(void);
 // int					ft_cd(char **arguments);
 // int					ft_env(t_env **env_var);
 int					ft_echo(char **arguments, t_pipex *info);
-void				ft_exit(t_tree **ast, t_env **env_var);
-int					exit_atoi(char *str, t_tree **ast, t_env **env_var);
+// void				ft_exit(t_tree **ast, t_env **env_var); // Remove AST
+// int					exit_atoi(char *str, t_tree **ast, t_env **env_var); // Remove AST
 bool				arg_is_digit(char *str);
 void				free_env(t_env **env_var);
 

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:13:03 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/24 15:38:26 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,17 @@ t_token	*array_to_list(char **tokens, int token_count)
 	int		i;
 
 	i = 0;
-	head = ft_token_new(tokens[i], token_type_check(tokens[i]), token_count);
+	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
 		return (free_array(tokens), NULL);
 	current = head;
 	i++;
 	while (tokens[i] != NULL)
 	{
-		current->next = ft_token_new(tokens[i], token_type_check(tokens[i]), token_count);
+		current->next = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 		if (current->next == NULL)
 			return (free_array(tokens), NULL);
+		current->next->prev = current;
 		current = current->next;
 		i++;
 	}
