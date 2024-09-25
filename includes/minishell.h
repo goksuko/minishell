@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/25 12:00:40 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 16:43:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	output_signal_keys();
 // char	*expand_arguments(t_data **shell_data, t_tree **node);
 // void	init_expanded_cmds(t_data **shell_data);
 // char	*create_arg_str(t_data **shell_data, t_tree **node, char *expanded_args);
-// char	*add_redirection_to_cmd(t_data **shell_data, \
+// char	*add_redirection_to_cmd(t_data **shell_data,
 // 		t_tree **node, char *expanded_args);
 // char	*add_redirection(t_data **shell_data, t_tree **node);
 // char	*redir_value(t_redirection_type type);
