@@ -6,11 +6,22 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/24 15:38:26 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 17:07:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool	redirection_check(t_token *current)
+{
+	printf("----REDIRECTION CHECK----\n");
+	printf("current->type: %d\n", current->type); // debug
+	printf("current->value: %s\n", current->value); // debug
+	if (current->type == T_SMALLER || current->type == T_GREATER || \
+		current->type == T_DSMALLER || current->type == T_DGREATER)
+		return (true);
+	return (false);
+}
 
 void	is_file_check(t_token *token_lst)
 {
@@ -19,8 +30,8 @@ void	is_file_check(t_token *token_lst)
 	current = token_lst;
 	while (current != NULL)
 	{
-		if (is_file(current->value) == true)
-			current->is_file = true;
+		if (redirection_check(current) == true)
+			define_token_fd(current);
 		current = current->next;
 	}
 }
@@ -58,6 +69,7 @@ t_token	*array_to_list(char **tokens, int token_count)
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
 		return (free_array(tokens), NULL);
+	head->is_head = true;
 	current = head;
 	i++;
 	while (tokens[i] != NULL)

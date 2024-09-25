@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/24 15:41:08 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 17:09:25 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum s_token_type // ADJUST AS NECESSARY
     T_PIPE, // |
 	T_DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
 	T_SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
-    T_UNKNOWN // anything not defined and not categorized in tokens
+    // T_FILE, // file 
+	T_UNKNOWN // anything not defined and not categorized in tokens
 }	t_token_type;
 
 typedef struct s_token
@@ -35,8 +36,12 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
-	bool			is_file;
+//	bool			is_file;
 	int				token_count;
+	int				fd_in;
+	int				fd_out;
+	bool			is_head;
+	char			*limiter;
 }	t_token;
 
 // Tokens
@@ -45,6 +50,9 @@ void	check_characters(t_data *shell_data, char *line);
 int		count_tokens(char *line);
 char	**create_token_array(t_data *shell_data, char *line);
 t_token	*create_token_list(t_data *shell_data, char **token_array);
+bool	redirection_check(t_token *current);
+void	is_file_check(t_token *token_lst);
+
 
 // Splt Tokens
 char	**split_tokens(char *line, int number_tokens, char **tokens);
@@ -63,7 +71,6 @@ void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst);
 void	free_array(char **array);
 void	free_token_list(t_token **tokens);
 bool	line_is_empty(char *line);
-void	is_file_check(t_token *token_lst);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
@@ -83,5 +90,13 @@ t_token_type	check_redirection(char *token);
 t_token_type	check_command(char *token);
 t_token_type	check_double_quotes(char *token);
 t_token_type	check_single_quotes(char *token);
+
+// define_tokens
+
+void define_token_fd(t_token *token);
+void define_smaller(t_token *token);
+void define_greater(t_token *token);
+void define_dsmaller(t_token *token);
+void define_dgreater(t_token *token);
 
 #endif
