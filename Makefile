@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/22 23:26:21 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/09/25 00:11:16 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 LIBFT = ./Libft/libft.a
 
 LEXICAL_ANALSYSIS =		tokens.c \
+						define_token_file.c \
 						meta_char_check.c \
 						tokens_utils.c \
 						tokens_utils2.c \

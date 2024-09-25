@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:18:03 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 00:31:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum s_token_type // ADJUST AS NECESSARY
     T_PIPE, // |
 	T_DOUBLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
 	T_SINGLE_QUOTES, // single quotes and double quotes opening --NOT interpret unclosed characters
+	// T_FILE, // file 
     T_UNKNOWN // anything not defined and not categorized in tokens
 }	t_token_type;
 
@@ -35,7 +36,11 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 	struct s_token	*prev;
-	bool			is_file;
+	// bool			is_file;
+	int				fd_in;
+	int				fd_out;
+	bool			is_head;
+	char			*limiter;
 }	t_token;
 
 // Tokens
@@ -84,5 +89,6 @@ t_token_type	check_redirection(char *token);
 t_token_type	check_command(char *token);
 t_token_type	check_double_quotes(char *token);
 t_token_type	check_single_quotes(char *token);
+t_token_type	check_file(char *token);
 
 #endif

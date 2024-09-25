@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/09 15:17:28 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 00:26:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	is_file_check(t_token *token_lst)
 	current = token_lst;
 	while (current != NULL)
 	{
-		if (is_file(current->value) == true)
-			current->is_file = true;
+		if (redirection_check(current->type) == true)
+			define_token_file(current);
 		current = current->next;
 	}
 }
@@ -36,6 +36,7 @@ void	array_to_list(t_token **token_lst, char **tokens)
 	head = ft_token_new(tokens[i], token_type_check(tokens[i]));
 	if (head == NULL)
 		free_list_array_exit(*token_lst, tokens); // maybe a separate function for this
+	head->is_head = true;
 	prev = head;
 	i++;
 	while (tokens[i] != NULL)
