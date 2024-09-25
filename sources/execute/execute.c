@@ -1,10 +1,9 @@
 #include "../../includes/minishell.h"
 
-void	execute_node(t_tree *ast, t_data *shell_data)
+void	execute_node(t_data *shell_data)
 {
 	printf("----EXECUTE NODE----\n");
 	int		exit_code;
-	(void)ast;
 
 	printf("initilaization is done\n\n*******\n\n");
 	exit_code = create_children(shell_data);
@@ -21,7 +20,7 @@ void	execute_shell(t_data *shell_data)
 
 	// ast = shell_data->ast;
 	// expansion(&shell_data, &(shell_data->ast), &i);
-	begin_expansion(shell_data);
+	//begin_expansion(shell_data);
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_pipes = find_pipe_count(shell_data->line);
 	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
@@ -35,7 +34,7 @@ void	execute_shell(t_data *shell_data)
 	// }
 
 	if (shell_data->nbr_of_pipes == 0)
-		execute_node(shell_data->ast, shell_data);
+		execute_node(shell_data);
 	else
 		shell_data->exit_code = pipes(shell_data);
 }

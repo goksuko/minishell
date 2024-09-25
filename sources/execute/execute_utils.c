@@ -1,10 +1,10 @@
 #include "../../includes/minishell.h"
 
-void	free_tree_env(t_tree **ast, t_env **env_var)
-{
-	free_tree(ast);
-	free_env(env_var);
-}
+// void	free_tree_env(t_tree **ast, t_env **env_var) free_shell_data should be called instead
+// {
+// 	free_tree(ast);
+// 	free_env(env_var);
+// }
 
 int is_file(const char *path)
 {

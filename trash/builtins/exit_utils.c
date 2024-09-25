@@ -36,7 +36,7 @@ int	get_sign(char c, int *i)
 	return (sign);
 }
 
-int	exit_atoi(char *str, t_tree **ast, t_env **env_var)
+int	exit_atoi(char *str, t_env **env_var)
 {
 	int		i;
 	int		sign;
@@ -52,7 +52,7 @@ int	exit_atoi(char *str, t_tree **ast, t_env **env_var)
 		number = number * 10 + (str[i] - '0');
 		if (number > INT_MAX)
 		{
-			free_tree_env(ast, env_var);
+			//free_tree_env(ast, env_var); free shel_data
 			ft_exit_str_fd(ERROR_NUMERIC_ARG, STDERR_FILENO);
 		}
 		i++;

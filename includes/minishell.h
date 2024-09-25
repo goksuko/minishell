@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/24 15:56:29 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 12:00:40 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <sys/stat.h>
-# include "lexer.h"
 # include <termios.h>
 
 typedef struct s_data
@@ -48,6 +47,10 @@ typedef struct s_data
 	struct s_tree	*ast;
 	struct s_token	*tokens;
 }					t_data;
+
+
+# include "lexer.h" // Otherwise the program cannot be compiled
+
 
 typedef enum e_error
 {
@@ -155,6 +158,7 @@ void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 
 int					close_safe(int fd, t_pipex *info);
 int					dup2_safe(int oldfd, int newfd, t_pipex *info);
+void				printf_array(char **array);
 
 // pipex.c
 
@@ -169,15 +173,15 @@ char	*find_outfile(t_pipex *info);
 
 // Builtins
 bool				is_builtin(char *command);
-int					execute_builtin(t_data *shell_data);
-int					ft_pwd(void);
-// int					ft_cd(char **arguments);
-// int					ft_env(t_env **env_var);
-int					ft_echo(char **arguments, t_pipex *info);
-// void				ft_exit(t_tree **ast, t_env **env_var); // Remove AST
-// int					exit_atoi(char *str, t_tree **ast, t_env **env_var); // Remove AST
-bool				arg_is_digit(char *str);
-void				free_env(t_env **env_var);
+// int					execute_builtin(t_data *shell_data);
+// int					ft_pwd(void);
+// // int					ft_cd(char **arguments);
+// // int					ft_env(t_env **env_var);
+// int					ft_echo(char **arguments, t_pipex *info);
+// // void				ft_exit(t_tree **ast, t_env **env_var); // Remove AST
+// // int					exit_atoi(char *str, t_tree **ast, t_env **env_var); // Remove AST
+// bool				arg_is_digit(char *str);
+// void				free_env(t_env **env_var);
 
 // child_processes.c
 
@@ -206,10 +210,9 @@ void				execute_shell(t_data *shell_data);
 // void				execute_command(t_data *shell_data);
 int					pipes(t_data *data);
 // void	initialize_info(t_pipex *info, t_data *shell_data);
-void				execute_node(t_tree *ast, t_data *shell_data);
+void				execute_node(t_data *shell_data);
 
 // execute_utils.c
-void				free_tree_env(t_tree **ast, t_env **env_var);
 int					is_file(const char *path);
 
 // env_list_utils.c
@@ -240,25 +243,25 @@ void	not_output_signal_keys();
 void	output_signal_keys();
 
 // Argument expansion
-void	begin_expansion(t_data *shell_data);
-void	expansion(t_data **shell_data, t_tree **node, int *i);
-char	*expand_arguments(t_data **shell_data, t_tree **node);
-void	init_expanded_cmds(t_data **shell_data);
-char	*create_arg_str(t_data **shell_data, t_tree **node, char *expanded_args);
-char	*add_redirection_to_cmd(t_data **shell_data, \
-		t_tree **node, char *expanded_args);
-char	*add_redirection(t_data **shell_data, t_tree **node);
-char	*redir_value(t_redirection_type type);
-char	*expand_argument(t_data **shell_data, t_tree *node, int i);
-char	*remove_quotation_marks(char *argument);
-char	*s_quotes(t_data **shell_data, char *argument);
-bool	dollar_sign_check(char *argument);
-char	*d_quotes(t_data **shell_data, char *argument);
-char	*handle_dollar_sign(t_data **shell_data, char *str);
-char	*expand_identifier(t_data **shell_data, char *argument);
-char	*ft_strjoin_c(char const *s1, char c);
-char	*add_space_to_str(t_data **shell_data, char *str);
-int		ast_size(t_tree *ast);
+// void	begin_expansion(t_data *shell_data);
+// void	expansion(t_data **shell_data, t_tree **node, int *i);
+// char	*expand_arguments(t_data **shell_data, t_tree **node);
+// void	init_expanded_cmds(t_data **shell_data);
+// char	*create_arg_str(t_data **shell_data, t_tree **node, char *expanded_args);
+// char	*add_redirection_to_cmd(t_data **shell_data, \
+// 		t_tree **node, char *expanded_args);
+// char	*add_redirection(t_data **shell_data, t_tree **node);
+// char	*redir_value(t_redirection_type type);
+// char	*expand_argument(t_data **shell_data, t_tree *node, int i);
+// char	*remove_quotation_marks(char *argument);
+// char	*s_quotes(t_data **shell_data, char *argument);
+// bool	dollar_sign_check(char *argument);
+// char	*d_quotes(t_data **shell_data, char *argument);
+// char	*handle_dollar_sign(t_data **shell_data, char *str);
+// char	*expand_identifier(t_data **shell_data, char *argument);
+// char	*ft_strjoin_c(char const *s1, char c);
+// char	*add_space_to_str(t_data **shell_data, char *str);
+// int		ast_size(t_tree *ast);
 
 // Free shell data
 void	free_shell_data(t_data **data);

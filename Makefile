@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/24 15:55:25 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/09/25 12:03:57 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,17 +27,13 @@ SEMANTIC_ANALYSIS = semantic.c \
 					semantic_utils.c \
 					semantic_utils2.c \
 
-SEMANTIC_ANALYSIS = semantic.c \
-					semantic_utils.c \
-					semantic_utils2.c \
-
 BUILTINS = 			builtins.c \
-					pwd.c \
-					env.c \
-					echo.c \
-					exit.c \
-					exit_utils.c \
-					env_utils.c \
+					# pwd.c \
+					# env.c \
+					# echo.c \
+					# exit.c \
+					# exit_utils.c \
+					# env_utils.c \
 
 EXECUTE =			child_processes.c \
 					children.c \
@@ -54,13 +50,13 @@ EXECUTE =			child_processes.c \
 SIGNALS = 				interactive_signals.c \
 						noninteractive_signals.c \
 
-EXPANSION =				expand.c \
-						expand_utils.c \
-						single_quotes.c \
-						double_quotes.c \
-						dollar_sign.c \
-						identifier.c \
-						redirections.c \
+# EXPANSION =				expand.c \
+# 						expand_utils.c \
+# 						single_quotes.c \
+# 						double_quotes.c \
+# 						dollar_sign.c \
+# 						identifier.c \
+# 						redirections.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -71,12 +67,14 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		ft_putstr2_fd.c \
 		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
-		$(addprefix syntax_analysis/, $(SYNTAX_ANALSYSIS)) \
+		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
-		$(addprefix expansion/, $(EXPANSION)) \
 	)
+
+# $(addprefix expansion/, $(EXPANSION)) To be moved up again
+
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
@@ -102,7 +100,8 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
-	@mkdir -p $(OBJS_DIR)/expansion
+	
+# @mkdir -p $(OBJS_DIR)/expansion   -To be moved up again
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -122,8 +121,8 @@ $(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
 $(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJS_DIR)/expansion/%.o: $(SRCS_DIR)/expansion/%.c | $(OBJS_DIR)/expansion
-	@$(CC) $(CFLAGS) -c $< -o $@
+# $(OBJS_DIR)/expansion/%.o: $(SRCS_DIR)/expansion/%.c | $(OBJS_DIR)/expansion
+# 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning in Progress"

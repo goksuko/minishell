@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:28:01 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 11:45:31 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,16 @@ bool	is_meta(char c)
 	if (c == '>' || c == '<' || c == '|')
 		return (true);
 	return (false);
+}
+
+void	printf_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+	{
+		printf("%s\n", array[i]);
+		i++;
+	}
 }

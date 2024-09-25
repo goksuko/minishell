@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:24:23 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 11:43:57 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void				print_ast(t_tree *ast);
 const char			*node_type_to_string(t_node_type type); // to be deleted later
 char				*redirection_type_to_string(t_redirection_type type); // only for testing purposes
 void				ft_print_redirection(t_redirection *redirection_lst); // Only for testing purposes
-void				printf_array(char **array);
 
 // Redirections
 // void				handle_redirection(t_redirection **redirection_lst, \

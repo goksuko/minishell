@@ -6,23 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:19 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/03 14:32:19 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/09/25 11:45:10 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	printf_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		printf("%s\n", array[i]);
-		i++;
-	}
-}
 
 const char	*node_type_to_string(t_node_type type)
 {
