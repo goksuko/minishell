@@ -31,9 +31,7 @@ int	execute_builtin(t_data *shell_data)
 {
 	printf("----EXECUTE BUILTIN----\n");
 	t_env **env_var;
-	t_tree **ast;
 
-	ast = &shell_data->ast;
 	env_var = &shell_data->env_list;	
 	if (ft_strncmp((*ast)->argument[0], "echo", 5) == 0)
 		return (ft_echo((*ast)->argument, shell_data->info));

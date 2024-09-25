@@ -44,13 +44,8 @@ typedef struct s_data
 	char			**expanded_cmds; // to be freed properly!!
 	struct s_pipex	*info;
 	struct s_env	*env_list;
-	struct s_tree	*ast;
 	struct s_token	*tokens;
 }					t_data;
-
-
-# include "lexer.h" // Otherwise the program cannot be compiled
-
 
 typedef enum e_error
 {
@@ -106,6 +101,9 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+
+# include "lexer.h" // Otherwise the program cannot be compiled if it is higher up because it needs to data strut
+# include "builtins.h"
 # define SUCCESS 0
 
 // main.c
@@ -170,25 +168,10 @@ int		create_children(t_data *data);
 char	*find_infile(t_pipex *info);
 char	*find_outfile(t_pipex *info);
 
-
-// Builtins
-bool				is_builtin(char *command);
-// int					execute_builtin(t_data *shell_data);
-// int					ft_pwd(void);
-// // int					ft_cd(char **arguments);
-// // int					ft_env(t_env **env_var);
-// int					ft_echo(char **arguments, t_pipex *info);
-// // void				ft_exit(t_tree **ast, t_env **env_var); // Remove AST
-// // int					exit_atoi(char *str, t_tree **ast, t_env **env_var); // Remove AST
-// bool				arg_is_digit(char *str);
-// void				free_env(t_env **env_var);
-
 // child_processes.c
 
 pid_t	child_process(t_pipex *info);
 int		create_children(t_data *data);
-
-
 
 // children.c
 

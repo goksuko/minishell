@@ -28,9 +28,9 @@ SEMANTIC_ANALYSIS = semantic.c \
 					semantic_utils2.c \
 
 BUILTINS = 			builtins.c \
-					# pwd.c \
+					pwd.c \
+					echo.c \
 					# env.c \
-					# echo.c \
 					# exit.c \
 					# exit_utils.c \
 					# env_utils.c \
