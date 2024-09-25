@@ -9,6 +9,8 @@ int	ft_echo(char *str, t_pipex *info)
 
 	i = 0;
 	n_flag = false;
+	if (str[i] == '\0')
+		ft_putstr_fd("", info->fd_out);
 	while (str[i] != '\0' && str[i] == ' ')
 		i++;
     while (str[i] != '\0' && ft_strncmp(&str[i], "-n", 2) == 0 \
