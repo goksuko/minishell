@@ -36,7 +36,7 @@ int	builtins(t_data *shell_data, char *command)
 		// if (ft_strncmp(command, "cd", 3) == 0)
 		// 	return (true);
 		if (ft_strncmp(substr, "pwd", 3) == 0)
-			return (ft_pwd()); // or update the exit code of the child??
+			return (ft_pwd(&command[i], shell_data->info, shell_data->env_list)); // or update the exit code of the child??
 		// if (ft_strncmp(command, "export", 7) == 0)
 		// 	return (true);
 		// if (ft_strncmp(command, "unset", 6) == 0)

@@ -126,7 +126,7 @@ int	main(int argc, char *argv[], char **envp)
 	make_initial_path_checks(envp, shell_data);
 	shell_data->envp = envp;
 	line = NULL;
-	// print_env(shell_data->env_list);
+	print_env(shell_data->env_list);
 	while (1)
 	{
 		// set_signals_interactive();

@@ -1,9 +1,13 @@
 #include "../../includes/minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(char *str, t_data *shell_data)
 {
 	char	*cwd;
+	int		i;
 
+	i = 0;
+	if (str[i] != '\0')
+	
 	cwd = NULL;
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)

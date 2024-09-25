@@ -17,7 +17,7 @@ void	execute_builtins(t_data *shell_data, char **commands);
 int		builtins(t_data *shell_data, char *command);
 char	*builtin_substr(char *str, int *i);
 // int					execute_builtin(t_data *shell_data);
-int		ft_pwd(void);
+int	ft_pwd(char *str, t_pipex *info, t_env *env_list);
 // // int					ft_cd(char **arguments);
 // // int					ft_env(t_env **env_var);
 int		ft_echo(char *str, t_pipex *info);
