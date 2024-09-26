@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:24:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/26 12:09:25 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,6 +360,6 @@ int	pipex(t_data *data)
 	printf("initilaization is done\n\n*******\n\n");
 	exit_code = create_children(data);
 	printf("exit_code: %d\n", exit_code);
-	free_system(data);
+	free_system(data); // to be replaced with free_shell_data
 	return (exit_code);
 }

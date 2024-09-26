@@ -1,5 +1,8 @@
 #include "../../includes/minishell.h"
 
+// Need to check that the function only prints until the redirection, 
+// hence prints into the right FD
+
 int	ft_echo(char *str, t_pipex *info)
 {
 	printf("---FT__ECHO----\n");
