@@ -1,17 +1,17 @@
 #include "../../includes/minishell.h"
 
-int		find_pipe_count(char *line)
+int		find_pipe_count(t_token *tokens)
 {
 	int	pipe_count;
-	int i;
+	t_token	*current;
 
 	pipe_count = 0;
-	i = 0;
-	while (line[i])
+	current = tokens;
+	while (current)
 	{
-		if (line[i] == '|')
+		if (current->type == T_PIPE)
 			pipe_count++;
-		i++;
+		current = current->next;
 	}
 	return (pipe_count);
 }
@@ -36,6 +36,7 @@ void	initialize_cmds(t_data *data, t_pipex *info)
 	ft_printf("---initialize_cmds---\n");
 	cmds = ft_split(data->line, '|');
 	cmds = clean_spaces(cmds);
+
 	// cmds = clean_up_to_redir(cmds); //wromg place
 	// printf_array(cmds);
 	// cmds = data->ast->argument;

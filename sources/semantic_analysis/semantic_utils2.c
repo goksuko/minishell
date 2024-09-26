@@ -53,7 +53,7 @@ char *clean_redirects(char *long_command)
 	char **splitted;
 	char *temp;
 	int i;
-
+   
 	splitted = ft_split(long_command, ' ');
 	if (!splitted || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "splitted in clean_redirects");

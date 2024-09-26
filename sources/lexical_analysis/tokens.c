@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/25 17:07:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/26 21:00:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 bool	redirection_check(t_token *current)
 {
-	printf("----REDIRECTION CHECK----\n");
-	printf("current->type: %d\n", current->type); // debug
-	printf("current->value: %s\n", current->value); // debug
 	if (current->type == T_SMALLER || current->type == T_GREATER || \
 		current->type == T_DSMALLER || current->type == T_DGREATER)
 		return (true);
@@ -69,7 +66,7 @@ t_token	*array_to_list(char **tokens, int token_count)
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
 		return (free_array(tokens), NULL);
-	head->is_head = true;
+	// head->is_head = true;
 	current = head;
 	i++;
 	while (tokens[i] != NULL)

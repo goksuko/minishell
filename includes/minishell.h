@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/25 16:43:11 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/26 20:11:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ typedef struct s_data
 	int				exit_code;
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
+	int				nbr_of_tokens;
 	char			**cmds_for_pipe;
 	char			**expanded_cmds; // to be freed properly!!
 	struct s_pipex	*info;
 	struct s_env	*env_list;
-	struct s_tree	*ast;
+	// struct s_tree	*ast;
 	struct s_token	*tokens;
 }					t_data;
 
@@ -269,8 +270,20 @@ void	free_shell_data(t_data **data);
 //semantic.c
 void	semantic_analysis(t_data *shell_data);
 
+//  cmds_with_redirs.c
+
+char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
+
+
+//  cmds_from_tokens.c
+
+int	next_redirection(t_token **tokens, int i);
+int next_pipe_token(t_token **tokens, int i);
+char *cmd_till(t_token *tokens, int i, int till);
+char **cmds_from_tokens(t_data *shell_data);
+
 //semantic_utils.c
-int		find_pipe_count(char *line);
+int		find_pipe_count(t_token *tokens);
 void	initialize_cmds(t_data *data, t_pipex *info);
 void	initialize_info(t_pipex *info, t_data *data);
 char 	**clean_spaces(char **matrix);

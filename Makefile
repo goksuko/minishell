@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/25 17:03:22 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/09/26 11:18:05 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_types2.c
 
 SEMANTIC_ANALYSIS = semantic.c \
+					cmds_from_tokens.c \
+					cmds_with_redirs.c \
 					semantic_utils.c \
 					semantic_utils2.c \
 

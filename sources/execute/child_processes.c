@@ -11,8 +11,8 @@ int	create_children(t_data *data)
 	printf("---create_children---\n");
 	i = 1;
 	data->info->pipe_read_end = STDIN_FILENO;
-	printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
-	while (i <= data->nbr_of_cmds)
+	// printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
+	while (i <= data->info->nbr_of_cmds)
 	{
 		printf("\nin while loop i: %d\n", i);
 		define_fd_in_out(data->info);
