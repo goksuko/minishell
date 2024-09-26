@@ -12,7 +12,7 @@ int	ft_pwd(char *str, t_data *shell_data)
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)
 		return (1); // should exit here or simply return 1 to indicate error??
-	ft_putendl_fd(cwd, STDOUT_FILENO);
+	ft_putendl_fd(cwd, shell_data->info->fd_out);
 	free(cwd);
 	return (SUCCESS);
 }

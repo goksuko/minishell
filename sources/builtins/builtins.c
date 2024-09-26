@@ -17,7 +17,7 @@ char	*builtin_substr(char *str, int *i)
 	return (substr);
 }
 
-int	builtins(t_data *shell_data, char *command)
+int	builtins(t_data *shell_data, char *command) // verify return value 
 {
 	printf("------IS BUILTIN CHECK-----\n");
 	int		i;
@@ -33,10 +33,10 @@ int	builtins(t_data *shell_data, char *command)
 		if (ft_strncmp(substr, "echo", 4) == 0)
 			return (ft_echo(&command[i], shell_data->info)); // need to know which token type I have here or keep updating i. e.g. if I have "echo echo" it should create a substr of the first echo and then print the following echo
 				// or update the exit code of the child??
-		// if (ft_strncmp(command, "cd", 3) == 0)
-		// 	return (true);
+		if (ft_strncmp(command, "cd", 3) == 0)
+			return (ft_cd(&command[i], shell_data->info, shell_data->env_list));
 		if (ft_strncmp(substr, "pwd", 3) == 0)
-			return (ft_pwd(&command[i], shell_data->info, shell_data->env_list)); // or update the exit code of the child??
+			return (ft_pwd(&command[i], shell_data->info, shell_data->env_list));
 		// if (ft_strncmp(command, "export", 7) == 0)
 		// 	return (true);
 		// if (ft_strncmp(command, "unset", 6) == 0)
