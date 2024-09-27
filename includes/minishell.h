@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/27 10:30:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/09/27 16:00:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_pipex
 	int				nbr_of_cmds;
 	int				curr_cmd;
 	char			**cmds;
-	char			*special_command;
+	// char			*special_command;
 	char 			*limiter;
 	char			*path;
 	char			*path_from_getenv;
@@ -281,6 +281,8 @@ int	next_redirection(t_token **tokens, int i);
 int next_pipe_token(t_token **tokens, int i);
 char *cmd_till(t_token *tokens, int i, int till);
 char **cmds_from_tokens(t_data *shell_data);
+void limiter_check(t_data *shell_data);
+char *smaller_first(t_token *current);
 
 //semantic_utils.c
 int		find_pipe_count(t_token *tokens);

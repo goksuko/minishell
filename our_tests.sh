@@ -33,6 +33,7 @@ echo result: ----SYNTAX ANALYSIS---- Segmentation fault
 echo 9: UNSET PATH
 #unset PATH
 < test.txt ls -l | wc -l > result.txt
+ls -l test.txt | wc -l 
 echo result: ????????????????????
 
 echo 10
@@ -46,6 +47,7 @@ echo result: permission denied
 
 echo 12
 cat < read.sh > out.txt
+cat read.sh
 echo result: WORKS FINE
 
 echo 13
@@ -136,4 +138,8 @@ echo result: permission denied
 echo 31
 cat < read.sh >> out.txt >> out2.txt
 echo result: WORKS FINE
+
+echo 32
+>>             test.txt
+echo result: to be checked
 

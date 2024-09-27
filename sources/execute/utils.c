@@ -69,7 +69,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
-	// printf("path before exec: %s\n", path);
+	printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -78,8 +78,8 @@ void	start_exec(t_pipex *info)
 {
 	char	**cmd_matrix;
 	char	*path;
-	char	*long_command;
-	char	*long_corrected_command;
+	// char	*long_command;
+	// char	*long_corrected_command;
 
 	printf("---start_exec---\n");
 
@@ -95,27 +95,42 @@ void	start_exec(t_pipex *info)
 
 	path = NULL;
 	// printf("curr_cmd: %d\n", info->curr_cmd);
-	if (info->special_command == NULL)
-		long_command = info->cmds[info->curr_cmd - 1];
-	else
-	{
-		long_command = info->special_command;
-		info->special_command = NULL;
-	}	
-	printf("long_command: %s\n", long_command);
-	long_corrected_command = clean_redirects(long_command);
-	printf("long_corrected_command: %s\n", long_corrected_command);
-	cmd_matrix = ft_split(long_corrected_command, ' ');
+	// if (info->special_command == NULL)
+	// 	long_command = info->cmds[info->curr_cmd - 1];
+	// else
+	// {
+	// 	long_command = info->special_command;
+	// 	info->special_command = NULL;
+	// }	
+	// printf("long_command: %s\n", long_command);
+	// long_corrected_command = clean_redirects(long_command);
+	// printf("long_corrected_command: %s\n", long_corrected_command);
+	// cmd_matrix = ft_split(long_corrected_command, ' ');
+	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	// printf_array(cmd_matrix);
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	path = before_exec(long_corrected_command, info, cmd_matrix);
+	// path = before_exec(long_corrected_command, info, cmd_matrix);
+	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
 	// printf("\npath: %s\n", path);
-	if (execve(path, cmd_matrix, info->data->envp) == -1)
-	{
-		close_pipex(info, cmd_matrix);
-		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
-	}
+	// if (builtin)
+	// {
+	// 	// execute_builtin(info->data);
+	// -1 for not execured, > 0 for exit code
+	//  0 executed with success
+	// }
+	// else
+	// {
+printf("Test\n");
+printf("cmd matrix:\n");
+printf_array(cmd_matrix);
+		if (execve(path, cmd_matrix, info->data->envp) == -1)
+		{
+			close_pipex(info, cmd_matrix);
+			printf("test2	\n");
+			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		}
+	// }
 	return ;
 }
 

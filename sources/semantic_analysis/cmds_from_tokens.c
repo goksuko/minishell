@@ -98,7 +98,31 @@
 // 	return (cmds);
 // }
 
+void limiter_check(t_data *shell_data)
+{
+	t_token	*current;
 
+	current = shell_data->tokens;
+	while (current)
+	{
+		if (current->limiter)
+		{
+			shell_data->info->limiter = ft_strdup(current->limiter);
+			printf("limiter: %s\n", shell_data->info->limiter);
+		}	
+		current = current->next;
+	}
+}
+
+char *smaller_first(t_token *current)
+{
+	char	*cmd;
+
+	cmd = ft_strdup(current->next->next->value);
+	cmd = ft_strjoin(cmd, " ");
+	cmd = ft_strjoin(cmd, current->next->value);
+	return (cmd);
+}
 
 char **cmds_between_pipes(t_data *shell_data, char **cmds)
 {
@@ -110,18 +134,41 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	i = 0;
 	j = 0;
 	current = shell_data->tokens;
-	while (current)
+	while (current && current->type != T_PIPE)
 	{
-		cmds[j] = current->value;
-		while (current && current->type != T_PIPE)
+		printf("current->value: %s\n", current->value);
+		if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
 		{
-			cmds[j] = ft_strjoin(cmds[j], current->value);
-			cmds[j] = ft_strjoin(cmds[j], " ");
-			current = current->next;
+			cmds[j] = smaller_first(current);
+			current = current->next->next->next;
 		}
-		if (current->type == T_PIPE)
+		else if (current->type == T_DSMALLER)
+		{
+
+			shell_data->info->limiter = ft_strdup(current->next->value);
+			printf("limiter: %s\n", shell_data->info->limiter);
+			cmds[j] = ft_strdup(current->next->next->value);
+			current = NULL;
+		}
+		else
+		{
+			cmds[j] = ft_strdup(current->value);
 			current = current->next;
-		// cmds[j] = clean_redirects(cmds[j]);
+			while (current && current->type != T_PIPE)
+			{
+				if (current->type == T_GREATER || current->type == T_DGREATER)
+					current = current->next->next;
+				else
+				{
+					cmds[j] = ft_strjoin(cmds[j], " ");
+					cmds[j] = ft_strjoin(cmds[j], current->value);
+					current = current->next;
+				}
+			}
+			if (current && current->type == T_PIPE)
+				current = current->next;
+		}
+		printf("cmds[%d]: %s\n", j, cmds[j]);
 		j++;
 	}
 	cmds[j] = NULL;
