@@ -1,31 +1,32 @@
 #include "../../includes/minishell.h"
 
-// Need to check that the function only prints until the redirection, 
-// hence prints into the right FD
-
-int	ft_echo(char *str, t_pipex *info)
+int	ft_echo(char **cmds, t_pipex *info)
 {
 	printf("---FT__ECHO----\n");
-	printf("In echo string to print: %s\n", str);
 	int		i;
 	bool	n_flag;
 
 	i = 0;
 	n_flag = false;
-	if (str[i] == '\0')
+	if (cmds == NULL)
+	{
 		ft_putstr_fd("", info->fd_out);
-	while (str[i] != '\0' && str[i] == ' ')
-		i++;
-    while (str[i] != '\0' && ft_strncmp(&str[i], "-n", 2) == 0 \
-		&& (str[i + 2] == ' ' || str[i + 2] == '\0'))
+		return (SUCCESS);
+	}
+	if (cmds[i] != NULL && ft_strlen(cmds[i]) == 2 && ft_strncmp(cmds[i], "-n", 2) == 0) // substr would be cmds[1] = "-n", else if there are several flags 
 	{
 		n_flag = true;
-		i += 2;
-		while (str[i] == ' ' && str[i] != '\0')
+		while (cmds[i] != NULL && ft_strlen(cmds[i]) == 2 && ft_strncmp(cmds[i], "-n", 2) == 0 && cmds[i] != NULL)
 			i++;
 	}
-	ft_putstr_fd(&str[i], info->fd_out);
+	while (cmds[i] != NULL)
+	{
+		ft_putstr_fd(&cmds[i], info->fd_out);
+			if (cmds[i + 1] != NULL)
+				ft_putchar_fd(' ', info->fd_out);
+		i++;
+	}
 	if (n_flag == false)
-		ft_putchar_fd('\n', info->fd_out); // changed from STDERR_FILENO to info->fd_out
+		ft_putchar_fd('\n', info->fd_out);
 	return (SUCCESS);
 }

@@ -1,17 +1,15 @@
 #include "../../includes/minishell.h"
 
-int	ft_pwd(char *str, t_data *shell_data)
+int	ft_pwd(char **cmds, t_data *shell_data)
 {
 	char	*cwd;
-	int		i;
 
 	cwd = NULL;
-	i = 0;
-	if (str[i] != '\0')
-		ft_exit_data_perror(shell_data, ERROR_TOO_MAY_ARGS, "pwd: too many arguments");
+	if (cmds != NULL && cmds[1] != NULL)
+		return(ERROR_TOO_MANY_ARGS);
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)
-		return (1); // should exit here or simply return 1 to indicate error??
+		return (ERROR_ALLOCATION);
 	ft_putendl_fd(cwd, shell_data->info->fd_out);
 	free(cwd);
 	return (SUCCESS);

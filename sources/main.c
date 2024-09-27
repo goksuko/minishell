@@ -138,7 +138,6 @@ int	main(int argc, char *argv[], char **envp)
 		// ft_print_tokens(shell_data->tokens); // only for testing purposes
 		semantic_analysis(shell_data);
 		printf_array(shell_data->info->cmds);
-		execute_builtins(shell_data, shell_data->info->cmds); // only for tetsing purposes
 		// execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis

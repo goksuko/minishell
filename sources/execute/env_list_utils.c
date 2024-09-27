@@ -28,6 +28,7 @@ void	update_shell(t_env **env_list)
 	cwd = NULL;
 	cwd = getcwd(0, 0);
 	// printf("cwd: %s\n", cwd);
+	// add error handling for cwd
 	while (env)
 	{
 		if (!ft_strncmp("SHELL", env->key, 5))
@@ -71,4 +72,18 @@ void update_path(t_data *shell_data)
 	shell_data->path = path;
 	// printf("path: %s\n", shell_data->path);
 	return ;
+}
+
+t_env	*ft_get_env(t_env *env_list, char *value)
+{
+	t_env	*temp;
+
+	temp = env_list;
+	while (temp != NULL)
+	{
+		if (ft_strncmp(temp->value, value, ft_strlen(value) == 0))
+			return (temp);
+		temp = temp->next;
+	}
+	return (NULL);
 }

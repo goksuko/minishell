@@ -13,14 +13,12 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-void	execute_builtins(t_data *shell_data, char **commands);
-int		builtins(t_data *shell_data, char *command);
-char	*builtin_substr(char *str, int *i);
-// int					execute_builtin(t_data *shell_data);
-int	ft_pwd(char *str, t_pipex *info, t_env *env_list);
-// // int					ft_cd(char **arguments);
+bool	is_builtin(char *command);
+int		execute_builtin(char **cmds, t_data *shell_data);
+int		ft_echo(char **cmds, t_pipex *info);
+int		ft_pwd(char **cmds, t_data *shell_data);
+int		ft_cd(char **cmds, t_data *shell_data, t_env *env_list);
 // // int					ft_env(t_env **env_var);
-int		ft_echo(char *str, t_pipex *info);
 // // void				ft_exit(t_tree **ast, t_env **env_var); // Remove AST
 // // int					exit_atoi(char *str, t_tree **ast, t_env **env_var); // Remove AST
 // bool				arg_is_digit(char *str);

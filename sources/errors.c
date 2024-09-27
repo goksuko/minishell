@@ -17,7 +17,7 @@ char	*ft_error(t_error code)
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
 	[ERROR_PERM] = "bash: permission denied: \n",
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
-	[ERROR_TOO_MAY_ARGS] = "bash: exit: too many arguments\n",
+	[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
 	[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
 	[ERROR_ALLOCATION] = "Allocation Failure\n",
 	[ERROR_NULL_PATH] = "bash: path not found\n",
@@ -25,6 +25,10 @@ char	*ft_error(t_error code)
 	[ERROR_WRONG_CHAR] = "Error: wrong character\n",
 	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
 	[ERROR_NOT_DIR] = "bash: not a directory: \n",
+	[ERROR_HOME_DIR] = "Error: HOME directory not set\n",
+	[ERROR_PARENT_DIR] = "Error: Parent directory not set\n",
+	[ERROR_OLDPWD] = "Error: OLDPWD not set\n",
+	[ERROR_NO_FILE_DIR] = "Error: No such file or directory\n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
 	[ERROR_META] = "Error: wrong meta character", // to be erased perhaps...need to review error codes
 	[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
@@ -118,4 +122,21 @@ void	free_shell_data(t_data **data) // to be adjusted
 	// if ((*data)->cmds_for_pipe)
 	// 	free_matrix((*data)->cmds_for_pipe);
 	return ;
+}
+
+void	free_env(t_env **env_var) // Not sure of elsewhere already! Need to check ! 
+{
+	t_env	*current;
+	t_env	*next;
+
+	current = *env_var;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*env_var = NULL;
 }

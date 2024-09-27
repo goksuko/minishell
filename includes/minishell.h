@@ -52,7 +52,7 @@ typedef enum e_error
 	NO_ERROR,
 	ERROR_PERM = 1,
 	ERROR_ARGUMENT_COUNT,
-	ERROR_TOO_MAY_ARGS,
+	ERROR_TOO_MANY_ARGS,
 	ERROR_NUMERIC_ARG,
 	ERROR_INVALID_ARGUMENTS,
 	ERROR_ALLOCATION,
@@ -64,6 +64,10 @@ typedef enum e_error
 	ERROR_CLOSE,
 	ERROR_DUP2,
 	ERROR_EXECVE,
+	ERROR_HOME_DIR,
+	ERROR_PARENT_DIR,
+	ERROR_OLDPWD,
+	ERROR_NO_FILE_DIR,
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
 	ERROR_FILE_NOT_FOUND,
@@ -203,6 +207,7 @@ void	free_prev_nodes(t_env *head);
 void	update_shell(t_env **env_list);
 void	update_path(t_data *shell_data);
 t_env	*ft_envp_node(char *envp_i);
+t_env	*ft_get_env(t_env *env_list, char *value);
 
 // env_list.c
 t_env	*ft_envp_node(char *envp_i);

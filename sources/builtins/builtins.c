@@ -1,76 +1,48 @@
 #include "../../includes/minishell.h"
 
-char	*builtin_substr(char *str, int *i)
+// include tilde check for cd and export and unset
+
+int	execute_builtin(char **cmds, t_data *shell_data)
 {
-	int		start;
-	int		len;
-	char	*substr;
+	printf("----EXECUTE BUILTIN----\n");
+	int	return_value;
 
-	start = *i;
-	while (str[*i] != '\0' && str[*i] != ' ')
-		(*i)++;
-	len = *i - start;
-	substr = malloc(sizeof(char) * (len + 1));
-	if (substr == NULL)
-		return (NULL);
-	substr = ft_strcpy(substr, &str[start], len + 1);
-	return (substr);
-}
-
-int	builtins(t_data *shell_data, char *command) // verify return value 
-{
-	printf("------IS BUILTIN CHECK-----\n");
-	int		i;
-	char	*substr;
-
-	i = 0;
-	while (command[i] != '\0')
-	{
-		substr = builtin_substr(&command[i], &i);
-		if (substr == NULL)
-		printf("Substring from built in check: %s\n", substr);
-		// free_shell_data
-		if (ft_strncmp(substr, "echo", 4) == 0)
-			return (ft_echo(&command[i], shell_data->info)); // need to know which token type I have here or keep updating i. e.g. if I have "echo echo" it should create a substr of the first echo and then print the following echo
-				// or update the exit code of the child??
-		if (ft_strncmp(command, "cd", 3) == 0)
-			return (ft_cd(&command[i], shell_data->info, shell_data->env_list));
-		if (ft_strncmp(substr, "pwd", 3) == 0)
-			return (ft_pwd(&command[i], shell_data->info, shell_data->env_list));
-		// if (ft_strncmp(command, "export", 7) == 0)
-		// 	return (true);
-		// if (ft_strncmp(command, "unset", 6) == 0)
-		// 	return (true);
-		// if (ft_strncmp(command, "env", 4) == 0)
-		// 	return (true);
-		// if (ft_strncmp(substr, "exit", 4) == 0)
-		// 	ft_exit(shell_data, shell_data->env_list);  Need to review the exit function
-		free(substr);
-		// i++; //already updated in substr need to check
-	}
+	return_value = -1;
+	if (ft_strlen(cmds[0]) == 4 && ft_strncmp(cmds[0], "echo", 4) == 0)
+		return_value = ft_echo(cmds + 1, shell_data->info);
+	if (ft_strlen(cmds[0]) == 3 && ft_strncmp(cmds[0], "cd", 3) == 0)
+		return_value = ft_cd(cmds + 1, shell_data->info, shell_data->env_list);
+	if (ft_strlen(cmds[0]) == 3 && ft_strncmp(cmds[0], "pwd", 3) == 0)
+		return_value = ft_pwd(cmds + 1, shell_data->info);
+	// if (ft_strncmp(arguments[0], "export", 7) == 0)
+	// 	return (ft_export(arguments));
+	// if (ft_strncmp(arguments[0], "unset", 6) == 0)
+	// 	return (ft_unset(arguments));
+	// if (ft_strncmp(arguments[0], "env", 4) == 0)
+	// 	return (ft_env(env_var));
+	if (ft_strlen(cmds[0]) == 5 && ft_strncmp(cmds[0], "exit", 5) == 0)
+		ft_exit(shell_data);
 	return (1);
 }
 
-// Only for testing purposes!
-void	execute_builtins(t_data *shell_data, char **commands)
+bool	is_builtin(char *command)
 {
-	
-	printf("----EXECUTE BUILTINS----\n");	
-	int	i;
-
-	i = 0;
-	while (commands[i] != NULL)
-	{
-		builtins(shell_data, commands[i]);
-		i++;
-	}
+	printf("------IS BUILTIN-----\n");
+	if (command == NULL)
+		return (false);
+	if (ft_strncmp(command, "echo", 5) == 0)
+		return (true);
+	// if (ft_strncmp(command, "cd", 3) == 0)
+	// 	return (true);
+	if (ft_strncmp(command, "pwd", 4) == 0)
+		return (true);
+	// if (ft_strncmp(command, "export", 7) == 0)
+	// 	return (true);
+	// if (ft_strncmp(command, "unset", 6) == 0)
+	// 	return (true);
+	// if (ft_strncmp(command, "env", 4) == 0)
+	// 	return (true);
+	if (ft_strncmp(command, "exit", 5) == 0)
+		return (true);
+	return (false);
 }
-
-// remove later. just to visualize the commands
-// echo Hello | cat test.txt | cat txt_file.sh
-// < echo "hello"
-
-
-// need to loop through the string. 
-// if echo was found then I need to pass the string part afterwards to ft_echo
-// however, I need to check 
