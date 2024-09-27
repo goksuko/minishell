@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void initialize_fds(t_pipex *info, t_data *shell_data)
+void	initialize_fds(t_pipex *info, t_data *shell_data)
 {
 	int		i;
 	t_token	*current;
@@ -11,7 +11,7 @@ void initialize_fds(t_pipex *info, t_data *shell_data)
 	{
 		info->fds[i][0] = -10;
 		info->fds[i][1] = -10;
-		i++;		
+		i++;
 	}
 	i = 0;
 	current = shell_data->tokens;
@@ -37,10 +37,10 @@ void initialize_fds(t_pipex *info, t_data *shell_data)
 	printf("info->fds[0][1]: %d\n", info->fds[0][1]);
 }
 
-void semantic_analysis(t_data *shell_data)
+void	semantic_analysis(t_data *shell_data)
 {
-	t_pipex *info;
-	
+	t_pipex	*info;
+
 	printf("---SEMANTIC ANALYSIS---\n");
 	shell_data->exit_code = 0;
 	shell_data->nbr_of_tokens = count_tokens(shell_data->line);
@@ -57,7 +57,7 @@ void semantic_analysis(t_data *shell_data)
 	// shell_data->cmds = clean_spaces(shell_data->cmds);
 	info->cmds = shell_data->cmds;
 	// initialize_cmds(shell_data, info);
-	// printf("cmds: \n");	
+	// printf("cmds: \n");
 	// printf_array(info->cmds);
 	initialize_info(info, shell_data);
 	initialize_fds(info, shell_data);
