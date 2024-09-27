@@ -146,8 +146,11 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		{
 
 			shell_data->info->limiter = ft_strdup(current->next->value);
-			printf("limiter: %s\n", shell_data->info->limiter);
-			cmds[j] = ft_strdup(current->next->next->value);
+			printf("limiter heyey: %s\n", shell_data->info->limiter);
+			if (current->next->next)
+				cmds[j] = ft_strdup(current->next->next->value);
+			else
+				cmds[j] = NULL;
 			current = NULL;
 		}
 		else

@@ -20,6 +20,8 @@ int	create_children(t_data *data)
 		data->info->fd_out = data->info->fds[i][1];
 		data->info->limiter = NULL;
 		limiter_check(data);
+		// if (data->tokens->value == data->info->limiter)
+		// 	break ;
 		printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
 		printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		printf("fd_out just after define_fd: %d\n", data->info->fd_out);

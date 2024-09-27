@@ -78,6 +78,7 @@ void	start_exec(t_pipex *info)
 {
 	char	**cmd_matrix;
 	char	*path;
+	// char	*line;
 	// char	*long_command;
 	// char	*long_corrected_command;
 
@@ -121,16 +122,39 @@ void	start_exec(t_pipex *info)
 	// }
 	// else
 	// {
-printf("Test\n");
-printf("cmd matrix:\n");
-printf_array(cmd_matrix);
-		if (execve(path, cmd_matrix, info->data->envp) == -1)
-		{
-			close_pipex(info, cmd_matrix);
-			printf("test2	\n");
-			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
-		}
+	printf("Test\n");
+	// printf("cmd matrix:\n");
+	// printf_array(cmd_matrix);
+	// char *line;
+	// while (info->limiter)
+	// {
+	// 	line = readline("minishell of 🦸 Goksu & 🧚 Vanessa > ");
+	// 	// printf("line: --%s--\n", line);
+	// 	write(STDOUT_FILENO, line, strlen(line)); // these two lines should stay!!
+	// 	write(STDOUT_FILENO, "\n", 1);
+	// 	if ((ft_strlen(line) == ft_strlen(info->limiter)) && (ft_strncmp(line, info->limiter, ft_strlen(info->limiter)) == 0))
+	// 	{
+	// 		// printf("limiter found\n");
+	// 		write(STDOUT_FILENO, "test\n", 5);
+	// 		unlink("our_here_doc");
+	// 		break;
+	// 	}
 	// }
+	if (info->limiter)
+		printf("limiter: %s\n", info->limiter);
+	else
+	{
+		if (info->curr_cmd == 1)
+		{	
+			printf("test1\n");
+			if (execve(path, cmd_matrix, info->data->envp) == -1)
+			{
+				close_pipex(info, cmd_matrix);
+				printf("test2	\n");
+				ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+			}
+		}
+	}
 	return ;
 }
 

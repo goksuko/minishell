@@ -41,10 +41,11 @@ void define_dsmaller(t_token *token)
 {
 	int temp_fd;
 	
-	temp_fd = open("our_here_doc", O_CREAT | O_TRUNC | O_WRONLY, 0777);
+	temp_fd = open("0ur_h3r3_d0c", O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (temp_fd == -1)
 		ft_exit_str_free_fd(ERROR_FILE_OPEN, token->next->value, STDERR_FILENO);
 	token->next->fd_out = temp_fd;
+	printf("temp_fd: %d\n", temp_fd);
 	token->next->limiter = ft_strdup(token->next->value);
 	printf("limiter: %s\n", token->next->limiter);
 }
