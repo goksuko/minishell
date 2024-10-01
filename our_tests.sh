@@ -4,11 +4,14 @@ echo result: cmds are executed in the right order but the output is not correct
 
 echo 1b
 < read.sh grep a1 | cat -e | wc -w > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: cmds are executed in the right order but the output is not correct
 
 echo 2
 < ./Libft ls -l | wc -l > result.txt
 echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+
+echo 2b
+< ./libft ls -l | ls -a > result.txt
 
 echo 3
 < test.txt grep a1 | wc -w > result.txt

@@ -180,10 +180,15 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		else
 		{
 			cmds[j] = ft_strdup(current->value);
+			if (ft_strncmp(current->value, "cat", 4) == 0)
+			{
+				cmds[j] = ft_strjoin(cmds[j], " ");
+				cmds[j] = ft_strjoin(cmds[j], current->next->next->value);
+			}
 			current = current->next;
 			while (current && current->type != T_PIPE)
 			{
-				if (current->type == T_GREATER || current->type == T_DGREATER)
+				if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
 					current = current->next->next;
 				else
 				{

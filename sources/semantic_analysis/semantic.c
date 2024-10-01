@@ -17,8 +17,10 @@ void	initialize_fds(t_pipex *info, t_data *shell_data)
 	current = shell_data->tokens;
 	while (current)
 	{
-		printf("current->fd_in: %d\n", current->fd_in);
-		printf("current->fd_out: %d\n", current->fd_out);
+		if (current->fd_in != -10)
+			printf("current->fd_in: %d\n", current->fd_in);
+		if (current->fd_out != -10)
+			printf("current->fd_out: %d\n", current->fd_out);
 		if (current->fd_in != -10)
 		{
 			info->fds[i][0] = current->fd_in;
