@@ -74,15 +74,15 @@ void update_path(t_data *shell_data)
 	return ;
 }
 
-t_env	*ft_get_env(t_env *env_list, char *value)
+char	*ft_get_env(t_env *env_list, char *key)
 {
 	t_env	*temp;
 
 	temp = env_list;
 	while (temp != NULL)
 	{
-		if (ft_strncmp(temp->value, value, ft_strlen(value)) == 0)
-			return (temp);
+		if (ft_strncmp(temp->key, key, ft_strlen(key)) == 0)
+			return (temp->value);
 		temp = temp->next;
 	}
 	return (NULL);

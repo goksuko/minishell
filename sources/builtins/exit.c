@@ -6,13 +6,13 @@ void	handle_numeric_arg(char *exit_code, t_data *shell_data)
 
 	if (arg_is_digit(exit_code) == false)
 	{
-		free_shell_data(shell_data);
+		free_shell_data(&shell_data);
 		ft_exit_str_fd(ERROR_NUMERIC_ARG, STDERR_FILENO);
 	}
 	else
 	{
 		exit_code_value = exit_atoi(exit_code, shell_data);
-		free_shell_data(shell_data);
+		free_shell_data(&shell_data);
 		exit(exit_code_value);
 	}
 }

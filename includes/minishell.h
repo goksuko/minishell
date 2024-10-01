@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/01 16:01:05 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/01 17:33:34 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	free_prev_nodes(t_env *head);
 void	update_shell(t_env **env_list);
 void	update_path(t_data *shell_data);
 t_env	*ft_envp_node(char *envp_i);
-t_env	*ft_get_env(t_env *env_list, char *value);
+char	*ft_get_env(t_env *env_list, char *value);
 
 // env_list.c
 t_env	*ft_envp_node(char *envp_i);

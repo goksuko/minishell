@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/09/25 12:03:57 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/01 17:35:31 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,14 @@ SEMANTIC_ANALYSIS = semantic.c \
 					semantic_utils2.c \
 
 BUILTINS = 			builtins.c \
-					pwd.c \
+					cd.c \
 					echo.c \
-					# env.c \
-					# exit.c \
-					# exit_utils.c \
-					# env_utils.c \
+					env.c \
+					exit_utils.c \
+					exit.c \
+					pwd.c \
+					# export.c \
+					# unset.c \
 
 EXECUTE =			child_processes.c \
 					children.c \

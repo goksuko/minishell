@@ -21,14 +21,8 @@ void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd)
 	}
 }
 
-int	cd_parent_dir(t_env *list)
+int	cd_parent_dir(char *cwd)
 {
-	char	*cwd;
-
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if (cwd == NULL)
-		return (ERROR_ALLOCATION);
 	if (ft_strncmp(cwd, "/", 1) != 0)
 	{
 		if (chdir("..") != 0)
@@ -37,7 +31,6 @@ int	cd_parent_dir(t_env *list)
 			return (ERROR_PARENT_DIR);
 		}
 	}
-	free(cwd);
 	return (SUCCESS);
 }
 
@@ -65,7 +58,7 @@ int	cd_old_pwd(t_env *env_list)
 	return (SUCCESS);
 }
 
-int	ft_cd(char **cmds, t_data *shell_data, t_env *env_list)
+int	ft_cd(char **cmds, t_env *env_list)
 {
 	char	*cwd;
 	char	*old_cwd;
@@ -80,12 +73,12 @@ int	ft_cd(char **cmds, t_data *shell_data, t_env *env_list)
 	if (cwd == NULL)
 		return (ERROR_ALLOCATION);
 	old_cwd = cwd;
-	if (cmds[0] == NULL || (ft_strncmp(cmds[0], '~', 1) == 0 && cmd_len == 1))
+	if (cmds[0] == NULL || (ft_strncmp(cmds[0], "~", 1) == 0 && cmd_len == 1))
 		return_value = cd_home(env_list);
 	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
 		return_value = cd_old_pwd(env_list);
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
-		return_value = cd_parent_dir(env_list);
+		return_value = cd_parent_dir(cwd);
 	else if (access(cmds[0], F_OK) == 0)
 	{
 		if (chdir(cmds[0]) != 0)

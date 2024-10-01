@@ -4,7 +4,8 @@ void print_env(t_env *env)
 {
 	while (env != NULL)
 	{
-		printf("key: %s\n", env->key);
+		printf("key: %s", env->key);
+		printf("=");
 		printf("value: %s\n", env->value);
 		env = env->next;
 	}

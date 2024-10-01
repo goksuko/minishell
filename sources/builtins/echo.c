@@ -21,7 +21,7 @@ int	ft_echo(char **cmds, t_pipex *info)
 	}
 	while (cmds[i] != NULL)
 	{
-		ft_putstr_fd(&cmds[i], info->fd_out);
+		ft_putstr_fd(cmds[i], info->fd_out);
 			if (cmds[i + 1] != NULL)
 				ft_putchar_fd(' ', info->fd_out);
 		i++;
