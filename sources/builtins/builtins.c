@@ -20,8 +20,8 @@ int	execute_builtin(char **cmds, t_data *shell_data)
 		return_value = ft_export(cmds + 1);
 	// if (ft_strncmp(arguments[0], "unset", 6) == 0)
 	// 	return (ft_unset(arguments));
-	// if (ft_strncmp(arguments[0], "env", 4) == 0)
-	// 	return (ft_env(env_var));
+	if (cmd_len == 3 && ft_strncmp(cmds[0], "env", 3) == 0)
+		return_value = ft_env(cmds + 1, shell_data);
 	if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 		ft_exit(cmds + 1, shell_data);
 	return (1);
@@ -29,22 +29,25 @@ int	execute_builtin(char **cmds, t_data *shell_data)
 
 bool	is_builtin(char *command)
 {
-	printf("------IS BUILTIN-----\n");
+	printf("------IS BUILTIN CHECK-----\n");
+	int	cmd_len;
+	
 	if (command == NULL)
 		return (false);
-	if (ft_strncmp(command, "echo", 5) == 0)
+	cmd_len = ft_strlen(command);
+	if (cmd_len == 4 && ft_strncmp(command, "echo", 4) == 0)
 		return (true);
-	// if (ft_strncmp(command, "cd", 3) == 0)
-	// 	return (true);
-	if (ft_strncmp(command, "pwd", 4) == 0)
+	if (cmd_len == 2 && ft_strncmp(command, "cd", 2) == 0)
 		return (true);
-	// if (ft_strncmp(command, "export", 7) == 0)
-	// 	return (true);
+	if (cmd_len == 3 && ft_strncmp(command, "pwd", 3) == 0)
+		return (true);
+	if (cmd_len == 6 && ft_strncmp(command, "export", 6) == 0)
+		return (true);
 	// if (ft_strncmp(command, "unset", 6) == 0)
 	// 	return (true);
-	// if (ft_strncmp(command, "env", 4) == 0)
-	// 	return (true);
-	if (ft_strncmp(command, "exit", 5) == 0)
+	if (cmd_len == 3 && ft_strncmp(command, "env", 3) == 0)
+		return (true);
+	if (cmd_len == 4 && ft_strncmp(command, "exit", 4) == 0)
 		return (true);
 	return (false);
 }

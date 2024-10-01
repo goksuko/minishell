@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/24 16:03:42 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/01 16:53:49 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	make_initial_path_checks(char **envp, t_data *shell_data)
 
 void print_env(t_env *env)
 {
-	while (env)
+	while (env != NULL)
 	{
 		printf("key: %s\n", env->key);
 		printf("value: %s\n", env->value);
