@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/26 12:09:27 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/01 15:45:54 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	ft_exit_perror(t_error code, char *s)
 void	ft_exit_data_perror(t_data *data, t_error code, char *s)
 {
 	perror(s);
-	free_system(data); // to be replaced with free_shell_data	
+	free_shell_data(&data);
+	//free_system(data); // to be replaced with free_shell_data	
 	exit(code);
 }
 
@@ -80,7 +81,8 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 void	ft_exit_data_error(t_data *data, t_error code)
 {
 	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
-	free_system(data); // to be replaced with free_shell_data
+	free_shell_data(&data);
+	// free_system(data); // to be replaced with free_shell_data
 	exit(code);
 }
 

@@ -36,7 +36,7 @@ int	get_sign(char c, int *i)
 	return (sign);
 }
 
-int	exit_atoi(char exit_code, t_data *shell_data)
+int	exit_atoi(char *exit_code, t_data *shell_data)
 {
 	int		i;
 	int		sign;
@@ -46,10 +46,10 @@ int	exit_atoi(char exit_code, t_data *shell_data)
 	sign = 1;
 	number = 0;
 	skip_whitespace(exit_code, &i);
-	sign = get_sign(exit_code, &i);
-	while (is_digit(exit_code) == true)
+	sign = get_sign(exit_code[i], &i);
+	while (is_digit(exit_code[i]) == true)
 	{
-		number = number * 10 + (exit_code - '0');
+		number = number * 10 + (exit_code[i] - '0');
 		if (number > INT_MAX)
 		{
 			free_shell_data(shell_data);

@@ -81,7 +81,7 @@ t_env	*ft_get_env(t_env *env_list, char *value)
 	temp = env_list;
 	while (temp != NULL)
 	{
-		if (ft_strncmp(temp->value, value, ft_strlen(value) == 0))
+		if (ft_strncmp(temp->value, value, ft_strlen(value)) == 0)
 			return (temp);
 		temp = temp->next;
 	}

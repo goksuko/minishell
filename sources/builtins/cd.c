@@ -1,8 +1,24 @@
 #include "../../includes/minishell.h"
 
-void	update_env_list(t_env **env_list, char *cwd, char *old_vs_cur_pwd) // may be moved to env_list_utils.c
+void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd)
 {
+	t_env *env;
 
+	env = *env_list;
+	while (env != NULL)
+	{
+		if (ft_strncmp("OLDPWD", env->key, 6) == 0)
+		{
+			free(env->value);
+			env->value = old_cwd;
+		}
+		else if (ft_strncmp("PWD", env->key, 3) == 0)
+		{
+			free(env->value);
+			env->value = new_cwd;
+		}
+		env = env->next;
+	}
 }
 
 int	cd_parent_dir(t_env *list)
@@ -52,20 +68,23 @@ int	cd_old_pwd(t_env *env_list)
 int	ft_cd(char **cmds, t_data *shell_data, t_env *env_list)
 {
 	char	*cwd;
+	char	*old_cwd;
 	int		return_value;
+	int		cmd_len;
 
-	cwd = NULL;
 	return_value = -1;
 	if (cmds != NULL && cmds[1] != NULL)
 		return(ERROR_TOO_MANY_ARGS);
-	cwd = getcwd(cwd, 0);
+	cmd_len = ft_strlen(cmds[0]);
+	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 		return (ERROR_ALLOCATION);
-	if (cmds[0] == NULL || ft_strncmp(cmds[0], '~', 1) == 0)
+	old_cwd = cwd;
+	if (cmds[0] == NULL || (ft_strncmp(cmds[0], '~', 1) == 0 && cmd_len == 1))
 		return_value = cd_home(env_list);
-	else if (cmds[0] == '-')
+	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
 		return_value = cd_old_pwd(env_list);
-	else if (ft_strncmp(cmds[0], "..", 2) == 0 && ft_strlen(cmds[0]) == 2)
+	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
 		return_value = cd_parent_dir(env_list);
 	else if (access(cmds[0], F_OK) == 0)
 	{
@@ -74,10 +93,9 @@ int	ft_cd(char **cmds, t_data *shell_data, t_env *env_list)
 	}
 	else if (cmds[0] != NULL)
 		return_value = ERROR_NO_FILE_DIR;
-	update_env_list(&env_list, cwd, "OLDPWD"); // or call update_shell() and update_path()
+	cwd = getcwd(NULL, 0);
+	update_env_list(&env_list, old_cwd, cwd);
 	free(cwd);
-	cwd = getcwd(cwd, NULL);
-	update_env_list(&env_list, cwd, "PWD");
-	free(cwd);
-	return (SUCCESS);
+	free(old_cwd);
+	return (return_value);
 }
