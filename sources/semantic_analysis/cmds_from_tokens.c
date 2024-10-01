@@ -114,6 +114,14 @@ void limiter_check(t_data *shell_data)
 	}
 }
 
+// char *do_cat_addition(t_token *current, char *cmd)
+// {
+// 	cmd = ft_strjoin(cmd, current->next->value);
+// 	cmd = ft_strjoin(cmd, " ");
+// 	printf("cmd: %s\n", cmd);
+// 	return (cmd);
+// }
+
 char *smaller_first(t_token *current)
 {
 	char	*cmd;
@@ -123,7 +131,7 @@ char *smaller_first(t_token *current)
 	i = 3;
 	cmd = ft_strdup(current->next->next->value);
 	cmd = ft_strjoin(cmd, " ");
-	if (ft_strncmp(current->next->value, "cat", 4) == 0)
+	if (ft_strncmp(current->next->next->value, "cat", 4) == 0)
 	{
 		cmd = ft_strjoin(cmd, current->next->value);
 		cmd = ft_strjoin(cmd, " ");
@@ -133,13 +141,13 @@ char *smaller_first(t_token *current)
 	while (temp && i--)
 		temp = temp->next;
 	
-	while (temp && temp->type != T_PIPE)
-	{
-		cmd = ft_strjoin(cmd, temp->value);
-		cmd = ft_strjoin(cmd, " ");
-		temp = temp->next;
-		printf("cmd: %s\n", cmd);
-	}
+	// while (temp && temp->type != T_PIPE)
+	// {
+	// 	cmd = ft_strjoin(cmd, temp->value);
+	// 	cmd = ft_strjoin(cmd, " ");
+	// 	temp = temp->next;
+	// 	printf("cmd: %s\n", cmd);
+	// }
 	return (cmd);
 }
 
@@ -162,7 +170,20 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 			printf("cmds[%d]: %s\n", j, cmds[j]);
 			while (current && current->type != T_PIPE)
 				current = current->next;
-			if (current->type == T_PIPE)
+			// if (current->type == T_PIPE)
+			// 	current = current->next;
+			while (current && current->type != T_PIPE)
+			{
+				if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
+					current = current->next->next;
+				else
+				{
+					cmds[j] = ft_strjoin(cmds[j], " ");
+					cmds[j] = ft_strjoin(cmds[j], current->value);
+					current = current->next;
+				}
+			}
+			if (current && current->type == T_PIPE)
 				current = current->next;
 		}
 		else if (current->type == T_DSMALLER)
@@ -186,6 +207,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 				cmds[j] = ft_strjoin(cmds[j], current->next->next->value);
 			}
 			current = current->next;
+
 			while (current && current->type != T_PIPE)
 			{
 				if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
@@ -199,6 +221,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 			}
 			if (current && current->type == T_PIPE)
 				current = current->next;
+
 		}
 		printf("cmds[%d]: %s\n", j, cmds[j]);
 		j++;
