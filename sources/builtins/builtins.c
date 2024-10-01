@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-// include tilde check for cd and export and unset
-
 int	execute_builtin(char **cmds, t_data *shell_data)
 {
 	printf("----EXECUTE BUILTIN----\n");
@@ -23,7 +21,7 @@ int	execute_builtin(char **cmds, t_data *shell_data)
 	else if (cmd_len == 3 && ft_strncmp(cmds[0], "env", 3) == 0)
 		return_value = ft_env(cmds + 1, shell_data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
-		ft_exit(cmds + 1, shell_data);
+		ft_exit(cmds + 1, shell_data); // need to check if this works since it does not return anything
 	return (return_value);
 }
 
@@ -43,7 +41,7 @@ bool	is_builtin(char *command)
 		return (true);
 	// if (cmd_len == 6 && ft_strncmp(command, "export", 6) == 0)
 	// 	return (true);
-	if (ft_strncmp(command, "unset", 6) == 0)
+	if (cmd_len == 6 && ft_strncmp(command, "unset", 6) == 0)
 		return (true);
 	if (cmd_len == 3 && ft_strncmp(command, "env", 3) == 0)
 		return (true);
