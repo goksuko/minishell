@@ -122,32 +122,58 @@ void limiter_check(t_data *shell_data)
 // 	return (cmd);
 // }
 
-char *smaller_first(t_token *current)
-{
-	char	*cmd;
-	t_token	*temp;
-	int		i;
+// char *smaller_first(t_token *current)
+// {
+// 	char	*cmd;
+// 	t_token	*temp;
+// 	int		i;
 
-	i = 3;
-	cmd = ft_strdup(current->next->next->value);
-	cmd = ft_strjoin(cmd, " ");
-	if (ft_strncmp(current->next->next->value, "cat", 4) == 0)
-	{
-		cmd = ft_strjoin(cmd, current->next->value);
-		cmd = ft_strjoin(cmd, " ");
-		printf("cmd: %s\n", cmd);
-	}
-	temp = current;
-	while (temp && i--)
-		temp = temp->next;
+// 	i = 3;
+// 	cmd = ft_strdup(current->next->next->value);
+// 	cmd = ft_strjoin(cmd, " ");
+// 	if (ft_strncmp(current->next->next->value, "cat", 4) == 0)
+// 	{
+// 		cmd = ft_strjoin(cmd, current->next->value);
+// 		cmd = ft_strjoin(cmd, " ");
+// 		printf("cmd: %s\n", cmd);
+// 	}
+// 	temp = current;
+// 	while (temp && i--)
+// 		temp = temp->next;
 	
-	// while (temp && temp->type != T_PIPE)
-	// {
-	// 	cmd = ft_strjoin(cmd, temp->value);
-	// 	cmd = ft_strjoin(cmd, " ");
-	// 	temp = temp->next;
-	// 	printf("cmd: %s\n", cmd);
-	// }
+// 	// while (temp && temp->type != T_PIPE)
+// 	// {
+// 	// 	cmd = ft_strjoin(cmd, temp->value);
+// 	// 	cmd = ft_strjoin(cmd, " ");
+// 	// 	temp = temp->next;
+// 	// 	printf("cmd: %s\n", cmd);
+// 	// }
+// 	return (cmd);
+// }
+
+t_token *smaller_first(t_token *current)
+{
+	t_token	*temp;
+	t_token	*smaller;
+	t_token *file;
+	t_token *next_token;
+
+	smaller = current;
+	file = current->next;
+	temp = current->next->next;
+	next_token = temp->next;
+	temp->next = smaller;
+	temp->prev = NULL;
+	smaller->prev = temp;
+	file->next = next_token;
+	return (temp);
+}
+
+char *do_cat_addition(t_token *current, char *cmd)
+{
+	cmd = ft_strjoin(cmd, " ");
+	cmd = ft_strjoin(cmd, current->next->value);
+	// printf("cmd: %s\n", cmd);
 	return (cmd);
 }
 
@@ -156,6 +182,9 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	// int		i;
 	int		j;
 	t_token	*current;
+	bool	cat_cmd;
+
+	cat_cmd = false;
 
 	printf("---cmds_between_pipes---\n");
 	// i = 0;
@@ -163,66 +192,101 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	current = shell_data->tokens;
 	while (current && current->type != T_PIPE)
 	{
-		printf("current->value: %s\n", current->value);
-		if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
+		while (current && current->type != T_PIPE)
 		{
-			cmds[j] = smaller_first(current);
-			printf("cmds[%d]: %s\n", j, cmds[j]);
-			while (current && current->type != T_PIPE)
-				current = current->next;
-			// if (current->type == T_PIPE)
-			// 	current = current->next;
-			while (current && current->type != T_PIPE)
-			{
-				if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
-					current = current->next->next;
-				else
-				{
-					cmds[j] = ft_strjoin(cmds[j], " ");
-					cmds[j] = ft_strjoin(cmds[j], current->value);
-					current = current->next;
-				}
-			}
-			if (current && current->type == T_PIPE)
-				current = current->next;
-		}
-		else if (current->type == T_DSMALLER)
-		{
-
-			shell_data->info->limiter = ft_strdup(current->next->value);
-			printf("limiter heyey: %s\n", shell_data->info->limiter);
-
-			if (current->next->next)
-				cmds[j] = ft_strdup(current->next->next->value);
-			else
-				cmds[j] = NULL;
-			current = NULL;
-		}
-		else
-		{
-			cmds[j] = ft_strdup(current->value);
+			printf("current->value: %s\n", current->value);
+			if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
+				current = smaller_first(current);
 			if (ft_strncmp(current->value, "cat", 4) == 0)
+				cat_cmd = true;
+			if (current->prev == NULL || current->prev->type == T_PIPE)
+			{
+				cmds[j] = ft_strdup(current->value);
+				current = current->next;
+			}
+			printf("cmds[%d] in the beginning: %s\n", j, cmds[j]);
+			if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
+			{
+				if (cat_cmd)
+				{
+					printf("cmds[%d] before cat addition: %s\n", j, cmds[j]);					
+					cmds[j] = do_cat_addition(current, cmds[j]);
+					printf("cmds[%d] after cat addition: %s\n", j, cmds[j]);
+					cat_cmd = false;
+				}
+				// else
+				current = current->next->next;
+			}
+			else
 			{
 				cmds[j] = ft_strjoin(cmds[j], " ");
-				cmds[j] = ft_strjoin(cmds[j], current->next->next->value);
+				cmds[j] = ft_strjoin(cmds[j], current->value);
+				current = current->next;
 			}
+		}
+		if (current && current->type == T_PIPE)
 			current = current->next;
 
-			while (current && current->type != T_PIPE)
-			{
-				if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
-					current = current->next->next;
-				else
-				{
-					cmds[j] = ft_strjoin(cmds[j], " ");
-					cmds[j] = ft_strjoin(cmds[j], current->value);
-					current = current->next;
-				}
-			}
-			if (current && current->type == T_PIPE)
-				current = current->next;
 
-		}
+		// if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
+		// {
+		// 	cmds[j] = smaller_first(current);
+		// 	printf("cmds[%d]: %s\n", j, cmds[j]);
+		// 	while (current && current->type != T_PIPE)
+		// 		current = current->next;
+		// 	// if (current->type == T_PIPE)
+		// 	// 	current = current->next;
+		// 	while (current && current->type != T_PIPE)
+		// 	{
+		// 		if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
+		// 			current = current->next->next;
+		// 		else
+		// 		{
+		// 			cmds[j] = ft_strjoin(cmds[j], " ");
+		// 			cmds[j] = ft_strjoin(cmds[j], current->value);
+		// 			current = current->next;
+		// 		}
+		// 	}
+		// 	// if (current && current->type == T_PIPE)
+		// 	// 	current = current->next;
+		// }
+		// else if (current->type == T_DSMALLER)
+		// {
+
+		// 	shell_data->info->limiter = ft_strdup(current->next->value);
+		// 	printf("limiter heyey: %s\n", shell_data->info->limiter);
+
+		// 	if (current->next->next)
+		// 		cmds[j] = ft_strdup(current->next->next->value);
+		// 	else
+		// 		cmds[j] = NULL;
+		// 	current = NULL;
+		// }
+		// else
+		// {
+		// 	cmds[j] = ft_strdup(current->value);
+		// 	if (ft_strncmp(current->value, "cat", 4) == 0)
+		// 	{
+		// 		cmds[j] = ft_strjoin(cmds[j], " ");
+		// 		cmds[j] = ft_strjoin(cmds[j], current->next->next->value);
+		// 	}
+		// 	current = current->next;
+
+		// 	while (current && current->type != T_PIPE)
+		// 	{
+		// 		if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
+		// 			current = current->next->next;
+		// 		else
+		// 		{
+		// 			cmds[j] = ft_strjoin(cmds[j], " ");
+		// 			cmds[j] = ft_strjoin(cmds[j], current->value);
+		// 			current = current->next;
+		// 		}
+		// 	}
+		// 	// if (current && current->type == T_PIPE)
+		// 	// 	current = current->next;
+
+		// }
 		printf("cmds[%d]: %s\n", j, cmds[j]);
 		j++;
 	}

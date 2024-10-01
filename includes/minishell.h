@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/27 16:00:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/01 11:58:25 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ int next_pipe_token(t_token **tokens, int i);
 char *cmd_till(t_token *tokens, int i, int till);
 char **cmds_from_tokens(t_data *shell_data);
 void limiter_check(t_data *shell_data);
-char *smaller_first(t_token *current);
+t_token *smaller_first(t_token *current);
 
 //semantic_utils.c
 int		find_pipe_count(t_token *tokens);

@@ -122,12 +122,10 @@ echo result: ----SYNTAX ANALYSIS---- Segmentation fault
 echo 26
 cat read.sh > out.txt > out2.txt
 echo result: WORKS FINE
-#but it creates a new file with the same name if it is done in another bash for testing
 
 echo 27
 < read.sh cat > out.txt > out2.txt
-echo result: permission denied 
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 28
 cat < read.sh > out.txt > out2.txt
@@ -137,10 +135,13 @@ echo 29
 cat read.sh >> out.txt >> out2.txt
 echo result: WORKS FINE
 
+echo 29b
+ls -l >> out.txt >> out2.txt
+echo result: WORKS FINE
+
 echo 30
 < read.sh cat >> out.txt >> out2.txt
-echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 31
 cat < read.sh >> out.txt >> out2.txt
@@ -148,5 +149,5 @@ echo result: WORKS FINE
 
 echo 32
 >>             test.txt
-echo result: to be checked
+echo result: to be checked !!!!!
 
