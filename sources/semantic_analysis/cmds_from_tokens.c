@@ -195,7 +195,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		while (current && current->type != T_PIPE)
 		{
 			printf("current->value: %s\n", current->value);
-			if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
+			if ((current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER) && (current->prev == NULL || current->prev->type == T_PIPE))
 				current = smaller_first(current);
 			if (ft_strncmp(current->value, "cat", 4) == 0)
 				cat_cmd = true;
