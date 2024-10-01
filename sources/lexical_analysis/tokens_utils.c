@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/25 11:45:31 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/01 22:45:14 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ void	printf_array(char **array)
 {
 	int	i;
 
+	if (!array)
+	{
+		printf("Array is NULL\n");
+		return ;
+	}
 	i = 0;
 	while (array[i] != NULL)
 	{

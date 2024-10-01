@@ -158,6 +158,8 @@ t_token *smaller_first(t_token *current)
 	t_token *file;
 	t_token *next_token;
 
+	if (current->next == NULL || current->next->next == NULL)
+		return (NULL);
 	smaller = current;
 	file = current->next;
 	temp = current->next->next;
@@ -196,7 +198,11 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		{
 			printf("current->value: %s\n", current->value);
 			if ((current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER) && (current->prev == NULL || current->prev->type == T_PIPE))
+			{
 				current = smaller_first(current);
+				if (!current)
+					return (NULL);
+			}
 			if (ft_strncmp(current->value, "cat", 4) == 0)
 				cat_cmd = true;
 			if (current->prev == NULL || current->prev->type == T_PIPE)
@@ -205,7 +211,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 				current = current->next;
 			}
 			printf("cmds[%d] in the beginning: %s\n", j, cmds[j]);
-			if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
+			if (current && (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER))
 			{
 				if (cat_cmd)
 				{
@@ -217,7 +223,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 				// else
 				current = current->next->next;
 			}
-			else
+			else if (current && current->type != T_PIPE)
 			{
 				cmds[j] = ft_strjoin(cmds[j], " ");
 				cmds[j] = ft_strjoin(cmds[j], current->value);
@@ -227,67 +233,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		if (current && current->type == T_PIPE)
 			current = current->next;
 
-
-		// if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
-		// {
-		// 	cmds[j] = smaller_first(current);
-		// 	printf("cmds[%d]: %s\n", j, cmds[j]);
-		// 	while (current && current->type != T_PIPE)
-		// 		current = current->next;
-		// 	// if (current->type == T_PIPE)
-		// 	// 	current = current->next;
-		// 	while (current && current->type != T_PIPE)
-		// 	{
-		// 		if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
-		// 			current = current->next->next;
-		// 		else
-		// 		{
-		// 			cmds[j] = ft_strjoin(cmds[j], " ");
-		// 			cmds[j] = ft_strjoin(cmds[j], current->value);
-		// 			current = current->next;
-		// 		}
-		// 	}
-		// 	// if (current && current->type == T_PIPE)
-		// 	// 	current = current->next;
-		// }
-		// else if (current->type == T_DSMALLER)
-		// {
-
-		// 	shell_data->info->limiter = ft_strdup(current->next->value);
-		// 	printf("limiter heyey: %s\n", shell_data->info->limiter);
-
-		// 	if (current->next->next)
-		// 		cmds[j] = ft_strdup(current->next->next->value);
-		// 	else
-		// 		cmds[j] = NULL;
-		// 	current = NULL;
-		// }
-		// else
-		// {
-		// 	cmds[j] = ft_strdup(current->value);
-		// 	if (ft_strncmp(current->value, "cat", 4) == 0)
-		// 	{
-		// 		cmds[j] = ft_strjoin(cmds[j], " ");
-		// 		cmds[j] = ft_strjoin(cmds[j], current->next->next->value);
-		// 	}
-		// 	current = current->next;
-
-		// 	while (current && current->type != T_PIPE)
-		// 	{
-		// 		if (current->type == T_GREATER || current->type == T_DGREATER || current->type == T_SMALLER)
-		// 			current = current->next->next;
-		// 		else
-		// 		{
-		// 			cmds[j] = ft_strjoin(cmds[j], " ");
-		// 			cmds[j] = ft_strjoin(cmds[j], current->value);
-		// 			current = current->next;
-		// 		}
-		// 	}
-		// 	// if (current && current->type == T_PIPE)
-		// 	// 	current = current->next;
-
-		// }
-		printf("cmds[%d]: %s\n", j, cmds[j]);
+		// printf("cmds[%d]: %s\n", j, cmds[j]);
 		j++;
 	}
 	cmds[j] = NULL;
@@ -311,6 +257,8 @@ char **cmds_from_tokens(t_data *shell_data)
 		ft_exit_perror(ERROR_ALLOCATION, "malloc in cmds_from_tokens");
 	}
 	cmds = cmds_between_pipes(shell_data, cmds);
+	printf("cmds are ready\n");
+	printf_array(cmds);
 	return(cmds);
 
 }
