@@ -2,14 +2,16 @@
 
 void unset_env_var(char *key, t_env **env_list)
 {
-	t_env *temp;
-	t_env *prev;
+	t_env	*temp;
+	t_env	*prev;
+	int		key_len;
 
 	temp = *env_list;
 	prev = NULL;
+	key_len = ft_strlen(key);
 	while (temp != NULL)
 	{
-		if (ft_strncmp(temp->key, key, ft_strlen(key)) == 0)
+		if (ft_strlen(temp->key) == key_len && ft_strncmp(temp->key, key, key_len) == 0)
 		{
 			if (prev == NULL)
 				*env_list = temp->next;
