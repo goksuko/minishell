@@ -1,5 +1,9 @@
 echo 1
 < test.txt grep a1 | cat -e | wc -w > result.txt
+echo result: cmds are executed in the right order but the output is not correct
+
+echo 1b
+< read.sh grep a1 | cat -e | wc -w > result.txt
 echo result: ----SYNTAX ANALYSIS---- Segmentation fault
 
 echo 2

@@ -117,21 +117,40 @@ void limiter_check(t_data *shell_data)
 char *smaller_first(t_token *current)
 {
 	char	*cmd;
+	t_token	*temp;
+	int		i;
 
+	i = 3;
 	cmd = ft_strdup(current->next->next->value);
 	cmd = ft_strjoin(cmd, " ");
-	cmd = ft_strjoin(cmd, current->next->value);
+	if (ft_strncmp(current->next->value, "cat", 4) == 0)
+	{
+		cmd = ft_strjoin(cmd, current->next->value);
+		cmd = ft_strjoin(cmd, " ");
+		printf("cmd: %s\n", cmd);
+	}
+	temp = current;
+	while (temp && i--)
+		temp = temp->next;
+	
+	while (temp && temp->type != T_PIPE)
+	{
+		cmd = ft_strjoin(cmd, temp->value);
+		cmd = ft_strjoin(cmd, " ");
+		temp = temp->next;
+		printf("cmd: %s\n", cmd);
+	}
 	return (cmd);
 }
 
 char **cmds_between_pipes(t_data *shell_data, char **cmds)
 {
-	int		i;
+	// int		i;
 	int		j;
 	t_token	*current;
 
 	printf("---cmds_between_pipes---\n");
-	i = 0;
+	// i = 0;
 	j = 0;
 	current = shell_data->tokens;
 	while (current && current->type != T_PIPE)
@@ -140,13 +159,18 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 		if (current->type == T_SMALLER && (current->prev == NULL || current->prev->type == T_PIPE))
 		{
 			cmds[j] = smaller_first(current);
-			current = current->next->next->next;
+			printf("cmds[%d]: %s\n", j, cmds[j]);
+			while (current && current->type != T_PIPE)
+				current = current->next;
+			if (current->type == T_PIPE)
+				current = current->next;
 		}
 		else if (current->type == T_DSMALLER)
 		{
 
 			shell_data->info->limiter = ft_strdup(current->next->value);
 			printf("limiter heyey: %s\n", shell_data->info->limiter);
+
 			if (current->next->next)
 				cmds[j] = ft_strdup(current->next->next->value);
 			else
@@ -182,12 +206,12 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 char **cmds_from_tokens(t_data *shell_data)
 {
 	char	**cmds;
-	int		i;
-	int		j;
+	// int		i;
+	// int		j;
 
 	printf("---cmds_from_tokens---\n");
-	i = 0;
-	j = 0;
+	// i = 0;
+	// j = 0;
 	cmds = (char **)malloc(sizeof(char *) * (shell_data->nbr_of_pipes + 2));
 	if (cmds == NULL)
 	{
