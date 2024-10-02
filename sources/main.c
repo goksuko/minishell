@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/01 10:46:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/02 10:42:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	find_path_index(char **envp)
 // 	return (exit_code);
 // }
 
-void	init_data(t_data *data, char **envp)
-{
-	ft_printf("init_data\n");
-	// data->line = line;
-	data->envp = envp;
-	data->exit_code = 0;
-	return ;
-}
+// void	init_data(t_data *data, char **envp)
+// {
+// 	ft_printf("init_data\n");
+// 	// data->line = line;
+// 	data->envp = envp;
+// 	data->exit_code = 0;
+// 	return ;
+// }
 
 
 void	make_initial_path_checks(char **envp, t_data *shell_data)

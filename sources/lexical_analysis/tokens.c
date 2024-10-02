@@ -6,16 +6,32 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/27 15:44:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/02 09:58:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	redirection_check(t_token *current)
+bool	is_redir(t_token *current)
 {
 	if (current->type == T_SMALLER || current->type == T_GREATER || \
 		current->type == T_DSMALLER || current->type == T_DGREATER)
+		return (true);
+	return (false);
+}
+
+
+bool	is_redir_except_heredoc(t_token *current)
+{
+	if (current->type == T_SMALLER || current->type == T_GREATER || \
+		current->type == T_DGREATER)
+		return (true);
+	return (false);
+}
+
+bool	is_heredoc(t_token *current)
+{
+	if (current->type == T_DSMALLER)
 		return (true);
 	return (false);
 }
@@ -27,7 +43,7 @@ void	is_file_check(t_token *token_lst)
 	current = token_lst;
 	while (current != NULL)
 	{
-		if (redirection_check(current) == true)
+		if (is_redir(current) == true)
 			define_token_fd(current);
 		current = current->next;
 	}

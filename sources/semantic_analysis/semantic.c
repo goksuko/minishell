@@ -54,6 +54,7 @@ void	semantic_analysis(t_data *shell_data)
 	info->nbr_of_cmds = shell_data->nbr_of_pipes + 1;
 	shell_data->info = info;
 	// shell_data->cmds = shell_data->ast->argument;
+	shell_data->here_doc = NULL;
 	shell_data->cmds = cmds_from_tokens(shell_data);
 	// shell_data->cmds = ft_split(shell_data->line, '|');
 	// shell_data->cmds = clean_spaces(shell_data->cmds);

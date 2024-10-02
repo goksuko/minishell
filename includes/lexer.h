@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/27 10:25:42 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/02 09:58:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	check_characters(t_data *shell_data, char *line);
 int		count_tokens(char *line);
 char	**create_token_array(t_data *shell_data, char *line);
 t_token	*create_token_list(t_data *shell_data, char **token_array);
-bool	redirection_check(t_token *current);
+bool	is_redir(t_token *current);
+bool	is_redir_except_heredoc(t_token *current);
+bool	is_heredoc(t_token *current);
 void	is_file_check(t_token *token_lst);
 
 
