@@ -51,46 +51,61 @@ bool is_first_after_pipe(t_token *current)
 	return (false);
 }
 
-char **find_cmd_of_heredoc(t_token *current, char **cmds)
+char **find_cmd_of_heredoc(t_token *current)
 {
-	int		i;
+	char	**array;
 
-	i = 0;
+	array = (char **)malloc(sizeof(char *) * 50);
+	if (array == NULL)
+	{
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in find_cmd_of_heredoc");
+	}
+	printf("---find_cmd_of_heredoc---\n");
 	if (current->next && current->next->next)
 		current = current->next->next;
 	else
+	{
+		printf("current->next->next is NULL\n");
 		return (NULL);
-	cmds[0] = ft_strdup(current->value);
+	}
+	printf("current->value: %s\n", current->value);	
+	array[0] = ft_strdup(current->value);
+	printf("cmds[0]: %s\n", array[0]);
+	current = current->next;
 	while (current && current->type != T_PIPE)
 	{
-		cmds[0] = ft_strjoin(cmds[i], " ");
-		cmds[0] = ft_strjoin(cmds[i], current->value);
+		array[0] = ft_strjoin(array[0], " ");
+		array[0] = ft_strjoin(array[0], current->value);
 		current = current->next;
 	}
-	cmds[1] = NULL;
-	return (cmds);
+	array[1] = NULL;
+	return (array);
 }
 
 
-char **do_heredoc(t_data *shell_data, t_token *current, char **cmds)
+char **do_heredoc(t_data *shell_data, t_token *current)
 {
 	char	*limiter;
 	char	*line;
 	char	*temp;
 
+	printf("---do_heredoc---\n");
 	limiter = shell_data->info->limiter;
 	line = readline("> ");
 	temp = NULL;
+	printf("line: %s\n", line);
 	while (line && (ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
 	{
+		printf("inside while\n");
 		temp = ft_strjoin(temp, line);
 		temp = ft_strjoin(temp, "\n");
 		free(line);
+		printf("temp: %s\n", temp);
 		line = readline("> ");
 	}
 	shell_data->here_doc = ft_strdup(temp);
 	free(temp);
-	return (find_cmd_of_heredoc(current, cmds));
+	return (find_cmd_of_heredoc(current));
 }
 
 char **cmds_between_pipes(t_data *shell_data, char **cmds)
@@ -99,6 +114,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	t_token	*current;
 	bool	cat_cmd;
 
+	printf("---cmds_between_pipes---\n");
 	cat_cmd = false;
 	j = 0;
 	current = shell_data->tokens;
@@ -112,8 +128,6 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 				if (!current)
 					return (NULL);
 			}
-			if (is_heredoc(current))
-				return(do_heredoc(shell_data, current, cmds));
 			if (ft_strncmp(current->value, "cat", 4) == 0)
 				cat_cmd = true;
 			if (is_first_after_pipe(current))
@@ -145,11 +159,11 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	return (cmds);
 }
 
-void finish_heredoc(t_data *shell_data)
-{
-	ft_printf_fd(shell_data->info->fd_in, "%s", shell_data->here_doc);
+// void finish_heredoc(t_data *shell_data)
+// {
+// 	ft_printf_fd(shell_data->info->fd_in, "%s", shell_data->here_doc);
 
-}
+// }
 
 char **cmds_from_tokens(t_data *shell_data)
 {
@@ -167,10 +181,7 @@ char **cmds_from_tokens(t_data *shell_data)
 		ft_exit_perror(ERROR_ALLOCATION, "malloc in cmds_from_tokens");
 	}
 	cmds = cmds_between_pipes(shell_data, cmds);
-	if (shell_data->here_doc)
-		finish_heredoc(shell_data);
 	printf("cmds are ready\n");
 	printf_array(cmds);
 	return(cmds);
-
 }

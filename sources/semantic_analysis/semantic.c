@@ -17,10 +17,10 @@ void	initialize_fds(t_pipex *info, t_data *shell_data)
 	current = shell_data->tokens;
 	while (current)
 	{
-		if (current->fd_in != -10)
-			printf("current->fd_in: %d\n", current->fd_in);
-		if (current->fd_out != -10)
-			printf("current->fd_out: %d\n", current->fd_out);
+		// if (current->fd_in != -10)
+		// 	printf("current->fd_in: %d\n", current->fd_in);
+		// if (current->fd_out != -10)
+		// 	printf("current->fd_out: %d\n", current->fd_out);
 		if (current->fd_in != -10)
 		{
 			info->fds[i][0] = current->fd_in;
@@ -35,8 +35,8 @@ void	initialize_fds(t_pipex *info, t_data *shell_data)
 			i++;
 		current = current->next;
 	}
-	printf("info->fds[0][0]: %d\n", info->fds[0][0]);
-	printf("info->fds[0][1]: %d\n", info->fds[0][1]);
+	// printf("info->fds[0][0]: %d\n", info->fds[0][0]);
+	// printf("info->fds[0][1]: %d\n", info->fds[0][1]);
 }
 
 void	semantic_analysis(t_data *shell_data)
@@ -55,13 +55,15 @@ void	semantic_analysis(t_data *shell_data)
 	shell_data->info = info;
 	// shell_data->cmds = shell_data->ast->argument;
 	shell_data->here_doc = NULL;
-	shell_data->cmds = cmds_from_tokens(shell_data);
-	// shell_data->cmds = ft_split(shell_data->line, '|');
-	// shell_data->cmds = clean_spaces(shell_data->cmds);
+	if (is_heredoc(shell_data->tokens))
+	{
+		do_heredoc(shell_data, shell_data->tokens);
+		shell_data->cmds = find_cmd_of_heredoc(shell_data->tokens);
+		// finish_heredoc(shell_data);
+	}
+	else
+		shell_data->cmds = cmds_from_tokens(shell_data);
 	info->cmds = shell_data->cmds;
-	// initialize_cmds(shell_data, info);
-	// printf("cmds: \n");
-	// printf_array(info->cmds);
 	initialize_info(info, shell_data);
 	initialize_fds(info, shell_data);
 }

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/02 10:34:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/02 13:40:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,12 +278,19 @@ char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
 
 //  cmds_from_tokens.c
 
-int	next_redirection(t_token **tokens, int i);
-int next_pipe_token(t_token **tokens, int i);
-char *cmd_till(t_token *tokens, int i, int till);
-char **cmds_from_tokens(t_data *shell_data);
 void limiter_check(t_data *shell_data);
-t_token *smaller_first(t_token *current);
+t_token *redir_first(t_token *current);
+char *do_cat_addition(t_token *current, char *cmd);
+bool is_first_after_pipe(t_token *current);
+char **find_cmd_of_heredoc(t_token *current);
+char **do_heredoc(t_data *shell_data, t_token *current);
+char **cmds_between_pipes(t_data *shell_data, char **cmds);
+void finish_heredoc(t_data *shell_data);
+char **cmds_from_tokens(t_data *shell_data);
+
+
+
+
 
 //semantic_utils.c
 int		find_pipe_count(t_token *tokens);
