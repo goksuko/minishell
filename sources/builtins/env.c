@@ -1,5 +1,8 @@
 #include "../../includes/minishell.h"
 
+// only print the list if there is a key with a value. e.g. PATH=bskjd. 
+// However, if there is simply the key "VANESSA" with no other value, then it should not be printed
+
 void print_env(t_env *env)
 {
 	while (env != NULL)
