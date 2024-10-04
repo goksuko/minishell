@@ -60,6 +60,7 @@ int	cd_old_pwd(t_env *env_list)
 
 int	ft_cd(char **cmds, t_env *env_list)
 {
+	printf("----FT_CD----\n");
 	char	*cwd;
 	char	*old_cwd;
 	int		return_value;
@@ -75,8 +76,8 @@ int	ft_cd(char **cmds, t_env *env_list)
 	old_cwd = cwd;
 	if (cmds[0] == NULL || (ft_strncmp(cmds[0], "~", 1) == 0 && cmd_len == 1))
 		return_value = cd_home(env_list);
-	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
-		return_value = cd_old_pwd(env_list);
+	// else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1) 
+	// 	return_value = cd_old_pwd(env_list); // creates double free error
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
 		return_value = cd_parent_dir(cwd);
 	else if (access(cmds[0], F_OK) == 0)

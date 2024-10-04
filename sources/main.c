@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/01 17:37:41 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/04 11:30:51 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,14 @@ int	main(int argc, char *argv[], char **envp)
 		// set_signals_noninteractive();		
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(shell_data, line);
-		// ft_print_tokens(shell_data->tokens); // only for testing purposes
+		ft_print_tokens(shell_data->tokens); // only for testing purposes
 		semantic_analysis(shell_data);
-		printf_array(shell_data->info->cmds);
+		printf_array(shell_data->info->cmds); // only for testing purposes
+		char **command = ft_split(shell_data->info->cmds[0], ' '); // only for testing purposes
+		printf_array(command); // only for testing purposes
+		printf("is_builtin: %d\n", is_builtin(command[0])); // only for testing purposes
+		if (is_builtin(command[0])) // only for testing purposes
+			shell_data->exit_code = execute_builtin(command, shell_data); // only for testing purposes
 		// execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 			// data->exit_code = pipex(data); // to be put in semantic analysis

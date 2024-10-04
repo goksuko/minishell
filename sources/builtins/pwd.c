@@ -5,7 +5,7 @@ int	ft_pwd(char **cmds, t_data *shell_data)
 	char	*cwd;
 
 	cwd = NULL;
-	if (cmds != NULL && cmds[1] != NULL)
+	if (cmds[0] != NULL)
 		return(ERROR_TOO_MANY_ARGS);
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)
