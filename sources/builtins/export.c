@@ -40,70 +40,17 @@
 
 //_____________________________________________________
 
-void	ft_swap(t_env *a, t_env *b)
-{
-	t_env	temp;
 
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-int	ft_strcmp(char *str1, char *str2)
-{
-	int	i;
-
-	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0')
-	{
-		if (str1[i] != str2[i])
-			return (str1[i] - str2[i]);
-		i++;
-	}
-	return (str1[i] - str2[i]);
-}
-
-void	ft_bubble_sort(t_env **temp_env_list)
-{
-	t_env	*temp;
-	t_env	*temp2;
-
-	temp = *temp_env_list;
-	while (temp != NULL)
-	{
-		temp2 = temp->next;
-		while (temp2 != NULL)
-		{
-			if (ft_strcmp(temp->key, temp2->key) > 0)
-				ft_swap(temp, temp2);
-			temp2 = temp2->next;
-		}
-		temp = temp->next;
-	}
-}
-
-void	print_sorted_env_list(t_env *env_list)
-{
-	t_env	*temp;
-
-	temp = env_list;
-	ft_bubble_sort(&temp);
-	while (temp != NULL)
-	{
-		if (temp->value != NULL)
-			printf("declare -x %s=\"%s\"\n", temp->key, temp->value);
-		else
-			printf("declare -x %s\n", temp->key);
-		temp = temp->next;
-	}
-}
 
 int	ft_export(char **cmds, t_data *shell_data)
 {
 	// int	return_value;
 
+	printf("----EXPORT----\n");
+	printf("%s\n", cmds[0]);
 	if (cmds[0] == NULL)
-		print_sorted_env_list(shell_data->env_list);
+		print_sorted_env_vars(&shell_data->env_list, shell_data->info->fd_out);
+		// print_sorted_env_list(shell_data->env_list);
 		// print out SORTED env list that includes all keys, even those without values in them 
 	// else
 	// {

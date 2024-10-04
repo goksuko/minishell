@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/04 11:21:27 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/04 17:59:53 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,31 +23,32 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_types.c \
 						token_types2.c
 
-SEMANTIC_ANALYSIS = semantic.c \
-					semantic_utils.c \
-					semantic_utils2.c \
+SEMANTIC_ANALYSIS = 	semantic.c \
+						semantic_utils.c \
+						semantic_utils2.c \
 
-BUILTINS = 			builtins.c \
-					cd.c \
-					echo.c \
-					env.c \
-					exit_utils.c \
-					exit.c \
-					pwd.c \
-					export.c \
-					unset.c \
+BUILTINS = 				builtins.c \
+						cd.c \
+						echo.c \
+						env.c \
+						exit_utils.c \
+						exit.c \
+						pwd.c \
+						export.c \
+						export_utils.c \
+						unset.c \
 
-EXECUTE =			child_processes.c \
-					children.c \
-					define_fds.c \
-					execute.c \
-					execute_utils.c \
-					env_list.c \
-					env_list_utils.c \
-					env_key_funcs.c \
-					path.c \
-					utils.c \
-					utils2.c \
+EXECUTE =				child_processes.c \
+						children.c \
+						define_fds.c \
+						execute.c \
+						execute_utils.c \
+						env_list.c \
+						env_list_utils.c \
+						env_key_funcs.c \
+						path.c \
+						utils.c \
+						utils2.c \
 
 SIGNALS = 				interactive_signals.c \
 						noninteractive_signals.c \
