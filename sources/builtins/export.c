@@ -40,28 +40,58 @@
 
 //_____________________________________________________
 
+bool	verify_key(char *key, int fd)
+{
+	int	i;
 
+	i = 0;
+	if (ft_isdigit(key[i]) == 1)
+	{
+		ft_putstr_fd("export: `", fd);
+		ft_putstr_fd(key, fd);
+		ft_putendl_fd("': not a valid identifier", fd);
+		return (false);
+	}
+	while (key[i] != '\0')
+	{
+		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
+		{
+			ft_putstr_fd("export: `", fd);
+			ft_putstr_fd(key, fd);
+			ft_putendl_fd("': not a valid identifier", fd);
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
 
 int	ft_export(char **cmds, t_data *shell_data)
 {
 	// int	return_value;
+	int	i;
 
 	printf("----EXPORT----\n");
 	printf("%s\n", cmds[0]);
 	if (cmds[0] == NULL)
 		print_sorted_env_vars(&shell_data->env_list, shell_data->info->fd_out);
-		// print_sorted_env_list(shell_data->env_list);
-		// print out SORTED env list that includes all keys, even those without values in them 
-	// else
-	// {
-	// 	if *
-	// 	// verify that the key does not start with a number but only alphabetial values, else print "export: `key_entered': not a valid identifier
-
-	// }
+	else
+	{
+		i = 0;
+		while (cmds[i] != NULL)
+		{
+			if (verify_key(cmds[i], shell_data->info->fd_out) == false)
+				return (ERROR_INVALID_IDENTIFIER); // need to make sure that this error message does not get printed or else remove the print statements in the validation check
+			if (ft_strchr(cmds[i], '=') != NULL)
+				//add key with value if it does not exist yet or overwrite the value if it already exists
+				// sort the new node if it starts with uppercase letter and put it in the end of the list if it starts with lowercase letter
+			// else
+				// add key with value NULL if it does not exist yet
+			i++;
+		}
+	}
 	return (SUCCESS);
 }
-
-
 
 // Example 1:
 // export var45=sth -> declare -x var45="sth"
@@ -80,3 +110,7 @@ int	ft_export(char **cmds, t_data *shell_data)
 // export HELLO=HELLo VANESSA=vbusekruuu
 // declare -x HELLO="HELLo"
 // declare -x VANESSA="vbusekruuu"
+
+// Example 6:
+// bash-3.2$ export 12lk
+// bash: export: `12lk': not a valid identifier
