@@ -5,7 +5,7 @@
 
 void print_env(t_env *env)
 {
-	while (env != NULL)
+	while (env != NULL && env->value != NULL)
 	{
 		printf("%s", env->key);
 		printf("=");
