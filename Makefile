@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/04 17:59:53 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/06 20:58:42 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,13 +53,12 @@ EXECUTE =				child_processes.c \
 SIGNALS = 				interactive_signals.c \
 						noninteractive_signals.c \
 
-# EXPANSION =				expand.c \
-# 						expand_utils.c \
-# 						single_quotes.c \
-# 						double_quotes.c \
-# 						dollar_sign.c \
-# 						identifier.c \
-# 						redirections.c \
+EXPANDER =				expander.c \
+						expander_utils.c \
+						single_quotes.c \
+						double_quotes.c \
+						dollar_sign.c \
+						expand_identifier.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects
@@ -70,14 +69,12 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		ft_putstr2_fd.c \
 		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
+		$(addprefix expander/, $(EXPANDER)) \
 		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
 	)
-
-# $(addprefix expansion/, $(EXPANSION)) To be moved up again
-
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
@@ -103,8 +100,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/builtins
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
-	
-# @mkdir -p $(OBJS_DIR)/expansion   -To be moved up again
+	@mkdir -p $(OBJS_DIR)/expander
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -124,8 +120,8 @@ $(OBJS_DIR)/execute/%.o: $(SRCS_DIR)/execute/%.c | $(OBJS_DIR)/execute
 $(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# $(OBJS_DIR)/expansion/%.o: $(SRCS_DIR)/expansion/%.c | $(OBJS_DIR)/expansion
-# 	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS_DIR)/expander/%.o: $(SRCS_DIR)/expander/%.c | $(OBJS_DIR)/expander
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning in Progress"

@@ -6,13 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:37 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/14 21:18:00 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/06 20:24:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*token_type_to_string(t_token_type type) // to be deleted later
+char	*token_type_to_string(t_token_type type)
 {
 	static char	*str[] = {
 	[T_BUILTIN] = "BUILTIN",
@@ -27,26 +27,32 @@ char	*token_type_to_string(t_token_type type) // to be deleted later
 	[T_DOUBLE_QUOTES] = "DOUBLE_QUOTES",
 	[T_UNKNOWN] = "UNKNOWN"};
 
-	if (type < 0 || type >= sizeof(str) / sizeof(str[0])) // need to check this
+	if (type < 0 || type >= sizeof(str) / sizeof(str[0])) // need to check this again
 		return (str[T_UNKNOWN]);
 	return (str[type]);
 }
 
 t_token_type	check_command(char *token)
 {
-	if (ft_strncmp(token, "echo", 4) == 0)
+	int	token_len;
+
+	token_len = ft_strlen(token);
+	if ((ft_strncmp(token, "echo", 4) == 0 || ft_strncmp(token, "ECHO", 4) == 0)\
+	&& token_len == 4)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "cd", 2) == 0)
+	if (ft_strncmp(token, "cd", 2) == 0 && token_len == 2)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "pwd", 3) == 0)
+	if ((ft_strncmp(token, "pwd", 3) == 0 || ft_strncmp(token, "PWD", 3) == 0)\
+	&& token_len == 3)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "export", 6) == 0)
+	if (ft_strncmp(token, "export", 6) == 0 && token_len == 6)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "unset", 5) == 0)
+	if (ft_strncmp(token, "unset", 5) == 0 && token_len == 5)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "env", 3) == 0)
+	if ((ft_strncmp(token, "env", 3) == 0 || ft_strncmp(token, "ENV", 3) == 0)\
+	&& token_len == 3)
 		return (T_BUILTIN);
-	if (ft_strncmp(token, "exit", 4) == 0)
+	if (ft_strncmp(token, "exit", 4) == 0 && token_len == 4)
 		return (T_BUILTIN);
 	return (T_UNKNOWN);
 }

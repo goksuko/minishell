@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/01 17:33:34 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/06 20:16:35 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_pipex
 	int				nbr_of_cmds;
 	int				curr_cmd;
 	char			**cmds;
+	char			**expanded_cmds;
 	char			*special_command;
 	char 			*limiter;
 	char			*path;
@@ -108,6 +109,7 @@ typedef struct s_env
 
 # include "lexer.h" // Otherwise the program cannot be compiled if it is higher up because it needs to data strut
 # include "builtins.h"
+# include "expander.h"
 # define SUCCESS 0
 
 // main.c
@@ -230,27 +232,6 @@ void	handle_sigint_interactive(int signal);
 void	handle_sigint_noninteractive(int signal);
 void	not_output_signal_keys();
 void	output_signal_keys();
-
-// Argument expansion
-// void	begin_expansion(t_data *shell_data);
-// void	expansion(t_data **shell_data, t_tree **node, int *i);
-// char	*expand_arguments(t_data **shell_data, t_tree **node);
-// void	init_expanded_cmds(t_data **shell_data);
-// char	*create_arg_str(t_data **shell_data, t_tree **node, char *expanded_args);
-// char	*add_redirection_to_cmd(t_data **shell_data, \
-// 		t_tree **node, char *expanded_args);
-// char	*add_redirection(t_data **shell_data, t_tree **node);
-// char	*redir_value(t_redirection_type type);
-// char	*expand_argument(t_data **shell_data, t_tree *node, int i);
-// char	*remove_quotation_marks(char *argument);
-// char	*s_quotes(t_data **shell_data, char *argument);
-// bool	dollar_sign_check(char *argument);
-// char	*d_quotes(t_data **shell_data, char *argument);
-// char	*handle_dollar_sign(t_data **shell_data, char *str);
-// char	*expand_identifier(t_data **shell_data, char *argument);
-// char	*ft_strjoin_c(char const *s1, char c);
-// char	*add_space_to_str(t_data **shell_data, char *str);
-// int		ast_size(t_tree *ast);
 
 // Free shell data
 void	free_shell_data(t_data **data);

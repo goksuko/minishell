@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-// include tilde check for cd and export and unset?
-
 char	*d_quotes(t_data **shell_data, char *argument)
 {
 	char	*clean_str;

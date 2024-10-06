@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/24 15:41:08 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/06 19:48:10 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	char			*expanded_value; // !! needs to be initialized and freed properly but to be aligned with goksu's code!!
 	struct s_token	*next;
 	struct s_token	*prev;
 	bool			is_file;

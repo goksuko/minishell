@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/30 23:23:28 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/22 23:24:49 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/06 20:16:01 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,4 @@ char	*ft_strcpy(char *dest, char *src, int len)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-char	*ft_strjoin_c(char const *s1, char c)
-{
-	char	*new_str;
-	char	*temp;
-
-	if (s1 == NULL)
-		return (NULL);
-	new_str = (char *)ft_calloc((ft_strlen(s1)
-				+ 1 + 1), sizeof(char));
-	if (new_str == NULL)
-		return (NULL);
-	temp = new_str;
-	ft_strlcpy(new_str, s1, ft_strlen(s1) + 1);
-	new_str += ft_strlen(s1);
-	*new_str = c;
-	return (temp);
 }

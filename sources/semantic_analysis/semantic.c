@@ -14,7 +14,7 @@ void semantic_analysis(t_data *shell_data)
 	shell_data->info = info;
 	info->nbr_of_cmds = shell_data->nbr_of_pipes + 1;
 	// shell_data->cmds = shell_data->ast->argument;
-	shell_data->cmds = shell_data->expanded_cmds;
+	shell_data->cmds = shell_data->expanded_cmds; // needs to be changed!
 	info->cmds = shell_data->cmds;
 	initialize_cmds(shell_data, info);
 	initialize_info(info, shell_data);

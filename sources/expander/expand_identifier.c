@@ -2,13 +2,14 @@
 
 char	*expand_identifier(t_data **shell_data, char *argument)
 {
+	printf("----EXPAND_identifier----\n"); // Only for testing purposes
 	char	*expanded_str;
 
 	expanded_str = ft_strdup(argument);
 	if (expanded_str == NULL)
 	{
 		free_shell_data(shell_data);
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in identifier");
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in expand identifier");
 	}
 	if (dollar_sign_check(expanded_str) == true)
 	{
