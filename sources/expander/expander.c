@@ -8,7 +8,7 @@ void	expand_value(t_data **shell_data, t_token *token, char *type)
 		token->expanded_value = s_quotes(shell_data, token->value);
 	else if (ft_strncmp(type, "DOUBLE_QUOTES", 13) == 0)
 		token->expanded_value = d_quotes(shell_data, token->value);
-	else if (ft_strncmp(type, "IDENTIFIER", 12) == 0)
+	else if (ft_strncmp(type, "IDENTIFIER", 10) == 0)
 		token->expanded_value = expand_identifier(shell_data, token->value);
 }
 
