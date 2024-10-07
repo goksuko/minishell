@@ -42,28 +42,88 @@
 
 bool	verify_key(char *key, int fd)
 {
-	int	i;
-
-	i = 0;
-	if (ft_isdigit(key[i]) == 1)
+	if (ft_isalpha(key[0]) == false && key[0] != '_')
 	{
 		ft_putstr_fd("export: `", fd);
 		ft_putstr_fd(key, fd);
 		ft_putendl_fd("': not a valid identifier", fd);
 		return (false);
 	}
-	while (key[i] != '\0')
-	{
-		if (ft_isalnum(key[i]) == 0 && key[i] != '_')
-		{
-			ft_putstr_fd("export: `", fd);
-			ft_putstr_fd(key, fd);
-			ft_putendl_fd("': not a valid identifier", fd);
-			return (false);
-		}
-		i++;
-	}
 	return (true);
+}
+
+char	*extract_key(char *command)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	while (command[i] != '=')
+		i++;
+	key = ft_substr(command, 0, i);
+	if (key == NULL)
+		return (NULL);
+	return (key);
+}
+
+void	add_new_env_node(t_env **env_list, t_env *new_env)
+{
+	t_env	*current;
+
+	current = *env_list;
+	if (ft_strncmp(new_env->key, current->key, ft_strlen(new_env->key)) < 0)
+	{
+		new_env->next = current;
+		*env_list = new_env;
+	}
+	else
+	{
+		current = *env_list;
+		while (current->next != NULL && ft_strncmp(current->next->key, new_env->key, ft_strlen(new_env->key)) < 0)
+			current = current->next;
+		new_env->next = current->next;
+		current->next = new_env;
+		//current->next = NULL;
+	}
+}
+
+void	create_new_env(t_data **shell_data, char *command)
+{
+	char	*new_key;
+	char	*new_value;
+	int		i;
+	t_env	*new_env;
+
+	i = 0;
+	while (command[i] != '=' && command[i] != '\0')
+		i++;
+	new_key = ft_substr(command, 0, i);
+	if (new_key == NULL)
+	{
+		free_shell_data(shell_data);
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
+	}
+	if (command[i] == '=')
+	{
+		i++;
+		new_value = ft_substr(command, i, ft_strlen(command) - i);
+		if (new_value == NULL)
+		{
+			free_shell_data(shell_data);
+			ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
+		}
+	}
+	else
+		new_value = NULL;
+	new_env = ft_new_node(new_key, new_value);
+	if (new_env == NULL)
+	{
+		free_shell_data(shell_data);
+		ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
+	}
+	printf("new_env->key: %s\n", new_env->key);
+	printf("new_env->value: %s\n", new_env->value);
+	add_new_env_node(&(*shell_data)->env_list, new_env);
 }
 
 int	ft_export(char **cmds, t_data *shell_data)
@@ -82,14 +142,11 @@ int	ft_export(char **cmds, t_data *shell_data)
 		{
 			if (verify_key(cmds[i], shell_data->info->fd_out) == false)
 				return (ERROR_INVALID_IDENTIFIER); // need to make sure that this error message does not get printed or else remove the print statements in the validation check
-			if (ft_strchr(cmds[i], '=') != NULL)
-				//add key with value if it does not exist yet or overwrite the value if it already exists
-				// sort the new node if it starts with uppercase letter and put it in the end of the list if it starts with lowercase letter
-			// else
-				// add key with value NULL if it does not exist yet
+			create_new_env(&shell_data, cmds[i]);
 			i++;
 		}
 	}
+	printf("--++++++++++++++--EXPORT DONE!-+++++++++++++++---\n");
 	return (SUCCESS);
 }
 

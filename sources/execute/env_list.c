@@ -30,7 +30,10 @@ t_env	*ft_new_node(char *key, char *value)
 
 	node = ft_calloc(sizeof(t_env), 1);
 	if (errno == ENOMEM || node == NULL)
+	{
+		// free_shell_data(shell_data);
 		ft_exit_perror(1, "node in ft_new_node");
+	}
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
@@ -42,7 +45,7 @@ int	find_data_if_no_pos(char *envp_i, char **key, char **value)
 {
 	*key = ft_substr(envp_i, 0, ft_strlen(envp_i));
 	if (errno == ENOMEM || key == NULL)
-		ft_exit_perror(1, "key in find data");
+		ft_exit_perror(1, "key in find data"); // free_shell_data(shell_data);
 	// if (check_key(*key, ""))
 	if (check_key(*key))
 		return (free(*key), EXIT_FAILURE);
@@ -60,14 +63,14 @@ t_env	*create_node(char *envp_i, int pos)
 	{
 		key = ft_substr(envp_i, 0, pos);
 		if (errno == ENOMEM || key == NULL)
-			ft_exit_perror(1, "key in create node");
+			ft_exit_perror(1, "key in create node"); // free_shell_data(shell_data);
 		// if (check_key(key, ""))
 		if (check_key(key))
 			return (free(key), NULL);
 		value = ft_substr(envp_i, pos + 1, ft_strlen(envp_i));
 		if (errno == ENOMEM || value == NULL)
 		{
-			free(key);
+			free(key); // free_shell_data(shell_data);
 			ft_exit_perror(1, "value in create node");
 		}
 	}

@@ -4,7 +4,7 @@ void print_env_var(t_env *var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(var->key, fd);
-	if (strcmp(var->value, "") != 0)
+	if (var->value != NULL && strcmp(var->value, "") != 0)
 	{
 		ft_putstr_fd("=\"", fd);
 		ft_putstr_fd(var->value, fd);
