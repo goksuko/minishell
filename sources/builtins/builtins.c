@@ -41,7 +41,7 @@ bool	is_builtin(char *command)
 		return (true);
 	if (cmd_len == 6 && ft_strncmp(command, "export", 6) == 0)
 		return (true);
-	if (cmd_len == 6 && ft_strncmp(command, "unset", 6) == 0)
+	if (cmd_len == 5 && ft_strncmp(command, "unset", 5) == 0)
 		return (true);
 	if (cmd_len == 3 && (ft_strncmp(command, "env", 3) == 0 || ft_strncmp(command, "ENV", 3) == 0))
 		return (true);

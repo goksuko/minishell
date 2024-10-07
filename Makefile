@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/06 21:23:41 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/07 09:33:11 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ BUILTINS = 				builtins.c \
 						pwd.c \
 						export.c \
 						export_print_env.c \
+						export_new_env.c \
 						unset.c \
 
 EXECUTE =				child_processes.c \

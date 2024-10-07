@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/04 18:00:06 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/07 09:36:46 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,14 @@ void	print_sorted_env_vars(t_env **env, int fd);
 t_env 	*get_next_var_to_print(t_env *list, t_env *last_printed);
 int		get_list_size(t_env *list);
 void	print_env_var(t_env *var, int fd);
+
+// EXPORT WITH ARGS
+void	create_new_env(t_data **shell_data, char *command);
+void	add_new_env_node(t_env **env_list, t_env *new_env);
+char	*extract_key(char *command);
+bool	verify_key(char *key, int fd);
+void	handle_allocation_error_env(t_data **shell_data);
+char	*get_new_value(char *command, int start);
+char	*get_new_key(char *command);
 
 #endif

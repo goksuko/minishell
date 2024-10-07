@@ -40,51 +40,25 @@
 
 //_____________________________________________________
 
-bool	verify_key(char *key, int fd)
+char	*get_new_key(char *command)
 {
-	if (ft_isalpha(key[0]) == false && key[0] != '_')
-	{
-		ft_putstr_fd("export: `", fd);
-		ft_putstr_fd(key, fd);
-		ft_putendl_fd("': not a valid identifier", fd);
-		return (false);
-	}
-	return (true);
-}
-
-char	*extract_key(char *command)
-{
-	int		i;
-	char	*key;
+	int	i;
 
 	i = 0;
-	while (command[i] != '=')
+	while (command[i] != '=' && command[i] != '\0')
 		i++;
-	key = ft_substr(command, 0, i);
-	if (key == NULL)
-		return (NULL);
-	return (key);
+	return (ft_substr(command, 0, i));
 }
 
-void	add_new_env_node(t_env **env_list, t_env *new_env)
+char	*get_new_value(char *command, int start)
 {
-	t_env	*current;
+	return (ft_substr(command, start, ft_strlen(command) - start));
+}
 
-	current = *env_list;
-	if (ft_strncmp(new_env->key, current->key, ft_strlen(new_env->key)) < 0)
-	{
-		new_env->next = current;
-		*env_list = new_env;
-	}
-	else
-	{
-		current = *env_list;
-		while (current->next != NULL && ft_strncmp(current->next->key, new_env->key, ft_strlen(new_env->key)) < 0)
-			current = current->next;
-		new_env->next = current->next;
-		current->next = new_env;
-		//current->next = NULL;
-	}
+void	handle_allocation_error_env(t_data **shell_data)
+{
+	free_shell_data(shell_data);
+	ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
 }
 
 void	create_new_env(t_data **shell_data, char *command)
@@ -94,33 +68,22 @@ void	create_new_env(t_data **shell_data, char *command)
 	int		i;
 	t_env	*new_env;
 
-	i = 0;
-	while (command[i] != '=' && command[i] != '\0')
-		i++;
-	new_key = ft_substr(command, 0, i);
+	new_key = get_new_key(command);
 	if (new_key == NULL)
-	{
-		free_shell_data(shell_data);
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
-	}
+		handle_allocation_error_env(shell_data);
+	i = ft_strlen(new_key);
 	if (command[i] == '=')
 	{
 		i++;
-		new_value = ft_substr(command, i, ft_strlen(command) - i);
+		new_value = get_new_value(command, i);
 		if (new_value == NULL)
-		{
-			free_shell_data(shell_data);
-			ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
-		}
+			handle_allocation_error_env(shell_data);
 	}
 	else
 		new_value = NULL;
 	new_env = ft_new_node(new_key, new_value);
 	if (new_env == NULL)
-	{
-		free_shell_data(shell_data);
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
-	}
+		handle_allocation_error_env(shell_data);
 	printf("new_env->key: %s\n", new_env->key);
 	printf("new_env->value: %s\n", new_env->value);
 	add_new_env_node(&(*shell_data)->env_list, new_env);
@@ -128,7 +91,6 @@ void	create_new_env(t_data **shell_data, char *command)
 
 int	ft_export(char **cmds, t_data *shell_data)
 {
-	// int	return_value;
 	int	i;
 
 	printf("----EXPORT----\n");
@@ -146,7 +108,6 @@ int	ft_export(char **cmds, t_data *shell_data)
 			i++;
 		}
 	}
-	printf("--++++++++++++++--EXPORT DONE!-+++++++++++++++---\n");
 	return (SUCCESS);
 }
 

@@ -12,8 +12,8 @@ void	handle_numeric_arg(char *exit_code, t_data *shell_data)
 	else
 	{
 		exit_code_value = exit_atoi(exit_code, shell_data);
-		free_shell_data(&shell_data);
-		exit(exit_code_value);
+		//free_shell_data(&shell_data); // commented out for testing purposes because free_shell_data causes a seg fault currently
+		exit(exit_code_value); //check again if this is really correct...although it should
 	}
 }
 
