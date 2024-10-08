@@ -22,6 +22,7 @@ int	create_children(t_data *data)
 		limiter_check(data);
 		// if (data->tokens->value == data->info->limiter)
 		// 	break ;
+		printf("limiter after limiter_check: %s\n", data->info->limiter);
 		printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
 		printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		printf("fd_out just after define_fd: %d\n", data->info->fd_out);
@@ -40,6 +41,10 @@ int	create_children(t_data *data)
 		sleep(1);
 		i++;
 	}
+	if (data->info->limiter)
+		// pid = finish_heredoc(data);
+			unlink("0ur_h3r3_d0c");
+
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))

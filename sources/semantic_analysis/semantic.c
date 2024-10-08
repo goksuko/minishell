@@ -55,9 +55,10 @@ void	semantic_analysis(t_data *shell_data)
 	shell_data->info = info;
 	// shell_data->cmds = shell_data->ast->argument;
 	shell_data->here_doc = NULL;
+	//here_doc should be done after pipe
 	if (is_heredoc(shell_data->tokens))
 	{
-		do_heredoc(shell_data, shell_data->tokens);
+		do_heredoc(shell_data);
 		shell_data->cmds = find_cmd_of_heredoc(shell_data->tokens);
 		// finish_heredoc(shell_data);
 	}

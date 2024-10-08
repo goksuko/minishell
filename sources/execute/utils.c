@@ -77,7 +77,9 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
 {
 	pid_t	pid;
+	int		here_doc_fd;
 
+	here_doc_fd = here_doc_fd_check(info->data);
 	printf("--heredoc_child_process--\n");
 	pid = fork();
 	if (pid == -1)
@@ -88,8 +90,17 @@ pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
 	else if (pid == 0)
 	{
 		printf("limiter: %s\n", info->limiter);
-		printf("here_doc: %s\n", info->data->here_doc);
-		dup2_safe(STDOUT_FILENO, info->fd_out, info);
+		printf("here_doc: %s\n", info->data->here_doc); // this can be deleted, looks like not gonna be used
+		printf("fd_in: %d\n", info->fd_in);
+		printf("here_doc_fd: %d\n", here_doc_fd);
+		printf("fd_out: %d\n", info->fd_out);
+		// close_safe(info->fd_in, info);
+		dup2_safe(info->fd_in, here_doc_fd, info);
+		printf("fd_in: %d\n", info->fd_in);
+		printf("here_doc_fd: %d\n", here_doc_fd);
+		printf("fd_out: %d\n", info->fd_out);
+		info->fd_out = STDOUT_FILENO;
+		// dup2_safe(STDOUT_FILENO, info->fd_out, info);
 		printf("fd_out: %d\n", info->fd_out);
 		printf("now writing to STDOUT\n");
 	}
@@ -121,6 +132,7 @@ void	start_exec(t_pipex *info)
 	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
 	if (info->limiter)
 	{
+		printf("test_me\n");
 		pid = heredoc_child_process(info, cmd_matrix, path);
 		// printf("limiter: %s\n", info->limiter);
 		// printf("here_doc: %s\n", info->data->here_doc);

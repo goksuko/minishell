@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/02 13:40:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/08 11:32:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void				start_exec(t_pipex *info);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
 bool				is_whitespace(char c);
-
+pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path);
 
 // Path functions //
 char				*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
@@ -279,13 +279,15 @@ char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
 //  cmds_from_tokens.c
 
 void limiter_check(t_data *shell_data);
+int here_doc_fd_check(t_data *shell_data);
 t_token *redir_first(t_token *current);
 char *do_cat_addition(t_token *current, char *cmd);
 bool is_first_after_pipe(t_token *current);
 char **find_cmd_of_heredoc(t_token *current);
-char **do_heredoc(t_data *shell_data, t_token *current);
+// char **do_heredoc(t_data *shell_data, t_token *current);
+void do_heredoc(t_data *shell_data);
 char **cmds_between_pipes(t_data *shell_data, char **cmds);
-void finish_heredoc(t_data *shell_data);
+pid_t finish_heredoc(t_data *shell_data);
 char **cmds_from_tokens(t_data *shell_data);
 
 
