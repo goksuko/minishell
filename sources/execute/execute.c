@@ -38,7 +38,7 @@ void	execute_shell(t_data *shell_data)
 	printf("exit_code: %d\n", exit_code);
 	shell_data->exit_code = exit_code;
 	free_system(shell_data); // to be replaced with free_shell_data
-	return (exit_code);
+	// return (exit_code);
 }
 
 // int	pipes(t_data *shell_data)
