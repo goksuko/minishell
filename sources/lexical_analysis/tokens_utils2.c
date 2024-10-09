@@ -6,13 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/09/23 18:17:39 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:40:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst)
+void	check_unclosed_quotes(t_data *data, t_token *token_lst)
 {
 	t_token	*current;
 	char	quote;
@@ -25,7 +25,7 @@ void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst)
 			quote = current->value[0];
 			if ((current->value[ft_strlen(current->value) - 1]) != quote)
 			{
-				free_shell_data(&shell_data);
+				free_data(&data);
 				ft_exit_str_fd(ERROR_QUOTE, STDERR_FILENO);
 			}
 		}
@@ -61,7 +61,7 @@ int	count_tokens(char *line)
 	return (count);
 }
 
-void	check_characters(t_data *shell_data, char *line)
+void	check_characters(t_data *data, char *line)
 {
 	int	i;
 	int	wrong_char;
@@ -76,7 +76,7 @@ void	check_characters(t_data *shell_data, char *line)
 	}
 	if (wrong_char)
 	{
-		free_shell_data(&shell_data);
+		free_data(&data);
 		ft_exit_str_fd(ERROR_WRONG_CHAR, STDERR_FILENO);
 	}
 	return ;

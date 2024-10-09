@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void do_first_child(t_pipex *info)
+void do_first_child(t_info *info)
 {
 	printf("do_first_child\n");
 	if (info->fd_in != -10)
@@ -22,7 +22,7 @@ void do_first_child(t_pipex *info)
 	// info->pipe_read_end = info->pipefd[1];
 }
 
-void do_middle_child(t_pipex *info)
+void do_middle_child(t_info *info)
 {
 	printf("do_middle_child\n");
 	if (info->fd_in != -10)
@@ -49,7 +49,7 @@ void do_middle_child(t_pipex *info)
 	// info->pipe_read_end = info->pipefd[1];
 }
 
-void do_last_child(t_pipex *info)
+void do_last_child(t_info *info)
 {
 	printf("do_last_child\n");
 	printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	

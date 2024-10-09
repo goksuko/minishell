@@ -27,7 +27,7 @@ void unset_env_var(char *key, t_env **env_list)
 	}
 }
 
-int	ft_unset(char **cmds, t_data *shell_data)
+int	ft_unset(char **cmds, t_data *data)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ int	ft_unset(char **cmds, t_data *shell_data)
 		return (SUCCESS);
 	while (cmds[i] != NULL)
 	{
-		unset_env_var(cmds[i], &shell_data->env_list);
+		unset_env_var(cmds[i], &data->env_list);
 		i++;
 	}
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/09 23:25:44 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/09 23:52:29 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,7 @@ LEXICAL_ANALSYSIS =		tokens.c \
 
 SEMANTIC_ANALYSIS = semantic.c \
 					cmds_from_tokens.c \
-					cmds_with_redirs.c \
 					semantic_utils.c \
-					semantic_utils2.c \
 
 BUILTINS = 				builtins.c \
 						cd.c \
@@ -44,7 +42,6 @@ BUILTINS = 				builtins.c \
 
 EXECUTE =				child_processes.c \
 						children.c \
-						define_fds.c \
 						execute.c \
 						execute_utils.c \
 						env_list.c \

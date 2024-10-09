@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	initialize_fds(t_pipex *info, t_data *shell_data)
+void	initialize_fds(t_info *info, t_data *data)
 {
 	int		i;
 	t_token	*current;
@@ -14,7 +14,7 @@ void	initialize_fds(t_pipex *info, t_data *shell_data)
 		i++;
 	}
 	i = 0;
-	current = shell_data->tokens;
+	current = data->tokens;
 	while (current)
 	{
 		// if (current->fd_in != -10)
@@ -39,32 +39,32 @@ void	initialize_fds(t_pipex *info, t_data *shell_data)
 	// printf("info->fds[0][1]: %d\n", info->fds[0][1]);
 }
 
-void	semantic_analysis(t_data *shell_data)
+void	semantic_analysis(t_data *data)
 {
-	t_pipex	*info;
+	t_info	*info;
 
 	printf("---SEMANTIC ANALYSIS---\n");
-	shell_data->exit_code = 0;
-	shell_data->nbr_of_tokens = count_tokens(shell_data->line);
-	shell_data->nbr_of_pipes = find_pipe_count(shell_data->tokens);
-	printf("nbr_of_pipes: %d\n", shell_data->nbr_of_pipes);
-	info = (t_pipex *)ft_calloc(1, sizeof(t_pipex));
+	data->exit_code = 0;
+	data->nbr_of_tokens = count_tokens(data->line);
+	data->nbr_of_pipes = find_pipe_count(data->tokens);
+	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
+	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
-		ft_exit_data_perror(shell_data, ERROR_ALLOCATION, "info in pipex");
-	info->nbr_of_cmds = shell_data->nbr_of_pipes + 1;
-	shell_data->info = info;
-	// shell_data->cmds = shell_data->ast->argument;
-	shell_data->here_doc = NULL;
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in info");
+	info->nbr_of_cmds = data->nbr_of_pipes + 1;
+	data->info = info;
+	// data->cmds = data->ast->argument;
+	data->here_doc = NULL;
 	//here_doc should be done after pipe
-	if (is_heredoc(shell_data->tokens))
+	if (is_heredoc(data->tokens))
 	{
-		do_heredoc(shell_data);
-		shell_data->cmds = find_cmd_of_heredoc(shell_data->tokens);
-		// finish_heredoc(shell_data);
+		do_heredoc(data);
+		data->cmds = find_cmd_of_heredoc(data->tokens);
+		// finish_heredoc(data);
 	}
 	else
-		shell_data->cmds = cmds_from_tokens(shell_data);
-	info->cmds = shell_data->cmds;
-	initialize_info(info, shell_data);
-	initialize_fds(info, shell_data);
+		data->cmds = cmds_from_tokens(data);
+	info->cmds = data->cmds;
+	initialize_info(info, data);
+	initialize_fds(info, data);
 }

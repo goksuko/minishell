@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_echo(char **cmds, t_pipex *info)
+int	ft_echo(char **cmds, t_info *info)
 {
 	printf("---FT__ECHO----\n");
 	int		i;

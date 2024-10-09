@@ -1,27 +1,27 @@
 #include "../../includes/minishell.h"
 
-void limiter_check(t_data *shell_data)
+void limiter_check(t_data *data)
 {
 	t_token	*current;
 
-	current = shell_data->tokens;
+	current = data->tokens;
 	while (current)
 	{
 		if (current->limiter)
 		{
-			shell_data->info->limiter = ft_strdup(current->limiter);
-			printf("limiter in limiter_check: %s\n", shell_data->info->limiter);
+			data->info->limiter = ft_strdup(current->limiter);
+			printf("limiter in limiter_check: %s\n", data->info->limiter);
 		}	
 		current = current->next;
 	}
 }
 
-int here_doc_fd_check(t_data *shell_data)
+int here_doc_fd_check(t_data *data)
 {
 	t_token	*current;
 	int temp_fd;
 
-	current = shell_data->tokens;
+	current = data->tokens;
 	while (current)
 	{
 		if (current->limiter)
@@ -101,19 +101,19 @@ char **find_cmd_of_heredoc(t_token *current)
 }
 
 
-// char **do_heredoc(t_data *shell_data, t_token *current)
-void do_heredoc(t_data *shell_data)
+// char **do_heredoc(t_data *data, t_token *current)
+void do_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
 	char	*temp;
 
-	limiter_check(shell_data);
-	printf("limiter after limiter_check in do_heredoc: %s\n", shell_data->info->limiter);
+	limiter_check(data);
+	printf("limiter after limiter_check in do_heredoc: %s\n", data->info->limiter);
 	printf("---do_heredoc---\n");
-	limiter = shell_data->info->limiter;
+	limiter = data->info->limiter;
 	printf("limiter: %s\n", limiter);
-	// shell_data->info->fd_out = STDOUT_FILENO; // added to check ifI can manage differently
+	// data->info->fd_out = STDOUT_FILENO; // added to check ifI can manage differently
 
 	line = readline("> ");
 	temp = NULL;
@@ -135,12 +135,12 @@ void do_heredoc(t_data *shell_data)
 		line = readline("> ");
 	}
 	printf("out of while, temp:%s\n", temp);
-	shell_data->here_doc = ft_strdup(temp);
+	data->here_doc = ft_strdup(temp);
 	free(temp);
 	// return (find_cmd_of_heredoc(current));
 }
 
-char **cmds_between_pipes(t_data *shell_data, char **cmds)
+char **cmds_between_pipes(t_data *data, char **cmds)
 {
 	int		j;
 	t_token	*current;
@@ -149,7 +149,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	printf("---cmds_between_pipes---\n");
 	cat_cmd = false;
 	j = 0;
-	current = shell_data->tokens;
+	current = data->tokens;
 	while (current && current->type != T_PIPE)
 	{
 		while (current && current->type != T_PIPE)
@@ -191,7 +191,7 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 	return (cmds);
 }
 
-// pid_t finish_heredoc(t_data *shell_data)
+// pid_t finish_heredoc(t_data *data)
 // {
 
 // 	printf("---finish_heredoc---\n");
@@ -199,17 +199,17 @@ char **cmds_between_pipes(t_data *shell_data, char **cmds)
 // 	// int heredoc_fd;
 // 	pid_t pid;
 
-// 	// heredoc_fd = here_doc_fd_check(shell_data);
-// 	// shell_data->info->fd_in = heredoc_fd;
-// 	// shell_data->info->fd_out = STDOUT_FILENO;
+// 	// heredoc_fd = here_doc_fd_check(data);
+// 	// data->info->fd_in = heredoc_fd;
+// 	// data->info->fd_out = STDOUT_FILENO;
 // 	matrix = ft_split("cat", ' ');
-// 	pid = heredoc_child_process(shell_data->info, matrix, "/bin/cat");
-// 	// pid = heredoc_child_process(shell_data->info, shell_data->cmds, "/bin/cat");
+// 	pid = heredoc_child_process(data->info, matrix, "/bin/cat");
+// 	// pid = heredoc_child_process(data->info, data->cmds, "/bin/cat");
 // 	unlink("0ur_h3r3_d0c");
 // 	return (pid);
 // }
 
-char **cmds_from_tokens(t_data *shell_data)
+char **cmds_from_tokens(t_data *data)
 {
 	char	**cmds;
 	// int		i;
@@ -218,13 +218,13 @@ char **cmds_from_tokens(t_data *shell_data)
 	printf("---cmds_from_tokens---\n");
 	// i = 0;
 	// j = 0;
-	cmds = (char **)malloc(sizeof(char *) * (shell_data->nbr_of_pipes + 2));
+	cmds = (char **)malloc(sizeof(char *) * (data->nbr_of_pipes + 2));
 	if (cmds == NULL)
 	{
-		free_shell_data(&shell_data);
+		free_data(&data);
 		ft_exit_perror(ERROR_ALLOCATION, "malloc in cmds_from_tokens");
 	}
-	cmds = cmds_between_pipes(shell_data, cmds);
+	cmds = cmds_between_pipes(data, cmds);
 	printf("cmds are ready\n");
 	printf_array(cmds);
 	return(cmds);

@@ -55,13 +55,13 @@ char	*get_new_value(char *command, int start)
 	return (ft_substr(command, start, ft_strlen(command) - start));
 }
 
-void	handle_allocation_error_env(t_data **shell_data)
+void	handle_allocation_error_env(t_data **data)
 {
-	free_shell_data(shell_data);
+	free_data(data);
 	ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
 }
 
-void	create_new_env(t_data **shell_data, char *command)
+void	create_new_env(t_data **data, char *command)
 {
 	char	*new_key;
 	char	*new_value;
@@ -70,41 +70,41 @@ void	create_new_env(t_data **shell_data, char *command)
 
 	new_key = get_new_key(command);
 	if (new_key == NULL)
-		handle_allocation_error_env(shell_data);
+		handle_allocation_error_env(data);
 	i = ft_strlen(new_key);
 	if (command[i] == '=')
 	{
 		i++;
 		new_value = get_new_value(command, i);
 		if (new_value == NULL)
-			handle_allocation_error_env(shell_data);
+			handle_allocation_error_env(data);
 	}
 	else
 		new_value = NULL;
 	new_env = ft_new_node(new_key, new_value);
 	if (new_env == NULL)
-		handle_allocation_error_env(shell_data);
+		handle_allocation_error_env(data);
 	printf("new_env->key: %s\n", new_env->key);
 	printf("new_env->value: %s\n", new_env->value);
-	add_new_env_node(&(*shell_data)->env_list, new_env);
+	add_new_env_node(&(*data)->env_list, new_env);
 }
 
-int	ft_export(char **cmds, t_data *shell_data)
+int	ft_export(char **cmds, t_data *data)
 {
 	int	i;
 
 	printf("----EXPORT----\n");
 	printf("%s\n", cmds[0]);
 	if (cmds[0] == NULL)
-		print_sorted_env_vars(&shell_data->env_list, shell_data->info->fd_out);
+		print_sorted_env_vars(&data->env_list, data->info->fd_out);
 	else
 	{
 		i = 0;
 		while (cmds[i] != NULL)
 		{
-			if (verify_key(cmds[i], shell_data->info->fd_out) == false)
+			if (verify_key(cmds[i], data->info->fd_out) == false)
 				return (ERROR_INVALID_IDENTIFIER); // need to make sure that this error message does not get printed or else remove the print statements in the validation check
-			create_new_env(&shell_data, cmds[i]);
+			create_new_env(&data, cmds[i]);
 			i++;
 		}
 	}

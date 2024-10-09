@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:25:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:40:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ typedef struct s_token
 }	t_token;
 
 // Tokens
-t_token	*lexical_analysis(t_data *shell_data, char *line);
-void	check_characters(t_data *shell_data, char *line);
+t_token	*lexical_analysis(t_data *data, char *line);
+void	check_characters(t_data *data, char *line);
 int		count_tokens(char *line);
-char	**create_token_array(t_data *shell_data, char *line);
-t_token	*create_token_list(t_data *shell_data, char **token_array);
+char	**create_token_array(t_data *data, char *line);
+t_token	*create_token_list(t_data *data, char **token_array);
 bool	is_redir(t_token *current);
 bool	is_redir_except_heredoc(t_token *current);
 bool	is_heredoc(t_token *current);
@@ -70,7 +70,7 @@ void 	skip_whitespace(char *line, int *i);
 char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
-void	check_unclosed_quotes(t_data *shell_data, t_token *token_lst);
+void	check_unclosed_quotes(t_data *data, t_token *token_lst);
 void	free_array(char **array);
 void	free_token_list(t_token **tokens);
 bool	line_is_empty(char *line);

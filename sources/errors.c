@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/04 18:31:58 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:42:54 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	ft_exit_perror(t_error code, char *s)
 void	ft_exit_data_perror(t_data *data, t_error code, char *s)
 {
 	perror(s);
-	free_shell_data(&data);
-	//free_system(data); // to be replaced with free_shell_data	
+	free_data(&data);
+	//free_system(data); // to be replaced with free_data	
 	exit(code);
 }
 
@@ -81,16 +81,16 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 void	ft_exit_data_error(t_data *data, t_error code)
 {
 	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
-	free_shell_data(&data);
-	// free_system(data); // to be replaced with free_shell_data
+	free_data(&data);
+	// free_system(data); // to be replaced with free_data
 	exit(code);
 }
 
-void	ft_close_exit_perror(t_pipex *info, char **matrix, t_error code,
+void	ft_close_exit_perror(t_info *info, char **matrix, t_error code,
 		char *s)
 {
-	close_pipex(info, matrix);
-	free_system(info->data); // to be replaced with free_shell_data
+	close_info(info, matrix);
+	free_system(info->data); // to be replaced with free_data
 	perror(s);
 	exit(code);
 }
@@ -107,14 +107,14 @@ void	free_system(t_data *data)
 	return ;
 }
 
-void	free_shell_data(t_data **data) // to be adjusted
+void	free_data(t_data **data) // to be adjusted
 {
-	ft_printf("free_shell_data\n");
+	ft_printf("free_data\n");
 	if ((*data)->line && (*data)->line[0] != '\0')
 		free((*data)->line);
 	if ((*data)->tokens)
 		free_token_list(&(*data)->tokens);
-	close_pipex((*data)->info, (*data)->info->cmds); // Correct??
+	close_info((*data)->info, (*data)->info->cmds); // Correct??
 	// if ((*data)->cmds && (*data)->cmds[0] != NULL)
 	// 	free_matrix((*data)->cmds);
 	if ((*data)->info && (*data)->cmds[0] != NULL)

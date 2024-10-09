@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:24:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:56:50 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_data
 	char			*here_doc;
 	char			**cmds_for_pipe;
 	char			**expanded_cmds; // to be freed properly!!
-	struct s_pipex	*info;
+	struct s_info	*info;
 	struct s_env	*env_list;
 	// struct s_tree	*ast;
 	struct s_token	*tokens;
@@ -82,7 +82,7 @@ typedef enum e_error
 	ERROR_NOT_DIR = 127,
 }					t_error;
 
-typedef struct s_pipex
+typedef struct s_info
 {
 	int				pipefd[2];
 	int				fds[100][2];
@@ -100,7 +100,7 @@ typedef struct s_pipex
 	char			*path_from_getenv;
 	int				pipe_read_end;
 	struct s_data	*data;
-}					t_pipex;
+}					t_info;
 
 typedef struct s_env
 {
@@ -130,7 +130,7 @@ void				ft_exit_str_free_fd(t_error code, char *str, int fd);
 void				free_system(t_data *data);
 void				ft_exit_data_perror(t_data *data, t_error code, char *s);
 void				ft_exit_data_error(t_data *data, t_error code);
-void				ft_close_exit_perror(t_pipex *info, char **matrix,
+void				ft_close_exit_perror(t_info *info, char **matrix,
 						t_error code, char *s);
 
 // Libft functions //
@@ -148,14 +148,14 @@ void				*ft_calloc(size_t nmemb, size_t size);
 
 // Utils functions //
 char				*put_main_command(char *command, char space);
-void				start_exec(t_pipex *info);
+void				start_exec(t_info *info);
 void				*free_matrix(char **matrix);
-void				close_pipex(t_pipex *info, char **matrix);
+void				close_info(t_info *info, char **matrix);
 bool				is_whitespace(char c);
-pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path);
+pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path);
 
 // Path functions //
-char				*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
+char				*find_path(t_info *info, char *main_command, char *path_from_getenv);
 
 // Ft_putstr2_fd functions //
 void				ft_putstr2_fd(char *s1, char *s2, int fd);
@@ -163,46 +163,46 @@ void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 
 // utils2.c
 
-int					close_safe(int fd, t_pipex *info);
-int					dup2_safe(int oldfd, int newfd, t_pipex *info);
+int					close_safe(int fd, t_info *info);
+int					dup2_safe(int oldfd, int newfd, t_info *info);
 void				printf_array(char **array);
 
-// pipex.c
+// info.c
 
 // int 	is_file(const char *path);
-pid_t	child_process(t_pipex *info);
-pid_t	last_child_process(t_pipex *info);
+pid_t	child_process(t_info *info);
+// pid_t	last_child_process(t_info *info);
 int		create_children(t_data *data);
-// void	initialize_cmds(t_data *data, t_pipex *info);
-char	*find_infile(t_pipex *info);
-char	*find_outfile(t_pipex *info);
+// void	initialize_cmds(t_data *data, t_info *info);
+// char	*find_infile(t_info *info);
+// char	*find_outfile(t_info *info);
 
 // child_processes.c
 
-pid_t	child_process(t_pipex *info);
+pid_t	child_process(t_info *info);
 int		create_children(t_data *data);
 
 // children.c
 
-void				do_first_child(t_pipex *info);
-void				do_middle_child(t_pipex *info);
-void				do_last_child(t_pipex *info);
+void				do_first_child(t_info *info);
+void				do_middle_child(t_info *info);
+void				do_last_child(t_info *info);
 
 // define_fds.c
 
-void define_fd_in_out(t_pipex *info);
-void define_redir_in(t_pipex *info, char *file_name);
-void define_redir_out(t_pipex *info, char *file_name);
-void define_redir_append(t_pipex *info, char *file_name);
-void define_redir_heredoc(t_pipex *info, char *limiter);
+// void define_fd_in_out(t_info *info);
+// void define_redir_in(t_info *info, char *file_name);
+// void define_redir_out(t_info *info, char *file_name);
+// void define_redir_append(t_info *info, char *file_name);
+// void define_redir_heredoc(t_info *info, char *limiter);
 
 // Execute
-void				execute_shell(t_data *shell_data);
+void				execute_shell(t_data *data);
 // t_env				*init_env_var(void);
-// void				execute_command(t_data *shell_data);
-int					pipes(t_data *data);
-// void	initialize_info(t_pipex *info, t_data *shell_data);
-void				execute_node(t_data *shell_data);
+// void				execute_command(t_data *data);
+// int					pipes(t_data *data);
+// void	initialize_info(t_info *info, t_data *data);
+// void				execute_node(t_data *data);
 
 // execute_utils.c
 int					is_file(const char *path);
@@ -210,7 +210,7 @@ int					is_file(const char *path);
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);
 void	update_shell(t_env **env_list);
-void	update_path(t_data *shell_data);
+void	update_path(t_data *data);
 t_env	*ft_envp_node(char *envp_i);
 char	*ft_get_env(t_env *env_list, char *value);
 
@@ -237,29 +237,29 @@ void	not_output_signal_keys();
 void	output_signal_keys();
 
 // Free shell data
-void	free_shell_data(t_data **data);
+void	free_data(t_data **data);
 
 //semantic.c
-void	semantic_analysis(t_data *shell_data);
+void	semantic_analysis(t_data *data);
 
 //  cmds_with_redirs.c
 
-char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
+// char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
 
 
 //  cmds_from_tokens.c
 
-void limiter_check(t_data *shell_data);
-int here_doc_fd_check(t_data *shell_data);
+void limiter_check(t_data *data);
+int here_doc_fd_check(t_data *data);
 t_token *redir_first(t_token *current);
 char *do_cat_addition(t_token *current, char *cmd);
 bool is_first_after_pipe(t_token *current);
 char **find_cmd_of_heredoc(t_token *current);
-// char **do_heredoc(t_data *shell_data, t_token *current);
-void do_heredoc(t_data *shell_data);
-char **cmds_between_pipes(t_data *shell_data, char **cmds);
-pid_t finish_heredoc(t_data *shell_data);
-char **cmds_from_tokens(t_data *shell_data);
+// char **do_heredoc(t_data *data, t_token *current);
+void do_heredoc(t_data *data);
+char **cmds_between_pipes(t_data *data, char **cmds);
+pid_t finish_heredoc(t_data *data);
+char **cmds_from_tokens(t_data *data);
 
 
 
@@ -267,11 +267,11 @@ char **cmds_from_tokens(t_data *shell_data);
 
 //semantic_utils.c
 int		find_pipe_count(t_token *tokens);
-void	initialize_cmds(t_data *data, t_pipex *info);
-void	initialize_info(t_pipex *info, t_data *data);
-char 	**clean_spaces(char **matrix);
+// void	initialize_cmds(t_data *data, t_info *info);
+void	initialize_info(t_info *info, t_data *data);
+// char 	**clean_spaces(char **matrix);
 
 //semantic_utils2.c
-char *clean_redirects(char *long_command);
+// char *clean_redirects(char *long_command);
 
 #endif

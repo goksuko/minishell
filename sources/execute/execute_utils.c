@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-// void	free_tree_env(t_tree **ast, t_env **env_var) free_shell_data should be called instead
+// void	free_tree_env(t_tree **ast, t_env **env_var) free_data should be called instead
 // {
 // 	free_tree(ast);
 // 	free_env(env_var);

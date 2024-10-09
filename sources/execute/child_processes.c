@@ -53,7 +53,7 @@ int	create_children(t_data *data)
 }
 
 
-pid_t	child_process(t_pipex *info)
+pid_t	child_process(t_info *info)
 {
 	pid_t	pid;
 
@@ -61,7 +61,7 @@ pid_t	child_process(t_pipex *info)
 	pid = fork();
 	if (pid == -1)
 	{
-		close_pipex(info, NULL);
+		close_info(info, NULL);
 		ft_exit_perror(ERROR_FORK, "fork in child process");
 	}
 	else if (pid == 0)

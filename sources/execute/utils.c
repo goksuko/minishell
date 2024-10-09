@@ -33,9 +33,9 @@ void	*free_matrix(char **matrix)
 	return (NULL);
 }
 
-void	close_pipex(t_pipex *info, char **matrix)
+void	close_info(t_info *info, char **matrix)
 {
-	// printf("close_pipex\n");
+	// printf("close_info\n");
 	close(info->fd_in);
 	close(info->fd_out);
 	close(info->pipefd[0]);
@@ -45,7 +45,7 @@ void	close_pipex(t_pipex *info, char **matrix)
 		free_matrix(matrix);
 }
 
-char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
+char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
 	char	*path;
 
@@ -53,20 +53,20 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
-		close_pipex(info, cmd_matrix);
+		close_info(info, cmd_matrix);
 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
 	}
 	if (cmd_matrix[0])
 		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
 	else
 	{
-		close_pipex(info, cmd_matrix);
+		close_info(info, cmd_matrix);
 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
 	}
 	if (!path)
 	{
 		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
-		close_pipex(info, cmd_matrix);
+		close_info(info, cmd_matrix);
 		exit(127);
 	}
 	printf("path before exec: %s\n", path);
@@ -74,7 +74,7 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 }
 
 
-pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
+pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 {
 	pid_t	pid;
 	int		here_doc_fd;
@@ -84,7 +84,7 @@ pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
 	pid = fork();
 	if (pid == -1)
 	{
-		close_pipex(info, NULL);
+		close_info(info, NULL);
 		ft_exit_perror(ERROR_FORK, "fork in child process");
 	}
 	else if (pid == 0)
@@ -108,7 +108,7 @@ pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
 	{
 		if (execve(path, cmd_matrix, info->data->envp) == -1)
 		{
-			close_pipex(info, cmd_matrix);
+			close_info(info, cmd_matrix);
 			printf("test3	\n");
 			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 		}
@@ -117,7 +117,7 @@ pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
 }
 
 
-void	start_exec(t_pipex *info)
+void	start_exec(t_info *info)
 {
 	char	**cmd_matrix;
 	char	*path;
@@ -141,7 +141,7 @@ void	start_exec(t_pipex *info)
 		// printf("now writing to STDOUT\n");
 		// if (execve(path, cmd_matrix, info->data->envp) == -1)
 		// {
-		// 	close_pipex(info, cmd_matrix);
+		// 	close_info(info, cmd_matrix);
 		// 	printf("test3	\n");
 		// 	ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 		// }
@@ -154,7 +154,7 @@ void	start_exec(t_pipex *info)
 			printf("test1\n");
 			if (execve(path, cmd_matrix, info->data->envp) == -1)
 			{
-				close_pipex(info, cmd_matrix);
+				close_info(info, cmd_matrix);
 				printf("test2	\n");
 				ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 			}

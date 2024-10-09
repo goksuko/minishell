@@ -36,7 +36,7 @@ int	get_sign(char c, int *i)
 	return (sign);
 }
 
-int	exit_atoi(char *exit_code, t_data *shell_data)
+int	exit_atoi(char *exit_code, t_data *data)
 {
 	int		i;
 	int		sign;
@@ -52,7 +52,7 @@ int	exit_atoi(char *exit_code, t_data *shell_data)
 		number = number * 10 + (exit_code[i] - '0');
 		if (number > INT_MAX)
 		{
-			free_shell_data(&shell_data);
+			free_data(&data);
 			ft_exit_str_fd(ERROR_NUMERIC_ARG, STDERR_FILENO);
 		}
 		i++;

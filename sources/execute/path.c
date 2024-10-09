@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/09/19 11:40:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:49:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // This list is what the shell and other programs use 
 // to find executables when a command is issued.
 
-char	*find_path(t_pipex *info, char *main_command, char *path_from_getenv)
+char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 {
 	char	*path;
 	char	**path_split;

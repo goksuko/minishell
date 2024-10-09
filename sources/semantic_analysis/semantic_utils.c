@@ -16,13 +16,13 @@ int		find_pipe_count(t_token *tokens)
 	return (pipe_count);
 }
 
-void	initialize_info(t_pipex *info, t_data *data)
+void	initialize_info(t_info *info, t_data *data)
 {
 	ft_printf("\n---initialize_info---\n");
 	info->path_from_getenv = getenv("PATH");
 	if (info->path_from_getenv == NULL)
 	{
-		close_pipex(info, NULL);
+		close_info(info, NULL);
 		ft_exit_data_error(data, ERROR_NULL_PATH);
 	}
 	info->data = data;

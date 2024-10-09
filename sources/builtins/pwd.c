@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	ft_pwd(char **cmds, t_data *shell_data)
+int	ft_pwd(char **cmds, t_data *data)
 {
 	char	*cwd;
 
@@ -10,7 +10,7 @@ int	ft_pwd(char **cmds, t_data *shell_data)
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)
 		return (ERROR_ALLOCATION);
-	ft_putendl_fd(cwd, shell_data->info->fd_out);
+	ft_putendl_fd(cwd, data->info->fd_out);
 	free(cwd);
 	return (SUCCESS);
 }
