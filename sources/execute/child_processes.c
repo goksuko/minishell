@@ -9,15 +9,24 @@ int	create_children(t_data *data)
 	int		status;
 
 	printf("---create_children---\n");
-	i = 1;
+	i = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
-	printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
-	while (i <= data->nbr_of_cmds)
+	// printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
+	while (i < data->info->nbr_of_cmds)
 	{
 		printf("\nin while loop i: %d\n", i);
-		define_fd_in_out(data->info);
+		// define_fd_in_out(data->info);
+		data->info->fd_in = data->info->fds[i][0];
+		data->info->fd_out = data->info->fds[i][1];
+		data->info->limiter = NULL;
+		limiter_check(data);
+		// if (data->tokens->value == data->info->limiter)
+		// 	break ;
+		printf("limiter after limiter_check: %s\n", data->info->limiter);
+		printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
+		printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		printf("fd_out just after define_fd: %d\n", data->info->fd_out);
-		if (i != data->nbr_of_cmds)
+		if (i != data->nbr_of_cmds - 1)
 		{
 			if (pipe(data->info->pipefd) == -1)
 				ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
@@ -32,6 +41,10 @@ int	create_children(t_data *data)
 		sleep(1);
 		i++;
 	}
+	if (data->info->limiter)
+		// pid = finish_heredoc(data);
+			unlink("0ur_h3r3_d0c");
+
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))

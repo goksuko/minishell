@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/07 09:33:11 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/09 23:25:44 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 LIBFT = ./Libft/libft.a
 
 LEXICAL_ANALSYSIS =		tokens.c \
+						define_tokens.c \
 						meta_char_check.c \
 						tokens_utils.c \
 						tokens_utils2.c \
@@ -23,9 +24,11 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_types.c \
 						token_types2.c
 
-SEMANTIC_ANALYSIS = 	semantic.c \
-						semantic_utils.c \
-						semantic_utils2.c \
+SEMANTIC_ANALYSIS = semantic.c \
+					cmds_from_tokens.c \
+					cmds_with_redirs.c \
+					semantic_utils.c \
+					semantic_utils2.c \
 
 BUILTINS = 				builtins.c \
 						cd.c \

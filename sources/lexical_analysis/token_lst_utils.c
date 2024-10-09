@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/06 20:27:59 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:27:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 		return (NULL);
 	}
 	new_token->type = type;
-	new_token->is_file = false;
+//	new_token->is_file = false;
 	new_token->token_count = token_count;
 	new_token->prev = NULL;
 	new_token->next = NULL;
+	new_token->fd_in = -10;
+	new_token->fd_out = -10;
+	new_token->is_head = false;
+	new_token->limiter = NULL;
 	return (new_token);
 }
 
@@ -46,11 +50,19 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 	i = 1;
 	while (tokens != NULL)
 	{
-		printf("Token number: %d\n", i);
+		printf("===Token number --%d--\n", i);
 		printf("Value: %s\n", tokens->value);
 		printf("Expanded value: %s\n", tokens->expanded_value);
 		printf("Token type: %s\n", token_type_to_string(tokens->type));
 		printf("Is file: %d\n", tokens->is_file);
+		printf("Type: %s\n", token_type_to_string(tokens->type));
+//		printf("Is file: %d\n", tokens->is_file);
+		if (tokens->limiter)
+			printf("Limiter: %s\n", tokens->limiter);
+		if (tokens->fd_in != -10)
+			printf("Fd_in: %d\n", tokens->fd_in);
+		if (tokens->fd_out != -10)
+			printf("Fd_out: %d\n", tokens->fd_out);
 		tokens = tokens->next;
 		i++;
 	}
@@ -78,5 +90,8 @@ t_token_type	token_type_check(char *token)
 	type = check_double_quotes(token);
 	if (type != T_UNKNOWN)
 		return (type);
+	// type = check_file(token);
+	// if (type != T_UNKNOWN)
+	// 	return (type);
 	return (T_IDENTIFIER);
 }

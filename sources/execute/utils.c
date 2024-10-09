@@ -69,54 +69,99 @@ char	*before_exec(char *long_command, t_pipex *info, char **cmd_matrix)
 		close_pipex(info, cmd_matrix);
 		exit(127);
 	}
-	// printf("path before exec: %s\n", path);
+	printf("path before exec: %s\n", path);
 	return (path);
 }
 
-// start_exec(info, info->cmds, info->data->envp);
+
+pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path)
+{
+	pid_t	pid;
+	int		here_doc_fd;
+
+	here_doc_fd = here_doc_fd_check(info->data);
+	printf("--heredoc_child_process--\n");
+	pid = fork();
+	if (pid == -1)
+	{
+		close_pipex(info, NULL);
+		ft_exit_perror(ERROR_FORK, "fork in child process");
+	}
+	else if (pid == 0)
+	{
+		printf("limiter: %s\n", info->limiter);
+		printf("here_doc: %s\n", info->data->here_doc); // this can be deleted, looks like not gonna be used
+		printf("fd_in: %d\n", info->fd_in);
+		printf("here_doc_fd: %d\n", here_doc_fd);
+		printf("fd_out: %d\n", info->fd_out);
+		// close_safe(info->fd_in, info);
+		dup2_safe(info->fd_in, here_doc_fd, info);
+		printf("fd_in: %d\n", info->fd_in);
+		printf("here_doc_fd: %d\n", here_doc_fd);
+		printf("fd_out: %d\n", info->fd_out);
+		info->fd_out = STDOUT_FILENO;
+		// dup2_safe(STDOUT_FILENO, info->fd_out, info);
+		printf("fd_out: %d\n", info->fd_out);
+		printf("now writing to STDOUT\n");
+	}
+	else
+	{
+		if (execve(path, cmd_matrix, info->data->envp) == -1)
+		{
+			close_pipex(info, cmd_matrix);
+			printf("test3	\n");
+			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		}
+	}
+	return (pid);
+}
+
+
 void	start_exec(t_pipex *info)
 {
 	char	**cmd_matrix;
 	char	*path;
-	char	*long_command;
-	char	*long_corrected_command;
+	pid_t	pid;
+	int		status;
 
 	printf("---start_exec---\n");
-
-	// if (info->data->ast->type == N_COMMAND)
-	// {
-	// 	printf("%s\n", info->data->ast->argument[0]);
-	// 	if (is_builtin(info->data->ast->argument[0]) == true)
-	// 		execute_builtin(info->data);
-	// 	else
-	// 		execute_command(info->data);
-	// }
-
-
 	path = NULL;
-	// printf("curr_cmd: %d\n", info->curr_cmd);
-	if (info->special_command == NULL)
-		long_command = info->cmds[info->curr_cmd - 1];
-	else
-	{
-		long_command = info->special_command;
-		info->special_command = NULL;
-	}	
-	printf("long_command: %s\n", long_command);
-	long_corrected_command = clean_redirects(long_command);
-	printf("long_corrected_command: %s\n", long_corrected_command);
-	cmd_matrix = ft_split(long_corrected_command, ' ');
-	// printf_array(cmd_matrix);
+	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	path = before_exec(long_corrected_command, info, cmd_matrix);
-	// printf("\npath: %s\n", path);
-	if (execve(path, cmd_matrix, info->data->envp) == -1)
+	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
+	if (info->limiter)
 	{
-		close_pipex(info, cmd_matrix);
-		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		printf("test_me\n");
+		pid = heredoc_child_process(info, cmd_matrix, path);
+		// printf("limiter: %s\n", info->limiter);
+		// printf("here_doc: %s\n", info->data->here_doc);
+		// dup2_safe(STDOUT_FILENO, info->fd_out, info);
+		// printf("fd_out: %d\n", info->fd_out);
+		// printf("now writing to STDOUT\n");
+		// if (execve(path, cmd_matrix, info->data->envp) == -1)
+		// {
+		// 	close_pipex(info, cmd_matrix);
+		// 	printf("test3	\n");
+		// 	ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		// }
+		// unlink("0ur_h3r3_d0c");
 	}
-	return ;
+	else
+	{
+		if (info->curr_cmd == 1)
+		{	
+			printf("test1\n");
+			if (execve(path, cmd_matrix, info->data->envp) == -1)
+			{
+				close_pipex(info, cmd_matrix);
+				printf("test2	\n");
+				ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+			}
+		}
+	}
+	waitpid(pid, &status, 0);
+	waitpid(-1, &status, 0);
 }
 
 char	*put_main_command(char *command, char space)

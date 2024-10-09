@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/06 20:16:35 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:24:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ typedef struct s_data
 	int				exit_code;
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
+	int				nbr_of_tokens;
+	char			*here_doc;
 	char			**cmds_for_pipe;
 	char			**expanded_cmds; // to be freed properly!!
 	struct s_pipex	*info;
 	struct s_env	*env_list;
+	// struct s_tree	*ast;
 	struct s_token	*tokens;
 }					t_data;
 
@@ -149,7 +152,7 @@ void				start_exec(t_pipex *info);
 void				*free_matrix(char **matrix);
 void				close_pipex(t_pipex *info, char **matrix);
 bool				is_whitespace(char c);
-
+pid_t	heredoc_child_process(t_pipex *info, char **cmd_matrix, char *path);
 
 // Path functions //
 char				*find_path(t_pipex *info, char *main_command, char *path_from_getenv);
@@ -239,8 +242,31 @@ void	free_shell_data(t_data **data);
 //semantic.c
 void	semantic_analysis(t_data *shell_data);
 
+//  cmds_with_redirs.c
+
+char *cmd_with_redir(t_token *tokens, int i, int next_pipe);
+
+
+//  cmds_from_tokens.c
+
+void limiter_check(t_data *shell_data);
+int here_doc_fd_check(t_data *shell_data);
+t_token *redir_first(t_token *current);
+char *do_cat_addition(t_token *current, char *cmd);
+bool is_first_after_pipe(t_token *current);
+char **find_cmd_of_heredoc(t_token *current);
+// char **do_heredoc(t_data *shell_data, t_token *current);
+void do_heredoc(t_data *shell_data);
+char **cmds_between_pipes(t_data *shell_data, char **cmds);
+pid_t finish_heredoc(t_data *shell_data);
+char **cmds_from_tokens(t_data *shell_data);
+
+
+
+
+
 //semantic_utils.c
-int		find_pipe_count(char *line);
+int		find_pipe_count(t_token *tokens);
 void	initialize_cmds(t_data *data, t_pipex *info);
 void	initialize_info(t_pipex *info, t_data *data);
 char 	**clean_spaces(char **matrix);

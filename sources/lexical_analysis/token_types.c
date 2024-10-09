@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/03 14:32:37 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/06 20:24:35 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:28:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*token_type_to_string(t_token_type type)
 	[T_FLAG] = "FLAG",
 	[T_SINGLE_QUOTES] = "SINGLE_QUOTES",
 	[T_DOUBLE_QUOTES] = "DOUBLE_QUOTES",
+//	[T_FILE] = "FILE",
 	[T_UNKNOWN] = "UNKNOWN"};
 
 	if (type < 0 || type >= sizeof(str) / sizeof(str[0])) // need to check this again

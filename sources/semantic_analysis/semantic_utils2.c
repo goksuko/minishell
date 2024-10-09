@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void free_and_null(char *str)
+void	free_and_null(char *str)
 {
 	if (*str)
 	{
@@ -9,12 +9,12 @@ void free_and_null(char *str)
 	}
 }
 
-char *ft_strjoin_array(char **array, char c)
+char	*ft_strjoin_array(char **array, char c)
 {
-	char *joined;
-	int i;
-	int j;
-	int k;
+	char	*joined;
+	int		i;
+	int		j;
+	int		k;
 
 	i = 0;
 	j = 0;
@@ -47,7 +47,7 @@ char *ft_strjoin_array(char **array, char c)
 	return (joined);
 }
 
-char *clean_redirects(char *long_command)
+char	*clean_redirects(char *long_command)
 {
 	char *long_corrected_command;
 	char **splitted;
@@ -66,7 +66,8 @@ char *clean_redirects(char *long_command)
 		splitted[0] = ft_strdup(splitted[2]);
 		free_and_null(splitted[2]);
 	}
-	else if (splitted[0][0] == '<' && splitted[0][1] != '<' && splitted[0][1] != '\0')
+	else if (splitted[0][0] == '<' && splitted[0][1] != '<'
+		&& splitted[0][1] != '\0')
 	{
 		temp = ft_strdup(splitted[0] + 1);
 		free(splitted[0]);
@@ -80,10 +81,12 @@ char *clean_redirects(char *long_command)
 		while (splitted[i])
 		{
 			printf("splitted[%d]: %s\n", i, splitted[i]);
-			if ((ft_strnstr(splitted[i], ">>", 2) && ft_strlen(splitted[i]) == 2)
-				|| (ft_strnstr(splitted[i], ">", 1) && ft_strlen(splitted[i]) == 1)
-				|| (ft_strnstr(splitted[i], "<<", 2) && ft_strlen(splitted[i]) == 2)
-				|| (ft_strnstr(splitted[i], "<", 1) && ft_strlen(splitted[i]) == 1))
+			if ((ft_strnstr(splitted[i], ">>", 2)
+					&& ft_strlen(splitted[i]) == 2) || (ft_strnstr(splitted[i],
+						">", 1) && ft_strlen(splitted[i]) == 1)
+				|| (ft_strnstr(splitted[i], "<<", 2)
+					&& ft_strlen(splitted[i]) == 2) || (ft_strnstr(splitted[i],
+						"<", 1) && ft_strlen(splitted[i]) == 1))
 			{
 				free(splitted[i]);
 				splitted[i] = NULL;
@@ -91,10 +94,12 @@ char *clean_redirects(char *long_command)
 				free(splitted[i]);
 				splitted[i] = NULL;
 			}
-			else if ((ft_strnstr(splitted[i], ">>", 2) && ft_strlen(splitted[i]) > 2)
-				|| (ft_strnstr(splitted[i], ">", 1) && ft_strlen(splitted[i]) > 1)
-				|| (ft_strnstr(splitted[i], "<<", 2) && ft_strlen(splitted[i]) > 2)
-				|| (ft_strnstr(splitted[i], "<", 1) && ft_strlen(splitted[i]) > 1))
+			else if ((ft_strnstr(splitted[i], ">>", 2)
+					&& ft_strlen(splitted[i]) > 2) || (ft_strnstr(splitted[i],
+						">", 1) && ft_strlen(splitted[i]) > 1)
+				|| (ft_strnstr(splitted[i], "<<", 2)
+					&& ft_strlen(splitted[i]) > 2) || (ft_strnstr(splitted[i],
+						"<", 1) && ft_strlen(splitted[i]) > 1))
 			{
 				free(splitted[i]);
 				splitted[i] = NULL;

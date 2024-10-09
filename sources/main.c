@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/06 21:25:11 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/09 23:29:40 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ int	find_path_index(char **envp)
 // 	return (exit_code);
 // }
 
-void	init_data(t_data *data, char *line, char **envp)
-{
-	ft_printf("init_data\n");
-	data->line = line;
-	data->envp = envp;
-	data->exit_code = 0;
-	return ;
-}
+// void	init_data(t_data *data, char **envp)
+// {
+// 	ft_printf("init_data\n");
+// 	// data->line = line;
+// 	data->envp = envp;
+// 	data->exit_code = 0;
+// 	return ;
+// }
 
 
 void	make_initial_path_checks(char **envp, t_data *shell_data)
@@ -119,7 +119,9 @@ int	main(int argc, char *argv[], char **envp)
 		// set_signals_interactive();
 		if ((line = rl_gets()) == NULL)
 			break;
-		// set_signals_noninteractive();		
+		// set_signals_noninteractive();
+		// if (line == shell_data->info->limiter)
+		// 	break;
 		shell_data->line = line;
 		shell_data->tokens = lexical_analysis(shell_data, line);
 		expander(&shell_data);
@@ -131,12 +133,13 @@ int	main(int argc, char *argv[], char **envp)
 		printf("is_builtin: %d\n", is_builtin(command[0])); // only for testing purposes
 		if (is_builtin(command[0])) // only for testing purposes
 			shell_data->exit_code = execute_builtin(command, shell_data); // only for testing purposes
-		// execute_shell(shell_data); // includes builtins
+		execute_shell(shell_data); // includes builtins
 		// if (check_pipe(line))
 		// 	data->exit_code = pipex(data); // to be put in semantic analysis
 		
 		// free_system(data);
 		output_signal_keys();
 	}
+
 	// return (data->exit_code);
 }

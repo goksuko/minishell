@@ -1,38 +1,83 @@
 echo 1
 < test.txt grep a1 | cat -e | wc -w > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: 
+# wc creates problem
+
+echo 1b
+< read.sh grep a1 | cat -e | wc -w > result.txt
+echo result: 
+# wc creates problem
 
 echo 2
 < ./Libft ls -l | wc -l > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: Segmentation fault
+#from the beginning
+
+echo 2b
+< ./libft ls -l | ls -a > result.txt
 
 echo 3
 < test.txt grep a1 | wc -w > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: ??????????????
 
 echo 4: absolute path as a cmd
 < test.txt /usr/bin/ls/ | wc -l > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: 
+# wc creates problem
+# meassage will be changed
 
 echo 5: binary file as a cmd
 < test.txt ./checker_linux | grep a > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: 
+# grep creates problem
+
+echo 5b: binary file as a cmd
+< test.txt ./checker_linux
+echo result: WORKS FINE
+#exit code to be checked
 
 echo 6: empty cmd
 < test.txt "" | wc -l > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: ???????????????
+# wc creates problem
+#exit code to be checked
+#token to be checked
+
+echo 6b: empty cmd
+< test.txt "" > result.txt
+echo result: ???????????????
+#exit code to be checked
+#token to be checked
 
 echo 7: empty file
 < empty.txt ls -l | wc -l > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: ???????????????
+# wc creates problem
+
+echo 7b: empty file
+< empty.txt ls -l > result.txt
+echo result: WORKS FINE
 
 echo 8: one space cmd
 < test.txt " " | wc -l > result.txt
-echo result: ----SYNTAX ANALYSIS---- Segmentation fault
+echo result: ???????????????
+# wc creates problem
+
+echo 8b
+< test.txt
+echo result: WORKS FINE
+#exit code to be checked
+
+echo 8c
+< test.txt " "
+echo result: 
+#exit code to be checked
+#token to be checked
 
 echo 9: UNSET PATH
 #unset PATH
 < test.txt ls -l | wc -l > result.txt
+ls -l test.txt | wc -l 
 echo result: ????????????????????
 
 echo 10
@@ -41,11 +86,11 @@ echo result: WORKS FINE
 
 echo 11
 < read.sh cat > out.txt
-echo result: permission denied 
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 12
 cat < read.sh > out.txt
+cat read.sh
 echo result: WORKS FINE
 
 echo 13
@@ -54,8 +99,7 @@ echo result: WORKS FINE
 
 echo 14
 < read.sh cat >> out.txt
-echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 15
 cat < read.sh >> out.txt
@@ -67,8 +111,7 @@ echo result: WORKS FINE
 
 echo 17
 < read.sh cat >out.txt
-echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 18
 cat < read.sh >out.txt
@@ -80,8 +123,7 @@ echo result: WORKS FINE
 
 echo 20
 < read.sh cat >>out.txt
-echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 21
 cat < read.sh >>out.txt
@@ -113,12 +155,10 @@ echo result: ----SYNTAX ANALYSIS---- Segmentation fault
 echo 26
 cat read.sh > out.txt > out2.txt
 echo result: WORKS FINE
-#but it creates a new file with the same name if it is done in another bash for testing
 
 echo 27
 < read.sh cat > out.txt > out2.txt
-echo result: permission denied 
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 28
 cat < read.sh > out.txt > out2.txt
@@ -128,12 +168,19 @@ echo 29
 cat read.sh >> out.txt >> out2.txt
 echo result: WORKS FINE
 
+echo 29b
+ls -l >> out.txt >> out2.txt
+echo result: WORKS FINE
+
 echo 30
 < read.sh cat >> out.txt >> out2.txt
-echo result: permission denied
-#I have not changed anything related to code, I think that can be solved in the Codam computer
+echo result: WORKS FINE
 
 echo 31
 cat < read.sh >> out.txt >> out2.txt
+echo result: WORKS FINE
+
+echo 32
+>>             test.txt
 echo result: WORKS FINE
 
