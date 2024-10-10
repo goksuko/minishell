@@ -59,6 +59,7 @@ int	create_children(t_data *data)
 pid_t	child_process(t_info *info)
 {
 	pid_t	pid;
+	char **command;
 
 	printf("--child_process--\n");
 	pid = fork();
@@ -92,7 +93,13 @@ pid_t	child_process(t_info *info)
 
 		printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
 		printf("ready to start exec\n");
-		start_exec(info);
+		command = ft_split(info->cmds[info->curr_cmd - 1], ' '); // only for testing purposes
+		// printf_array(command); // only for testing purposes
+		printf("is_builtin: %d\n", is_builtin(command[0])); // only for testing purposes
+		if (is_builtin(command[0])) // only for testing purposes
+			info->data->exit_code = execute_builtin(command, info->data); // only for testing purposes
+		else
+			start_exec(info);
 	}
 	else
 	{
