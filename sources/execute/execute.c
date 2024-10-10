@@ -26,6 +26,8 @@ void	execute_shell(t_data *data)
 	exit_code = create_children(data);
 	printf("exit_code: %d\n", exit_code);
 	data->exit_code = exit_code;
+	// printf("cmds after execution: \n");	
+	// printf_array(data->info->cmds);
 	free_system(data); // to be replaced with free_data
 	// return (exit_code);
 }

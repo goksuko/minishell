@@ -18,8 +18,8 @@ int	create_children(t_data *data)
 		// define_fd_in_out(data->info);
 		data->info->fd_in = data->info->fds[i][0];
 		data->info->fd_out = data->info->fds[i][1];
-		data->info->limiter = NULL;
-		limiter_check(data);
+		// data->info->limiter = NULL;
+		// limiter_check(data);
 		// if (data->tokens->value == data->info->limiter)
 		// 	break ;
 		printf("limiter after limiter_check: %s\n", data->info->limiter);
@@ -69,8 +69,9 @@ pid_t	child_process(t_info *info)
 		printf("curr_cmd: %d\n", info->curr_cmd);
 		printf("pipefd[0]: %d\n", info->pipefd[0]);
 		printf("pipefd[1]: %d\n", info->pipefd[1]);
-
-		if (info->curr_cmd == info->nbr_of_cmds)
+		if (info->curr_cmd == info->here_doc_cmd)
+			do_heredoc_child(info);
+		else if (info->curr_cmd == info->nbr_of_cmds)
 			do_last_child(info);
 		else if (info->curr_cmd == 1)
 			do_first_child(info);

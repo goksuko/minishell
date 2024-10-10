@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:56:50 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/10 12:34:12 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_info
 	char			*outfile;
 	int				nbr_of_cmds;
 	int				curr_cmd;
+	int				here_doc_cmd;
 	char			**cmds;
 	char			**expanded_cmds;
 	char			*special_command;
@@ -184,6 +185,7 @@ int		create_children(t_data *data);
 
 // children.c
 
+void do_heredoc_child(t_info *info);
 void				do_first_child(t_info *info);
 void				do_middle_child(t_info *info);
 void				do_last_child(t_info *info);
@@ -255,8 +257,8 @@ t_token *redir_first(t_token *current);
 char *do_cat_addition(t_token *current, char *cmd);
 bool is_first_after_pipe(t_token *current);
 char **find_cmd_of_heredoc(t_token *current);
-// char **do_heredoc(t_data *data, t_token *current);
-void do_heredoc(t_data *data);
+// char **init_heredoc(t_data *data, t_token *current);
+void init_heredoc(t_data *data);
 char **cmds_between_pipes(t_data *data, char **cmds);
 pid_t finish_heredoc(t_data *data);
 char **cmds_from_tokens(t_data *data);

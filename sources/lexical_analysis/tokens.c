@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/10 11:53:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/10 13:47:54 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 bool	is_redir(t_token *current)
 {
-	if (current->type == T_SMALLER || current->type == T_GREATER || \
-		current->type == T_DSMALLER || current->type == T_DGREATER)
+	if (current && \
+		(current->type == T_SMALLER || current->type == T_GREATER || \
+		current->type == T_DSMALLER || current->type == T_DGREATER))
 		return (true);
 	return (false);
 }
@@ -23,8 +24,9 @@ bool	is_redir(t_token *current)
 
 bool	is_redir_except_heredoc(t_token *current)
 {
-	if (current->type == T_SMALLER || current->type == T_GREATER || \
-		current->type == T_DGREATER)
+	if (current && \
+		(current->type == T_SMALLER || current->type == T_GREATER || \
+		current->type == T_DGREATER))
 		return (true);
 	return (false);
 }
@@ -34,6 +36,36 @@ bool	is_heredoc(t_token *current)
 	if (current->type == T_DSMALLER)
 		return (true);
 	return (false);
+}
+
+bool	heredoc_inside(t_token *current)
+{
+	while (current && current->type != T_DSMALLER)
+		current = current->next;
+	if (current)
+		return (true);
+	else
+		return (false);
+}
+
+int	heredoc_position(t_token *current)
+{
+	int	i;
+
+	i = 1;
+	while (current)
+	{
+		if (current->type == T_DSMALLER)
+			return (i);
+		while (current && current->type != T_PIPE)
+			current = current->next;
+		if (current && current->type == T_PIPE)
+		{
+			i++;
+			current = current->next; // to skip the pipe
+		}
+	}
+	return (i);
 }
 
 void	is_file_check(t_token *token_lst)

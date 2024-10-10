@@ -12,7 +12,6 @@ void define_token_fd(t_token *token)
 		define_dgreater(token);
 }
 
-//buradan devam
 void define_smaller(t_token *token)
 {
 	int temp_fd;

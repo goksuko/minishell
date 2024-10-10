@@ -35,8 +35,8 @@ void	initialize_fds(t_info *info, t_data *data)
 			i++;
 		current = current->next;
 	}
-	// printf("info->fds[0][0]: %d\n", info->fds[0][0]);
-	// printf("info->fds[0][1]: %d\n", info->fds[0][1]);
+	printf("info->fds[0][0]: %d\n", info->fds[0][0]);
+	printf("info->fds[0][1]: %d\n", info->fds[0][1]);
 }
 
 void	semantic_analysis(t_data *data)
@@ -56,15 +56,18 @@ void	semantic_analysis(t_data *data)
 	// data->cmds = data->ast->argument;
 	data->here_doc = NULL;
 	//here_doc should be done after pipe
-	if (is_heredoc(data->tokens))
+	data->info->limiter = NULL;
+	data->info->here_doc_cmd = -100;
+	if (heredoc_inside(data->tokens)) // commented to change the edge case of heredoc after pipe
 	{
-		do_heredoc(data);
-		data->cmds = find_cmd_of_heredoc(data->tokens);
+		init_heredoc(data);
+		// data->cmds = find_cmd_of_heredoc(data->tokens);
 		// finish_heredoc(data);
 	}
-	else
-		data->cmds = cmds_from_tokens(data);
-	info->cmds = data->cmds;
+	data->cmds = cmds_from_tokens(data);
+	// printf("cmds_from_tokens\n");
+	// printf_array(data->cmds);
+	// info->cmds = data->cmds;
 	initialize_info(info, data);
 	initialize_fds(info, data);
 }

@@ -121,13 +121,13 @@ void	start_exec(t_info *info)
 {
 	char	**cmd_matrix;
 	char	*path;
-	pid_t	pid;
-	int		status;
+	// pid_t	pid;
+	// int		status;
 
 	printf("---start_exec---\n");
 	path = NULL;
 	printf("cmds::::::::::::::::::::::\n");
-	printf_array(info->cmds);
+	printf_array(info->data->info->cmds);
 	printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
 	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
@@ -135,10 +135,10 @@ void	start_exec(t_info *info)
 	printf("cmd_matrix::::::::::::::::::::::\n");
 	printf_array(cmd_matrix);
 	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
-	if (info->limiter)
-	{
-		printf("test_me\n");
-		pid = heredoc_child_process(info, cmd_matrix, path);
+	// if (info->limiter)
+	// {
+	// 	printf("test_me\n");
+	// 	pid = heredoc_child_process(info, cmd_matrix, path);
 		// printf("limiter: %s\n", info->limiter);
 		// printf("here_doc: %s\n", info->data->here_doc);
 		// dup2_safe(STDOUT_FILENO, info->fd_out, info);
@@ -151,22 +151,22 @@ void	start_exec(t_info *info)
 		// 	ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 		// }
 		// unlink("0ur_h3r3_d0c");
-	}
-	else
-	{
+	// }
+	// else
+	// {
 		// if (info->curr_cmd == 1) // with this pipes stopped working right, so commented out
 		// {	
-			printf("test1\n");
-			if (execve(path, cmd_matrix, info->data->envp) == -1)
-			{
-				close_info(info, cmd_matrix);
-				printf("test2	\n");
-				ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
-			}
-		// }
+			// printf("test1\n");
+	if (execve(path, cmd_matrix, info->data->envp) == -1)
+	{
+		close_info(info, cmd_matrix);
+		printf("test2	\n");
+		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 	}
-	waitpid(pid, &status, 0);
-	waitpid(-1, &status, 0);
+		// }
+	// }
+	// waitpid(pid, &status, 0);
+	// waitpid(-1, &status, 0);
 }
 
 char	*put_main_command(char *command, char space)

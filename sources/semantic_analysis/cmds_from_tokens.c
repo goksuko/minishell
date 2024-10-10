@@ -64,60 +64,63 @@ char *do_cat_addition(t_token *current, char *cmd)
 
 bool is_first_after_pipe(t_token *current)
 {
-	if (current->prev == NULL || current->prev->type == T_PIPE)
+	if (current && \
+		(current->prev == NULL || current->prev->type == T_PIPE))
 		return (true);
 	return (false);
 }
 
-char **find_cmd_of_heredoc(t_token *current)
-{
-	char	**array;
+// char **find_cmd_of_heredoc(t_token *current)
+// {
+// 	char	**array;
 
-	array = (char **)malloc(sizeof(char *) * 50);
-	if (array == NULL)
-	{
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in find_cmd_of_heredoc");
-	}
-	printf("---find_cmd_of_heredoc---\n");
-	if (current->next && current->next->next)
-		current = current->next->next;
-	else
-	{
-		printf("current->next->next is NULL\n");
-		return (NULL);
-	}
-	printf("current->value: %s\n", current->value);	
-	array[0] = ft_strdup(current->value);
-	printf("cmds[0]: %s\n", array[0]);
-	current = current->next;
-	while (current && current->type != T_PIPE)
-	{
-		array[0] = ft_strjoin(array[0], " ");
-		array[0] = ft_strjoin(array[0], current->value);
-		current = current->next;
-	}
-	array[1] = NULL;
-	return (array);
-}
+// 	while (current && current->type != T_DSMALLER)
+// 		current = current->next;
+// 	array = (char **)malloc(sizeof(char *) * 50);
+// 	if (array == NULL)
+// 	{
+// 		ft_exit_perror(ERROR_ALLOCATION, "malloc in find_cmd_of_heredoc");
+// 	}
+// 	printf("---find_cmd_of_heredoc---\n");
+// 	if (current->next && current->next->next)
+// 		current = current->next->next;
+// 	else
+// 	{
+// 		printf("current->next->next is NULL\n");
+// 		return (NULL);
+// 	}
+// 	printf("current->value: %s\n", current->value);	
+// 	array[0] = ft_strdup(current->value);
+// 	printf("cmds[0]: %s\n", array[0]);
+// 	current = current->next;
+// 	while (current && current->type != T_PIPE)
+// 	{
+// 		array[0] = ft_strjoin(array[0], " ");
+// 		array[0] = ft_strjoin(array[0], current->value);
+// 		current = current->next;
+// 	}
+// 	array[1] = NULL;
+// 	return (array);
+// }
 
 
-// char **do_heredoc(t_data *data, t_token *current)
-void do_heredoc(t_data *data)
+// char **init_heredoc(t_data *data, t_token *current)
+void init_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
 	char	*temp;
 
 	limiter_check(data);
-	printf("limiter after limiter_check in do_heredoc: %s\n", data->info->limiter);
-	printf("---do_heredoc---\n");
+	printf("limiter after limiter_check in init_heredoc: %s\n", data->info->limiter);
+	printf("---init_heredoc---\n");
 	limiter = data->info->limiter;
 	printf("limiter: %s\n", limiter);
 	// data->info->fd_out = STDOUT_FILENO; // added to check ifI can manage differently
-
+	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	line = readline("> ");
 	temp = NULL;
-	printf("line in do_heredoc: %s\n", line);
+	printf("line in init_heredoc: %s\n", line);
 	while (line)
 	{
 		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
@@ -135,7 +138,7 @@ void do_heredoc(t_data *data)
 		line = readline("> ");
 	}
 	printf("out of while, temp:%s\n", temp);
-	data->here_doc = ft_strdup(temp);
+	data->here_doc = ft_strdup(temp); // to be deleted
 	free(temp);
 	// return (find_cmd_of_heredoc(current));
 }
@@ -154,13 +157,27 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 	{
 		while (current && current->type != T_PIPE)
 		{
+			if (is_heredoc(current))
+			{
+				if (current->next && current->next->next)
+					current = current->next->next;
+				cmds[j] = ft_strdup(current->value);
+				// printf("cmds[j]: %s\n", cmds[j]);
+				current = current->next;
+				while (current && current->type != T_PIPE)
+				{
+					cmds[j]  = ft_strjoin(cmds[j] , " ");
+					cmds[j]  = ft_strjoin(cmds[j] , current->value);
+					current = current->next;
+				}
+			}
 			if (is_redir_except_heredoc(current) && is_first_after_pipe(current))
 			{
 				current = redir_first(current);
 				if (!current)
 					return (NULL);
 			}
-			if (ft_strncmp(current->value, "cat", 4) == 0)
+			if (current && ft_strncmp(current->value, "cat", 4) == 0)
 				cat_cmd = true;
 			if (is_first_after_pipe(current))
 			{
@@ -183,6 +200,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				current = current->next;
 			}
 		}
+		printf("cmds[j]: %s\n", cmds[j]);
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;

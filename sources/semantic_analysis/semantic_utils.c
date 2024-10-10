@@ -28,6 +28,7 @@ void	initialize_info(t_info *info, t_data *data)
 	info->data = data;
 	info->curr_cmd = 1;
 	info->pipe_read_end = STDIN_FILENO;
+	info->cmds = data->cmds;
 	// info->special_command = NULL;
 	// info->limiter = NULL; //defined in cmds between pipes
 	// info->infile = NULL;
