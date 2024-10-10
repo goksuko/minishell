@@ -3,4 +3,12 @@ git fetch origin
 git checkout main
 git merge goksu
 
-# git push origin main
+echo "merge changes from main to the branch"
+git fetch origin
+git checkout my_goksu
+git merge origin/main
+echo "Resolve conflicts by accepting changes from main"
+git checkout --theirs .
+git add .
+git commit
+git push origin your-branch

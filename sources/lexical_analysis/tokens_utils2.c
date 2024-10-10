@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:40:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/10 11:53:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	count_tokens(char *line)
 
 	i = 0;
 	count = 0;
-	while (line[i] != '\0')
+	while (line && line[i] != '\0')
 	{
 		skip_whitespace(line, &i);
 		if (line[i] == '\0')

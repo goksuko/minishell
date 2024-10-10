@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:44:22 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/10 11:53:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, char *argv[], char **envp)
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(1, "data in main");
 	make_initial_path_checks(envp, data);
-	// data->envp = envp;
+	data->envp = envp;
 	line = NULL;
 	while (1)
 	{
@@ -97,8 +97,8 @@ int	main(int argc, char *argv[], char **envp)
 		// 	break;
 		// data->line = line;
 		data->tokens = lexical_analysis(data, line);
-		expander(&data);
 		ft_print_tokens(data->tokens); // only for testing purposes	
+		expander(&data);
 		semantic_analysis(data);
 		printf_array(data->info->cmds); // only for testing purposes
 		char **command = ft_split(data->info->cmds[0], ' '); // only for testing purposes

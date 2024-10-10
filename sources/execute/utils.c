@@ -126,9 +126,14 @@ void	start_exec(t_info *info)
 
 	printf("---start_exec---\n");
 	path = NULL;
+	printf("cmds::::::::::::::::::::::\n");
+	printf_array(info->cmds);
+	printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
 	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
+	printf("cmd_matrix::::::::::::::::::::::\n");
+	printf_array(cmd_matrix);
 	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
 	if (info->limiter)
 	{
@@ -149,8 +154,8 @@ void	start_exec(t_info *info)
 	}
 	else
 	{
-		if (info->curr_cmd == 1)
-		{	
+		// if (info->curr_cmd == 1) // with this pipes stopped working right, so commented out
+		// {	
 			printf("test1\n");
 			if (execve(path, cmd_matrix, info->data->envp) == -1)
 			{
@@ -158,7 +163,7 @@ void	start_exec(t_info *info)
 				printf("test2	\n");
 				ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 			}
-		}
+		// }
 	}
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
