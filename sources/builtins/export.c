@@ -92,17 +92,23 @@ void	create_new_env(t_data **data, char *command)
 int	ft_export(char **cmds, t_data *data)
 {
 	int	i;
+	int		out_fd;
+
+	if (data->info->fd_out == -10)
+		out_fd = STDOUT_FILENO;
+	else
+		out_fd = data->info->fd_out;
 
 	printf("----EXPORT----\n");
 	printf("%s\n", cmds[0]);
 	if (cmds[0] == NULL)
-		print_sorted_env_vars(&data->env_list, data->info->fd_out);
+		print_sorted_env_vars(&data->env_list, out_fd);
 	else
 	{
 		i = 0;
 		while (cmds[i] != NULL)
 		{
-			if (verify_key(cmds[i], data->info->fd_out) == false)
+			if (verify_key(cmds[i], out_fd) == false)
 				return (ERROR_INVALID_IDENTIFIER); // need to make sure that this error message does not get printed or else remove the print statements in the validation check
 			create_new_env(&data, cmds[i]);
 			i++;
