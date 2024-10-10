@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/10 12:34:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/10 14:29:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ int		create_children(t_data *data);
 
 pid_t	child_process(t_info *info);
 int		create_children(t_data *data);
+pid_t	heredoc_child_process2(t_info *info);
+
 
 // children.c
 

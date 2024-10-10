@@ -5,7 +5,7 @@ int	create_children(t_data *data)
 {
 	int		i;
 	pid_t	pid;
-	// pid_t	pid_last;
+	pid_t	pid2;
 	int		status;
 
 	printf("---create_children---\n");
@@ -41,11 +41,14 @@ int	create_children(t_data *data)
 		sleep(1);
 		i++;
 	}
+	if (data->info->curr_cmd == data->info->here_doc_cmd)
+		pid2 = heredoc_child_process2(data->info);
 	if (data->info->limiter)
 		// pid = finish_heredoc(data);
 			unlink("0ur_h3r3_d0c");
 
 	waitpid(pid, &status, 0);
+	waitpid(pid2, &status, 0);
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -72,6 +75,7 @@ pid_t	child_process(t_info *info)
 		if (info->curr_cmd == info->here_doc_cmd)
 			do_heredoc_child(info);
 		else if (info->curr_cmd == info->nbr_of_cmds)
+		// if (info->curr_cmd == info->nbr_of_cmds)
 			do_last_child(info);
 		else if (info->curr_cmd == 1)
 			do_first_child(info);
@@ -100,6 +104,53 @@ pid_t	child_process(t_info *info)
 			close_safe(info->fd_in, info);
 		if (info->curr_cmd != 1)
 			close_safe(info->pipefd[1], info);
+	}
+	return (pid);
+}
+
+
+pid_t	heredoc_child_process2(t_info *info)
+{
+	pid_t	pid;
+	char **matrix;
+
+	printf("--heredoc_child_process2--\n");
+	pid = fork();
+	if (pid == -1)
+	{
+		close_info(info, NULL);
+		ft_exit_perror(ERROR_FORK, "fork in child process");
+	}
+	else if (pid == 0)
+	{
+		printf("curr_cmd: %d\n", info->curr_cmd);
+		printf("pipefd[0]: %d\n", info->pipefd[0]);
+		printf("pipefd[1]: %d\n", info->pipefd[1]);
+		// do_first_child(info);
+		// // if (info->fd_out != -10)
+		// // 	close_safe(info->fd_out, info);
+		// // if (info->fd_in != -10)
+		// // 	close_safe(info->fd_in, info);
+		// // if (info->pipe_read_end != STDIN_FILENO)
+		// // 	close_safe(info->pipe_read_end, info);
+		// // if (info->curr_cmd != 1)
+		// // 	close_safe(info->pipefd[1], info);
+
+		// printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
+		// printf("ready to start exec\n");
+		// start_exec(info);
+	}
+	else
+	{
+		do_heredoc_child(info);
+		matrix = ft_split("cat", ' ');
+		if (execve("/bin/cat", matrix, info->data->envp) == -1)
+		{
+			close_info(info, matrix);
+			printf("test2	\n");
+			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+		}
+
 	}
 	return (pid);
 }

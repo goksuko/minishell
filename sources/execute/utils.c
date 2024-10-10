@@ -156,7 +156,6 @@ void	start_exec(t_info *info)
 	// {
 		// if (info->curr_cmd == 1) // with this pipes stopped working right, so commented out
 		// {	
-			// printf("test1\n");
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
 		close_info(info, cmd_matrix);
