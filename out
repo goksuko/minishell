@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 fd_in just before exec: -10
 fd_out just before exec: 5
 ---pipe_read_end in loop: 0
@@ -6,3 +7,36 @@ is_builtin: 0
 ---start_exec---
 Hello 1 from read.sh
 
+=======
+---pipe_read_end in loop: 0
+ready to start exec
+------IS BUILTIN CHECK-----
+is_builtin: 0
+------IS BUILTIN CHECK-----
+---start_exec---
+cmds::::::::::::::::::::::
+ls
+ls -la
+curr_cmd: ls
+cmd_matrix::::::::::::::::::::::
+ls
+---before_exec---
+path before exec: /usr/bin/ls
+checker_linux
+empty.txt
+favcolors.txt
+includes
+Libft
+Makefile
+merge_git.sh
+minishell
+my_test.sh
+objects
+our_tests.sh
+out
+out2
+read.sh
+sources
+test_files
+trash
+>>>>>>> c46518d00acdd7a8d70d7588e0535654422b8407
