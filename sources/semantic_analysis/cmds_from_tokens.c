@@ -26,7 +26,7 @@ int here_doc_fd_check(t_data *data)
 	{
 		if (current->limiter)
 		{
-			temp_fd = current->fd_out;
+			temp_fd = current->here_doc_fd;
 			printf("here_doc_fd_check: %d\n", temp_fd);
 		}	
 		current = current->next;
@@ -110,37 +110,37 @@ void init_heredoc(t_data *data)
 	char	*limiter;
 	char	*line;
 	char	*temp;
+	int		here_doc_fd;
 
-	limiter_check(data);
-	printf("limiter after limiter_check in init_heredoc: %s\n", data->info->limiter);
 	printf("---init_heredoc---\n");
+	here_doc_fd = here_doc_fd_check(data);
+	printf("here_doc_fd: %d\n", here_doc_fd);
+	// dup2_safe(here_doc_fd, STDOUT_FILENO, data->info);
+	limiter_check(data);
 	limiter = data->info->limiter;
 	printf("limiter: %s\n", limiter);
-	// data->info->fd_out = STDOUT_FILENO; // added to check ifI can manage differently
-	data->info->here_doc_cmd = heredoc_position(data->tokens);
+	// do_heredoc_child(data->info);
 	line = readline("> ");
 	temp = NULL;
-	printf("line in init_heredoc: %s\n", line);
 	while (line)
 	{
 		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			break;
-		printf("inside while\n");
 		if (temp == NULL)
 			temp = ft_strdup(line);
 		else
 			temp = ft_strjoin(temp, line);
-		// printf("temp: %s\n", temp);
 		temp = ft_strjoin(temp, "\n");
-		// printf("temp: %s\n", temp);
+		write(here_doc_fd, line, ft_strlen(line));
+		write(here_doc_fd, "\n", 1);
 		free(line);
-		// printf("temp: %s\n", temp);
 		line = readline("> ");
 	}
-	printf("out of while, temp:%s\n", temp);
+	// here_doc_fd = here_doc_fd_check(data);
+	// dup2_safe(here_doc_fd, STDOUT_FILENO, data->info);
 	data->here_doc = ft_strdup(temp); // to be deleted
 	free(temp);
-	// return (find_cmd_of_heredoc(current));
+	close_safe(here_doc_fd, data->info);
 }
 
 char **cmds_between_pipes(t_data *data, char **cmds)
@@ -243,7 +243,7 @@ char **cmds_from_tokens(t_data *data)
 		ft_exit_perror(ERROR_ALLOCATION, "malloc in cmds_from_tokens");
 	}
 	cmds = cmds_between_pipes(data, cmds);
-	printf("cmds are ready\n");
-	printf_array(cmds);
+	// printf("cmds are ready\n");
+	// printf_array(cmds);
 	return(cmds);
 }

@@ -54,16 +54,22 @@ void	semantic_analysis(t_data *data)
 	info->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
 	// data->cmds = data->ast->argument;
-	data->here_doc = NULL;
+	data->here_doc = NULL; //to be deleted
 	//here_doc should be done after pipe
 	data->info->limiter = NULL;
 	data->info->here_doc_cmd = -100;
-	if (heredoc_inside(data->tokens)) // commented to change the edge case of heredoc after pipe
-	{
-		init_heredoc(data);
-		// data->cmds = find_cmd_of_heredoc(data->tokens);
-		// finish_heredoc(data);
-	}
+	// if (heredoc_inside(data->tokens)) // commented to change the edge case of heredoc after pipe
+	// {
+	// 	printf("inside\n");
+	// 	printf("fd_in: %d\n", data->info->fd_in);
+	// 	printf("fd_out: %d\n", data->info->fd_out);		
+	// 	init_heredoc(data);
+	// 	close_safe(data->info->fd_out, data->info);
+	// 	data->info->fd_out = STDOUT_FILENO;
+	// 	data->info->fd_in = open("0ur_h3r3_d0c", O_RDONLY, 0777);
+	// 	if (data->info->fd_in == -1)
+	// 		ft_exit_data_perror(data, ERROR_FILE_OPEN, "0ur_h3r3_d0c");
+	// }
 	data->cmds = cmds_from_tokens(data);
 	// printf("cmds_from_tokens\n");
 	// printf_array(data->cmds);
