@@ -49,7 +49,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
 	char	*path;
 
-	printf("---before_exec---\n");
+	// printf("---before_exec---\n");
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
@@ -69,7 +69,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 		close_info(info, cmd_matrix);
 		exit(127);
 	}
-	printf("path before exec: %s\n", path);
+	// printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -126,14 +126,14 @@ void	start_exec(t_info *info)
 
 	printf("---start_exec---\n");
 	path = NULL;
-	printf("cmds::::::::::::::::::::::\n");
-	printf_array(info->data->info->cmds);
-	printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
+	// printf("cmds::::::::::::::::::::::\n");
+	// printf_array(info->data->info->cmds);
+	// printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
 	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
-	printf("cmd_matrix::::::::::::::::::::::\n");
-	printf_array(cmd_matrix);
+	// printf("cmd_matrix::::::::::::::::::::::\n");
+	// printf_array(cmd_matrix);
 	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
 	// if (info->limiter)
 	// {

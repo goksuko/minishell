@@ -27,7 +27,7 @@ int	execute_builtin(char **cmds, t_data *data)
 
 bool	is_builtin(char *command)
 {
-	printf("------IS BUILTIN CHECK-----\n");
+	// printf("------IS BUILTIN CHECK-----\n");
 	int	cmd_len;
 	
 	if (command == NULL)

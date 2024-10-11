@@ -1,37 +1,19 @@
 #include "../../includes/minishell.h"
 
-void do_heredoc_child(t_info *info)
-{
-	int		here_doc_fd;
+// void do_heredoc_child(t_info *info)
+// {
+// 	int		here_doc_fd;
 
-	here_doc_fd = here_doc_fd_check(info->data);
-	printf("do_heredoc_child::::::::::::::::::\n");
-	printf("limiter: %s\n", info->limiter);
-	printf("here_doc: %s\n", info->data->here_doc); // this can be deleted, looks like not gonna be used
-	printf("fd_in: %d\n", info->fd_in);
-	printf("here_doc_fd: %d\n", here_doc_fd);
-	printf("fd_out: %d\n", info->fd_out);
-	// close_safe(info->fd_in, info);
-	
-	info->fd_in = here_doc_fd;
-	
-	printf("fd_in: %d\n", info->fd_in);
-	printf("here_doc_fd: %d\n", here_doc_fd);
-	printf("fd_out: %d\n", info->fd_out);
-	
-	info->fd_out = STDOUT_FILENO;
-	// dup2_safe(STDOUT_FILENO, info->fd_out, info);
-	
-	printf("fd_out: %d\n", info->fd_out);
-	printf("now writing to STDOUT\n");
-}
+// 	here_doc_fd = here_doc_fd_check(info->data);
+// 	dup2_safe(here_doc_fd, STDOUT_FILENO, info);
+// }
 
 void do_first_child(t_info *info)
 {
 	printf("do_first_child::::::::::::::\n");
 	if (info->fd_in != -10)
 	{
-		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
+		dup2_safe(info->fd_in, STDIN_FILENO, info);
 		// close_safe(info->fd_in, info);
 		// close_safe(info->pipefd[0], info);
 	}
@@ -50,7 +32,7 @@ void do_first_child(t_info *info)
 
 void do_middle_child(t_info *info)
 {
-	printf("do_middle_child\n");
+	printf("do_middle_child:::::::::::::::::\n");
 	if (info->fd_in != -10)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
@@ -77,7 +59,7 @@ void do_middle_child(t_info *info)
 
 void do_last_child(t_info *info)
 {
-	printf("do_last_child\n");
+	printf("do_last_child::::::::::::::::\n");
 	printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	
 	printf("pipefd[0]: %d\n", info->pipefd[0]);	
 	printf("pipefd[1]: %d\n", info->pipefd[1]);

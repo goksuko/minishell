@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/11 10:41:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/11 14:14:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_token
 	int				token_count;
 	int				fd_in;
 	int				fd_out;
+	int				here_doc_fd;
 	bool			is_head;
 	char			*limiter;
 }	t_token;

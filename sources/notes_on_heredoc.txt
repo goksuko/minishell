@@ -1,0 +1,2 @@
+heredoc is gonna start, normally and will write into it, after that it is gonna be closed and opened again for execution, in that execution part fd_in will be  the heredoc and stdout will be the fd_out
+for multiple heredocs, there will be a loop of opening and closing
