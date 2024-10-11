@@ -39,8 +39,10 @@ int	create_children(t_data *data)
 		// printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
 		// printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		// printf("fd_out just after define_fd: %d\n", data->info->fd_out);
+		printf(": %d, nbr_of_cmds: %d\n",i, data->nbr_of_cmds);
 		if (i != data->nbr_of_cmds - 1)
 		{
+			printf("pipefd[0]: %d\n", data->info->pipefd[0]);
 			if (pipe(data->info->pipefd) == -1)
 				ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		}

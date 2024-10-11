@@ -187,3 +187,7 @@ echo result: WORKS FINE
 echo 33
 cat read.sh > out
 #cat: out: input file is output file
+
+echo 34
+->here_doc_cmd
+#zsh: segmentation fault (core dumped)  ./minishell

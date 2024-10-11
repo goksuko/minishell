@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/10 13:47:54 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/11 15:17:48 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	heredoc_position(t_token *current)
 			current = current->next; // to skip the pipe
 		}
 	}
+	if (current == NULL)
+		return (-15);
 	return (i);
 }
 
