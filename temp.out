@@ -1,8 +1,0 @@
-fd_in just before exec: -10
-fd_out just before exec: 5
----pipe_read_end in loop: 0
-ready to start exec
-is_builtin: 0
----start_exec---
-Hello 1 from read.sh
-
