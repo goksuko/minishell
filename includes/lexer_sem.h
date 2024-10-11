@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.h                                            :+:    :+:            */
+/*   lexer_sem.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/10 12:13:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/11 10:41:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,28 @@ void define_smaller(t_token *token);
 void define_greater(t_token *token);
 void define_dsmaller(t_token *token);
 void define_dgreater(t_token *token);
+
+//  cmds_from_tokens.c
+
+void	limiter_check(t_data *data);
+int		here_doc_fd_check(t_data *data);
+t_token	*redir_first(t_token *current);
+char	*do_cat_addition(t_token *current, char *cmd);
+bool	is_first_after_pipe(t_token *current);
+char	**find_cmd_of_heredoc(t_token *current);
+// char **init_heredoc(t_data *data, t_token *current);
+void	init_heredoc(t_data *data);
+char	**cmds_between_pipes(t_data *data, char **cmds);
+pid_t	finish_heredoc(t_data *data);
+char	**cmds_from_tokens(t_data *data);
+
+//semantic.c
+void	semantic_analysis(t_data *data);
+
+//semantic_utils.c
+int		find_pipe_count(t_token *tokens);
+// void	initialize_cmds(t_data *data, t_info *info);
+void	initialize_info(t_info *info, t_data *data);
+// char 	**clean_spaces(char **matrix);
 
 #endif

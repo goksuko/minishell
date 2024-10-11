@@ -184,3 +184,6 @@ echo 32
 >>             test.txt
 echo result: WORKS FINE
 
+echo 33
+cat read.sh > out
+#cat: out: input file is output file

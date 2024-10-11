@@ -39,10 +39,10 @@ int	create_children(t_data *data)
 		data->info->curr_cmd++;
 		printf("sleeping after child (%d)\n", i);
 		sleep(1);
+		if (data->info->curr_cmd == data->info->here_doc_cmd)
+			pid2 = heredoc_child_process2(data->info);
 		i++;
 	}
-	if (data->info->curr_cmd == data->info->here_doc_cmd)
-		pid2 = heredoc_child_process2(data->info);
 	if (data->info->limiter)
 		// pid = finish_heredoc(data);
 			unlink("0ur_h3r3_d0c");
