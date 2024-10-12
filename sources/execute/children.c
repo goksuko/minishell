@@ -70,8 +70,8 @@ void do_last_child(t_info *info)
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
 	}
-	// if (info->fd_in != -10)
-	if (info->fd_in != -10 && info->curr_cmd == 1) //changed but not sure
+	if (info->fd_in != -10)
+	// if (info->fd_in != -10 && info->curr_cmd == 1) //changed but not sure
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info);
 		// close_safe(info->fd_in, info); //ben kapattim

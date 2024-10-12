@@ -9,21 +9,21 @@ int	create_children(t_data *data)
 	int		status;
 
 	printf("---create_children---\n");
-	i = 0;
+	i = 1;
 	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	// printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
-	while (i < data->info->nbr_of_cmds)
+	while (i <= data->info->nbr_of_cmds)
 	{
 		printf("\nin while loop i: %d\n", i);
 		// define_fd_in_out(data->info);
 		if (data->info->curr_cmd == data->info->here_doc_cmd)
 		{
 			printf("inside\n");
-			printf("fd_in: %d\n", data->info->fd_in);
-			printf("fd_out: %d\n", data->info->fd_out);
-			printf("info->fds[%d][0]: %d\n", i, data->info->fds[i][0]);
-			printf("info->fds[%d][1]: %d\n", i, data->info->fds[i][1]);
+			// printf("fd_in: %d\n", data->info->fd_in);
+			// printf("fd_out: %d\n", data->info->fd_out);
+			// printf("info->fds[%d][0]: %d\n", i, data->info->fds[i][0]);
+			// printf("info->fds[%d][1]: %d\n", i, data->info->fds[i][1]);
 			init_heredoc(data);
 			data->info->fds[i][0] = open("0ur_h3r3_d0c", O_RDONLY, 0777);
 			if (data->info->fds[i][0] == -1)
@@ -39,17 +39,21 @@ int	create_children(t_data *data)
 		// printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
 		// printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		// printf("fd_out just after define_fd: %d\n", data->info->fd_out);
-		if (i != data->nbr_of_cmds - 1)
+		printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
+		if (i != data->nbr_of_cmds)
 		{
-			printf("pipefd[0]: %d\n", data->info->pipefd[0]);
 			if (pipe(data->info->pipefd) == -1)
 				ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		}
-		printf("fd_out just before child process: %d\n", data->info->fd_out);
-		printf("cmds: \n");	
-		printf_array(data->info->cmds);
-		pid = child_process(data->info);
 		data->info->pipe_read_end = data->info->pipefd[0];
+		printf("pipe_read_end: %d\n", data->info->pipe_read_end);
+		printf("fd_in just before child process: %d\n", data->info->fd_in);
+		printf("fd_out just before child process: %d\n", data->info->fd_out);
+		// printf("cmds: \n");	
+		// printf_array(data->info->cmds);
+		pid = child_process(data->info);
+		printf("fd_in just after child process: %d\n", data->info->fd_in);
+		printf("fd_out just after child process: %d\n", data->info->fd_out);
 		data->info->curr_cmd++;
 		// printf("sleeping after child (%d)\n", i);
 		// sleep(1);

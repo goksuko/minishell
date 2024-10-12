@@ -35,8 +35,6 @@ void	initialize_fds(t_info *info, t_data *data)
 			i++;
 		current = current->next;
 	}
-	printf("info->fds[0][0]: %d\n", info->fds[0][0]);
-	printf("info->fds[0][1]: %d\n", info->fds[0][1]);
 }
 
 void	semantic_analysis(t_data *data)

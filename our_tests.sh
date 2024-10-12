@@ -191,3 +191,9 @@ cat read.sh > out
 echo 34
 ->here_doc_cmd
 #zsh: segmentation fault (core dumped)  ./minishell
+
+echo 35
+echo hello > out3
+
+echo 36
+cat read.sh | echo >> out4
