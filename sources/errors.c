@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:42:54 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/12 23:56:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_error(t_error code)
 {
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
-	[ERROR_PERM] = "bash: permission denied: \n",
+	[ERROR_PERM] = "bash: permission denied: \n", // >>   test.txt returns this but bash does nothing, with 0 exit_code
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
 	[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
 	[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",

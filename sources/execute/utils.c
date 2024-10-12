@@ -129,12 +129,12 @@ void	start_exec(t_info *info)
 	// printf("cmds::::::::::::::::::::::\n");
 	// printf_array(info->data->info->cmds);
 	// printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
-	cmd_matrix = ft_split(info->cmds[info->curr_cmd - 1], ' ');
+	cmd_matrix = ft_split(info->cmds[info->curr_cmd], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	// printf("cmd_matrix::::::::::::::::::::::\n");
 	// printf_array(cmd_matrix);
-	path = before_exec(info->cmds[info->curr_cmd - 1], info, cmd_matrix);
+	path = before_exec(info->cmds[info->curr_cmd], info, cmd_matrix);
 	// if (info->limiter)
 	// {
 	// 	printf("test_me\n");

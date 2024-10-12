@@ -26,7 +26,7 @@ void	initialize_info(t_info *info, t_data *data)
 		ft_exit_data_error(data, ERROR_NULL_PATH);
 	}
 	info->data = data;
-	info->curr_cmd = 1;
+	info->curr_cmd = 0;
 	info->pipe_read_end = STDIN_FILENO;
 	info->cmds = data->cmds;
 	// info->special_command = NULL;

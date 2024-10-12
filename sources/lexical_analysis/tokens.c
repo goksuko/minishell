@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/11 15:17:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/12 20:33:22 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	heredoc_position(t_token *current)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (current)
 	{
 		if (current->type == T_DSMALLER)

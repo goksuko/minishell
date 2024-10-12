@@ -1,33 +1,36 @@
 #include "../../includes/minishell.h"
 
+bool cat_inside(t_token *current)
+{
+	if (current && ft_strncmp(current->value, "cat", 4) == 0)
+		return (true);
+	return (false);
+}
+
+int last_exit_code_checks(int exit_code, t_data *data)
+{
+	if (exit_code == 1 && cat_inside(data->tokens))
+		return (0);
+	if (WIFSIGNALED(exit_code))
+	{
+		if (WTERMSIG(exit_code) == 2)
+			return (130);
+		if (WTERMSIG(exit_code) == 3)
+			return (131);
+	}
+	return (exit_code);
+}
+
 void	execute_shell(t_data *data)
 {
 	printf("----EXECUTE SHELL----\n");
 	int		exit_code;
 
-	// t_env	*env_var;
-	// t_tree *ast;
-
-	// ast = data->ast;
-	// expansion(&data, &(data->ast), &i);
-	//begin_expansion(data); To be uncommented again
 	data->exit_code = 0;
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	// printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
-	// while(ast->right != NULL)
-	// {
-	// 	if (ast->type == N_PIPE)
-	// 		execute_pipe(ast, data);
-	// 	else
-	// 		execute_node(ast, data);
-	// 	ast = ast->right;
-	// }
-
 	exit_code = create_children(data);
-	printf("exit_code: %d\n", exit_code);
-	data->exit_code = exit_code;
-	// printf("cmds after execution: \n");	
-	// printf_array(data->info->cmds);
+	data->exit_code = last_exit_code_checks(exit_code, data);
+	printf("exit_code: %d\n", data->exit_code);
 	free_system(data); // to be replaced with free_data
 	// return (exit_code);
 }

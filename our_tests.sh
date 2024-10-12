@@ -182,7 +182,7 @@ echo result: WORKS FINE
 
 echo 32
 >>             test.txt
-echo result: WORKS FINE
+#segmentation fault
 
 echo 33
 cat read.sh > out
@@ -194,6 +194,13 @@ echo 34
 
 echo 35
 echo hello > out3
+#problem
 
 echo 36
 cat read.sh | echo >> out4
+#continues to work
+
+echo 37
+> cat read.sh | cat out \ cat out5
+#free_data
+#Segmentation fault

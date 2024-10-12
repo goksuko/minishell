@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/11 10:32:25 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/12 20:39:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_info
 	int				fd_out;
 	char			*infile;
 	char			*outfile;
-	int				nbr_of_cmds;
+	// int				nbr_of_cmds;
 	int				curr_cmd;
 	int				here_doc_cmd;
 	char			**cmds;

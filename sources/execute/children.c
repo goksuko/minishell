@@ -10,7 +10,7 @@
 
 void do_first_child(t_info *info)
 {
-	printf("do_first_child::::::::::::::\n");
+	printf("\ndo_first_child::::::::::::::\n");
 	if (info->fd_in != -10)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info);
@@ -32,7 +32,7 @@ void do_first_child(t_info *info)
 
 void do_middle_child(t_info *info)
 {
-	printf("do_middle_child:::::::::::::::::\n");
+	printf("\ndo_middle_child:::::::::::::::::\n");
 	if (info->fd_in != -10)
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
@@ -59,24 +59,24 @@ void do_middle_child(t_info *info)
 
 void do_last_child(t_info *info)
 {
-	printf("do_last_child::::::::::::::::\n");
+	printf("\ndo_last_child::::::::::::::::\n");
 	printf("pipe_read_end in last child: %d\n", info->pipe_read_end);	
 	printf("pipefd[0]: %d\n", info->pipefd[0]);	
 	printf("pipefd[1]: %d\n", info->pipefd[1]);
-	printf("fd_in: %d\n", info->fd_in);
-	printf("fd_out: %d\n", info->fd_out);
+	if (info->fd_in != -10)
+		printf("fd_in: %d, %s\n", info->fd_in, info->infile);
 	if (info->fd_out != -10)
 	{
+		printf("fd_out: %d, %s\n", info->fd_out, info->outfile);
 		dup2_safe(info->fd_out, STDOUT_FILENO, info);
 		// close_safe(info->fd_out, info);
 	}
 	if (info->fd_in != -10)
-	// if (info->fd_in != -10 && info->curr_cmd == 1) //changed but not sure
 	{
 		dup2_safe(info->fd_in, STDIN_FILENO, info);
-		// close_safe(info->fd_in, info); //ben kapattim
+		// close_safe(info->fd_in, info);
 	}
-	else if (info->curr_cmd != 1)
+	else if (info->curr_cmd != 0)
 	{
 		printf("pipe_read_end in last child: %d\n", info->pipe_read_end);
 		dup2_safe(info->pipe_read_end, STDIN_FILENO, info);

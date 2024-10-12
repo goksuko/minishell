@@ -9,11 +9,12 @@ int	create_children(t_data *data)
 	int		status;
 
 	printf("---create_children---\n");
-	i = 1;
+	i = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
-	// printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
-	while (i <= data->info->nbr_of_cmds)
+	// printf("i: %d\n", i);
+	printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
+	while (i < data->nbr_of_cmds)
 	{
 		printf("\nin while loop i: %d\n", i);
 		// define_fd_in_out(data->info);
@@ -39,24 +40,24 @@ int	create_children(t_data *data)
 		// printf("info->fds[0][0]: %d\n", data->info->fds[0][0]);
 		// printf("info->fds[0][1]: %d\n", data->info->fds[0][1]);
 		// printf("fd_out just after define_fd: %d\n", data->info->fd_out);
-		printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
-		if (i != data->nbr_of_cmds)
+		// printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
+		if (i != data->nbr_of_cmds - 1)
 		{
 			if (pipe(data->info->pipefd) == -1)
 				ft_close_exit_perror(data->info, NULL, ERROR_PIPE, "pipe in create children");
 		}
 		data->info->pipe_read_end = data->info->pipefd[0];
 		printf("pipe_read_end: %d\n", data->info->pipe_read_end);
-		printf("fd_in just before child process: %d\n", data->info->fd_in);
-		printf("fd_out just before child process: %d\n", data->info->fd_out);
+		// printf("fd_in just before child process: %d\n", data->info->fd_in);
+		// printf("fd_out just before child process: %d\n", data->info->fd_out);
 		// printf("cmds: \n");	
 		// printf_array(data->info->cmds);
 		pid = child_process(data->info);
-		printf("fd_in just after child process: %d\n", data->info->fd_in);
-		printf("fd_out just after child process: %d\n", data->info->fd_out);
+		// printf("fd_in just after child process: %d\n", data->info->fd_in);
+		// printf("fd_out just after child process: %d\n", data->info->fd_out);
 		data->info->curr_cmd++;
-		// printf("sleeping after child (%d)\n", i);
-		// sleep(1);
+		printf("sleeping after child (%d)\n", i);
+		sleep(3);
 		// if (data->info->curr_cmd == data->info->here_doc_cmd)
 		// 	pid2 = heredoc_child_process2(data->info);
 		i++;
@@ -93,10 +94,10 @@ pid_t	child_process(t_info *info)
 		printf("pipefd[1]: %d\n", info->pipefd[1]);
 		// if (info->curr_cmd == info->here_doc_cmd)
 		// 	do_heredoc_child(info);
-		// else if (info->curr_cmd == info->nbr_of_cmds)
-		if (info->curr_cmd == info->nbr_of_cmds)
+		// else if (info->curr_cmd == info->data->nbr_of_cmds)
+		if (info->curr_cmd == info->data->nbr_of_cmds - 1)
 			do_last_child(info);
-		else if (info->curr_cmd == 1)
+		else if (info->curr_cmd == 0)
 			do_first_child(info);
 		else
 			do_middle_child(info);
@@ -108,11 +109,11 @@ pid_t	child_process(t_info *info)
 		// 	close_safe(info->pipe_read_end, info);
 		// if (info->curr_cmd != 1)
 		// 	close_safe(info->pipefd[1], info);
-		printf("fd_in just before exec: %d\n", info->fd_in);
-		printf("fd_out just before exec: %d\n", info->fd_out);
-		printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
+		// printf("fd_in just before exec: %d\n", info->fd_in);
+		// printf("fd_out just before exec: %d\n", info->fd_out);
+		// printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
 		printf("ready to start exec\n");
-		command = ft_split(info->cmds[info->curr_cmd - 1], ' '); // only for testing purposes
+		command = ft_split(info->cmds[info->curr_cmd], ' '); // only for testing purposes
 		// printf_array(command); // only for testing purposes
 		printf("is_builtin: %d\n", is_builtin(command[0])); // only for testing purposes
 		if (is_builtin(command[0])) // only for testing purposes
@@ -122,13 +123,15 @@ pid_t	child_process(t_info *info)
 	}
 	else
 	{
-		if (info->pipe_read_end != STDIN_FILENO)
+		printf("\nparent process::::::\n");	
+		if (info->pipe_read_end != STDIN_FILENO && info->curr_cmd == info->data->nbr_of_cmds - 1)
 			close_safe(info->pipe_read_end, info);
+		// if (info->fd_out != -10 && info->curr_cmd != info->data->nbr_of_cmds - 1)
 		if (info->fd_out != -10)
 			close_safe(info->fd_out, info);
 		if (info->fd_in != -10)
 			close_safe(info->fd_in, info);
-		if (info->curr_cmd != 1)
+		if (info->curr_cmd != info->data->nbr_of_cmds - 1)
 			close_safe(info->pipefd[1], info);
 	}
 	return (pid);

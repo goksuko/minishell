@@ -21,17 +21,21 @@ void	initialize_fds(t_info *info, t_data *data)
 		// 	printf("current->fd_in: %d\n", current->fd_in);
 		// if (current->fd_out != -10)
 		// 	printf("current->fd_out: %d\n", current->fd_out);
-		if (current->fd_in != -10)
+		if (current->fd_in != -10) // if there is a redir, fd_in and fd_out is defined from tokens
 		{
+			if (info->fds[i][0] != -10)
+				close_safe(info->fds[i][0], info);
 			info->fds[i][0] = current->fd_in;
 			info->infile = current->value;
 		}
 		if (current->fd_out != -10)
 		{
+			if (info->fds[i][1] != -10)
+				close_safe(info->fds[i][1], info);
 			info->fds[i][1] = current->fd_out;
 			info->outfile = current->value;
 		}
-		if (current->type == T_PIPE)
+		if (current->type == T_PIPE) // we write the fd_in and fd_out values (if there is) between pipes
 			i++;
 		current = current->next;
 	}
@@ -49,7 +53,8 @@ void	semantic_analysis(t_data *data)
 	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in info");
-	info->nbr_of_cmds = data->nbr_of_pipes + 1;
+	data->nbr_of_cmds = data->nbr_of_pipes + 1;
+	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->info = info;
 	// data->cmds = data->ast->argument;
 	data->here_doc = NULL; //to be deleted

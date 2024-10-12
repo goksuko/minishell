@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/30 23:23:28 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:48:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/12 23:01:49 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	close_safe(int fd, t_info *info)
 		if (close(fd) < 0)
 		{
 			close_info(info, NULL);
+			printf("error in close_safe %d:\n", fd);
 			ft_exit_perror(ERROR_CLOSE, "in close safe");
 		}
 	// } 
@@ -32,6 +33,7 @@ int	dup2_safe(int oldfd, int newfd, t_info *info)
 	if (dup2(oldfd, newfd) == -1)
 	{
 		close_info(info, NULL);
+		printf("error in dup2_safe %d, %d:\n", oldfd, newfd);
 		ft_exit_perror(ERROR_DUP2, "in dup2 safe");
 	}
 	// close_safe(oldfd, info);
