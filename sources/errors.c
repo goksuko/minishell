@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:47:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:58:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	*free_matrix(char **matrix)
 
 void	close_info(t_info *info)
 {
-	printf("close_info\n");
+	printf("***close_info\n");
 	if (info->infile)
 		free(info->infile);
 	if (info->outfile)
@@ -149,25 +149,32 @@ void	close_info(t_info *info)
 	// 	close_safe(info->pipefd[1], info);
 
 	free(info);
-	printf("close_info done\n");
+	printf("***close_info done\n");
 	return ;
 }
 
 void	free_system(t_data *data)
 {
-	ft_printf("free_system\n");	
-	// if (data->line && data->line[0] != '\0')
-	// 	free(data->line);
+	ft_printf("**free_system\n");	
 	if (data->cmds && data->cmds[0] != NULL)
 		free_matrix(data->cmds);
-	if (data->info && data->cmds[0] != NULL)
-		free(data->info);
+	if (data->line && data->line[0] != '\0')
+		free(data->line);
+	// envp ????
+	// path ?????
+	// expanded_cmds ?????
+	close_info(data->info);
+	// env_list ????
+	// below created double free error in ls | ls -a > out
+	// if (data->tokens)
+	// 	free_token_list(&data->tokens);
+	printf("**free_system done\n");
 	return ;
 }
 
 void	free_data(t_data **data) // to be adjusted
 {
-	ft_printf("free_data\n");
+	ft_printf("*free_data\n");
 	if ((*data)->cmds && (*data)->cmds[0] != NULL)
 		free_matrix((*data)->cmds);
 	// printf("cmds freed\n");
@@ -192,7 +199,7 @@ void	free_data(t_data **data) // to be adjusted
 		free_token_list(&(*data)->tokens);
 	// printf("tokens freed\n");
 	free(*data);
-	printf("free_data done\n");
+	printf("*free_data done\n");
 	return ;
 }
 

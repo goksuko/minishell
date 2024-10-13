@@ -140,7 +140,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 	t_token	*current;
 	bool	cat_cmd;
 
-	printf("---cmds_between_pipes---\n");
+	// printf("---cmds_between_pipes---\n");
 	cat_cmd = false;
 	j = 0;
 	current = data->tokens;
@@ -191,7 +191,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				current = current->next;
 			}
 		}
-		printf("cmds[j]: %s\n", cmds[j]);
+		printf("cmds[%d]: %s\n", j, cmds[j]);
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;
@@ -224,7 +224,7 @@ char **cmds_from_tokens(t_data *data)
 	// int		i;
 	// int		j;
 
-	printf("---cmds_from_tokens---\n");
+	// printf("---cmds_from_tokens---\n");
 	// i = 0;
 	// j = 0;
 	cmds = (char **)malloc(sizeof(char *) * (data->nbr_of_pipes + 2));

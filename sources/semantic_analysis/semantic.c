@@ -49,12 +49,12 @@ void	semantic_analysis(t_data *data)
 	data->exit_code = 0;
 	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
+	// printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in info");
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
-	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
+	// printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->info = info;
 	// data->cmds = data->ast->argument;
 	//here_doc should be done after pipe

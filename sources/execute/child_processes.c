@@ -8,19 +8,19 @@ int	create_children(t_data *data)
 	// pid_t	pid2;
 	int		status;
 
-	printf("---create_children---\n");
+	// printf("---create_children---\n");
 	i = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	// printf("i: %d\n", i);
-	printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
+	// printf("nbr_of_cmds: %d\n**********\n", data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds)
 	{
-		printf("\nin while loop i: %d\n", i);
+		// printf("\nin while loop i: %d\n", i);
 		// define_fd_in_out(data->info);
 		if (data->info->curr_cmd == data->info->here_doc_cmd)
 		{
-			printf("inside\n");
+			// printf("inside\n");
 			// printf("fd_in: %d\n", data->info->fd_in);
 			// printf("fd_out: %d\n", data->info->fd_out);
 			// printf("info->fds[%d][0]: %d\n", i, data->info->fds[i][0]);
@@ -47,7 +47,7 @@ int	create_children(t_data *data)
 				ft_close_exit_perror(data->info, ERROR_PIPE, "pipe in create children");
 		}
 		data->info->pipe_read_end = data->info->pipefd[0];
-		printf("pipe_read_end: %d\n", data->info->pipe_read_end);
+		// printf("pipe_read_end: %d\n", data->info->pipe_read_end);
 		// printf("fd_in just before child process: %d\n", data->info->fd_in);
 		// printf("fd_out just before child process: %d\n", data->info->fd_out);
 		// printf("cmds: \n");	
@@ -56,8 +56,8 @@ int	create_children(t_data *data)
 		// printf("fd_in just after child process: %d\n", data->info->fd_in);
 		// printf("fd_out just after child process: %d\n", data->info->fd_out);
 		data->info->curr_cmd++;
-		printf("sleeping after child (%d)\n", i);
-		sleep(3);
+		// printf("sleeping after child (%d)\n", i);
+		// sleep(3);
 		// if (data->info->curr_cmd == data->info->here_doc_cmd)
 		// 	pid2 = heredoc_child_process2(data->info);
 		i++;
@@ -80,7 +80,7 @@ pid_t	child_process(t_info *info)
 	pid_t	pid;
 	char **command;
 
-	printf("--child_process--\n");
+	// printf("--child_process--\n");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -89,9 +89,9 @@ pid_t	child_process(t_info *info)
 	}
 	else if (pid == 0)
 	{
-		printf("curr_cmd: %d\n", info->curr_cmd);
-		printf("pipefd[0]: %d\n", info->pipefd[0]);
-		printf("pipefd[1]: %d\n", info->pipefd[1]);
+		// printf("curr_cmd: %d\n", info->curr_cmd);
+		// printf("pipefd[0]: %d\n", info->pipefd[0]);
+		// printf("pipefd[1]: %d\n", info->pipefd[1]);
 		// if (info->curr_cmd == info->here_doc_cmd)
 		// 	do_heredoc_child(info);
 		// else if (info->curr_cmd == info->data->nbr_of_cmds)
@@ -112,7 +112,7 @@ pid_t	child_process(t_info *info)
 		// printf("fd_in just before exec: %d\n", info->fd_in);
 		// printf("fd_out just before exec: %d\n", info->fd_out);
 		// printf("---pipe_read_end in loop: %d\n", info->pipe_read_end);
-		printf("ready to start exec\n");
+		// printf("ready to start exec\n");
 		command = ft_split(info->data->cmds[info->curr_cmd], ' '); // only for testing purposes
 		// printf_array(command); // only for testing purposes
 		printf("is_builtin: %d\n", is_builtin(command[0])); // only for testing purposes
@@ -123,7 +123,7 @@ pid_t	child_process(t_info *info)
 	}
 	else
 	{
-		printf("\nparent process::::::\n");	
+		// printf("\nparent process::::::\n");	
 		if (info->pipe_read_end != STDIN_FILENO && info->curr_cmd == info->data->nbr_of_cmds - 1)
 			close_safe(info->pipe_read_end, info);
 		// if (info->fd_out != -10 && info->curr_cmd != info->data->nbr_of_cmds - 1)
