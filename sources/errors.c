@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:28:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:47:41 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,28 +117,40 @@ void	*free_matrix(char **matrix)
 
 void	close_info(t_info *info)
 {
-	// printf("close_info\n");
+	printf("close_info\n");
 	if (info->infile)
 		free(info->infile);
 	if (info->outfile)
 		free(info->outfile);
 	if (info->expanded_cmds)
 		free_matrix(info->expanded_cmds);
+	// printf("expanded_cmds freed\n");
 	if (info->limiter)
 		free(info->limiter);
+	// printf("limiter freed\n");
 	if (info->path)
 		free(info->path);
-	if (info->path_from_getenv)
-		free(info->path_from_getenv);
-	if (info->fd_in != -10)
-		close_safe(info->fd_in, info);
-	if (info->fd_out != -10)
-		close_safe(info->fd_out, info);
-	if (info->pipefd[0] != -10)
-		close_safe(info->pipefd[0], info);
-	if (info->pipefd[1] != -10)
-		close_safe(info->pipefd[1], info);
+	// printf("path freed\n");
+	// if (info->path_from_getenv)  //munmap_chunk(): invalid pointer Aborted
+	// {
+	// 	printf("path_from_getenv: %s\n", info->path_from_getenv);
+	// 	free(info->path_from_getenv);
+	// }
+	// printf("path_from_getenv freed\n");
+
+	// below is not neede because they are closed in the parent/child processes
+	// if (info->fd_in != -10)
+	// 	close_safe(info->fd_in, info);
+	// if (info->fd_out != -10)
+	// 	close_safe(info->fd_out, info);
+	// if (info->pipefd[0] != -10)
+	// 	close_safe(info->pipefd[0], info);
+	// if (info->pipefd[1] != -10)
+	// 	close_safe(info->pipefd[1], info);
+
 	free(info);
+	printf("close_info done\n");
+	return ;
 }
 
 void	free_system(t_data *data)
@@ -156,17 +168,31 @@ void	free_system(t_data *data)
 void	free_data(t_data **data) // to be adjusted
 {
 	ft_printf("free_data\n");
+	if ((*data)->cmds && (*data)->cmds[0] != NULL)
+		free_matrix((*data)->cmds);
+	// printf("cmds freed\n");
 	if ((*data)->line && (*data)->line[0] != '\0')
 		free((*data)->line);
-	if ((*data)->tokens)
-		free_token_list(&(*data)->tokens);
-	close_info((*data)->info); // Correct??
-	// if ((*data)->cmds && (*data)->cmds[0] != NULL)
-	// 	free_matrix((*data)->cmds);
-	if ((*data)->info && (*data)->cmds[0] != NULL)
-		free((*data)->info);
+	// printf("line freed\n");
+	// if ((*data)->envp && (*data)->envp[0] != NULL) //munmap_chunk(): invalid pointer Aborted
+	// 	free_matrix((*data)->envp);
+	// printf("envp freed\n");
 	if ((*data)->path)
 		free((*data)->path);
+	// printf("path freed\n");
+	if ((*data)->expanded_cmds && (*data)->expanded_cmds[0] != NULL)
+		free_matrix((*data)->expanded_cmds);
+	// printf("expanded_cmds freed\n");
+	close_info((*data)->info);
+	// below creates double free error
+	// if ((*data)->env_list)
+	// 	free_env(&(*data)->env_list);
+	// printf("env_list freed\n");
+	if ((*data)->tokens)
+		free_token_list(&(*data)->tokens);
+	// printf("tokens freed\n");
+	free(*data);
+	printf("free_data done\n");
 	return ;
 }
 

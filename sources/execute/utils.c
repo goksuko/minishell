@@ -47,7 +47,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
 	char	*path;
 
-	// printf("---before_exec---\n");
+	printf("---before_exec---\n");
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
