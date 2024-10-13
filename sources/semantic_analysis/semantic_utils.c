@@ -22,13 +22,13 @@ void	initialize_info(t_info *info, t_data *data)
 	info->path_from_getenv = getenv("PATH");
 	if (info->path_from_getenv == NULL)
 	{
-		close_info(info, NULL);
+		close_info(info);
 		ft_exit_data_error(data, ERROR_NULL_PATH);
 	}
 	info->data = data;
 	info->curr_cmd = 0;
 	info->pipe_read_end = STDIN_FILENO;
-	info->cmds = data->cmds;
+	// info->cmds = data->cmds;
 	// info->special_command = NULL;
 	// info->limiter = NULL; //defined in cmds between pipes
 	// info->infile = NULL;

@@ -57,7 +57,6 @@ void	semantic_analysis(t_data *data)
 	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->info = info;
 	// data->cmds = data->ast->argument;
-	data->here_doc = NULL; //to be deleted
 	//here_doc should be done after pipe
 	data->info->limiter = NULL;
 	data->info->here_doc_cmd = -100;

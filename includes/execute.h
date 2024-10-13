@@ -44,8 +44,8 @@ void	execute_shell(t_data *data);
 // Utils functions //
 char	*put_main_command(char *command, char space);
 void	start_exec(t_info *info);
-void	*free_matrix(char **matrix);
-void	close_info(t_info *info, char **matrix);
+// void	*free_matrix(char **matrix);
+// void	close_info(t_info *info);
 bool	is_whitespace(char c);
 pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path);
 

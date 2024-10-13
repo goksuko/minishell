@@ -12,38 +12,36 @@
 
 #include "../../includes/minishell.h"
 
-void	*free_matrix(char **matrix)
-{
-	int	i;
+// void	*free_matrix(char **matrix)
+// {
+// 	int	i;
 
-	i = 0;
-	if (matrix == NULL)
-		return (NULL);
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
-	}
-	if (matrix)
-	{
-		free(matrix);
-		matrix = NULL;
-	}
-	return (NULL);
-}
+// 	i = 0;
+// 	if (matrix == NULL)
+// 		return (NULL);
+// 	while (matrix[i])
+// 	{
+// 		free(matrix[i]);
+// 		matrix[i] = NULL;
+// 		i++;
+// 	}
+// 	if (matrix)
+// 	{
+// 		free(matrix);
+// 		matrix = NULL;
+// 	}
+// 	return (NULL);
+// }
 
-void	close_info(t_info *info, char **matrix)
-{
-	// printf("close_info\n");
-	close(info->fd_in);
-	close(info->fd_out);
-	close(info->pipefd[0]);
-	close(info->pipefd[1]);
-	free(info);
-	if (matrix)
-		free_matrix(matrix);
-}
+// void	close_info(t_info *info)
+// {
+// 	// printf("close_info\n");
+// 	close(info->fd_in);
+// 	close(info->fd_out);
+// 	close(info->pipefd[0]);
+// 	close(info->pipefd[1]);
+// 	free(info);
+// }
 
 char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
@@ -53,20 +51,20 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
-		close_info(info, cmd_matrix);
+		close_info(info);
 		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
 	}
 	if (cmd_matrix[0])
 		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
 	else
 	{
-		close_info(info, cmd_matrix);
+		close_info(info);
 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
 	}
 	if (!path)
 	{
 		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
-		close_info(info, cmd_matrix);
+		close_info(info);
 		exit(127);
 	}
 	// printf("path before exec: %s\n", path);
@@ -84,7 +82,7 @@ pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 	pid = fork();
 	if (pid == -1)
 	{
-		close_info(info, NULL);
+		close_info(info);
 		ft_exit_perror(ERROR_FORK, "fork in child process");
 	}
 	else if (pid == 0)
@@ -107,7 +105,7 @@ pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 	{
 		if (execve(path, cmd_matrix, info->data->envp) == -1)
 		{
-			close_info(info, cmd_matrix);
+			close_info(info);
 			printf("test3	\n");
 			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 		}
@@ -128,12 +126,12 @@ void	start_exec(t_info *info)
 	// printf("cmds::::::::::::::::::::::\n");
 	// printf_array(info->data->info->cmds);
 	// printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
-	cmd_matrix = ft_split(info->cmds[info->curr_cmd], ' ');
+	cmd_matrix = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	// printf("cmd_matrix::::::::::::::::::::::\n");
 	// printf_array(cmd_matrix);
-	path = before_exec(info->cmds[info->curr_cmd], info, cmd_matrix);
+	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	// if (info->limiter)
 	// {
 	// 	printf("test_me\n");
@@ -156,7 +154,7 @@ void	start_exec(t_info *info)
 		// {	
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 	{
-		close_info(info, cmd_matrix);
+		close_info(info);
 		printf("test2	\n");
 		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
 	}

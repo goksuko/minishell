@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:14:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:26:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_data
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
-	char			*here_doc;
 	char			**expanded_cmds; // to be freed properly!!
 	struct s_info	*info;
 	struct s_env	*env_list;
@@ -92,9 +91,9 @@ typedef struct s_info
 	// int				nbr_of_cmds;
 	int				curr_cmd;
 	int				here_doc_cmd;
-	char			**cmds;
+	// char			**cmds;
 	char			**expanded_cmds;
-	char			*special_command;
+	// char			*special_command;
 	char 			*limiter;
 	char			*path;
 	char			*path_from_getenv;
@@ -132,8 +131,11 @@ void				ft_exit_str_free_fd(t_error code, char *str, int fd);
 void				free_system(t_data *data);
 void				ft_exit_data_perror(t_data *data, t_error code, char *s);
 void				ft_exit_data_error(t_data *data, t_error code);
-void				ft_close_exit_perror(t_info *info, char **matrix,
-						t_error code, char *s);
+void				ft_close_exit_perror(t_info *info, t_error code, char *s);
+void				*free_matrix(char **matrix);
+void				close_info(t_info *info);
+void				free_data(t_data **data);
+
 
 // Libft functions //
 
@@ -242,7 +244,6 @@ void	not_output_signal_keys();
 void	output_signal_keys();
 
 // Free shell data
-void	free_data(t_data **data);
 
 // //semantic.c
 // void	semantic_analysis(t_data *data);
