@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/12 23:56:52 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:14:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ void	free_data(t_data **data) // to be adjusted
 		free((*data)->info);
 	if ((*data)->path)
 		free((*data)->path);
-	// if ((*data)->cmds_for_pipe)
-	// 	free_matrix((*data)->cmds_for_pipe);
 	return ;
 }
 

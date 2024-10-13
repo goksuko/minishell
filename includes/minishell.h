@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/12 20:39:20 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/13 22:14:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_data
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
 	char			*here_doc;
-	char			**cmds_for_pipe;
 	char			**expanded_cmds; // to be freed properly!!
 	struct s_info	*info;
 	struct s_env	*env_list;

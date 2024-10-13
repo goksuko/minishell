@@ -109,7 +109,6 @@ void init_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
-	char	*temp;
 	int		here_doc_fd;
 
 	printf("---init_heredoc---\n");
@@ -121,16 +120,10 @@ void init_heredoc(t_data *data)
 	printf("limiter: %s\n", limiter);
 	// do_heredoc_child(data->info);
 	line = readline("> ");
-	temp = NULL;
 	while (line)
 	{
 		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 			break;
-		if (temp == NULL)
-			temp = ft_strdup(line);
-		else
-			temp = ft_strjoin(temp, line);
-		temp = ft_strjoin(temp, "\n");
 		write(here_doc_fd, line, ft_strlen(line));
 		write(here_doc_fd, "\n", 1);
 		free(line);
@@ -138,8 +131,6 @@ void init_heredoc(t_data *data)
 	}
 	// here_doc_fd = here_doc_fd_check(data);
 	// dup2_safe(here_doc_fd, STDOUT_FILENO, data->info);
-	data->here_doc = ft_strdup(temp); // to be deleted
-	free(temp);
 	close_safe(here_doc_fd, data->info);
 }
 
