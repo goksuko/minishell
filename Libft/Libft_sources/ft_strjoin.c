@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/10 12:29:27 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/05/24 12:02:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 14:56:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	j;
 
 	join = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (join == NULL)
-		return (0);
+	if (join == NULL || errno == ENOMEM)
+		return (perror("ft_strjoin"), NULL);
 	i = 0;
 	j = 0;
 	while (s1[i] != 0)

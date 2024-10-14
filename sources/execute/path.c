@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/09 23:49:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 15:11:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 {
 	char	*path;
 	char	**path_split;
-	char	*tmp;
+	char	*temp;
 	int		i;
 
 	// printf("main_command: %s\n", main_command);
@@ -32,7 +32,7 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 	// printf("main_command was not accessible\n");
 	path_split = ft_split(path_from_getenv, ':');
 	if (errno == ENOMEM || path_split == NULL)
-		ft_exit_perror(1, "path_split in find_path");
+		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "path_split in find_path");
 	i = 0;
 	while (path_split[i])
 	{
@@ -44,15 +44,22 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 			else if (info->outfile != NULL) //check if this is correct
 				info->outfile = path_split[i];
 		}
-		tmp = ft_strjoin(path_split[i], "/");
-		// printf("tmp: %s\n", tmp);
-		if (errno == ENOMEM || tmp == NULL)
-			ft_exit_perror(1, "tmp in find_path");
-		path = ft_strjoin(tmp, main_command);
+		temp = ft_strjoin(path_split[i], "/");
+		// printf("temp: %s\n", temp);
+		if (errno == ENOMEM || temp == NULL)
+		{
+			free_matrix(path_split);
+			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "temp in find_path");
+		}
+		path = ft_strjoin(temp, main_command);
 		// printf("path: %s\n", path);
 		if (errno == ENOMEM || path == NULL)
-			ft_exit_perror(1, "path in find_path");
-		free(tmp);
+		{
+			free(temp);
+			free_matrix(path_split);
+			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "path in find_path");
+		}
+		free(temp);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free_matrix(path_split), path);
 		free(path);

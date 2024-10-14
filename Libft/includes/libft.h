@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/06 14:11:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/07/05 22:57:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 14:54:48 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <limits.h>
 # include <fcntl.h> //open txt file
 # include <stdint.h> //ft_calloc
+# include <errno.h> //perror
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10

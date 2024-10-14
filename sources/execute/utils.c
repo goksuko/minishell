@@ -47,16 +47,17 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
 	char	*path;
 
-	printf("---before_exec---\n");
+	// printf("---before_exec---\n");
 	path = NULL;
 	if (long_command[0] == ' ')
 	{
-		close_info(info);
-		ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
+		// close_info(info);
+		// ft_exit_str_fd(ERROR_NOT_DIR, STDERR_FILENO);
+		ft_exit_data_error(info->data, ERROR_NOT_DIR);
 	}
 	if (cmd_matrix[0])
 		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
-	else
+	else  /////continue from here for checks of memory
 	{
 		close_info(info);
 		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
@@ -121,14 +122,14 @@ void	start_exec(t_info *info)
 	// pid_t	pid;
 	// int		status;
 
-	printf("---start_exec---\n");
+	// printf("---start_exec---\n");
 	path = NULL;
 	// printf("cmds::::::::::::::::::::::\n");
 	// printf_array(info->data->info->cmds);
 	// printf("curr_cmd: %s\n", info->cmds[info->curr_cmd - 1]);
 	cmd_matrix = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
-		ft_exit_perror(ERROR_ALLOCATION, "cmd_matrix in start_exec");
+		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	// printf("cmd_matrix::::::::::::::::::::::\n");
 	// printf_array(cmd_matrix);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);

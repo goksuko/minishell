@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:26:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 12:17:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef enum e_error
 	NO_ERROR,
 	ERROR_PERM = 1,
 	ERROR_ARGUMENT_COUNT,
+	ERROR_NO_ENVP,
 	ERROR_TOO_MANY_ARGS,
 	ERROR_NUMERIC_ARG,
 	ERROR_INVALID_ARGUMENTS,

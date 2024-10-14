@@ -52,7 +52,7 @@ void	semantic_analysis(t_data *data)
 	// printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in info");
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	// printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->info = info;

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/13 22:58:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 15:07:49 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*ft_error(t_error code)
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
 	[ERROR_PERM] = "bash: permission denied: \n", // >>   test.txt returns this but bash does nothing, with 0 exit_code
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
+	[ERROR_NO_ENVP] = "Error: no envp\n",
 	[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
 	[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
 	[ERROR_ALLOCATION] = "Allocation Failure\n",
@@ -60,7 +61,6 @@ void	ft_exit_data_perror(t_data *data, t_error code, char *s)
 {
 	perror(s);
 	free_data(&data);
-	//free_system(data); // to be replaced with free_data	
 	exit(code);
 }
 
@@ -80,19 +80,19 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 
 void	ft_exit_data_error(t_data *data, t_error code)
 {
-	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	// ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	data->exit_code = code;
 	free_data(&data);
-	// free_system(data); // to be replaced with free_data
 	exit(code);
 }
 
-void	ft_close_exit_perror(t_info *info, t_error code, char *s)
-{
-	close_info(info);
-	free_system(info->data); // to be replaced with free_data
-	perror(s);
-	exit(code);
-}
+// void	ft_close_exit_perror(t_info *info, t_error code, char *s)
+// {
+// 	close_info(info);
+// 	free_system(info->data); // to be replaced with free_data
+// 	perror(s);
+// 	exit(code);
+// }
 
 void	*free_matrix(char **matrix)
 {

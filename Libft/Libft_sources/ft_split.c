@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/13 10:48:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/05/24 12:04:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 15:04:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	string_nb = count_strings(s, c);
 	matrix = (char **)malloc(sizeof(char *) * (string_nb + 1));
-	if (matrix == NULL)
-		return (NULL);
+	if (errno ==ENOMEM || matrix == NULL)
+		return (perror("ft_split"), NULL);
 	matrix = fill_matrix(matrix, s, c);
 	if (matrix == NULL)
 		return (NULL);

@@ -10,7 +10,7 @@ void limiter_check(t_data *data)
 		if (current->limiter)
 		{
 			data->info->limiter = ft_strdup(current->limiter);
-			printf("limiter in limiter_check: %s\n", data->info->limiter);
+			// printf("limiter in limiter_check: %s\n", data->info->limiter);
 		}	
 		current = current->next;
 	}
@@ -27,7 +27,7 @@ int here_doc_fd_check(t_data *data)
 		if (current->limiter)
 		{
 			temp_fd = current->here_doc_fd;
-			printf("here_doc_fd_check: %d\n", temp_fd);
+			// printf("here_doc_fd_check: %d\n", temp_fd);
 		}	
 		current = current->next;
 	}
@@ -111,13 +111,13 @@ void init_heredoc(t_data *data)
 	char	*line;
 	int		here_doc_fd;
 
-	printf("---init_heredoc---\n");
+	// printf("---init_heredoc---\n");
 	here_doc_fd = here_doc_fd_check(data);
-	printf("here_doc_fd: %d\n", here_doc_fd);
+	// printf("here_doc_fd: %d\n", here_doc_fd);
 	// dup2_safe(here_doc_fd, STDOUT_FILENO, data->info);
 	limiter_check(data);
 	limiter = data->info->limiter;
-	printf("limiter: %s\n", limiter);
+	// printf("limiter: %s\n", limiter);
 	// do_heredoc_child(data->info);
 	line = readline("> ");
 	while (line)
@@ -228,11 +228,8 @@ char **cmds_from_tokens(t_data *data)
 	// i = 0;
 	// j = 0;
 	cmds = (char **)malloc(sizeof(char *) * (data->nbr_of_pipes + 2));
-	if (cmds == NULL)
-	{
-		free_data(&data);
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in cmds_from_tokens");
-	}
+	if (errno == ENOMEM || cmds == NULL)
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
 	cmds = cmds_between_pipes(data, cmds);
 	// printf("cmds are ready\n");
 	// printf_array(cmds);

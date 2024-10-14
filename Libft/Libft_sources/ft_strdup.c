@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/20 11:31:02 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/05/24 12:02:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 14:55:51 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ char	*ft_strdup(const char *s)
 	if (!s)
 		return (NULL);
 	temp = (char *)malloc((ft_strlen((char *)s) + 1) * sizeof(char));
-	if (!temp)
-		return (NULL);
+	if (!temp || errno == ENOMEM)
+		return (perror("ft_strdup"), NULL);
 	i = 0;
 	while (s[i])
 	{

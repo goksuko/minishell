@@ -44,7 +44,7 @@ int	create_children(t_data *data)
 		if (i != data->nbr_of_cmds - 1)
 		{
 			if (pipe(data->info->pipefd) == -1)
-				ft_close_exit_perror(data->info, ERROR_PIPE, "pipe in create children");
+				ft_exit_data_perror(data, ERROR_PIPE, "pipe in create children");
 		}
 		data->info->pipe_read_end = data->info->pipefd[0];
 		// printf("pipe_read_end: %d\n", data->info->pipe_read_end);
@@ -84,8 +84,8 @@ pid_t	child_process(t_info *info)
 	pid = fork();
 	if (pid == -1)
 	{
-		close_info(info);
-		ft_exit_perror(ERROR_FORK, "fork in child process");
+		// close_info(info);
+		ft_exit_data_perror(info->data, ERROR_FORK, "fork in child process");
 	}
 	else if (pid == 0)
 	{
