@@ -57,18 +57,21 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	}
 	if (cmd_matrix[0])
 		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
-	else  /////continue from here for checks of memory
+	else  /////////////////////////////////////////////////////////////////// CHECK HERE
 	{
-		close_info(info);
-		ft_exit_str_fd(ERROR_PERM, STDERR_FILENO);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", info->outfile);
+		info->data->exit_code = 126;
+		free_data(&info->data);
+		exit(126);
 	}
 	if (!path)
 	{
-		ft_putstr3_fd("zsh: command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
-		close_info(info);
+		ft_putstr3_fd("command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
+		free_data(&info->data);
+		info->data->exit_code = 127;
 		exit(127);
 	}
-	// printf("path before exec: %s\n", path);
+	printf("path before exec: %s\n", path);
 	return (path);
 }
 
@@ -106,9 +109,7 @@ pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 	{
 		if (execve(path, cmd_matrix, info->data->envp) == -1)
 		{
-			close_info(info);
-			printf("test3	\n");
-			ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+			ft_exit_data_perror(info->data, ERROR_EXECVE, "execve in heredoc start_exec");
 		}
 	}
 	return (pid);
@@ -154,10 +155,8 @@ void	start_exec(t_info *info)
 		// if (info->curr_cmd == 1) // with this pipes stopped working right, so commented out
 		// {	
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
-	{
-		close_info(info);
-		printf("test2	\n");
-		ft_exit_perror(ERROR_EXECVE, "execve in start_exec");
+	{		
+		ft_exit_data_perror(info->data, ERROR_EXECVE, "execve in start_exec");
 	}
 		// }
 	// }

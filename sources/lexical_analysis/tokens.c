@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/12 20:33:22 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 17:46:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	heredoc_position(t_token *current)
 	return (i);
 }
 
-void	is_file_check(t_token *token_lst)
+void	is_file_check(t_data *data, t_token *token_lst)
 {
 	t_token	*current;
 
@@ -78,7 +78,7 @@ void	is_file_check(t_token *token_lst)
 	while (current != NULL)
 	{
 		if (is_redir(current) == true)
-			define_token_fd(current);
+			define_token_fd(data, current);
 		current = current->next;
 	}
 }
@@ -166,7 +166,7 @@ t_token	*lexical_analysis(t_data *data, char *line)
 	}
 	tokens = create_token_array(data, line);
 	token_lst = create_token_list(data, tokens);
-	is_file_check(token_lst);
+	is_file_check(data, token_lst);
 	return (token_lst);
 }
 

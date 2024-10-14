@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/11 14:14:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 17:49:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token	*create_token_list(t_data *data, char **token_array);
 bool	is_redir(t_token *current);
 bool	is_redir_except_heredoc(t_token *current);
 bool	is_heredoc(t_token *current);
-void	is_file_check(t_token *token_lst);
+void	is_file_check(t_data *data, t_token *token_lst);
 bool	heredoc_inside(t_token *current);
 int		heredoc_position(t_token *current);
 
@@ -99,11 +99,11 @@ t_token_type	check_single_quotes(char *token);
 
 // define_tokens
 
-void define_token_fd(t_token *token);
-void define_smaller(t_token *token);
-void define_greater(t_token *token);
-void define_dsmaller(t_token *token);
-void define_dgreater(t_token *token);
+void define_token_fd(t_data *data, t_token *token);
+void define_smaller(t_data *data, t_token *token);
+void define_greater(t_data *data, t_token *token);
+void define_dsmaller(t_data *data, t_token *token);
+void define_dgreater(t_data *data, t_token *token);
 
 //  cmds_from_tokens.c
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/14 15:07:49 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/14 18:22:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,20 @@ void	ft_exit_perror(t_error code, char *s)
 	exit(code);
 }
 
+void	ft_system_error(t_data *data, t_error code)
+{
+	data->exit_code = code;
+	free_system(data);
+}
+
+void	ft_exit_data_error(t_data *data, t_error code)
+{
+	// ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	data->exit_code = code;
+	free_data(&data);
+	exit(code);
+}
+
 void	ft_exit_data_perror(t_data *data, t_error code, char *s)
 {
 	perror(s);
@@ -78,13 +92,7 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 	exit(code);
 }
 
-void	ft_exit_data_error(t_data *data, t_error code)
-{
-	// ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
-	data->exit_code = code;
-	free_data(&data);
-	exit(code);
-}
+
 
 // void	ft_close_exit_perror(t_info *info, t_error code, char *s)
 // {
@@ -120,17 +128,19 @@ void	close_info(t_info *info)
 	printf("***close_info\n");
 	if (info->infile)
 		free(info->infile);
+	printf("infile freed\n");
 	if (info->outfile)
 		free(info->outfile);
+	printf("outfile freed\n");
 	if (info->expanded_cmds)
 		free_matrix(info->expanded_cmds);
-	// printf("expanded_cmds freed\n");
+	printf("expanded_cmds freed\n");
 	if (info->limiter)
 		free(info->limiter);
-	// printf("limiter freed\n");
+	printf("limiter freed\n");
 	if (info->path)
 		free(info->path);
-	// printf("path freed\n");
+	printf("path freed\n");
 	// if (info->path_from_getenv)  //munmap_chunk(): invalid pointer Aborted
 	// {
 	// 	printf("path_from_getenv: %s\n", info->path_from_getenv);
@@ -163,7 +173,8 @@ void	free_system(t_data *data)
 	// envp ????
 	// path ?????
 	// expanded_cmds ?????
-	close_info(data->info);
+	if (data->info)
+		close_info(data->info);
 	// env_list ????
 	// below created double free error in ls | ls -a > out
 	// if (data->tokens)
@@ -177,20 +188,21 @@ void	free_data(t_data **data) // to be adjusted
 	ft_printf("*free_data\n");
 	if ((*data)->cmds && (*data)->cmds[0] != NULL)
 		free_matrix((*data)->cmds);
-	// printf("cmds freed\n");
+	printf("cmds freed\n");
 	if ((*data)->line && (*data)->line[0] != '\0')
 		free((*data)->line);
-	// printf("line freed\n");
+	printf("line freed\n");
 	// if ((*data)->envp && (*data)->envp[0] != NULL) //munmap_chunk(): invalid pointer Aborted
 	// 	free_matrix((*data)->envp);
 	// printf("envp freed\n");
 	if ((*data)->path)
 		free((*data)->path);
-	// printf("path freed\n");
+	printf("path freed\n");
 	if ((*data)->expanded_cmds && (*data)->expanded_cmds[0] != NULL)
 		free_matrix((*data)->expanded_cmds);
 	// printf("expanded_cmds freed\n");
-	close_info((*data)->info);
+	if ((*data)->info)
+		close_info((*data)->info);
 	// below creates double free error
 	// if ((*data)->env_list)
 	// 	free_env(&(*data)->env_list);
