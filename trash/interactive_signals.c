@@ -32,6 +32,13 @@ struct termios {
 };
 */
 
+/*
+ECHOCTL flag, which controls whether control characters are echoed 
+back to the terminal as ^X notation. This means that after calling 
+this function, control characters you type into the terminal will 
+not be displayed in ^X notation.
+*/
+
 void	not_output_signal_keys()
 {
 	struct termios	termios;
@@ -43,7 +50,7 @@ void	not_output_signal_keys()
 			printf("Error: not print signal keys: tcgetattr failed: %s\n", strerror(errno));
 			return ;
 		}
-		termios.c_lflag &=  ~ECHO;
+		termios.c_lflag &=  ~ECHOCTL;
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &termios) == -1)
 		{
 			printf("Error: not print signal keys: tcsetattr failed: %s\n", strerror(errno));

@@ -112,6 +112,7 @@ void init_heredoc(t_data *data)
 	int		here_doc_fd;
 
 	// printf("---init_heredoc---\n");
+	handle_signals(HEREDOC);
 	here_doc_fd = here_doc_fd_check(data);
 	// printf("here_doc_fd: %d\n", here_doc_fd);
 	// dup2_safe(here_doc_fd, STDOUT_FILENO, data->info);
@@ -168,7 +169,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				if (!current)
 					return (NULL);
 			}
-			if (current && ft_strncmp(current->value, "cat", 4) == 0)
+			if (current && ft_strncmp(current->value, "cat", 3) == 0)
 				cat_cmd = true;
 			if (is_first_after_pipe(current))
 			{

@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/09 23:52:29 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/16 21:41:05 by vbusekru      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,7 @@ EXECUTE =				child_processes.c \
 						utils.c \
 						utils2.c \
 
-SIGNALS = 				interactive_signals.c \
-						noninteractive_signals.c \
+SIGNALS = 				signals.c \
 
 EXPANDER =				expander.c \
 						expander_utils.c \

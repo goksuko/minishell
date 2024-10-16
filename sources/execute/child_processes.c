@@ -9,6 +9,7 @@ int	create_children(t_data *data)
 	int		status;
 
 	// printf("---create_children---\n");
+	handle_signals(CHILD);
 	i = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);

@@ -2,7 +2,7 @@
 
 bool cat_inside(t_token *current)
 {
-	if (current && ft_strncmp(current->value, "cat", 4) == 0)
+	if (current && ft_strncmp(current->value, "cat", 3) == 0)
 		return (true);
 	return (false);
 }

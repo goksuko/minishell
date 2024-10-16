@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/14 12:18:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/16 21:40:37 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ int	main(int argc, char *argv[], char **envp)
 	line = NULL;
 	while (1)
 	{
-		// set_signals_interactive();
+		handle_signals(PARENT);
 		if ((line = rl_gets()) == NULL)
 			break;
-		// set_signals_noninteractive();
 		// if (line == data->info->limiter)
 		// 	break;
 		// data->line = line;
@@ -79,7 +78,6 @@ int	main(int argc, char *argv[], char **envp)
 		execute_shell(data); // includes builtins
 	
 		// free_system(data);
-		output_signal_keys();
 	}
 
 	return (data->exit_code);
