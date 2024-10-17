@@ -57,7 +57,7 @@ t_token *redir_first(t_token *current)
 char *do_cat_addition(t_token *current, char *cmd)
 {
 	cmd = ft_strjoin(cmd, " ");
-	cmd = ft_strjoin(cmd, current->next->value);
+	cmd = ft_strjoin(cmd, current->next->expanded_value);
 	// printf("cmd: %s\n", cmd);
 	return (cmd);
 }
@@ -89,14 +89,14 @@ bool is_first_after_pipe(t_token *current)
 // 		printf("current->next->next is NULL\n");
 // 		return (NULL);
 // 	}
-// 	printf("current->value: %s\n", current->value);	
-// 	array[0] = ft_strdup(current->value);
+// 	printf("current->expanded_value: %s\n", current->expanded_value);	
+// 	array[0] = ft_strdup(current->expanded_value);
 // 	printf("cmds[0]: %s\n", array[0]);
 // 	current = current->next;
 // 	while (current && current->type != T_PIPE)
 // 	{
 // 		array[0] = ft_strjoin(array[0], " ");
-// 		array[0] = ft_strjoin(array[0], current->value);
+// 		array[0] = ft_strjoin(array[0], current->expanded_value);
 // 		current = current->next;
 // 	}
 // 	array[1] = NULL;
@@ -153,13 +153,13 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 			{
 				if (current->next && current->next->next)
 					current = current->next->next;
-				cmds[j] = ft_strdup(current->value);
+				cmds[j] = ft_strdup(current->expanded_value);
 				// printf("cmds[j]: %s\n", cmds[j]);
 				current = current->next;
 				while (current && current->type != T_PIPE)
 				{
 					cmds[j]  = ft_strjoin(cmds[j] , " ");
-					cmds[j]  = ft_strjoin(cmds[j] , current->value);
+					cmds[j]  = ft_strjoin(cmds[j] , current->expanded_value);
 					current = current->next;
 				}
 			}
@@ -169,11 +169,11 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				if (!current)
 					return (NULL);
 			}
-			if (current && ft_strncmp(current->value, "cat", 3) == 0)
+			if (current && ft_strncmp(current->expanded_value, "cat", 3) == 0)
 				cat_cmd = true;
 			if (is_first_after_pipe(current))
 			{
-				cmds[j] = ft_strdup(current->value);
+				cmds[j] = ft_strdup(current->expanded_value);
 				current = current->next;
 			}
 			if (current && is_redir_except_heredoc(current))
@@ -188,7 +188,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 			else if (current && current->type != T_PIPE)
 			{
 				cmds[j] = ft_strjoin(cmds[j], " ");
-				cmds[j] = ft_strjoin(cmds[j], current->value);
+				cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
 				current = current->next;
 			}
 		}

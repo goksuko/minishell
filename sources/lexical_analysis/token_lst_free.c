@@ -43,4 +43,3 @@ void	free_token_list(t_token **tokens)
 		current = temp;
 	}
 }
-
