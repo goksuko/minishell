@@ -47,18 +47,64 @@ void	update_shell(t_env **env_list)
 	return ;
 }
 
+void allocate_envp_matrix(t_data *data, char **envp)
+{
+	int i;
+	t_env *env;
+
+	env = data->env_list;
+	i = 0;
+	while (env)
+	{
+		envp[i] = ft_strdup(env->key);
+		envp[i] = ft_strjoin(envp[i], "=");
+		envp[i] = ft_strjoin(envp[i], env->value);
+		env = env->next;
+		i++;
+	}
+	data->envp = envp;
+	return ;
+}
+
+void update_envp(t_data *data)
+{
+	t_env	*env;
+	char	**envp;
+	int i;
+
+	i = 0;
+	envp = data->envp;
+	if (envp && envp[0])
+		ft_free_matrix(envp);
+	env = data->env_list;
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	envp = ft_calloc(sizeof(char *), i + 1);
+	if (errno == ENOMEM || envp == NULL)
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "envp in update_envp");
+	allocate_envp_matrix(data, envp);
+	return ;
+}
+
+
 void update_path(t_data *data)
 {
 	t_env	*env;
 	char	*path;
 
 	env = data->env_list;
+	path = data->path;
+	if (path)
+		free(path);
 	path = NULL;
 	while (env)
 	{
 		if (!ft_strncmp("PATH", env->key, 4))
 		{
-			path = env->value;
+			path = ft_strdup(env->value);
 			break ;
 		}
 		env = env->next;
@@ -67,10 +113,10 @@ void update_path(t_data *data)
 	{
 		path = ft_strdup("");
 		if (errno == ENOMEM || path == NULL)
-			ft_exit_perror(1, "path in update_path");
+			ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
 	}
 	data->path = path;
-	// printf("path: %s\n", data->path);
+	printf("path in update_path: %s\n", data->path);
 	return ;
 }
 

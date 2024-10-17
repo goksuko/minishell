@@ -81,7 +81,7 @@ void	create_new_env(t_data **data, char *command)
 	}
 	else
 		new_value = NULL;
-	new_env = ft_new_node(new_key, new_value);
+	new_env = ft_new_node(*data, new_key, new_value);
 	if (new_env == NULL)
 		handle_allocation_error_env(data);
 	printf("new_env->key: %s\n", new_env->key);

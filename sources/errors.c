@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/14 18:22:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/17 15:45:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*ft_error(t_error code)
 		return (str[code]);
 }
 
+// keep program running but print error message from code
 void	free_system_error(t_data *data, t_error code)
 {
 	data->exit_code = code;
@@ -50,6 +51,7 @@ void	free_system_error(t_data *data, t_error code)
 	free_system(data);
 }
 
+// keep program running but print customized error message
 void	free_system_perror(t_data *data, t_error code, char *s)
 {
 	data->exit_code = code;
@@ -57,15 +59,26 @@ void	free_system_perror(t_data *data, t_error code, char *s)
 	free_system(data);
 }
 
+// only called in main.c
+// exit program with error message from code
 void	ft_exit_perror(t_error code, char *s)
 {
 	perror(s);
 	exit(code);
 }
 
+// exit program with error message from code and frees data
 void	ft_exit_data_error(t_data *data, t_error code)
 {
 	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	free_data(&data);
+	exit(code);
+}
+
+// exit program with customized error message and frees data
+void	ft_exit_data_perror(t_data *data, t_error code, char *s)
+{
+	perror(s);
 	free_data(&data);
 	exit(code);
 }
@@ -76,29 +89,24 @@ void	ft_exit_data_error(t_data *data, t_error code)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void	ft_exit_data_perror(t_data *data, t_error code, char *s)
+int ft_print_error(t_error code)
 {
-	free_data(data);
-	perror(s);
-	exit(code);
+	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	return (code);
 }
 
-// ft_exit_perror(ERROR_MUTEX_INIT, "Dead Lock in Table Init");
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 void	ft_system_error(t_data *data, t_error code)

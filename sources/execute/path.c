@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/14 18:10:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/17 16:20:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 // This list is what the shell and other programs use 
 // to find executables when a command is issued.
 
-char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
+// char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
+char	*find_path(t_info *info, char *main_command)
 {
 	char	*path;
 	char	**path_split;
@@ -30,7 +31,8 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
 	// printf("main_command was not accessible\n");
-	path_split = ft_split(path_from_getenv, ':');
+	// path_split = ft_split(path_from_getenv, ':');
+	path_split = ft_split(info->data->path, ':');
 	if (errno == ENOMEM || path_split == NULL)
 		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "path_split in find_path");
 	i = 0;

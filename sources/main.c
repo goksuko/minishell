@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/16 21:40:37 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/17 16:10:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	make_initial_path_checks(char **envp, t_data *data)
 	if (!envp && !(*envp))
 		ft_exit_data_error(data, ERROR_NO_ENVP);
 	i = 1;
-	head = ft_envp_node(envp[0]);
+	head = ft_envp_node(data, envp[0]);
 	data->env_list = head;
 	node = head;
 	while (envp[i])
 	{
-		node->next = ft_envp_node(envp[i]);
+		node->next = ft_envp_node(data, envp[i]);
 		if (!node->next) 
 		{
 			free_prev_nodes(head); // rewrite memory stuff
@@ -36,6 +36,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 		i++;
 	}
 	data->env_list = head;
+	// data->envp = NULL;
 	update_path(data);
 	update_shell(&data->env_list);
 	return ;
@@ -53,27 +54,42 @@ bool minishell_routine(t_data *data, char *line)
 	return (true);
 }
 
+void init_data(t_data *data)
+{
+	data->cmds = NULL;
+	data->line = NULL;
+	data->path = NULL;
+	data->exit_code = 0;
+	data->expanded_cmds = NULL;
+	data->info = NULL;
+	data->env_list = NULL;
+	data->tokens = NULL;
+	return ;
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
 	
 	char	*line;
+	
 	t_data	*data;
 
 	(void)argv;
 	if (argc != 1)
 	{
-		ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(ERROR_ARGUMENT_COUNT));
+		ft_printf_fd(STDERR_FILENO, "%s\n", ft_print_error(ERROR_ARGUMENT_COUNT));
 		return (ERROR_ARGUMENT_COUNT);
 	}
 	data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");
-	make_initial_path_checks(envp, data);
 	data->envp = envp;
+	init_data(data);
+	make_initial_path_checks(envp, data);
 	line = NULL;
 	while (1)
 	{
-		if (minishell_routine == false)
+		if (minishell_routine(data, line) == false)
 			break;
 	}
 	return (data->exit_code);

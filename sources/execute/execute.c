@@ -26,7 +26,6 @@ void	execute_shell(t_data *data)
 	printf("----EXECUTE SHELL----\n");
 	int		exit_code;
 
-	data->exit_code = 0;
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	exit_code = create_children(data);
 	data->exit_code = last_exit_code_checks(exit_code, data);

@@ -56,7 +56,8 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 		ft_exit_data_error(info->data, ERROR_NOT_DIR);
 	}
 	if (cmd_matrix[0])
-		path = find_path(info, cmd_matrix[0], info->path_from_getenv);
+		// path = find_path(info, cmd_matrix[0], info->path_from_getenv);
+		path = find_path(info, cmd_matrix[0]);
 	else  /////////////////////////////////////////////////////////////////// CHECK HERE
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", info->outfile);
@@ -80,6 +81,7 @@ pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 {
 	pid_t	pid;
 	int		here_doc_fd;
+	(void)path;
 
 	here_doc_fd = here_doc_fd_check(info->data);
 	printf("--heredoc_child_process--\n");
@@ -107,7 +109,9 @@ pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path)
 	}
 	else
 	{
+		// update_path(info->data);
 		if (execve(path, cmd_matrix, info->data->envp) == -1)
+		// if (execve(info->data->path, cmd_matrix, info->data->envp) == -1)
 		{
 			ft_exit_data_perror(info->data, ERROR_EXECVE, "execve in heredoc start_exec");
 		}
@@ -133,6 +137,7 @@ void	start_exec(t_info *info)
 		ft_exit_data_perror(info->data, ERROR_ALLOCATION, "cmd_matrix in start_exec");
 	// printf("cmd_matrix::::::::::::::::::::::\n");
 	// printf_array(cmd_matrix);
+	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	// if (info->limiter)
 	// {
@@ -154,7 +159,9 @@ void	start_exec(t_info *info)
 	// {
 		// if (info->curr_cmd == 1) // with this pipes stopped working right, so commented out
 		// {	
+	// update_path(info->data);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
+	// if (execve(info->data->path, cmd_matrix, info->data->envp) == -1)
 	{		
 		ft_exit_data_perror(info->data, ERROR_EXECVE, "execve in start_exec");
 	}

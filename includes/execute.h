@@ -5,7 +5,7 @@
 
 int     create_children(t_data *data);
 pid_t   child_process(t_info *info);
-pid_t   heredoc_child_process2(t_info *info);
+// pid_t   heredoc_child_process2(t_info *info);
 
 // children.c
 
@@ -18,15 +18,15 @@ void	do_last_child(t_info *info);
 void	free_prev_nodes(t_env *head);
 void	update_shell(t_env **env_list);
 void	update_path(t_data *data);
-t_env	*ft_envp_node(char *envp_i);
 char	*ft_get_env(t_env *env_list, char *value);
 
 // env_list.c
-t_env	*ft_envp_node(char *envp_i);
+t_env	*ft_envp_node(t_data *data, char *envp_i);
+void    update_envp(t_data *data);
 int		find_first_eq(char *envp_i);
-t_env	*ft_new_node(char *key, char *value);
-int		find_data_if_no_pos(char *envp_i, char **key, char **value);
-t_env	*create_node(char *envp_i, int pos);
+t_env	*ft_new_node(t_data *data, char *key, char *value);
+int		find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value);
+t_env	*create_node(t_data *data, char *envp_i, int pos);
 void	free_env(t_env **env_var);
 
 // env_key_funcs.c
@@ -50,7 +50,8 @@ bool	is_whitespace(char c);
 pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path);
 
 // Path functions //
-char	*find_path(t_info *info, char *main_command, char *path_from_getenv);
+// char	*find_path(t_info *info, char *main_command, char *path_from_getenv);
+char	*find_path(t_info *info, char *main_command);
 
 // utils2.c
 
