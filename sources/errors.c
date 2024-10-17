@@ -43,19 +43,63 @@ char	*ft_error(t_error code)
 		return (str[code]);
 }
 
-// ft_print_error(ERROR_ARGUMENT_COUNT);
-int	ft_print_error(t_error code)
+void	free_system_error(t_data *data, t_error code)
 {
-	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
-	return (code);
+	data->exit_code = code;
+	ft_putstr_fd(ft_error(code), STDERR_FILENO);
+	free_system(data);
 }
 
-// ft_exit_perror(ERROR_MUTEX_INIT, "Dead Lock in Table Init");
+void	free_system_perror(t_data *data, t_error code, char *s)
+{
+	data->exit_code = code;
+	perror(s);
+	free_system(data);
+}
+
 void	ft_exit_perror(t_error code, char *s)
 {
 	perror(s);
 	exit(code);
 }
+
+void	ft_exit_data_error(t_data *data, t_error code)
+{
+	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
+	free_data(&data);
+	exit(code);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void	ft_exit_data_perror(t_data *data, t_error code, char *s)
+{
+	free_data(data);
+	perror(s);
+	exit(code);
+}
+
+// ft_exit_perror(ERROR_MUTEX_INIT, "Dead Lock in Table Init");
+
 
 void	ft_system_error(t_data *data, t_error code)
 {
@@ -63,20 +107,8 @@ void	ft_system_error(t_data *data, t_error code)
 	free_system(data);
 }
 
-void	ft_exit_data_error(t_data *data, t_error code)
-{
-	// ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
-	data->exit_code = code;
-	free_data(&data);
-	exit(code);
-}
 
-void	ft_exit_data_perror(t_data *data, t_error code, char *s)
-{
-	perror(s);
-	free_data(&data);
-	exit(code);
-}
+
 
 // ft_exit_str_fd(ERROR_MUTEX_INIT, STDERR_FILENO);
 void	ft_exit_str_fd(t_error code, int fd)
@@ -92,8 +124,6 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 	exit(code);
 }
 
-
-
 // void	ft_close_exit_perror(t_info *info, t_error code, char *s)
 // {
 // 	close_info(info);
@@ -102,62 +132,16 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 // 	exit(code);
 // }
 
-void	*free_matrix(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	if (matrix == NULL)
-		return (NULL);
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		matrix[i] = NULL;
-		i++;
-	}
-	if (matrix)
-	{
-		free(matrix);
-		matrix = NULL;
-	}
-	return (NULL);
-}
-
 void	close_info(t_info *info)
 {
-	printf("***close_info\n");
 	if (info->infile)
 		free(info->infile);
-	printf("infile freed\n");
 	if (info->outfile)
 		free(info->outfile);
-	printf("outfile freed\n");
-	if (info->expanded_cmds)
-		free_matrix(info->expanded_cmds);
-	printf("expanded_cmds freed\n");
 	if (info->limiter)
 		free(info->limiter);
-	printf("limiter freed\n");
 	if (info->path)
 		free(info->path);
-	printf("path freed\n");
-	// if (info->path_from_getenv)  //munmap_chunk(): invalid pointer Aborted
-	// {
-	// 	printf("path_from_getenv: %s\n", info->path_from_getenv);
-	// 	free(info->path_from_getenv);
-	// }
-	// printf("path_from_getenv freed\n");
-
-	// below is not neede because they are closed in the parent/child processes
-	// if (info->fd_in != -10)
-	// 	close_safe(info->fd_in, info);
-	// if (info->fd_out != -10)
-	// 	close_safe(info->fd_out, info);
-	// if (info->pipefd[0] != -10)
-	// 	close_safe(info->pipefd[0], info);
-	// if (info->pipefd[1] != -10)
-	// 	close_safe(info->pipefd[1], info);
-
 	free(info);
 	printf("***close_info done\n");
 	return ;
@@ -165,51 +149,27 @@ void	close_info(t_info *info)
 
 void	free_system(t_data *data)
 {
-	ft_printf("**free_system\n");	
 	if (data->cmds && data->cmds[0] != NULL)
-		free_matrix(data->cmds);
+		ft_free_matrix(data->cmds);
 	if (data->line && data->line[0] != '\0')
 		free(data->line);
-	// envp ????
-	// path ?????
-	// expanded_cmds ?????
 	if (data->info)
 		close_info(data->info);
-	// env_list ????
-	// below created double free error in ls | ls -a > out
-	// if (data->tokens)
-	// 	free_token_list(&data->tokens);
+	if (data->tokens)
+		free_token_list(&data->tokens);
 	printf("**free_system done\n");
 	return ;
 }
 
 void	free_data(t_data **data) // to be adjusted
 {
-	ft_printf("*free_data\n");
-	if ((*data)->cmds && (*data)->cmds[0] != NULL)
-		free_matrix((*data)->cmds);
-	printf("cmds freed\n");
-	if ((*data)->line && (*data)->line[0] != '\0')
-		free((*data)->line);
-	printf("line freed\n");
-	// if ((*data)->envp && (*data)->envp[0] != NULL) //munmap_chunk(): invalid pointer Aborted
-	// 	free_matrix((*data)->envp);
-	// printf("envp freed\n");
-	if ((*data)->path)
+	free_system(*data);
+	if ((*data)->envp && (*data)->envp[0] != NULL)
+		ft_free_matrix((*data)->envp);
+	if ((*data)->path) // goksu is going to fix it
 		free((*data)->path);
-	printf("path freed\n");
-	if ((*data)->expanded_cmds && (*data)->expanded_cmds[0] != NULL)
-		free_matrix((*data)->expanded_cmds);
-	// printf("expanded_cmds freed\n");
-	if ((*data)->info)
-		close_info((*data)->info);
-	// below creates double free error
-	// if ((*data)->env_list)
-	// 	free_env(&(*data)->env_list);
-	// printf("env_list freed\n");
-	if ((*data)->tokens)
-		free_token_list(&(*data)->tokens);
-	// printf("tokens freed\n");
+	if ((*data)->env_list)
+		free_env(&(*data)->env_list);
 	free(*data);
 	printf("*free_data done\n");
 	return ;
@@ -224,8 +184,10 @@ void	free_env(t_env **env_var) // Not sure of elsewhere already! Need to check !
 	while (current != NULL)
 	{
 		next = current->next;
-		free(current->key);
-		free(current->value);
+		if (current->key)
+			free(current->key);
+		if (current->value)
+			free(current->value);
 		free(current);
 		current = next;
 	}

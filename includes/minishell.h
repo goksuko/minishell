@@ -97,7 +97,6 @@ typedef struct s_info
 	int				curr_cmd;
 	int				here_doc_cmd;
 	// char			**cmds;
-	char			**expanded_cmds;
 	// char			*special_command;
 	char 			*limiter;
 	char			*path;
@@ -126,6 +125,7 @@ typedef struct s_env
 int					check_pipe(char *line);
 int					find_path_index(char **envp);
 char				*rl_gets(void);
+bool				minishell_routine(t_data *data, char *line);
 
 // errors.c
 
@@ -137,7 +137,6 @@ void				free_system(t_data *data);
 void				ft_exit_data_perror(t_data *data, t_error code, char *s);
 void				ft_exit_data_error(t_data *data, t_error code);
 void				ft_close_exit_perror(t_info *info, t_error code, char *s);
-void				*free_matrix(char **matrix);
 void				close_info(t_info *info);
 void				free_data(t_data **data);
 

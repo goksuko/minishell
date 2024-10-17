@@ -61,15 +61,15 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", info->outfile);
 		info->data->exit_code = 126;
-		free_data(&info->data);
-		exit(126);
+		free_data(&info->data); //free_system
+		// exit(126);
 	}
 	if (!path)
 	{
 		ft_putstr3_fd("command not found: ", cmd_matrix[0], "\n", STDERR_FILENO);
-		free_data(&info->data);
+		free_data(&info->data); //free_system
 		info->data->exit_code = 127;
-		exit(127);
+		// exit(127);
 	}
 	printf("path before exec: %s\n", path);
 	return (path);

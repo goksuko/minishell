@@ -92,14 +92,14 @@ char	**create_token_array(t_data *data, char *line)
 	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
 	if (tokens == NULL)
 	{
-		free_array(tokens);
+		ft_free_matrix(tokens);
 		free_data(&data);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 	{
-		free_array(tokens);
+		ft_free_matrix(tokens);
 		free_data(&data);
 		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
 	}
@@ -115,7 +115,7 @@ t_token	*array_to_list(char **tokens, int token_count)
 	i = 0;
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
-		return (free_array(tokens), NULL);
+		return (ft_free_matrix(tokens), NULL);
 	// head->is_head = true;
 	current = head;
 	i++;
@@ -123,12 +123,12 @@ t_token	*array_to_list(char **tokens, int token_count)
 	{
 		current->next = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 		if (current->next == NULL)
-			return (free_array(tokens), NULL);
+			return (ft_free_matrix(tokens), NULL);
 		current->next->prev = current;
 		current = current->next;
 		i++;
 	}
-	free_array(tokens);
+	ft_free_matrix(tokens);
 	return (head);
 }
 

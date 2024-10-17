@@ -48,7 +48,7 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 		printf("temp: %s\n", temp);
 		if (errno == ENOMEM || temp == NULL)
 		{
-			free_matrix(path_split);
+			ft_free_matrix(path_split);
 			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "temp in find_path");
 		}
 		path = ft_strjoin(temp, main_command);
@@ -56,16 +56,16 @@ char	*find_path(t_info *info, char *main_command, char *path_from_getenv)
 		if (errno == ENOMEM || path == NULL)
 		{
 			free(temp);
-			free_matrix(path_split);
+			ft_free_matrix(path_split);
 			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "path in find_path");
 		}
 		free(temp);
 		if (access(path, F_OK | X_OK) == 0)
-			return (free_matrix(path_split), path);
+			return (ft_free_matrix(path_split), path);
 		free(path);
 		i++;
 	}
-	free_matrix(path_split);
+	ft_free_matrix(path_split);
 	return (NULL);
 }
 

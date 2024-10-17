@@ -203,5 +203,3 @@ cat read.sh | echo >> out4
 
 echo 37
 > cat read.sh | cat out \ cat out5
-#free_data
-#Segmentation fault

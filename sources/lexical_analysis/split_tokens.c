@@ -73,7 +73,7 @@ char	**split_tokens(char *line, int number_tokens, char **tokens)
 		tokens[i] = create_substr(&line[token_start], token_len);
 		if (tokens[i] == NULL)
 		{
-			free_array(tokens);
+			ft_free_matrix(tokens);
 			return (NULL);
 		}
 		i++;

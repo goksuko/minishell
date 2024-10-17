@@ -12,21 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (array == NULL)
-		return ;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
 void	free_token_list(t_token **tokens)
 {
 	t_token	*temp;
@@ -37,9 +22,15 @@ void	free_token_list(t_token **tokens)
 		return ;
 	while (current != NULL)
 	{
-		free(current->value);
+		if (current->value)
+			free(current->value);
+		if (current->expanded_value)
+			free(current->expanded_value);
+		if (current->limiter)
+			free(current->limiter);
 		temp = current->next;
 		free(current);
 		current = temp;
 	}
+	*tokens = NULL;
 }

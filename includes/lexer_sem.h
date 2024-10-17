@@ -74,7 +74,6 @@ char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
 void	check_unclosed_quotes(t_data *data, t_token *token_lst);
-void	free_array(char **array);
 void	free_token_list(t_token **tokens);
 bool	line_is_empty(char *line);
 

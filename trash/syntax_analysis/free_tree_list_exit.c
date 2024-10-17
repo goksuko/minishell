@@ -20,8 +20,8 @@ void	free_tree(t_tree **tree)
 	{
 		tmp = (*tree)->right;
 		free_redirection_list(&(*tree)->redirection);
-		free_array((*tree)->argument);
-		free_array((*tree)->token_types);
+		ft_free_matrix((*tree)->argument);
+		ft_free_matrix((*tree)->token_types);
 		free(*tree);
 		*tree = tmp;
 	}
