@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:30:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 16:43:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,10 @@ void	init_heredoc(t_data *data);
 char	**cmds_between_pipes(t_data *data, char **cmds);
 pid_t	finish_heredoc(t_data *data);
 char	**cmds_from_tokens(t_data *data);
+bool	do_heredoc(t_token *current, char **cmds, int j);
 
 //semantic.c
-void	semantic_analysis(t_data *data);
+bool	semantic_analysis(t_data *data);
 
 //semantic_utils.c
 int		find_pipe_count(t_token *tokens);

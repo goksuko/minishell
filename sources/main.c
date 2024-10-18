@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:59:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:56:50 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ bool minishell_routine(t_data *data, char *line)
 	if (data->tokens == NULL)
 		return (true);
 	expander(&data);
-	semantic_analysis(data);
+	if (semantic_analysis(data) == false)
+		return (false);
 	execute_shell(data);
 	return (true);
 }

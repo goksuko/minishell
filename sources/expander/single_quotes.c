@@ -5,10 +5,7 @@ char	*s_quotes(t_data **data, char *argument)
 	char	*clean_str;
 
 	clean_str = remove_quotation_marks(argument);
-	if (clean_str == NULL)
-	{
-		free_data(data);
-		ft_exit_perror(ERROR_ALLOCATION, "malloc in remove_quotation_marks");
-	}
+	if (errno == ENOMEM || clean_str == NULL)
+		free_system_perror(*data, ERROR_ALLOCATION, "remove quotation marks in s_quotes");
 	return (clean_str);
 }

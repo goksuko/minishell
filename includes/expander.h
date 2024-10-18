@@ -1,8 +1,8 @@
 #ifndef EXPANSION_H
 # define EXPANSION_H
 
-void	expander(t_data **data);
-void	expand_value(t_data **data, t_token *token, char *type);
+bool	expander(t_data **data);
+bool	expand_value(t_data **data, t_token *token, char *type);
 
 // Quotes
 char	*s_quotes(t_data **data, char *argument);

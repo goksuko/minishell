@@ -5,7 +5,7 @@ char	*remove_quotation_marks(char *argument)
 	printf("----REMOVE_QUOTATION_MARKS----\n");
 	char	*clean_str;
 
-	clean_str = (char *)malloc(sizeof(char) * ((ft_strlen(argument) - 2) + 1));
+	clean_str = (char *)ft_calloc(sizeof(char), ((ft_strlen(argument) - 2) + 1));
 	if (clean_str == NULL)
 		return (NULL);
 	clean_str = ft_strcpy(clean_str, argument + 1, ft_strlen(argument) - 2);

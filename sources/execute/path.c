@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:30:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:54:05 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,18 @@ char	*find_path_helper(t_info *info, char *main_command, char **path_split, int 
 		if (info-> infile == NULL)
 			info->infile = path_split[i];
 	}
-	temp = ft_strjoin_safe(info->data, path_split[i], "/");
-	path = ft_strjoin_safe(info->data, temp, main_command);
+	temp = ft_strjoin(path_split[i], "/");
+	if (temp == NULL)
+	{
+		free_system_perror(info->data, ERROR_ALLOCATION, "temp in find_path_helper");
+		return (NULL); // check
+	}
+	path = ft_strjoin(temp, main_command);
+	if (path == NULL)
+	{
+		free_system_perror(info->data, ERROR_ALLOCATION, "path in find_path_helper");
+		return (NULL); // check
+	}
 	free(temp);
 	if (access(path, F_OK | X_OK) == 0)
 		return (ft_free_matrix(path_split), path);

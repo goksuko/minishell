@@ -26,14 +26,24 @@ void	initialize_fds(t_info *info, t_data *data)
 			if (info->fds[i][0] != -10)
 				close_safe(info->fds[i][0], info);
 			info->fds[i][0] = current->fd_in;
-			info->infile = ft_strdup_safe(data, current->expanded_value);
+			info->infile = ft_strdup(current->expanded_value);
+			if (info->infile == NULL)
+			{
+				free_system_perror(data, ERROR_ALLOCATION, "info->infile in initialize_fds");
+				return ; //false boolean
+			}
 		}
 		if (current->fd_out != -10)
 		{
 			if (info->fds[i][1] != -10)
 				close_safe(info->fds[i][1], info);
 			info->fds[i][1] = current->fd_out;
-			info->outfile = ft_strdup_safe(data, current->expanded_value);
+			info->outfile = ft_strdup(current->expanded_value);
+			if (info->outfile == NULL)
+			{
+				free_system_perror(data, ERROR_ALLOCATION, "info->outfile in initialize_fds");
+				return ; //false boolean
+			}
 		}
 		if (current->type == T_PIPE) // we write the fd_in and fd_out values (if there is) between pipes
 			i++;
@@ -41,41 +51,27 @@ void	initialize_fds(t_info *info, t_data *data)
 	}
 }
 
-void	semantic_analysis(t_data *data)
+bool	semantic_analysis(t_data *data)
 {
 	t_info	*info;
 
-	printf("---SEMANTIC ANALYSIS---\n");
 	data->exit_code = 0;
 	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	// printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
+	{
+		free_system_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
+		return (false);
+	}
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
-	// printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->info = info;
-	// data->cmds = data->ast->argument;
-	//here_doc should be done after pipe
 	data->info->limiter = NULL;
 	data->info->here_doc_cmd = -100;
-	// if (heredoc_inside(data->tokens)) // commented to change the edge case of heredoc after pipe
-	// {
-	// 	printf("inside\n");
-	// 	printf("fd_in: %d\n", data->info->fd_in);
-	// 	printf("fd_out: %d\n", data->info->fd_out);		
-	// 	init_heredoc(data);
-	// 	close_safe(data->info->fd_out, data->info);
-	// 	data->info->fd_out = STDOUT_FILENO;
-	// 	data->info->fd_in = open("0ur_h3r3_d0c", O_RDONLY, 0777);
-	// 	if (data->info->fd_in == -1)
-	// 		ft_exit_data_perror(data, ERROR_FILE_OPEN, "0ur_h3r3_d0c");
-	// }
 	data->cmds = cmds_from_tokens(data);
-	// printf("cmds_from_tokens\n");
-	// printf_array(data->cmds);
-	// info->cmds = data->cmds;
-	initialize_info(info, data);
+	if (data->cmds == NULL)
+		return (false);
+	initialize_info(info, data); //here
 	initialize_fds(info, data);
+	return (true);
 }
