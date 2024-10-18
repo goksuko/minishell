@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:21:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:32:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ void				close_info(t_info *info);
 void				free_data(t_data **data);
 void				ft_putstr2_fd(char *s1, char *s2, int fd);
 void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
+void				free_system_error(t_data *data, t_error code);
+void				free_system_perror(t_data *data, t_error code, char *s);
 
 // Libft functions //
 

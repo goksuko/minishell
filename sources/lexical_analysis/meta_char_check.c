@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:28:38 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:23:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdbool.h>
 
-int	quote_closed_check(char *line, int i, char quote)
+int	quote_closed_check(t_data *data, char *line, int i, char quote)
 {
 	int	j;
 
@@ -22,7 +22,10 @@ int	quote_closed_check(char *line, int i, char quote)
 	while (line[j] != '\0' && line[j] != quote)
 		j++;
 	if (line[j] == '\0')
-		ft_exit_str_free_fd((ERROR_QUOTE), line, STDERR_FILENO);
+	{
+		free_system_error(data, ERROR_QUOTE);
+		j = -10;
+	}
 	return (j);
 }
 
@@ -48,7 +51,7 @@ bool	further_meta_check(char *line, int i, char meta)
 	return (false);
 }
 
-bool	meta_character_check(char *line)
+bool	meta_character_check(t_data *data, char *line)
 {
 	int		i;
 	int		closed_quote;
@@ -59,8 +62,11 @@ bool	meta_character_check(char *line)
 		skip_whitespace(line, &i);
 		if (is_quote(line[i]) == true)
 		{
-			closed_quote = quote_closed_check(line, i, line[i]);
-			i = closed_quote;
+			closed_quote = quote_closed_check(data, line, i, line[i]);
+			if (closed_quote != -10)
+				i = closed_quote;
+			else
+				return (false);
 		}
 		if (is_meta(line[i]) == true)
 		{

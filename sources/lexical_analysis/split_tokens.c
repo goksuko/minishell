@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/08/16 12:38:37 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:05:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*create_substr(char *line, int len)
 {
 	char	*substr;
 
-	substr = malloc((len + 1) * sizeof(char));
+	substr = ft_calloc((len + 1), sizeof(char));
 	if (substr == NULL)
 		return (NULL);
 	substr = ft_strcpy(substr, line, len);

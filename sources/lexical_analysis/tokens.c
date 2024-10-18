@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:54:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:33:41 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,14 @@ char	**create_token_array(t_data *data, char *line)
 	char	**tokens;
 
 	number_tokens = count_tokens(line);
-	tokens = (char **)malloc((number_tokens + 1) * sizeof(char *));
+	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
 	if (tokens == NULL)
-	{
-		ft_free_matrix(tokens);
-		free_data(&data);
-		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-	}
+		free_system_perror(data, ERROR_ALLOCATION, "tokens in create_token_array");
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 	{
 		ft_free_matrix(tokens);
-		free_data(&data);
-		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
 	}
 	return (tokens);
 }
@@ -159,11 +154,10 @@ t_token	*lexical_analysis(t_data *data, char *line)
 		data->exit_code = 0;
 		return (NULL);
 	}
-	check_characters(data, line);
-	if (meta_character_check(line) == false)
+	if (meta_character_check(data, line) == false)
 	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_META, STDERR_FILENO);
+		free_system_error(data, ERROR_META);
+		return (NULL);
 	}
 	tokens = create_token_array(data, line);
 	token_lst = create_token_list(data, tokens);

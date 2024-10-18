@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:58:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:11:50 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,6 @@ int	count_tokens(char *line)
 		i++;
 	}
 	return (count);
-}
-
-void	check_characters(t_data *data, char *line)
-{
-	int	i;
-	int	wrong_char;
-
-	i = 0;
-	wrong_char = 0;
-	while (line && line[i])
-	{
-		if (line[i] == '\\' || line[i] == ';')
-			wrong_char++;
-		i++;
-	}
-	if (wrong_char)
-	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_WRONG_CHAR, STDERR_FILENO);
-	}
-	return ;
 }
 
 bool	line_is_empty(char *line)

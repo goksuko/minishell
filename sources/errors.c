@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:20:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:26:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_error(t_error code)
 	[ERROR_OLDPWD] = "Error: OLDPWD not set\n",
 	[ERROR_NO_FILE_DIR] = "Error: No such file or directory\n",
 	[ERROR_QUOTE] = "Error: unclosed quote\n",
-	[ERROR_META] = "Error: wrong meta character", // to be erased perhaps...need to review error codes
+	[ERROR_META] = "Error: wrong meta character\n",
 	[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
 	[ERROR_EMPTY_LINE] = "Error: empty line\n",
 	[ERROR_INVALID_IDENTIFIER] = "Error: invalid identifier\n",

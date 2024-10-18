@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 13:47:50 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:16:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_token
 
 // Tokens
 t_token	*lexical_analysis(t_data *data, char *line);
-void	check_characters(t_data *data, char *line);
 int		count_tokens(char *line);
 char	**create_token_array(t_data *data, char *line);
 t_token	*create_token_list(t_data *data, char **token_array);
@@ -81,7 +80,7 @@ bool	line_is_whitespace(char *line);
 
 // Meta character check
 bool	further_meta_check(char *line, int i, char meta);
-bool	meta_character_check(char *line);
+bool	meta_character_check(t_data *data, char *line);
 
 // Token list utils
 void	ft_print_tokens(t_token *tokens);
