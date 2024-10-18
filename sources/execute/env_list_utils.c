@@ -59,6 +59,8 @@ void allocate_envp_matrix(t_data *data, char **envp)
 		i++;
 	}
 	data->envp = envp;
+	printf("envp in allocate_envp_matrix: \n");
+	printf_array(data->envp);
 	return ;
 }
 
@@ -69,6 +71,7 @@ void update_envp(t_data *data)
 	int i;
 
 	i = 0;
+	printf("update_envp\n");
 	envp = data->envp;
 	if (envp && envp[0])
 		ft_free_matrix(envp);

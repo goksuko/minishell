@@ -3,13 +3,14 @@
 
 // child_processes.c
 
+void	do_commands(t_data *data, int i);
 int     create_children(t_data *data);
+void	do_child_of_child(t_info *info);
+void	do_parent_of_child(t_info *info);
 pid_t   child_process(t_info *info);
-// pid_t   heredoc_child_process2(t_info *info);
 
 // children.c
 
-void    do_heredoc_child(t_info *info);
 void	do_first_child(t_info *info);
 void	do_middle_child(t_info *info);
 void	do_last_child(t_info *info);
@@ -44,13 +45,9 @@ void	execute_shell(t_data *data);
 // Utils functions //
 char	*put_main_command(char *command, char space);
 void	start_exec(t_info *info);
-// void	*free_matrix(char **matrix);
-// void	close_info(t_info *info);
 bool	is_whitespace(char c);
-pid_t	heredoc_child_process(t_info *info, char **cmd_matrix, char *path);
 
 // Path functions //
-// char	*find_path(t_info *info, char *main_command, char *path_from_getenv);
 char	*find_path(t_info *info, char *main_command);
 
 // utils2.c
