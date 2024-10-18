@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/17 16:20:11 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 10:16:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*find_path(t_info *info, char *main_command)
 	i = 0;
 	while (path_split[i])
 	{
-		printf("path_split[%d]: %s\n", i, path_split[i]);
+		// printf("path_split[%d]: %s\n", i, path_split[i]);
 		if (is_file(path_split[i]))
 		{
 			if (info-> infile == NULL)
@@ -47,14 +47,14 @@ char	*find_path(t_info *info, char *main_command)
 				info->outfile = path_split[i];
 		}
 		temp = ft_strjoin(path_split[i], "/");
-		printf("temp: %s\n", temp);
+		// printf("temp: %s\n", temp);
 		if (errno == ENOMEM || temp == NULL)
 		{
 			ft_free_matrix(path_split);
 			ft_exit_data_perror(info->data, ERROR_ALLOCATION, "temp in find_path");
 		}
 		path = ft_strjoin(temp, main_command);
-		printf("path: %s\n", path);
+		// printf("path: %s\n", path);
 		if (errno == ENOMEM || path == NULL)
 		{
 			free(temp);

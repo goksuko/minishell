@@ -116,7 +116,7 @@ void update_path(t_data *data)
 			ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
 	}
 	data->path = path;
-	printf("path in update_path: %s\n", data->path);
+	// printf("path in update_path: %s\n", data->path);
 	return ;
 }
 

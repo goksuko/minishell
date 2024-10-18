@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/17 14:45:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 10:13:48 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_info
 	// char			*special_command;
 	char 			*limiter;
 	char			*path;
-	char			*path_from_getenv;
+	// char			*path_from_getenv;
 	int				pipe_read_end;
 	struct s_data	*data;
 }					t_info;

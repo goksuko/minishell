@@ -19,9 +19,9 @@ int		find_pipe_count(t_token *tokens)
 void	initialize_info(t_info *info, t_data *data)
 {
 	ft_printf("\n---initialize_info---\n");
-	info->path_from_getenv = getenv("PATH");
-	if (errno == ENOMEM || info->path_from_getenv == NULL)
-		ft_exit_data_perror(data, ERROR_NULL_PATH, "PATH in initialize_info");
+	// info->path_from_getenv = getenv("PATH");
+	// if (errno == ENOMEM || info->path_from_getenv == NULL)
+	// 	ft_exit_data_perror(data, ERROR_NULL_PATH, "PATH in initialize_info");
 	info->data = data;
 	info->curr_cmd = 0;
 	info->pipe_read_end = STDIN_FILENO;
