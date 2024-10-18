@@ -16,7 +16,7 @@ void	do_last_child(t_info *info);
 
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);
-void	update_shell(t_env **env_list);
+void	update_shell(t_data *data, t_env **env_list);
 void	update_path(t_data *data);
 char	*ft_get_env(t_env *env_list, char *value);
 
@@ -31,7 +31,7 @@ void	free_env(t_env **env_var);
 
 // env_key_funcs.c
 bool	key_rules(char c, int index);
-int		check_key(char *key);
+int		check_key(t_data *data, char *key);
 
 
 // execute_utils.c

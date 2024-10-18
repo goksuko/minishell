@@ -15,26 +15,17 @@ bool	key_rules(char c, int index)
 	return (false);
 }
 
-// int	check_key(char *key, char *cmd)
-int	check_key(char *key)
+int	check_key(t_data *data, char *key)
 {
 	int		i;
-	// char	*new_key;
 
 	i = 0;
-	// new_key = NULL;
 	if (key && key[0] == '\0')
-		ft_exit_str_fd(ERROR_INVALID_IDENTIFIER, STDERR_FILENO);
+		ft_exit_data_error(data, ERROR_INVALID_IDENTIFIER);
 	while (key && key[i])
 	{
 		if (!key_rules(key[i], i))
-		{
-			// new_key = ft_trip_join("`", key, "'");
-			// ft_write_error(2, cmd, new_key, "not a valid identifier");
-			ft_exit_str_fd(ERROR_INVALID_IDENTIFIER, STDERR_FILENO);
-			// free(new_key);
-			// return (EXIT_FAILURE);
-		}
+			ft_exit_data_error(data, ERROR_INVALID_IDENTIFIER);
 		i++;
 	}
 	return (EXIT_SUCCESS);

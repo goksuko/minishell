@@ -16,33 +16,29 @@ void	free_prev_nodes(t_env *head)
 	return ;
 }
 
-void	update_shell(t_env **env_list)
+void	update_shell(t_data *data, t_env **env_list)
 {
 	t_env	*env;
 	t_env	*start;
 	char	*cwd;
 
 	start = *env_list;
-	// printf("start: %s\n", start->value);
 	env = *env_list;
 	cwd = NULL;
 	cwd = getcwd(0, 0);
-	// printf("cwd: %s\n", cwd);
-	// add error handling for cwd
+	if (cwd == NULL)
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "cwd in update_shell");
 	while (env)
 	{
 		if (!ft_strncmp("SHELL", env->key, 5))
 		{
-			// printf("env->value: %s\n", env->value);
 			free(env->value);
 			env->value = cwd;
-			// printf("env->value: %s\n", env->value);
 			return ;
 		}
 		env = env->next;
 	}
 	env_list = &start;
-	// printf("env_list: %s\n", (*env_list)->value);
 	free(cwd);
 	return ;
 }

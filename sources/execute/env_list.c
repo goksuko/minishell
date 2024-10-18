@@ -40,7 +40,7 @@ int	find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value)
 	*key = ft_substr(envp_i, 0, ft_strlen(envp_i));
 	if (errno == ENOMEM || key == NULL)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "key in find data");
-	if (check_key(*key))
+	if (check_key(data, *key))
 		return (free(*key), EXIT_FAILURE);
 	*value = NULL;
 	return (EXIT_SUCCESS);
@@ -56,7 +56,7 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 		key = ft_substr(envp_i, 0, pos);
 		if (errno == ENOMEM || key == NULL)
 			ft_exit_data_perror(data, ERROR_ALLOCATION, "key in create node");
-		if (check_key(key))
+		if (check_key(data, key))
 			return (free(key), NULL);
 		value = ft_substr(envp_i, pos + 1, ft_strlen(envp_i));
 		if (errno == ENOMEM || value == NULL)
