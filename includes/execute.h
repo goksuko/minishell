@@ -35,11 +35,8 @@ bool	key_rules(char c, int index);
 int		check_key(t_data *data, char *key);
 
 
-// execute_utils.c
-int		is_file(const char *path);
-
 // execute.c
-
+int		is_file(const char *path);
 void	execute_shell(t_data *data);
 
 // Utils functions //

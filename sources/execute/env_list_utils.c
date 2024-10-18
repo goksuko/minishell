@@ -43,50 +43,50 @@ void	update_shell(t_data *data, t_env **env_list)
 	return ;
 }
 
-void allocate_envp_matrix(t_data *data, char **envp)
-{
-	int i;
-	t_env *env;
+// void allocate_envp_matrix(t_data *data, char **envp)
+// {
+// 	int i;
+// 	t_env *env;
 
-	env = data->env_list;
-	i = 0;
-	while (env)
-	{
-		envp[i] = ft_strdup(env->key);
-		envp[i] = ft_strjoin(envp[i], "=");
-		envp[i] = ft_strjoin(envp[i], env->value);
-		env = env->next;
-		i++;
-	}
-	data->envp = envp;
-	printf("envp in allocate_envp_matrix: \n");
-	printf_array(data->envp);
-	return ;
-}
+// 	env = data->env_list;
+// 	i = 0;
+// 	while (env)
+// 	{
+// 		envp[i] = ft_strdup(env->key);
+// 		envp[i] = ft_strjoin(envp[i], "=");
+// 		envp[i] = ft_strjoin(envp[i], env->value);
+// 		env = env->next;
+// 		i++;
+// 	}
+// 	data->envp = envp;
+// 	printf("envp in allocate_envp_matrix: \n");
+// 	printf_array(data->envp);
+// 	return ;
+// }
 
-void update_envp(t_data *data)
-{
-	t_env	*env;
-	char	**envp;
-	int i;
+// void update_envp(t_data *data)
+// {
+// 	t_env	*env;
+// 	char	**envp;
+// 	int i;
 
-	i = 0;
-	printf("update_envp\n");
-	envp = data->envp;
-	if (envp && envp[0])
-		ft_free_matrix(envp);
-	env = data->env_list;
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	envp = ft_calloc(sizeof(char *), i + 1);
-	if (errno == ENOMEM || envp == NULL)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "envp in update_envp");
-	allocate_envp_matrix(data, envp);
-	return ;
-}
+// 	i = 0;
+// 	printf("update_envp\n");
+// 	envp = data->envp;
+// 	if (envp && envp[0])
+// 		ft_free_matrix(envp);
+// 	env = data->env_list;
+// 	while (env)
+// 	{
+// 		i++;
+// 		env = env->next;
+// 	}
+// 	envp = ft_calloc(sizeof(char *), i + 1);
+// 	if (errno == ENOMEM || envp == NULL)
+// 		ft_exit_data_perror(data, ERROR_ALLOCATION, "envp in update_envp");
+// 	allocate_envp_matrix(data, envp);
+// 	return ;
+// }
 
 
 void update_path(t_data *data)
@@ -115,7 +115,6 @@ void update_path(t_data *data)
 			ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
 	}
 	data->path = path;
-	// printf("path in update_path: %s\n", data->path);
 	return ;
 }
 

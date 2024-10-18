@@ -23,14 +23,19 @@ int last_exit_code_checks(int exit_code, t_data *data)
 
 void	execute_shell(t_data *data)
 {
-	printf("----EXECUTE SHELL----\n");
 	int		exit_code;
 
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	exit_code = create_children(data);
 	data->exit_code = last_exit_code_checks(exit_code, data);
 	printf("exit_code: %d\n", data->exit_code);
-	free_system(data); // to be replaced with free_data
-	// return (exit_code);
+	free_system(data);
 }
 
+int is_file(const char *path)
+{
+    struct stat path_stat;
+    if (stat(path, &path_stat) != 0)
+        return (false);
+    return (S_ISREG(path_stat.st_mode));
+}

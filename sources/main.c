@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 10:20:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:24:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	make_initial_path_checks(char **envp, t_data *data)
 		i++;
 	}
 	data->env_list = head;
-	// data->envp = NULL;
 	update_path(data);
 	update_shell(data, &data->env_list);
 	return ;
@@ -76,10 +75,7 @@ int	main(int argc, char *argv[], char **envp)
 
 	(void)argv;
 	if (argc != 1)
-	{
-		ft_printf_fd(STDERR_FILENO, "%s\n", ft_print_error(ERROR_ARGUMENT_COUNT));
-		return (ERROR_ARGUMENT_COUNT);
-	}
+		return(ft_printf_fd(STDERR_FILENO, "%s\n", ft_print_error(ERROR_ARGUMENT_COUNT)));
 	data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");
