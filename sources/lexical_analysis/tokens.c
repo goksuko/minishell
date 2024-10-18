@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/14 17:46:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:54:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,11 @@ t_token	*lexical_analysis(t_data *data, char *line)
 	char	**tokens;
 	t_token	*token_lst;
 
-	if (line[0] == '\0' || line_is_empty(line) == true)
+	if (ft_strncmp(line, " ", 1) == 0 && ft_strlen(line) == 1)
 	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_EMPTY_LINE, STDERR_FILENO);
+		free_system(data);
+		data->exit_code = 0;
+		return (NULL);
 	}
 	check_characters(data, line);
 	if (meta_character_check(line) == false)
@@ -166,6 +167,7 @@ t_token	*lexical_analysis(t_data *data, char *line)
 	}
 	tokens = create_token_array(data, line);
 	token_lst = create_token_list(data, tokens);
+	printf("line in: --%s--\n", line);
 	is_file_check(data, token_lst);
 	return (token_lst);
 }

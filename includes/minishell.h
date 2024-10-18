@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:37:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:21:55 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ typedef struct s_env
 
 // main.c
 
-int					check_pipe(char *line);
-int					find_path_index(char **envp);
 char				*rl_gets(void);
 bool				minishell_routine(t_data *data, char *line);
 
@@ -135,10 +133,10 @@ void				ft_exit_str_free_fd(t_error code, char *str, int fd);
 void				free_system(t_data *data);
 void				ft_exit_data_perror(t_data *data, t_error code, char *s);
 void				ft_exit_data_error(t_data *data, t_error code);
-void				ft_close_exit_perror(t_info *info, t_error code, char *s);
 void				close_info(t_info *info);
 void				free_data(t_data **data);
-
+void				ft_putstr2_fd(char *s1, char *s2, int fd);
+void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 
 // Libft functions //
 
@@ -154,22 +152,13 @@ void				ft_putchar_fd(char c, int fd);
 void				*ft_calloc(size_t nmemb, size_t size);
 
 
-// Ft_putstr2_fd functions //
-void				ft_putstr2_fd(char *s1, char *s2, int fd);
-void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
-
-// info.c
-
-pid_t	child_process(t_info *info);
-int		create_children(t_data *data);
-
 // Signals
 void	handle_signals(int process);
 void	handle_child_sigquit(int signal);
 void	handle_child_sigint(int signal);
 void	handle_parent_sigint(int signal);
 
-// utils.c
+// utils_safe.c
 
 char *ft_strjoin_c_safe(t_data *data, char *s1, char c);
 char *ft_strjoin_safe(t_data *data, char *s1, char *s2);

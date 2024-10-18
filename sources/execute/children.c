@@ -13,7 +13,7 @@ void do_first_child(t_info *info)
 void do_middle_child(t_info *info)
 {
 	if (info->fd_in != -10)
-		dup2_safe(info->fd_in, STDIN_FILENO, info); // it was fd_in before actually
+		dup2_safe(info->fd_in, STDIN_FILENO, info);
 	else
 		dup2_safe(info->pipe_read_end, STDIN_FILENO, info);
 	if (info->fd_out != -10)

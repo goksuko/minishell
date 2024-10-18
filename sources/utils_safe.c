@@ -35,3 +35,4 @@ char *ft_strdup_safe(t_data *data, char *s1)
     }
     return (str);
 }
+

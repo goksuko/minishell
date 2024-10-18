@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/10 11:53:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:58:41 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,21 @@ bool	line_is_empty(char *line)
 
 	i = 0;
 	while (line[i] != '\0')
-	{
-		if (is_whitespace(line[i]) == false)
-			return (false);
 		i++;
+	return (i == 0);
+}
+
+bool	line_is_whitespace(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (is_whitespace(line[i]) == true)
+			i++;
+		else
+			return (false);
 	}
 	return (true);
 }

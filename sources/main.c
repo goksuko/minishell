@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:24:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 13:59:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 	t_env	*head;
 	t_env	*node;
 	int		i;
-	
-	// printf_array(envp);
+
 	if (!envp && !(*envp))
 		ft_exit_data_error(data, ERROR_NO_ENVP);
 	i = 1;
@@ -29,9 +28,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 	{
 		node->next = ft_envp_node(data, envp[i]);
 		if (!node->next) 
-		{
-			free_prev_nodes(head); // rewrite memory stuff
-		}
+			free_prev_nodes(head);
 		node = node->next;
 		i++;
 	}
@@ -47,6 +44,8 @@ bool minishell_routine(t_data *data, char *line)
 	if ((line = rl_gets()) == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
+	if (data->tokens == NULL)
+		return (true);
 	expander(&data);
 	semantic_analysis(data);
 	execute_shell(data);
@@ -86,7 +85,10 @@ int	main(int argc, char *argv[], char **envp)
 	while (1)
 	{
 		if (minishell_routine(data, line) == false)
-			break;
+		{
+			free_data(&data);
+			return (0);
+		}
 	}
 	return (data->exit_code);
 }

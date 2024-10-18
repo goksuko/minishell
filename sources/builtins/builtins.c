@@ -2,7 +2,6 @@
 
 int	execute_builtin(char **cmds, t_data *data)
 {
-	printf("----EXECUTE BUILTIN----\n");
 	int	return_value;
 	int	cmd_len;
 
@@ -21,13 +20,12 @@ int	execute_builtin(char **cmds, t_data *data)
 	else if (cmd_len == 3 && (ft_strncmp(cmds[0], "env", 3) == 0 || ft_strncmp(cmds[0], "ENV", 3) == 0))
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
-		ft_exit(cmds + 1, data); // need to check if this works since it does not return anything
+		ft_exit(cmds + 1, data);
 	return (return_value);
 }
 
 bool	is_builtin(char *command)
 {
-	// printf("------IS BUILTIN CHECK-----\n");
 	int	cmd_len;
 	
 	if (command == NULL)

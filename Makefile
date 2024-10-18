@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/18 12:39:13 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/18 13:20:49 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ OBJS_DIR = objects
 SRCS = $(addprefix $(SRCS_DIR)/, \
 		errors.c \
 		main.c \
-		ft_putstr2_fd.c \
 		read_line.c \
 		utils_safe.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
