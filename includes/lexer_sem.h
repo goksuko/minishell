@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:43:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:20:51 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool define_dgreater(t_data *data, t_token *token);
 void	limiter_check(t_data *data);
 int		here_doc_fd_check(t_data *data);
 t_token	*redir_first(t_token *current);
-char	*do_cat_addition(t_data *data, t_token *current, char *cmd);
+char	*do_cat_addition(t_token *current, char *cmd);
 bool	is_first_after_pipe(t_token *current);
 char	**find_cmd_of_heredoc(t_token *current);
 // char **init_heredoc(t_data *data, t_token *current);

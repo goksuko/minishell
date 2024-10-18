@@ -53,20 +53,14 @@ t_token *redir_first(t_token *current)
 	return (temp);
 }
 
-char *do_cat_addition(t_data *data, t_token *current, char *cmd)
+char *do_cat_addition(t_token *current, char *cmd)
 {
 	cmd = ft_strjoin(cmd, " ");
 	if (cmd == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION, "cmd in do_cat_addition");
 		return (NULL);
-	}
 	cmd = ft_strjoin(cmd, current->next->expanded_value);
 	if (cmd == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION, "cmd in do_cat_addition");
 		return (NULL);
-	}
 	return (cmd);
 }
 
@@ -101,27 +95,7 @@ void init_heredoc(t_data *data)
 	close_safe(here_doc_fd, data->info);
 }
 
-bool do_heredoc(t_token *current, char **cmds, int j)
-{
-	if (current->next && current->next->next)
-		current = current->next->next;
-	cmds[j] = ft_strdup(current->expanded_value);
-	if (cmds[j] == NULL)
-		return (false);
-	current = current->next;
-	while (current && current->type != T_PIPE)
-	{
-		cmds[j]  = ft_strjoin(cmds[j] , " ");
-		if (cmds[j] == NULL)
-			return (false);
-		cmds[j]  = ft_strjoin(cmds[j] , current->expanded_value);
-		if (cmds[j] == NULL)
-			return (false);
-	}
-	return (true);
-}
-
-char **cmds_between_pipes_1(t_data *data, char **cmds)
+char **cmds_between_pipes(t_data *data, char **cmds)
 {
 	int		j;
 	t_token	*current;
@@ -136,9 +110,22 @@ char **cmds_between_pipes_1(t_data *data, char **cmds)
 		{
 			if (is_heredoc(current))
 			{
-				if(do_heredoc(current, cmds, j) == false)
+				if (current->next && current->next->next)
+					current = current->next->next;
+				cmds[j] = ft_strdup(current->expanded_value);
+				if (cmds[j] == NULL)
 					return (NULL);
 				current = current->next;
+				while (current && current->type != T_PIPE)
+				{
+					cmds[j]  = ft_strjoin(cmds[j] , " ");
+					if (cmds[j] == NULL)
+						return (NULL);
+					cmds[j]  = ft_strjoin(cmds[j] , current->expanded_value);
+					if (cmds[j] == NULL)
+						return (NULL);
+					current = current->next;
+				}
 			}
 			if (is_redir_except_heredoc(current) && is_first_after_pipe(current))
 			{
@@ -159,7 +146,7 @@ char **cmds_between_pipes_1(t_data *data, char **cmds)
 			{
 				if (cat_cmd)
 				{
-					cmds[j] = do_cat_addition(data, current, cmds[j]);
+					cmds[j] = do_cat_addition(current, cmds[j]);
 					if (cmds[j] == NULL)
 						return (NULL);
 					cat_cmd = false;
@@ -177,71 +164,7 @@ char **cmds_between_pipes_1(t_data *data, char **cmds)
 				current = current->next;
 			}
 		}
-		if (current && current->type == T_PIPE)
-			current = current->next;
-		j++;
-	}
-	cmds[j] = NULL;
-	return (cmds);
-}
-
-
-char **cmds_between_pipes_2(t_data *data, char **cmds)
-{
-	int		j;
-	t_token	*current;
-	bool	cat_cmd;
-
-	cat_cmd = false;
-	j = 0;
-	current = data->tokens;
-	while (current && current->type != T_PIPE)
-	{
-		while (current && current->type != T_PIPE)
-		{
-			if (is_heredoc(current))
-			{
-				if(do_heredoc(current, cmds, j) == false)
-					return (NULL);
-				current = current->next;
-			}
-			if (is_redir_except_heredoc(current) && is_first_after_pipe(current))
-			{
-				current = redir_first(current);
-				if (!current)
-					return (NULL);
-			}
-			if (current && ft_strncmp(current->expanded_value, "cat", 3) == 0)
-				cat_cmd = true;
-			if (is_first_after_pipe(current))
-			{
-				cmds[j] = ft_strdup(current->expanded_value);
-				if (cmds[j] == NULL)
-					return (NULL);
-				current = current->next;
-			}
-			if (current && is_redir_except_heredoc(current))
-			{
-				if (cat_cmd)
-				{
-					cmds[j] = do_cat_addition(data, current, cmds[j]);
-					if (cmds[j] == NULL)
-						return (NULL);
-					cat_cmd = false;
-				}
-				current = current->next->next;
-			}
-			else if (current && current->type != T_PIPE)
-			{
-				cmds[j] = ft_strjoin(cmds[j], " ");
-				if (cmds[j] == NULL)
-					return (NULL);
-				cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
-				if (cmds[j] == NULL)
-					return (NULL);
-				current = current->next;
-			}
-		}
+		printf("cmds[%d]: %s\n", j, cmds[j]);
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;
@@ -260,17 +183,11 @@ char **cmds_from_tokens(t_data *data)
 		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
 		return (NULL);
 	}
-	cmds = cmds_between_pipes_1(data, cmds);
+	cmds = cmds_between_pipes(data, cmds);
 	if (cmds == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
 		return (NULL);
 	}
-	// cmds = cmds_between_pipes_2(data, cmds);
-	// if (cmds == NULL)
-	// {
-	// 	free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
-	// 	return (NULL);
-	// }
 	return(cmds);
 }

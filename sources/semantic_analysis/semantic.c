@@ -71,6 +71,7 @@ bool	semantic_analysis(t_data *data)
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (false);
+	printf_array(data->cmds);
 	initialize_info(info, data); //here
 	initialize_fds(info, data);
 	return (true);
