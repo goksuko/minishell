@@ -6,25 +6,38 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 12:35:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:32:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	define_token_fd(t_data *data, t_token *token)
+bool	define_token_fd(t_data *data, t_token *token)
 {
 	if (token->type == T_SMALLER)
-		define_smaller(data, token);
+	{
+		if(define_smaller(data, token) == false)
+			return (false);
+	}
 	else if (token->type == T_GREATER)
-		define_greater(data, token);
+	{
+		if (define_greater(data, token) == false)
+			return (false);
+	}
 	else if (token->type == T_DSMALLER)
-		define_dsmaller(data, token);
+	{
+		if (define_dsmaller(data, token) == false)
+			return (false);
+	}
 	else if (token->type == T_DGREATER)
-		define_dgreater(data, token);
+	{
+		if (define_dgreater(data, token) == false)
+			return (false);
+	}
+	return (true);
 }
 
-void	define_smaller(t_data *data, t_token *token)
+bool	define_smaller(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
@@ -33,15 +46,16 @@ void	define_smaller(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", \
 		token->next->value);
-		data->exit_code = 1;
-		free_data(&data);
-		exit(1);
+		data->exit_code = ERROR_NO_FILE_DIR;
+		free_system(data);
+		return (false);
 	}
 	token->next->fd_in = temp_fd;
-	printf("< fd_in: %d, infile: %s\n", temp_fd, token->next->value);
+	// printf("< fd_in: %d, infile: %s\n", temp_fd, token->next->value);
+	return (true);
 }
 
-void	define_greater(t_data *data, t_token *token)
+bool	define_greater(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
@@ -50,15 +64,16 @@ void	define_greater(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", \
 		token->next->value);
-		data->exit_code = 1;
-		free_data(&data);
-		exit(1);
+		data->exit_code = ERROR_NO_FILE_DIR;
+		free_system(data);
+		return (false);
 	}
 	token->next->fd_out = temp_fd;
-	printf("> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
+	// printf("> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
+	return (true);
 }
 
-void	define_dsmaller(t_data *data, t_token *token)
+bool	define_dsmaller(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
@@ -67,17 +82,22 @@ void	define_dsmaller(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", \
 		token->next->value);
-		data->exit_code = 1;
-		free_data(&data);
-		exit(1);
+		data->exit_code = ERROR_NO_FILE_DIR;
+		free_system(data);
+		return (false);
 	}
 	token->next->here_doc_fd = temp_fd;
-	token->next->limiter = ft_strdup_safe(data, token->next->value);
-	printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd, \
-	token->next->limiter);
+	token->next->limiter = ft_strdup(token->next->value);
+	if (token->next->limiter == NULL)
+	{
+		free_system_perror(data, ERROR_ALLOCATION, "limiter in define_dsmaller");
+		return (false);
+	}
+	// printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd, token->next->limiter);
+	return (true);
 }
 
-void	define_dgreater(t_data *data, t_token *token)
+bool	define_dgreater(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
@@ -86,10 +106,11 @@ void	define_dgreater(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", \
 		token->next->value);
-		data->exit_code = 1;
-		free_data(&data);
-		exit(1);
+		data->exit_code = ERROR_NO_FILE_DIR;
+		free_system(data);
+		return (false);
 	}
 	token->next->fd_out = temp_fd;
-	printf(">> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
+	// printf(">> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
+	return (true);
 }

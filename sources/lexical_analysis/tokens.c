@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:33:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:29:29 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	heredoc_position(t_token *current)
 	return (i);
 }
 
-void	is_file_check(t_data *data, t_token *token_lst)
+bool	is_file_check(t_data *data, t_token *token_lst)
 {
 	t_token	*current;
 
@@ -78,9 +78,11 @@ void	is_file_check(t_data *data, t_token *token_lst)
 	while (current != NULL)
 	{
 		if (is_redir(current) == true)
-			define_token_fd(data, current);
+			if(define_token_fd(data, current) == false)
+				return (false);
 		current = current->next;
 	}
+	return (true);
 }
 
 char	**create_token_array(t_data *data, char *line)
@@ -91,12 +93,16 @@ char	**create_token_array(t_data *data, char *line)
 	number_tokens = count_tokens(line);
 	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
 	if (tokens == NULL)
+	{
 		free_system_perror(data, ERROR_ALLOCATION, "tokens in create_token_array");
+		return (NULL);
+	}
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (tokens == NULL)
 	{
 		ft_free_matrix(tokens);
 		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
+		return (NULL);
 	}
 	return (tokens);
 }
@@ -136,10 +142,11 @@ t_token	*create_token_list(t_data *data, char **token_array)
 	token_lst = array_to_list(token_array, token_count);
 	if (token_lst == NULL)
 	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+		free_system_perror(data, ERROR_ALLOCATION, "token_lst in array_to_list");
+		return (NULL);
 	}
-	check_unclosed_quotes(data, token_lst);
+	if (check_unclosed_quotes(data, token_lst) == false)
+		return (NULL);
 	return (token_lst);
 }
 
@@ -160,9 +167,13 @@ t_token	*lexical_analysis(t_data *data, char *line)
 		return (NULL);
 	}
 	tokens = create_token_array(data, line);
+	if (tokens == NULL)
+		return (NULL);
 	token_lst = create_token_list(data, tokens);
-	printf("line in: --%s--\n", line);
-	is_file_check(data, token_lst);
+	if (token_lst == NULL)
+		return (NULL);
+	if (is_file_check(data, token_lst) == false)
+		return (NULL);
 	return (token_lst);
 }
 

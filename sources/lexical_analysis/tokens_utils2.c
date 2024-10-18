@@ -6,13 +6,13 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:11:50 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:11:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	check_unclosed_quotes(t_data *data, t_token *token_lst)
+bool	check_unclosed_quotes(t_data *data, t_token *token_lst)
 {
 	t_token	*current;
 	char	quote;
@@ -25,12 +25,13 @@ void	check_unclosed_quotes(t_data *data, t_token *token_lst)
 			quote = current->value[0];
 			if ((current->value[ft_strlen(current->value) - 1]) != quote)
 			{
-				free_data(&data);
-				ft_exit_str_fd(ERROR_QUOTE, STDERR_FILENO);
+				free_system_error(data, ERROR_QUOTE);
+				return (false);
 			}
 		}
 		current = current->next;
 	}
+	return (true);
 }
 
 int	count_tokens(char *line)

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:16:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:30:30 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token	*create_token_list(t_data *data, char **token_array);
 bool	is_redir(t_token *current);
 bool	is_redir_except_heredoc(t_token *current);
 bool	is_heredoc(t_token *current);
-void	is_file_check(t_data *data, t_token *token_lst);
+bool	is_file_check(t_data *data, t_token *token_lst);
 bool	heredoc_inside(t_token *current);
 int		heredoc_position(t_token *current);
 
@@ -72,7 +72,7 @@ void 	skip_whitespace(char *line, int *i);
 char	*ft_strcpy(char *dest, char *src, int len);
 void	skip_quotes(char *line, int *i);
 void	skip_meta(char *line, int *i);
-void	check_unclosed_quotes(t_data *data, t_token *token_lst);
+bool	check_unclosed_quotes(t_data *data, t_token *token_lst);
 void	free_token_list(t_token **tokens);
 bool	line_is_empty(char *line);
 bool	line_is_whitespace(char *line);
@@ -99,11 +99,11 @@ t_token_type	check_single_quotes(char *token);
 
 // define_tokens
 
-void define_token_fd(t_data *data, t_token *token);
-void define_smaller(t_data *data, t_token *token);
-void define_greater(t_data *data, t_token *token);
-void define_dsmaller(t_data *data, t_token *token);
-void define_dgreater(t_data *data, t_token *token);
+bool define_token_fd(t_data *data, t_token *token);
+bool define_smaller(t_data *data, t_token *token);
+bool define_greater(t_data *data, t_token *token);
+bool define_dsmaller(t_data *data, t_token *token);
+bool define_dgreater(t_data *data, t_token *token);
 
 //  cmds_from_tokens.c
 
