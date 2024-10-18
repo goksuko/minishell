@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/11 14:14:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 11:40:10 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 		return (NULL);
 	}
 	new_token->type = type;
-//	new_token->is_file = false;
 	new_token->token_count = token_count;
 	new_token->prev = NULL;
 	new_token->next = NULL;

@@ -23,7 +23,7 @@ char	*ft_get_env(t_env *env_list, char *value);
 
 // env_list.c
 t_env	*ft_envp_node(t_data *data, char *envp_i);
-void    update_envp(t_data *data);
+// void    update_envp(t_data *data);
 int		find_first_eq(char *envp_i);
 t_env	*ft_new_node(t_data *data, char *key, char *value);
 int		find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value);
@@ -45,6 +45,7 @@ void	start_exec(t_info *info);
 bool	is_whitespace(char c);
 
 // Path functions //
+char	*find_path_helper(t_info *info, char *main_command, char **path_split, int i);
 char	*find_path(t_info *info, char *main_command);
 
 // utils2.c

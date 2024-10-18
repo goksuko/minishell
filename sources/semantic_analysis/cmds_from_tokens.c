@@ -8,10 +8,7 @@ void limiter_check(t_data *data)
 	while (current)
 	{
 		if (current->limiter)
-		{
-			data->info->limiter = ft_strdup(current->limiter);
-			// printf("limiter in limiter_check: %s\n", data->info->limiter);
-		}	
+			data->info->limiter = ft_strdup_safe(data, current->limiter);
 		current = current->next;
 	}
 }
@@ -25,10 +22,7 @@ int here_doc_fd_check(t_data *data)
 	while (current)
 	{
 		if (current->limiter)
-		{
 			temp_fd = current->here_doc_fd;
-			// printf("here_doc_fd_check: %d\n", temp_fd);
-		}	
 		current = current->next;
 	}
 	return (temp_fd);
@@ -54,10 +48,10 @@ t_token *redir_first(t_token *current)
 	return (temp);
 }
 
-char *do_cat_addition(t_token *current, char *cmd)
+char *do_cat_addition(t_data *data, t_token *current, char *cmd)
 {
-	cmd = ft_strjoin(cmd, " ");
-	cmd = ft_strjoin(cmd, current->next->expanded_value);
+	cmd = ft_strjoin_safe(data, cmd, " ");
+	cmd = ft_strjoin_safe(data, cmd, current->next->expanded_value);
 	// printf("cmd: %s\n", cmd);
 	return (cmd);
 }
@@ -153,13 +147,13 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 			{
 				if (current->next && current->next->next)
 					current = current->next->next;
-				cmds[j] = ft_strdup(current->expanded_value);
+				cmds[j] = ft_strdup_safe(data, current->expanded_value);
 				// printf("cmds[j]: %s\n", cmds[j]);
 				current = current->next;
 				while (current && current->type != T_PIPE)
 				{
-					cmds[j]  = ft_strjoin(cmds[j] , " ");
-					cmds[j]  = ft_strjoin(cmds[j] , current->expanded_value);
+					cmds[j]  = ft_strjoin_safe(data, cmds[j] , " ");
+					cmds[j]  = ft_strjoin_safe(data, cmds[j] , current->expanded_value);
 					current = current->next;
 				}
 			}
@@ -173,22 +167,22 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				cat_cmd = true;
 			if (is_first_after_pipe(current))
 			{
-				cmds[j] = ft_strdup(current->expanded_value);
+				cmds[j] = ft_strdup_safe(data, current->expanded_value);
 				current = current->next;
 			}
 			if (current && is_redir_except_heredoc(current))
 			{
 				if (cat_cmd)
 				{
-					cmds[j] = do_cat_addition(current, cmds[j]);
+					cmds[j] = do_cat_addition(data, current, cmds[j]);
 					cat_cmd = false;
 				}
 				current = current->next->next;
 			}
 			else if (current && current->type != T_PIPE)
 			{
-				cmds[j] = ft_strjoin(cmds[j], " ");
-				cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
+				cmds[j] = ft_strjoin_safe(data, cmds[j], " ");
+				cmds[j] = ft_strjoin_safe(data, cmds[j], current->expanded_value);
 				current = current->next;
 			}
 		}

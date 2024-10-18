@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/17 11:22:02 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:35:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	define_dsmaller(t_data *data, t_token *token)
 		exit(1);
 	}
 	token->next->here_doc_fd = temp_fd;
-	token->next->limiter = ft_strdup(token->next->value);
+	token->next->limiter = ft_strdup_safe(data, token->next->value);
 	printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd, \
 	token->next->limiter);
 }

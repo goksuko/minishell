@@ -103,17 +103,13 @@ void update_path(t_data *data)
 	{
 		if (!ft_strncmp("PATH", env->key, 4))
 		{
-			path = ft_strdup(env->value);
+			path = ft_strdup_safe(data, env->value);
 			break ;
 		}
 		env = env->next;
 	}
 	if (!path)
-	{
-		path = ft_strdup("");
-		if (errno == ENOMEM || path == NULL)
-			ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
-	}
+		path = ft_strdup_safe(data, "");
 	data->path = path;
 	return ;
 }

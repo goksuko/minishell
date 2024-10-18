@@ -26,14 +26,14 @@ void	initialize_fds(t_info *info, t_data *data)
 			if (info->fds[i][0] != -10)
 				close_safe(info->fds[i][0], info);
 			info->fds[i][0] = current->fd_in;
-			info->infile = ft_strdup(current->expanded_value);
+			info->infile = ft_strdup_safe(data, current->expanded_value);
 		}
 		if (current->fd_out != -10)
 		{
 			if (info->fds[i][1] != -10)
 				close_safe(info->fds[i][1], info);
 			info->fds[i][1] = current->fd_out;
-			info->outfile = ft_strdup(current->expanded_value);
+			info->outfile = ft_strdup_safe(data, current->expanded_value);
 		}
 		if (current->type == T_PIPE) // we write the fd_in and fd_out values (if there is) between pipes
 			i++;

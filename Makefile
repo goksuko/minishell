@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/16 21:41:05 by vbusekru      ########   odam.nl          #
+#    Updated: 2024/10/18 12:39:13 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_lst_utils.c \
 						token_lst_free.c \
 						token_types.c \
-						token_types2.c
+						token_types2.c \
 
 SEMANTIC_ANALYSIS = semantic.c \
 					cmds_from_tokens.c \
@@ -43,7 +43,6 @@ BUILTINS = 				builtins.c \
 EXECUTE =				child_processes.c \
 						children.c \
 						execute.c \
-						execute_utils.c \
 						env_list.c \
 						env_list_utils.c \
 						env_key_funcs.c \
@@ -68,6 +67,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		main.c \
 		ft_putstr2_fd.c \
 		read_line.c \
+		utils_safe.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix expander/, $(EXPANDER)) \
 		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \

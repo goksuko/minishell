@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 10:13:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/18 12:37:40 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,10 @@ void	handle_child_sigquit(int signal);
 void	handle_child_sigint(int signal);
 void	handle_parent_sigint(int signal);
 
+// utils.c
 
+char *ft_strjoin_c_safe(t_data *data, char *s1, char c);
+char *ft_strjoin_safe(t_data *data, char *s1, char *s2);
+char *ft_strdup_safe(t_data *data, char *s1);
 
 #endif
