@@ -88,7 +88,7 @@ bool	do_child_of_child(t_info *info)
 			ft_free_matrix(command);
 			return (false);
 		}
-	}	
+	}
 	else
 	{
 		if (start_exec(info) == false)

@@ -41,7 +41,6 @@ bool	start_exec(t_info *info)
 		return (false);
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
-
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 		return (false);
 	return (true);

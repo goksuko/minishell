@@ -178,7 +178,7 @@ bool	init_heredoc(t_data *data)
 // 	return (cmds);
 // }
 
-bool handle_heredoc(t_token **current, char **cmds, int *j)
+bool	handle_heredoc(t_token **current, char **cmds, int *j)
 {
 	if ((*current)->next && (*current)->next->next)
 		(*current) = (*current)->next->next;
@@ -199,7 +199,7 @@ bool handle_heredoc(t_token **current, char **cmds, int *j)
 	return (true);
 }
 
-bool handle_redirection(t_token **current, bool *cat_cmd)
+bool	handle_redirection(t_token **current, bool *cat_cmd)
 {
 	if (is_redir_except_heredoc(*current) && is_first_after_pipe(*current))
 	{
@@ -212,7 +212,8 @@ bool handle_redirection(t_token **current, bool *cat_cmd)
 	return (true);
 }
 
-bool handle_redirection2(t_token **current, char **cmds, int *j, bool *cat_cmd)
+bool	handle_redirection2(t_token **current, char **cmds, int *j,
+		bool *cat_cmd)
 {
 	if (is_first_after_pipe(*current))
 	{

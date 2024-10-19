@@ -44,9 +44,9 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	return (true);
 }
 
-void initialize_fds_array(t_info *info)
+void	initialize_fds_array(t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 100)
@@ -75,7 +75,7 @@ bool	initialize_fds(t_info *info, t_data *data)
 		}
 		if (current->fd_out != -10)
 		{
-			if (!handle_outfile (data, info, i, current))
+			if (!handle_outfile(data, info, i, current))
 				return (false);
 		}
 		if (current->type == T_PIPE)
