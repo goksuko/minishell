@@ -74,8 +74,8 @@ char	*handle_dollar_sign(t_data **data, char *str)
 	char	*temp;
 	char	*new_temp;
 	char	*middle_to_add;
-	char	*new_temp;
-	char	*new_temp;
+	// char	*new_temp; //commented out because of compilation error
+	// char	*new_temp;
 
 	i = 0;
 	end_dollar = 0;
