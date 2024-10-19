@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_list_utils.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 22:59:22 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 23:04:31 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_prev_nodes(t_env *head)
@@ -43,6 +55,29 @@ void	update_shell(t_data *data, t_env **env_list)
 	return ;
 }
 
+char	*take_path_from_env(t_data *data, t_env **env)
+{
+	char	*path;
+
+	while (*env)
+	{
+		if (!ft_strncmp("PATH", (*env)->key, 4))
+		{
+			path = ft_strdup((*env)->value);
+			if (path == NULL)
+				ft_exit_data_perror(data, ERROR_ALLOCATION,
+					"path in update_path");
+			break ;
+		}
+		(*env) = (*env)->next;
+	}
+	if (!path)
+		path = ft_strdup("");
+	if (path == NULL)
+		ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
+	return (path);
+}
+
 void	update_path(t_data *data)
 {
 	t_env	*env;
@@ -53,23 +88,7 @@ void	update_path(t_data *data)
 	if (path)
 		free(path);
 	path = NULL;
-	while (env)
-	{
-		if (!ft_strncmp("PATH", env->key, 4))
-		{
-			path = ft_strdup(env->value);
-			if (path == NULL)
-				ft_exit_data_perror(data, ERROR_ALLOCATION,
-					"path in update_path");
-			break ;
-		}
-		env = env->next;
-	}
-	if (!path)
-		path = ft_strdup("");
-	if (path == NULL)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
-	data->path = path;
+	data->path = take_path_from_env(data, &env);
 	return ;
 }
 

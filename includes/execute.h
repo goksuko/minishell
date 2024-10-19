@@ -14,11 +14,14 @@ pid_t	child_process(t_info *info);
 bool	do_first_child(t_info *info);
 bool	do_middle_child(t_info *info);
 bool	do_last_child(t_info *info);
+bool	handle_child_type(t_info *info);
+bool	handle_builtin(t_info *info, char **command);
 
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);
 void	update_shell(t_data *data, t_env **env_list);
 void	update_path(t_data *data);
+char	*take_path_from_env(t_data *data, t_env **env);
 char	*ft_get_env(t_env *env_list, char *value);
 
 // env_list.c

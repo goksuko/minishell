@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 18:20:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 22:41:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_token
 	// !! needs to be initialized and freed properly but to be aligned with goksu's code!!
 	struct s_token	*next;
 	struct s_token	*prev;
-	//	bool			is_file;
 	int				token_count;
 	int				fd_in;
 	int				fd_out;
@@ -111,20 +110,19 @@ bool				define_dgreater(t_data *data, t_token *token);
 
 //  cmds_from_tokens.c
 
-bool				limiter_check(t_data *data);
-int					here_doc_fd_check(t_data *data);
 t_token				*redir_first(t_token *current);
 char				*do_cat_addition(t_token *current, char *cmd);
 bool				is_first_after_pipe(t_token *current);
-char				**find_cmd_of_heredoc(t_token *current);
+char				**cmds_between_pipes(t_data *data, char **cmds);
+char				**cmds_from_tokens(t_data *data);
 
-bool				init_heredoc(t_data *data);
+// cmds_between_pipes.c
+
 bool				handle_heredoc(t_token **current, char **cmds, int *j);
 bool				handle_redirection(t_token **current, bool *cat_cmd);
 bool				handle_redirection2(t_token **current, char **cmds, int *j, bool *cat_cmd);
 bool				handle_command(t_token **current, char **cmds, int *j);
-char				**cmds_between_pipes(t_data *data, char **cmds);
-char				**cmds_from_tokens(t_data *data);
+bool				handle_loop(t_token **current, char **cmds, int *j, bool *cat_cmd);
 
 // semantic.c
 bool				handle_infile(t_data *data, t_info *info, int i, t_token *current);
@@ -136,5 +134,10 @@ bool				semantic_analysis(t_data *data);
 // semantic_utils.c
 int					find_pipe_count(t_token *tokens);
 void				initialize_info(t_info *info, t_data *data);
+
+// heredoc_semantic.c
+bool				limiter_check(t_data *data);
+int					here_doc_fd_check(t_data *data);
+bool				init_heredoc(t_data *data);
 
 #endif

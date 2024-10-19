@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_list.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 22:58:36 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 22:58:58 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 t_env	*ft_envp_node(t_data *data, char *envp_i)
@@ -48,8 +60,8 @@ int	find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value)
 
 t_env	*create_node(t_data *data, char *envp_i, int pos)
 {
-	char *key;
-	char *value;
+	char	*key;
+	char	*value;
 
 	if (pos)
 	{

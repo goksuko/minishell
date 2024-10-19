@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env_key_funcs.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 23:04:41 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 23:05:06 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 bool	key_rules(char c, int index)
@@ -17,7 +29,7 @@ bool	key_rules(char c, int index)
 
 int	check_key(t_data *data, char *key)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (key && key[0] == '\0')

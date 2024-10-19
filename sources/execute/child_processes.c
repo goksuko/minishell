@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   child_processes.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 22:58:04 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 bool	do_commands(t_data *data, int i)
@@ -28,10 +40,7 @@ bool	create_children(t_data *data)
 	int		status;
 
 	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
-	data->exit_code = 0;
 	i = 0;
-	data->info->pipe_read_end = STDIN_FILENO;
-	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	while (i < data->nbr_of_cmds)
 	{
 		if (do_commands(data, i) == false)
@@ -41,11 +50,6 @@ bool	create_children(t_data *data)
 			return (false);
 		data->info->curr_cmd++;
 		i++;
-	}
-	if (data->info->limiter)
-	{
-		if (unlink("0ur_h3r3_d0c") < 0)
-			return (false);
 	}
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
@@ -62,32 +66,15 @@ bool	do_child_of_child(t_info *info)
 	char	**command;
 
 	command = NULL;
-	if (info->curr_cmd == info->data->nbr_of_cmds - 1)
-	{
-		if (do_last_child(info) == false)
-			return (false);
-	}
-	else if (info->curr_cmd == 0)
-	{
-		if (do_first_child(info) == false)
-			return (false);
-	}
-	else
-	{
-		if (do_middle_child(info) == false)
-			return (false);
-	}
+	if (handle_child_type(info) == false)
+		return (false);
 	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (command == NULL)
 		return (false);
 	if (is_builtin(command[0]))
 	{
-		info->data->exit_code = execute_builtin(command, info->data);
-		if (info->data->exit_code == -25)
-		{
-			ft_free_matrix(command);
+		if (handle_builtin(info, command) == false)
 			return (false);
-		}
 	}
 	else
 	{
