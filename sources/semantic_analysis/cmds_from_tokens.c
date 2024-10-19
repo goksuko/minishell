@@ -264,68 +264,14 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 			{
 				if (!handle_heredoc(&current, cmds, &j))
 					return (NULL);
-				// if (current->next && current->next->next)
-				// 	current = current->next->next;
-				// cmds[j] = ft_strdup(current->expanded_value);
-				// if (cmds[j] == NULL)
-				// 	return (NULL);
-				// current = current->next;
-				// while (current && current->type != T_PIPE)
-				// {
-				// 	cmds[j] = ft_strjoin(cmds[j], " ");
-				// 	if (cmds[j] == NULL)
-				// 		return (NULL);
-				// 	cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
-				// 	if (cmds[j] == NULL)
-				// 		return (NULL);
-				// 	current = current->next;
-				// }
 			}
 			if (!handle_redirection(&current, &cat_cmd))
 				return (NULL);
-			// if (is_redir_except_heredoc(current)
-			// 	&& is_first_after_pipe(current))
-			// {
-			// 	current = redir_first(current);
-			// 	if (!current)
-			// 		return (NULL);
-			// }
-			// if (current && ft_strncmp(current->expanded_value, "cat", 3) == 0)
-			// 	cat_cmd = true;
 			if (!handle_redirection2(&current, cmds, &j, &cat_cmd))
 				return (NULL);
-			// if (is_first_after_pipe(current))
-			// {
-			// 	cmds[j] = ft_strdup(current->expanded_value);
-			// 	if (cmds[j] == NULL)
-			// 		return (NULL);
-			// 	current = current->next;
-			// }
-			// if (current && is_redir_except_heredoc(current))
-			// {
-			// 	if (cat_cmd)
-			// 	{
-			// 		cmds[j] = do_cat_addition(current, cmds[j]);
-			// 		if (cmds[j] == NULL)
-			// 			return (NULL);
-			// 		cat_cmd = false;
-			// 	}
-			// 	current = current->next->next;
-			// }
 			if (!handle_command(&current, cmds, &j))
 				return (NULL);
-			// else if (current && current->type != T_PIPE)
-			// {
-			// 	cmds[j] = ft_strjoin(cmds[j], " ");
-			// 	if (cmds[j] == NULL)
-			// 		return (NULL);
-			// 	cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
-			// 	if (cmds[j] == NULL)
-			// 		return (NULL);
-			// 	current = current->next;
-			// }
 		}
-		printf("cmds[%d]: %s\n", j, cmds[j]);
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;

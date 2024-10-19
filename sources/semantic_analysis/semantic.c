@@ -1,11 +1,53 @@
 #include "../../includes/minishell.h"
 
-void	initialize_fds(t_info *info, t_data *data)
+bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
-	int		i;
-	t_token	*current;
+	if (info->fds[i][0] != -10)
+	{
+		if (close(info->fds[i][0]) < 0)
+		{
+			free_system_perror(data, ERROR_CLOSE,
+				"info->fds[i][0] in initialize_fds");
+			return (false);
+		}
+	}
+	info->fds[i][0] = current->fd_in;
+	info->infile = ft_strdup(current->expanded_value);
+	if (info->infile == NULL)
+	{
+		free_system_perror(data, ERROR_ALLOCATION,
+			"info->infile in initialize_fds");
+		return (false);
+	}
+	return (true);
+}
 
-	printf("---initialize_fds---\n");
+bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
+{
+	if (info->fds[i][1] != -10)
+	{
+		if (close(info->fds[i][1]) < 0)
+		{
+			free_system_perror(data, ERROR_CLOSE,
+				"info->fds[i][1] in initialize_fds");
+			return (false);
+		}
+	}
+	info->fds[i][1] = current->fd_out;
+	info->outfile = ft_strdup(current->expanded_value);
+	if (info->outfile == NULL)
+	{
+		free_system_perror(data, ERROR_ALLOCATION,
+			"info->outfile in initialize_fds");
+		return (false);
+	}
+	return (true);
+}
+
+void initialize_fds_array(t_info *info)
+{
+	int i;
+
 	i = 0;
 	while (i < 100)
 	{
@@ -13,46 +55,34 @@ void	initialize_fds(t_info *info, t_data *data)
 		info->fds[i][1] = -10;
 		i++;
 	}
+	return ;
+}
+
+bool	initialize_fds(t_info *info, t_data *data)
+{
+	int		i;
+	t_token	*current;
+
+	initialize_fds_array(info);
 	i = 0;
 	current = data->tokens;
 	while (current)
 	{
-		// if (current->fd_in != -10)
-		// 	printf("current->fd_in: %d\n", current->fd_in);
-		// if (current->fd_out != -10)
-		// 	printf("current->fd_out: %d\n", current->fd_out);
-		if (current->fd_in != -10) // if there is a redir,
-		//	fd_in and fd_out is defined from tokens
-			{
-				if (info->fds[i][0] != -10)
-					close_safe(info->fds[i][0], info);
-				info->fds[i][0] = current->fd_in;
-				info->infile = ft_strdup(current->expanded_value);
-				if (info->infile == NULL)
-				{
-					free_system_perror(data, ERROR_ALLOCATION,
-						"info->infile in initialize_fds");
-					return ; // false boolean
-				}
-			}
+		if (current->fd_in != -10)
+		{
+			if (!handle_infile(data, info, i, current))
+				return (false);
+		}
 		if (current->fd_out != -10)
 		{
-			if (info->fds[i][1] != -10)
-				close_safe(info->fds[i][1], info);
-			info->fds[i][1] = current->fd_out;
-			info->outfile = ft_strdup(current->expanded_value);
-			if (info->outfile == NULL)
-			{
-				free_system_perror(data, ERROR_ALLOCATION,
-					"info->outfile in initialize_fds");
-				return ; // false boolean
-			}
+			if (!handle_outfile (data, info, i, current))
+				return (false);
 		}
 		if (current->type == T_PIPE)
-			// we write the fd_in and fd_out values (if there is) between pipes
 			i++;
 		current = current->next;
 	}
+	return (true);
 }
 
 bool	semantic_analysis(t_data *data)
@@ -75,8 +105,8 @@ bool	semantic_analysis(t_data *data)
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (false);
-	// printf_array(data->cmds);
-	initialize_info(info, data); // here
-	initialize_fds(info, data);
+	initialize_info(info, data);
+	if (initialize_fds(info, data) == false)
+		return (false);
 	return (true);
 }
