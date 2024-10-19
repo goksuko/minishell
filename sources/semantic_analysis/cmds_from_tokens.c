@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void limiter_check(t_data *data)
+void	limiter_check(t_data *data)
 {
 	t_token	*current;
 
@@ -11,17 +11,18 @@ void limiter_check(t_data *data)
 		{
 			data->info->limiter = ft_strdup(current->limiter);
 			if (data->info->limiter == NULL)
-				free_system_perror(data, ERROR_ALLOCATION, "limiter in limiter_check");
-				//chenge to boolean
+				free_system_perror(data, ERROR_ALLOCATION,
+					"limiter in limiter_check");
+			// chenge to boolean
 		}
 		current = current->next;
 	}
 }
 
-int here_doc_fd_check(t_data *data)
+int	here_doc_fd_check(t_data *data)
 {
 	t_token	*current;
-	int temp_fd;
+	int		temp_fd;
 
 	current = data->tokens;
 	while (current)
@@ -33,12 +34,12 @@ int here_doc_fd_check(t_data *data)
 	return (temp_fd);
 }
 
-t_token *redir_first(t_token *current)
+t_token	*redir_first(t_token *current)
 {
 	t_token	*temp;
 	t_token	*smaller;
-	t_token *file;
-	t_token *next_token;
+	t_token	*file;
+	t_token	*next_token;
 
 	if (current->next == NULL || current->next->next == NULL)
 		return (NULL);
@@ -53,7 +54,7 @@ t_token *redir_first(t_token *current)
 	return (temp);
 }
 
-char *do_cat_addition(t_token *current, char *cmd)
+char	*do_cat_addition(t_token *current, char *cmd)
 {
 	cmd = ft_strjoin(cmd, " ");
 	if (cmd == NULL)
@@ -64,15 +65,14 @@ char *do_cat_addition(t_token *current, char *cmd)
 	return (cmd);
 }
 
-bool is_first_after_pipe(t_token *current)
+bool	is_first_after_pipe(t_token *current)
 {
-	if (current && \
-		(current->prev == NULL || current->prev->type == T_PIPE))
+	if (current && (current->prev == NULL || current->prev->type == T_PIPE))
 		return (true);
 	return (false);
 }
 
-void init_heredoc(t_data *data)
+void	init_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
@@ -85,8 +85,9 @@ void init_heredoc(t_data *data)
 	line = readline("> ");
 	while (line)
 	{
-		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-			break;
+		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter,
+				ft_strlen(limiter)) == 0)
+			break ;
 		write(here_doc_fd, line, ft_strlen(line));
 		write(here_doc_fd, "\n", 1);
 		free(line);
@@ -95,7 +96,7 @@ void init_heredoc(t_data *data)
 	close_safe(here_doc_fd, data->info);
 }
 
-char **cmds_between_pipes(t_data *data, char **cmds)
+char	**cmds_between_pipes(t_data *data, char **cmds)
 {
 	int		j;
 	t_token	*current;
@@ -118,16 +119,17 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 				current = current->next;
 				while (current && current->type != T_PIPE)
 				{
-					cmds[j]  = ft_strjoin(cmds[j] , " ");
+					cmds[j] = ft_strjoin(cmds[j], " ");
 					if (cmds[j] == NULL)
 						return (NULL);
-					cmds[j]  = ft_strjoin(cmds[j] , current->expanded_value);
+					cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
 					if (cmds[j] == NULL)
 						return (NULL);
 					current = current->next;
 				}
 			}
-			if (is_redir_except_heredoc(current) && is_first_after_pipe(current))
+			if (is_redir_except_heredoc(current)
+				&& is_first_after_pipe(current))
 			{
 				current = redir_first(current);
 				if (!current)
@@ -173,7 +175,7 @@ char **cmds_between_pipes(t_data *data, char **cmds)
 	return (cmds);
 }
 
-char **cmds_from_tokens(t_data *data)
+char	**cmds_from_tokens(t_data *data)
 {
 	char	**cmds;
 
@@ -189,5 +191,5 @@ char **cmds_from_tokens(t_data *data)
 		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
 		return (NULL);
 	}
-	return(cmds);
+	return (cmds);
 }

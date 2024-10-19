@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:16:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:04:22 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 	while (envp[i])
 	{
 		node->next = ft_envp_node(data, envp[i]);
-		if (!node->next) 
+		if (!node->next)
 			free_prev_nodes(head);
 		node = node->next;
 		i++;
@@ -38,7 +38,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 	return ;
 }
 
-bool minishell_routine(t_data *data, char *line)
+bool	minishell_routine(t_data *data, char *line)
 {
 	handle_signals(PARENT);
 	if ((line = rl_gets()) == NULL)
@@ -54,7 +54,7 @@ bool minishell_routine(t_data *data, char *line)
 	return (true);
 }
 
-void init_data(t_data *data)
+void	init_data(t_data *data)
 {
 	data->cmds = NULL;
 	data->line = NULL;
@@ -69,14 +69,13 @@ void init_data(t_data *data)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	
 	char	*line;
-	
 	t_data	*data;
 
 	(void)argv;
 	if (argc != 1)
-		return(ft_printf_fd(STDERR_FILENO, "%s\n", ft_print_error(ERROR_ARGUMENT_COUNT)));
+		return (ft_printf_fd(STDERR_FILENO, "%s\n",
+				ft_print_error(ERROR_ARGUMENT_COUNT)));
 	data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");

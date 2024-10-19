@@ -43,7 +43,7 @@ void	update_shell(t_data *data, t_env **env_list)
 	return ;
 }
 
-void update_path(t_data *data)
+void	update_path(t_data *data)
 {
 	t_env	*env;
 	char	*path;
@@ -59,7 +59,8 @@ void update_path(t_data *data)
 		{
 			path = ft_strdup(env->value);
 			if (path == NULL)
-				ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
+				ft_exit_data_perror(data, ERROR_ALLOCATION,
+					"path in update_path");
 			break ;
 		}
 		env = env->next;

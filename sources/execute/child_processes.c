@@ -25,7 +25,7 @@ int	create_children(t_data *data)
 	pid_t	pid;
 	int		status;
 
-	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION 
+	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	i = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);

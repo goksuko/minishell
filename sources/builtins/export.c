@@ -2,11 +2,13 @@
 
 // Export add a new node to the linked list env.
 
-// if the keyword doesn't have value, set it as NULL and it is not showed when is call env
+// if the keyword doesn't have value,
+	//set it as NULL and it is not showed when is call env
 
 // if the keyword received an = and a value, it will appear on env calls
 
-// if only use the export command without argument gives an alphabetic ordered linked list with the node recent added not ordered, it will appear in the end of the list.
+// if only use the export command without argument gives an alphabetic ordered linked list with the node recent added not ordered,
+	//it will appear in the end of the list.
 
 // if the keyword exist and it is possible to set a new value to it using =.
 
@@ -33,9 +35,10 @@
 // declare -x avocado="abacate"
 // declare -x edu="tst"
 
-
-// First char cannot be numerical only alpha! If it is not alpha it will not create a node and it will print a error, for example '=' is not an alpha
-// the new node will be sorted if it starts with uppercase, but lower case put it on the end of the list.
+// First char cannot be numerical only alpha! If it is not alpha it will not create a node and it will print a error,
+	//for example '=' is not an alpha
+// the new node will be sorted if it starts with uppercase,
+	//but lower case put it on the end of the list.
 // idea to only print in the alph order, not sort the env
 
 //_____________________________________________________
@@ -92,13 +95,12 @@ void	create_new_env(t_data **data, char *command)
 int	ft_export(char **cmds, t_data *data)
 {
 	int	i;
-	int		out_fd;
+	int	out_fd;
 
 	if (data->info->fd_out == -10)
 		out_fd = STDOUT_FILENO;
 	else
 		out_fd = data->info->fd_out;
-
 	printf("----EXPORT----\n");
 	printf("%s\n", cmds[0]);
 	if (cmds[0] == NULL)
@@ -109,7 +111,8 @@ int	ft_export(char **cmds, t_data *data)
 		while (cmds[i] != NULL)
 		{
 			if (verify_key(cmds[i], out_fd) == false)
-				return (ERROR_INVALID_IDENTIFIER); // need to make sure that this error message does not get printed or else remove the print statements in the validation check
+				return (ERROR_INVALID_IDENTIFIER);
+					// need to make sure that this error message does not get printed or else remove the print statements in the validation check
 			create_new_env(&data, cmds[i]);
 			i++;
 		}
@@ -124,11 +127,12 @@ int	ft_export(char **cmds, t_data *data)
 // export "var45=sthoo" -> declare -x var45="sthoo"
 
 // Example 3:
-// export var45 = 
+// export var45 =
 // bash: export: `=': not a valid identifier  -> declare -x var45
 
 // Example 4:
-// export export var45 "Hello"  -> declare -x var45, declare -x export, declare -x Hello
+// export export var45 "Hello"  -> declare -x var45, declare -x export, declare
+//	-x Hello
 
 // Example 5:
 // export HELLO=HELLo VANESSA=vbusekruuu

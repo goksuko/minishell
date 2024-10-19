@@ -17,7 +17,7 @@ bool	key_rules(char c, int index)
 
 int	check_key(t_data *data, char *key)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	if (key && key[0] == '\0')

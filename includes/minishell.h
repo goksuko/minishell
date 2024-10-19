@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:50:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:06:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <string.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
-# include <sys/stat.h>
 # include <termios.h>
+# include <unistd.h>
 
 # define PARENT 1
 # define CHILD 2
@@ -47,7 +47,7 @@ typedef struct s_data
 	int				nbr_of_tokens;
 	bool			cat_cmd;
 	int				j;
-	char			**expanded_cmds; // to be freed properly!!
+	char **expanded_cmds; // to be freed properly!!
 	struct s_info	*info;
 	struct s_env	*env_list;
 	// struct s_tree	*ast;
@@ -101,7 +101,7 @@ typedef struct s_info
 	int				here_doc_cmd;
 	// char			**cmds;
 	// char			*special_command;
-	char 			*limiter;
+	char			*limiter;
 	char			*path;
 	// char			*path_from_getenv;
 	int				pipe_read_end;
@@ -110,16 +110,16 @@ typedef struct s_info
 
 typedef struct s_env
 {
-	char			*key; //  in the environment variable PATH=/usr/bin, PATH is the key.
-	char			*value; // In the PATH=/usr/bin example, /usr/bin is the value
+	char *key;   //  in the environment variable PATH=/usr/bin, PATH is the key.
+	char *value; // In the PATH=/usr/bin example, /usr/bin is the value
 	struct s_env	*next;
 }					t_env;
 
-
-# include "lexer_sem.h" // Otherwise the program cannot be compiled if it is higher up because it needs to data strut
 # include "builtins.h"
-# include "expander.h"
 # include "execute.h"
+# include "expander.h"
+# include "lexer_sem.h"
+// Otherwise the program cannot be compiled if it is higher up because it needs to data strut
 # define SUCCESS 0
 
 // main.c
@@ -156,13 +156,10 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putchar_fd(char c, int fd);
 void				*ft_calloc(size_t nmemb, size_t size);
 
-
 // Signals
-void	handle_signals(int process);
-void	handle_child_sigquit(int signal);
-void	handle_child_sigint(int signal);
-void	handle_parent_sigint(int signal);
-
-
+void				handle_signals(int process);
+void				handle_child_sigquit(int signal);
+void				handle_child_sigint(int signal);
+void				handle_parent_sigint(int signal);
 
 #endif

@@ -39,10 +39,10 @@ void	add_new_env_node(t_env **env_list, t_env *new_env)
 	else
 	{
 		current = *env_list;
-		while (current->next != NULL && ft_strncmp(current->next->key, new_env->key, ft_strlen(new_env->key)) < 0)
+		while (current->next != NULL && ft_strncmp(current->next->key,
+				new_env->key, ft_strlen(new_env->key)) < 0)
 			current = current->next;
 		new_env->next = current->next;
 		current->next = new_env;
 	}
 }
-

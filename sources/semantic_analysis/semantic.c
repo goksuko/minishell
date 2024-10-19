@@ -21,18 +21,20 @@ void	initialize_fds(t_info *info, t_data *data)
 		// 	printf("current->fd_in: %d\n", current->fd_in);
 		// if (current->fd_out != -10)
 		// 	printf("current->fd_out: %d\n", current->fd_out);
-		if (current->fd_in != -10) // if there is a redir, fd_in and fd_out is defined from tokens
-		{
-			if (info->fds[i][0] != -10)
-				close_safe(info->fds[i][0], info);
-			info->fds[i][0] = current->fd_in;
-			info->infile = ft_strdup(current->expanded_value);
-			if (info->infile == NULL)
+		if (current->fd_in != -10) // if there is a redir,
+		//	fd_in and fd_out is defined from tokens
 			{
-				free_system_perror(data, ERROR_ALLOCATION, "info->infile in initialize_fds");
-				return ; //false boolean
+				if (info->fds[i][0] != -10)
+					close_safe(info->fds[i][0], info);
+				info->fds[i][0] = current->fd_in;
+				info->infile = ft_strdup(current->expanded_value);
+				if (info->infile == NULL)
+				{
+					free_system_perror(data, ERROR_ALLOCATION,
+						"info->infile in initialize_fds");
+					return ; // false boolean
+				}
 			}
-		}
 		if (current->fd_out != -10)
 		{
 			if (info->fds[i][1] != -10)
@@ -41,11 +43,13 @@ void	initialize_fds(t_info *info, t_data *data)
 			info->outfile = ft_strdup(current->expanded_value);
 			if (info->outfile == NULL)
 			{
-				free_system_perror(data, ERROR_ALLOCATION, "info->outfile in initialize_fds");
-				return ; //false boolean
+				free_system_perror(data, ERROR_ALLOCATION,
+					"info->outfile in initialize_fds");
+				return ; // false boolean
 			}
 		}
-		if (current->type == T_PIPE) // we write the fd_in and fd_out values (if there is) between pipes
+		if (current->type == T_PIPE)
+			// we write the fd_in and fd_out values (if there is) between pipes
 			i++;
 		current = current->next;
 	}
@@ -72,7 +76,7 @@ bool	semantic_analysis(t_data *data)
 	if (data->cmds == NULL)
 		return (false);
 	printf_array(data->cmds);
-	initialize_info(info, data); //here
+	initialize_info(info, data); // here
 	initialize_fds(info, data);
 	return (true);
 }

@@ -6,12 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:23:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:01:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 #include <stdbool.h>
 
 int	quote_closed_check(t_data *data, char *line, int i, char quote)
@@ -53,8 +52,8 @@ bool	further_meta_check(char *line, int i, char meta)
 
 bool	meta_character_check(t_data *data, char *line)
 {
-	int		i;
-	int		closed_quote;
+	int	i;
+	int	closed_quote;
 
 	i = 0;
 	while (line[i] != '\0')

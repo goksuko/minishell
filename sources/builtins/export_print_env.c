@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void print_env_var(t_env *var, int fd)
+void	print_env_var(t_env *var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(var->key, fd);
@@ -15,9 +15,9 @@ void print_env_var(t_env *var, int fd)
 	ft_putstr_fd("\n", fd);
 }
 
-int get_list_size(t_env *list)
+int	get_list_size(t_env *list)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (list != NULL)
@@ -25,12 +25,12 @@ int get_list_size(t_env *list)
 		list = list->next;
 		size++;
 	}
-	return size;
+	return (size);
 }
 
-t_env *get_next_var_to_print(t_env *list, t_env *last_printed)
+t_env	*get_next_var_to_print(t_env *list, t_env *last_printed)
 {
-	t_env *next_var;
+	t_env	*next_var;
 
 	next_var = NULL;
 	while (list != NULL)
@@ -42,14 +42,14 @@ t_env *get_next_var_to_print(t_env *list, t_env *last_printed)
 		}
 		list = list->next;
 	}
-	return next_var;
+	return (next_var);
 }
 
-void print_sorted_env_vars(t_env **env, int fd)
+void	print_sorted_env_vars(t_env **env, int fd)
 {
-	int		total_vars;
-	int		i;
-	t_env	*last_printed;
+	int total_vars;
+	int i;
+	t_env *last_printed;
 
 	total_vars = get_list_size(*env);
 	i = 0;

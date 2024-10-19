@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:29:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:02:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 bool	is_redir(t_token *current)
 {
-	if (current && \
-		(current->type == T_SMALLER || current->type == T_GREATER || \
-		current->type == T_DSMALLER || current->type == T_DGREATER))
+	if (current && (current->type == T_SMALLER || current->type == T_GREATER
+			|| current->type == T_DSMALLER || current->type == T_DGREATER))
 		return (true);
 	return (false);
 }
 
-
 bool	is_redir_except_heredoc(t_token *current)
 {
-	if (current && \
-		(current->type == T_SMALLER || current->type == T_GREATER || \
-		current->type == T_DGREATER))
+	if (current && (current->type == T_SMALLER || current->type == T_GREATER
+			|| current->type == T_DGREATER))
 		return (true);
 	return (false);
 }
@@ -78,7 +75,7 @@ bool	is_file_check(t_data *data, t_token *token_lst)
 	while (current != NULL)
 	{
 		if (is_redir(current) == true)
-			if(define_token_fd(data, current) == false)
+			if (define_token_fd(data, current) == false)
 				return (false);
 		current = current->next;
 	}
@@ -94,7 +91,8 @@ char	**create_token_array(t_data *data, char *line)
 	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
 	if (tokens == NULL)
 	{
-		free_system_perror(data, ERROR_ALLOCATION, "tokens in create_token_array");
+		free_system_perror(data, ERROR_ALLOCATION,
+			"tokens in create_token_array");
 		return (NULL);
 	}
 	tokens = split_tokens(line, number_tokens, tokens);
@@ -122,7 +120,8 @@ t_token	*array_to_list(char **tokens, int token_count)
 	i++;
 	while (tokens[i] != NULL)
 	{
-		current->next = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
+		current->next = init_new_token(tokens[i], token_type_check(tokens[i]),
+				token_count);
 		if (current->next == NULL)
 			return (ft_free_matrix(tokens), NULL);
 		current->next->prev = current;
@@ -142,7 +141,8 @@ t_token	*create_token_list(t_data *data, char **token_array)
 	token_lst = array_to_list(token_array, token_count);
 	if (token_lst == NULL)
 	{
-		free_system_perror(data, ERROR_ALLOCATION, "token_lst in array_to_list");
+		free_system_perror(data, ERROR_ALLOCATION,
+			"token_lst in array_to_list");
 		return (NULL);
 	}
 	if (check_unclosed_quotes(data, token_lst) == false)
@@ -176,4 +176,3 @@ t_token	*lexical_analysis(t_data *data, char *line)
 		return (NULL);
 	return (token_lst);
 }
-

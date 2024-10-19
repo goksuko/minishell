@@ -2,7 +2,7 @@
 
 void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = *env_list;
 	while (env != NULL)
@@ -37,13 +37,13 @@ int	cd_parent_dir(char *cwd)
 
 int	cd_home(t_env *env_list)
 {
-	char *home;
+	char	*home;
 
 	home = ft_get_env(env_list, "HOME");
 	if (home == NULL)
-		return(ERROR_HOME_DIR);
+		return (ERROR_HOME_DIR);
 	if (chdir(home) != 0)
-		return(ERROR_NO_FILE_DIR);
+		return (ERROR_NO_FILE_DIR);
 	return (SUCCESS);
 }
 
@@ -55,7 +55,7 @@ int	cd_old_pwd(t_env *env_list)
 	if (old_pwd == NULL)
 		return (ERROR_OLDPWD);
 	if (chdir(old_pwd) != 0)
-		return(ERROR_NO_FILE_DIR);
+		return (ERROR_NO_FILE_DIR);
 	return (SUCCESS);
 }
 
@@ -68,7 +68,7 @@ int	ft_cd(char **cmds, t_env *env_list)
 
 	return_value = -1;
 	if (cmds[0] != NULL && cmds[1] != NULL)
-		return(ERROR_TOO_MANY_ARGS);
+		return (ERROR_TOO_MANY_ARGS);
 	cmd_len = ft_strlen(cmds[0]);
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
@@ -81,7 +81,7 @@ int	ft_cd(char **cmds, t_env *env_list)
 		if (chdir("/") != 0)
 			return_value = ERROR_NO_FILE_DIR;
 	}
-	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1) 
+	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
 		return_value = cd_old_pwd(env_list);
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
 		return_value = cd_parent_dir(cwd);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/18 14:26:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:04:51 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,30 @@
 
 char	*ft_error(t_error code)
 {
-	static char	*str[] = {[NO_ERROR] = "No Error\n",
-	[ERROR_PERM] = "bash: permission denied: \n", // >>   test.txt returns this but bash does nothing, with 0 exit_code
-	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
-	[ERROR_NO_ENVP] = "Error: no envp\n",
-	[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
-	[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
-	[ERROR_ALLOCATION] = "Allocation Failure\n",
-	[ERROR_NULL_PATH] = "bash: path not found\n",
-	[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
-	[ERROR_WRONG_CHAR] = "Error: wrong character\n",
-	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
-	[ERROR_NOT_DIR] = "bash: not a directory: \n",
-	[ERROR_HOME_DIR] = "Error: HOME directory not set\n",
-	[ERROR_PARENT_DIR] = "Error: Parent directory not set\n",
-	[ERROR_OLDPWD] = "Error: OLDPWD not set\n",
-	[ERROR_NO_FILE_DIR] = "Error: No such file or directory\n",
-	[ERROR_QUOTE] = "Error: unclosed quote\n",
-	[ERROR_META] = "Error: wrong meta character\n",
-	[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
-	[ERROR_EMPTY_LINE] = "Error: empty line\n",
-	[ERROR_INVALID_IDENTIFIER] = "Error: invalid identifier\n",
-	[UNDEFINED_ERROR] = "Undefined Error\n"};
-
+	static char *str[] = {[NO_ERROR] = "No Error\n",
+							[ERROR_PERM] = "bash: permission denied: \n",
+							// >>   test.txt returns this but bash does nothing,
+							//		with 0 exit_code
+							[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
+							[ERROR_NO_ENVP] = "Error: no envp\n",
+							[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
+							[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
+							[ERROR_ALLOCATION] = "Allocation Failure\n",
+							[ERROR_NULL_PATH] = "bash: path not found\n",
+							[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
+							[ERROR_WRONG_CHAR] = "Error: wrong character\n",
+							[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
+							[ERROR_NOT_DIR] = "bash: not a directory: \n",
+							[ERROR_HOME_DIR] = "Error: HOME directory not set\n",
+							[ERROR_PARENT_DIR] = "Error: Parent directory not set\n",
+							[ERROR_OLDPWD] = "Error: OLDPWD not set\n",
+							[ERROR_NO_FILE_DIR] = "Error: No such file or directory\n",
+							[ERROR_QUOTE] = "Error: unclosed quote\n",
+							[ERROR_META] = "Error: wrong meta character\n",
+							[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
+							[ERROR_EMPTY_LINE] = "Error: empty line\n",
+							[ERROR_INVALID_IDENTIFIER] = "Error: invalid identifier\n",
+							[UNDEFINED_ERROR] = "Undefined Error\n"};
 	if (code < 0 || code >= UNDEFINED_ERROR)
 		return (str[UNDEFINED_ERROR]);
 	else
@@ -83,40 +84,17 @@ void	ft_exit_data_perror(t_data *data, t_error code, char *s)
 	exit(code);
 }
 
-
-
-
-
-
-
-int ft_print_error(t_error code)
+int	ft_print_error(t_error code)
 {
 	ft_printf_fd(STDERR_FILENO, "%s\n", ft_error(code));
 	return (code);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void	ft_system_error(t_data *data, t_error code)
 {
 	data->exit_code = code;
 	free_system(data);
 }
-
-
-
 
 // ft_exit_str_fd(ERROR_MUTEX_INIT, STDERR_FILENO);
 void	ft_exit_str_fd(t_error code, int fd)
@@ -183,10 +161,11 @@ void	free_data(t_data **data) // to be adjusted
 	return ;
 }
 
-void	free_env(t_env **env_var) // Not sure of elsewhere already! Need to check ! 
+void	free_env(t_env **env_var)
+// Not sure of elsewhere already! Need to check !
 {
-	t_env	*current;
-	t_env	*next;
+	t_env *current;
+	t_env *next;
 
 	current = *env_var;
 	while (current != NULL)

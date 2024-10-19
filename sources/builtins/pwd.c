@@ -9,13 +9,12 @@ int	ft_pwd(char **cmds, t_data *data)
 		out_fd = STDOUT_FILENO;
 	else
 		out_fd = data->info->fd_out;
-
 	printf("---FT__PWD----\n");
 	printf("cmds::::::::::::::::::::::\n");
 	printf_array(cmds);
 	cwd = NULL;
 	if (cmds[0] != NULL)
-		return(ERROR_TOO_MANY_ARGS);
+		return (ERROR_TOO_MANY_ARGS);
 	cwd = getcwd(cwd, 0);
 	if (cwd == NULL)
 		return (ERROR_ALLOCATION);

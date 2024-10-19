@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:11:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:02:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ int	count_tokens(char *line)
 			skip_quotes(line, &i);
 		else if (is_meta(line[i]) == true)
 			skip_meta(&line[i], &i);
-		else if (line[i] != '\0' && is_whitespace(line[i]) == false \
-		&& is_quote(line[i]) == false && is_meta(line[i]) == false)
+		else if (line[i] != '\0' && is_whitespace(line[i]) == false
+			&& is_quote(line[i]) == false && is_meta(line[i]) == false)
 		{
-			while (line[i] != '\0' && is_whitespace(line[i]) == false && is_meta(line[i]) == false)
+			while (line[i] != '\0' && is_whitespace(line[i]) == false
+				&& is_meta(line[i]) == false)
 				i++;
 		}
 		i++;

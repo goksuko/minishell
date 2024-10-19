@@ -48,8 +48,8 @@ int	find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value)
 
 t_env	*create_node(t_data *data, char *envp_i, int pos)
 {
-	char	*key;
-	char	*value;
+	char *key;
+	char *value;
 
 	if (pos)
 	{

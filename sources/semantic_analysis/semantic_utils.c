@@ -1,8 +1,8 @@
 #include "../../includes/minishell.h"
 
-int		find_pipe_count(t_token *tokens)
+int	find_pipe_count(t_token *tokens)
 {
-	int	pipe_count;
+	int		pipe_count;
 	t_token	*current;
 
 	pipe_count = 0;

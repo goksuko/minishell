@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void unset_env_var(char *key, t_env **env_list)
+void	unset_env_var(char *key, t_env **env_list)
 {
 	t_env	*temp;
 	t_env	*prev;
@@ -11,7 +11,8 @@ void unset_env_var(char *key, t_env **env_list)
 	key_len = ft_strlen(key);
 	while (temp != NULL)
 	{
-		if ((int)ft_strlen(temp->key) == key_len && ft_strncmp(temp->key, key, key_len) == 0)
+		if ((int)ft_strlen(temp->key) == key_len && ft_strncmp(temp->key, key,
+				key_len) == 0)
 		{
 			if (prev == NULL)
 				*env_list = temp->next;
@@ -20,7 +21,7 @@ void unset_env_var(char *key, t_env **env_list)
 			free(temp->key);
 			free(temp->value);
 			free(temp);
-			return;
+			return ;
 		}
 		prev = temp;
 		temp = temp->next;

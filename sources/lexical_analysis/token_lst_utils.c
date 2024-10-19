@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/18 11:40:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 13:02:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
 	printf("----PRINT TOKENS----\n"); // Only for testing purposes
-	int	i;
+	int i;
 
 	if (tokens == NULL) // Only for testing purposes
 	{
@@ -56,7 +56,7 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 		printf("Token type: %s\n", token_type_to_string(tokens->type));
 		// printf("Is file: %d\n", tokens->is_file);
 		printf("Type: %s\n", token_type_to_string(tokens->type));
-//		printf("Is file: %d\n", tokens->is_file);
+		//		printf("Is file: %d\n", tokens->is_file);
 		if (tokens->limiter)
 			printf("Limiter: %s\n", tokens->limiter);
 		if (tokens->fd_in != -10)
