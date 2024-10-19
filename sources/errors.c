@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:04:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 20:15:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ void	close_info(t_info *info)
 	if (info->path)
 		free(info->path);
 	free(info);
-	printf("***close_info done\n");
 	return ;
 }
 
@@ -143,7 +142,6 @@ void	free_system(t_data *data)
 		close_info(data->info);
 	if (data->tokens)
 		free_token_list(&data->tokens);
-	printf("**free_system done\n");
 	return ;
 }
 
@@ -157,7 +155,6 @@ void	free_data(t_data **data) // to be adjusted
 	if ((*data)->env_list)
 		free_env(&(*data)->env_list);
 	free(*data);
-	printf("*free_data done\n");
 	return ;
 }
 

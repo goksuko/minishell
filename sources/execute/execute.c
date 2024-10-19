@@ -21,15 +21,17 @@ int	last_exit_code_checks(int exit_code, t_data *data)
 	return (exit_code);
 }
 
-void	execute_shell(t_data *data)
+bool	execute_shell(t_data *data)
 {
 	int	exit_code;
 
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	exit_code = create_children(data);
-	data->exit_code = last_exit_code_checks(exit_code, data);
-	printf("exit_code: %d\n", data->exit_code);
+	if (create_children(data) == false)
+		return (false);
+	exit_code = data->exit_code;
+	data->exit_code = last_exit_code_checks(exit_code, data); // to be checked
 	free_system(data);
+	return (true);
 }
 
 int	is_file(const char *path)

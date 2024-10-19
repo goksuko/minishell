@@ -3,17 +3,17 @@
 
 // child_processes.c
 
-void	do_commands(t_data *data, int i);
-int		create_children(t_data *data);
-void	do_child_of_child(t_info *info);
-void	do_parent_of_child(t_info *info);
+bool	do_commands(t_data *data, int i);
+bool	create_children(t_data *data);
+bool	do_child_of_child(t_info *info);
+bool	do_parent_of_child(t_info *info);
 pid_t	child_process(t_info *info);
 
 // children.c
 
-void	do_first_child(t_info *info);
-void	do_middle_child(t_info *info);
-void	do_last_child(t_info *info);
+bool	do_first_child(t_info *info);
+bool	do_middle_child(t_info *info);
+bool	do_last_child(t_info *info);
 
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);
@@ -37,11 +37,11 @@ int		check_key(t_data *data, char *key);
 
 // execute.c
 int		is_file(const char *path);
-void	execute_shell(t_data *data);
+bool	execute_shell(t_data *data);
 
 // Utils functions //
 char	*put_main_command(char *command, char space);
-void	start_exec(t_info *info);
+bool	start_exec(t_info *info);
 bool	is_whitespace(char c);
 
 // Path functions //

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:06:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/19 18:58:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,10 @@ typedef struct s_data
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
-	bool			cat_cmd;
-	int				j;
-	char **expanded_cmds; // to be freed properly!!
+	char			**expanded_cmds;
 	struct s_info	*info;
 	struct s_env	*env_list;
-	// struct s_tree	*ast;
 	struct s_token	*tokens;
-	struct s_token	*tokens_cpy;
 }					t_data;
 
 typedef enum e_error
@@ -96,14 +92,10 @@ typedef struct s_info
 	int				fd_out;
 	char			*infile;
 	char			*outfile;
-	// int				nbr_of_cmds;
 	int				curr_cmd;
 	int				here_doc_cmd;
-	// char			**cmds;
-	// char			*special_command;
 	char			*limiter;
 	char			*path;
-	// char			*path_from_getenv;
 	int				pipe_read_end;
 	struct s_data	*data;
 }					t_info;

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	limiter_check(t_data *data)
+bool	limiter_check(t_data *data)
 {
 	t_token	*current;
 
@@ -11,12 +11,11 @@ void	limiter_check(t_data *data)
 		{
 			data->info->limiter = ft_strdup(current->limiter);
 			if (data->info->limiter == NULL)
-				free_system_perror(data, ERROR_ALLOCATION,
-					"limiter in limiter_check");
-			// chenge to boolean
+				return (false);
 		}
 		current = current->next;
 	}
+	return (true);
 }
 
 int	here_doc_fd_check(t_data *data)
@@ -72,7 +71,7 @@ bool	is_first_after_pipe(t_token *current)
 	return (false);
 }
 
-void	init_heredoc(t_data *data)
+bool	init_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
@@ -80,7 +79,8 @@ void	init_heredoc(t_data *data)
 
 	handle_signals(HEREDOC);
 	here_doc_fd = here_doc_fd_check(data);
-	limiter_check(data);
+	if (limiter_check(data) == false)
+		return (false);
 	limiter = data->info->limiter;
 	line = readline("> ");
 	while (line)
@@ -93,7 +93,10 @@ void	init_heredoc(t_data *data)
 		free(line);
 		line = readline("> ");
 	}
-	close_safe(here_doc_fd, data->info);
+	if (close(here_doc_fd) < 0)
+		return (false);
+	free(line);
+	return (true);
 }
 
 // char	**cmds_between_pipes(t_data *data, char **cmds)
