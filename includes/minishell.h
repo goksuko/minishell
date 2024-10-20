@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:06:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/20 17:44:20 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+# include "lexer_sem.h"
+# include "expander.h"
 # include "builtins.h"
 # include "execute.h"
-# include "expander.h"
-# include "lexer_sem.h"
 // Otherwise the program cannot be compiled if it is higher up because it needs to data strut
 # define SUCCESS 0
 
