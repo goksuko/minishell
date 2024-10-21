@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:58:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:32:12 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ bool	create_children(t_data *data)
 bool	do_child_of_child(t_info *info)
 {
 	char	**command;
+	bool 	return_value;
 
+	return_value = true;
 	command = NULL;
 	if (handle_child_type(info) == false)
 		return (false);
@@ -74,17 +76,15 @@ bool	do_child_of_child(t_info *info)
 	if (is_builtin(command[0]))
 	{
 		if (handle_builtin(info, command) == false)
-			return (false);
+			return_value = false;
 	}
 	else
 	{
 		if (start_exec(info) == false)
-		{
-			ft_free_matrix(command);
-			return (false);
-		}
+			return_value = false;
 	}
-	return (true);
+	ft_free_matrix(command);
+	return (return_value);
 }
 
 bool	do_parent_of_child(t_info *info)

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:59:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:29:31 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ bool	handle_child_type(t_info *info)
 bool	handle_builtin(t_info *info, char **command)
 {
 	info->data->exit_code = execute_builtin(command, info->data);
-	if (info->data->exit_code == -25)
+	if (info->data->exit_code != 0)
 	{
-		ft_free_matrix(command);
+		// ft_free_matrix(command);
 		return (false);
 	}
 	return (true);

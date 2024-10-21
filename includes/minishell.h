@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 18:58:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:54:03 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ char				*ft_strjoin(char const *s1, char const *s2);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putchar_fd(char c, int fd);
 void				*ft_calloc(size_t nmemb, size_t size);
+
 
 // Signals
 void				handle_signals(int process);

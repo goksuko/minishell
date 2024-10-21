@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:22 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 23:04:31 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:31:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*take_path_from_env(t_data *data, t_env **env)
 {
 	char	*path;
 
+	path = NULL;
 	while (*env)
 	{
 		if (!ft_strncmp("PATH", (*env)->key, 4))

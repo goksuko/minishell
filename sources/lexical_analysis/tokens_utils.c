@@ -6,11 +6,21 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:02:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:53:06 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+static int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	else
+		return (0);
+}
 
 void	skip_quotes(char *line, int *i)
 {
@@ -24,7 +34,7 @@ void	skip_quotes(char *line, int *i)
 
 void	skip_whitespace(char *line, int *i)
 {
-	while (line[*i] != '\0' && isspace(line[*i]))
+	while (line[*i] != '\0' && ft_isspace(line[*i]))
 		(*i)++;
 }
 

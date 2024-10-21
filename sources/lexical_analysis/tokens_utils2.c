@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:02:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 10:55:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,41 @@ int	count_tokens(char *line)
 {
 	int	i;
 	int	count;
+	int loop;
+
+	loop = 0;
 
 	i = 0;
 	count = 0;
 	while (line && line[i] != '\0')
 	{
+		printf("loop %d\n", loop);
 		skip_whitespace(line, &i);
+		printf("line[%d] = %c\n", i, line[i]); //c
 		if (line[i] == '\0')
 			break ;
 		count++;
-		if (is_quote(line[i]) == true)
+		printf("line[%d] = %c\n", i, line[i]); //c
+		if (line && line[i] && is_quote(line[i]) == true)
+		{
 			skip_quotes(line, &i);
-		else if (is_meta(line[i]) == true)
+			printf("line[%d] = %c\n", i, line[i]);
+		}
+		else if (line && line[i] && is_meta(line[i]) == true)
+		{
 			skip_meta(&line[i], &i);
-		else if (line[i] != '\0' && is_whitespace(line[i]) == false
+			printf("line[%d] = %c\n", i, line[i]);
+		}
+		else if (line && line[i] && is_whitespace(line[i]) == false
 			&& is_quote(line[i]) == false && is_meta(line[i]) == false)
 		{
-			while (line[i] != '\0' && is_whitespace(line[i]) == false
+			while (line && line[i] && is_whitespace(line[i]) == false
 				&& is_meta(line[i]) == false)
 				i++;
 		}
-		i++;
+		if (line[i] != '\0')
+			i++;
+		loop++;
 	}
 	return (count);
 }
