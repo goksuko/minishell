@@ -1,38 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   cmds_from_tokens.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 22:44:29 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-void	limiter_check(t_data *data)
-{
-	t_token	*current;
-
-	current = data->tokens;
-	while (current)
-	{
-		if (current->limiter)
-		{
-			data->info->limiter = ft_strdup(current->limiter);
-			if (data->info->limiter == NULL)
-				free_system_perror(data, ERROR_ALLOCATION,
-					"limiter in limiter_check");
-			// chenge to boolean
-		}
-		current = current->next;
-	}
-}
-
-int	here_doc_fd_check(t_data *data)
-{
-	t_token	*current;
-	int		temp_fd;
-
-	current = data->tokens;
-	while (current)
-	{
-		if (current->limiter)
-			temp_fd = current->here_doc_fd;
-		current = current->next;
-	}
-	return (temp_fd);
-}
 
 t_token	*redir_first(t_token *current)
 {
@@ -72,30 +50,6 @@ bool	is_first_after_pipe(t_token *current)
 	return (false);
 }
 
-void	init_heredoc(t_data *data)
-{
-	char	*limiter;
-	char	*line;
-	int		here_doc_fd;
-
-	handle_signals(HEREDOC);
-	here_doc_fd = here_doc_fd_check(data);
-	limiter_check(data);
-	limiter = data->info->limiter;
-	line = readline("> ");
-	while (line)
-	{
-		if ((ft_strlen(line) == ft_strlen(limiter)) && ft_strncmp(line, limiter,
-				ft_strlen(limiter)) == 0)
-			break ;
-		write(here_doc_fd, line, ft_strlen(line));
-		write(here_doc_fd, "\n", 1);
-		free(line);
-		line = readline("> ");
-	}
-	close_safe(here_doc_fd, data->info);
-}
-
 char	**cmds_between_pipes(t_data *data, char **cmds)
 {
 	int		j;
@@ -107,66 +61,8 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 	current = data->tokens;
 	while (current && current->type != T_PIPE)
 	{
-		while (current && current->type != T_PIPE)
-		{
-			if (is_heredoc(current))
-			{
-				if (current->next && current->next->next)
-					current = current->next->next;
-				cmds[j] = ft_strdup(current->expanded_value);
-				if (cmds[j] == NULL)
-					return (NULL);
-				current = current->next;
-				while (current && current->type != T_PIPE)
-				{
-					cmds[j] = ft_strjoin(cmds[j], " ");
-					if (cmds[j] == NULL)
-						return (NULL);
-					cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
-					if (cmds[j] == NULL)
-						return (NULL);
-					current = current->next;
-				}
-			}
-			if (is_redir_except_heredoc(current)
-				&& is_first_after_pipe(current))
-			{
-				current = redir_first(current);
-				if (!current)
-					return (NULL);
-			}
-			if (current && ft_strncmp(current->expanded_value, "cat", 3) == 0)
-				cat_cmd = true;
-			if (is_first_after_pipe(current))
-			{
-				cmds[j] = ft_strdup(current->expanded_value);
-				if (cmds[j] == NULL)
-					return (NULL);
-				current = current->next;
-			}
-			if (current && is_redir_except_heredoc(current))
-			{
-				if (cat_cmd)
-				{
-					cmds[j] = do_cat_addition(current, cmds[j]);
-					if (cmds[j] == NULL)
-						return (NULL);
-					cat_cmd = false;
-				}
-				current = current->next->next;
-			}
-			else if (current && current->type != T_PIPE)
-			{
-				cmds[j] = ft_strjoin(cmds[j], " ");
-				if (cmds[j] == NULL)
-					return (NULL);
-				cmds[j] = ft_strjoin(cmds[j], current->expanded_value);
-				if (cmds[j] == NULL)
-					return (NULL);
-				current = current->next;
-			}
-		}
-		printf("cmds[%d]: %s\n", j, cmds[j]);
+		if (handle_loop(&current, cmds, &j, &cat_cmd) == false)
+			return (NULL);
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;

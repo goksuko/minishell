@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   utils.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
+/*   Updated: 2024/10/19 23:09:15 by akaya-oz      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -27,11 +38,10 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 		info->data->exit_code = 127;
 		// exit(127);
 	}
-	printf("path before exec: %s\n", path);
 	return (path);
 }
 
-void	start_exec(t_info *info)
+bool	start_exec(t_info *info)
 {
 	char	**cmd_matrix;
 	char	*path;
@@ -39,12 +49,12 @@ void	start_exec(t_info *info)
 	path = NULL;
 	cmd_matrix = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
-		ft_exit_data_perror(info->data, ERROR_ALLOCATION,
-			"cmd_matrix in start_exec");
+		return (false);
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
-		ft_exit_data_perror(info->data, ERROR_EXECVE, "execve in start_exec");
+		return (false);
+	return (true);
 }
 
 char	*put_main_command(char *command, char space)
