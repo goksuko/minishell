@@ -134,6 +134,7 @@ void				ft_putstr2_fd(char *s1, char *s2, int fd);
 void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 void				free_system_error(t_data *data, t_error code);
 void				free_system_perror(t_data *data, t_error code, char *s);
+void				free_and_null(char *str);
 
 // Libft functions //
 
@@ -154,5 +155,7 @@ void				handle_signals(int process);
 void				handle_child_sigquit(int signal);
 void				handle_child_sigint(int signal);
 void				handle_parent_sigint(int signal);
+// void				interactive_signals(void);
+// void				noninteractive_signals(void);
 
 #endif

@@ -88,7 +88,7 @@ bool	define_dsmaller(t_data *data, t_token *token)
 	}
 	token->next->here_doc_fd = temp_fd;
 	token->next->limiter = ft_strdup(token->next->value);
-	if (token->next->limiter == NULL)
+	if (errno == ENOMEM || token->next->limiter == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"limiter in define_dsmaller");

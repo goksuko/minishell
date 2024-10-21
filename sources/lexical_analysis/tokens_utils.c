@@ -12,7 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-
 static int	ft_isspace(int c)
 {
 	if (c == ' ' || c == '\f' || c == '\n'
@@ -68,7 +67,7 @@ bool	is_meta(char c)
 
 void	printf_array(char **array)
 {
-	int i;
+	int	i;
 
 	if (!array)
 	{

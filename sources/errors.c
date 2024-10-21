@@ -47,6 +47,7 @@ char	*ft_error(t_error code)
 // keep program running but print error message from code
 void	free_system_error(t_data *data, t_error code)
 {
+	printf("Free system error\n");
 	data->exit_code = code;
 	ft_putstr_fd(ft_error(code), STDERR_FILENO);
 	free_system(data);
@@ -55,6 +56,7 @@ void	free_system_error(t_data *data, t_error code)
 // keep program running but print customized error message
 void	free_system_perror(t_data *data, t_error code, char *s)
 {
+	printf("Free system perror\n");
 	data->exit_code = code;
 	perror(s);
 	free_system(data);

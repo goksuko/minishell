@@ -48,7 +48,6 @@ bool	create_children(t_data *data)
 		if (do_commands(data, i) == false)
 			return (false);
 		pid = child_process(data->info);
-		handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 		if (pid == -125)
 			return (false);
 		data->info->curr_cmd++;
@@ -67,7 +66,7 @@ bool	create_children(t_data *data)
 bool	do_child_of_child(t_info *info)
 {
 	char	**command;
-	bool 	return_value;
+	bool	return_value;
 
 	return_value = true;
 	command = NULL;
@@ -83,6 +82,7 @@ bool	do_child_of_child(t_info *info)
 	}
 	else
 	{
+		ft_free_matrix(command);
 		if (start_exec(info) == false)
 			return_value = false;
 	}
@@ -121,6 +121,7 @@ pid_t	child_process(t_info *info)
 	pid_t	pid;
 
 	pid = fork();
+	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	if (pid == -1)
 		return (-125);
 	else if (pid == 0)

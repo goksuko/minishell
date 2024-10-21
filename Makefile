@@ -53,6 +53,8 @@ EXECUTE =				child_processes.c \
 						utils2.c \
 
 SIGNALS = 				signals.c \
+						interactive_signals.c \
+						noninteractive_signals.c \
 
 EXPANDER =				expander.c \
 						expander_utils.c \

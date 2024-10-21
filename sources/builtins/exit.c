@@ -5,7 +5,7 @@ int	handle_numeric_arg(char *exit_code, t_data *data)
 	int	return_value;
 
 	return_value = -1;
-	if (arg_is_digit(exit_code) == false)
+	if (errno == ENOMEM || arg_is_digit(exit_code) == false)
 	{
 		free_system_error(data, ERROR_NUMERIC_ARG);
 		return (ERROR_NUMERIC_ARG);
@@ -29,7 +29,7 @@ int	ft_exit(char **cmds, t_data *data)
 		free_system(data);
 		exit(SUCCESS);
 	}
-	else if (cmds != NULL && cmds[1] != NULL)
+	else if (errno == ENOMEM || (cmds != NULL && cmds[1] != NULL))
 	{
 		free_system_error(data, ERROR_TOO_MANY_ARGS);
 		return (ERROR_TOO_MANY_ARGS);

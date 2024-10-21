@@ -72,20 +72,20 @@ int	create_new_env(t_data **data, char *command)
 	t_env	*new_env;
 
 	new_key = get_new_key(command);
-	if (new_key == NULL)
+	if (errno == ENOMEM || new_key == NULL)
 		return (handle_allocation_error_env(*data));
 	i = ft_strlen(new_key);
 	if (command[i] == '=')
 	{
 		i++;
 		new_value = get_new_value(command, i);
-		if (new_value == NULL)
+		if (errno == ENOMEM || new_value == NULL)
 			return (handle_allocation_error_env(*data));
 	}
 	else
 		new_value = NULL;
 	new_env = ft_new_node(*data, new_key, new_value);
-	if (new_env == NULL)
+	if (errno == ENOMEM || new_env == NULL)
 		return (handle_allocation_error_env(*data));
 	add_new_env_node(&(*data)->env_list, new_env);
 	return (SUCCESS);
@@ -111,7 +111,7 @@ int	ft_export(char **cmds, t_data *data)
 		i = 0;
 		while (cmds[i] != NULL)
 		{
-			if (verify_key(cmds[i], out_fd) == false)
+			if (errno == ENOMEM || verify_key(cmds[i], out_fd) == false)
 			{
 				free_system_error(data, ERROR_INVALID_IDENTIFIER);
 				return (ERROR_INVALID_IDENTIFIER);

@@ -89,14 +89,14 @@ char	**create_token_array(t_data *data, char *line)
 
 	number_tokens = count_tokens(line);
 	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
-	if (tokens == NULL)
+	if (errno == ENOMEM || tokens == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"tokens in create_token_array");
 		return (NULL);
 	}
 	tokens = split_tokens(line, number_tokens, tokens);
-	if (tokens == NULL)
+	if (errno == ENOMEM || tokens == NULL)
 	{
 		ft_free_matrix(tokens);
 		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
@@ -139,7 +139,7 @@ t_token	*create_token_list(t_data *data, char **token_array)
 
 	token_count = count_tokens(data->line);
 	token_lst = array_to_list(token_array, token_count);
-	if (token_lst == NULL)
+	if (errno == ENOMEM || token_lst == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"token_lst in array_to_list");

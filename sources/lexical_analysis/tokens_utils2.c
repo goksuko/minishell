@@ -46,23 +46,14 @@ int	count_tokens(char *line)
 	count = 0;
 	while (line && line[i] != '\0')
 	{
-		printf("loop %d\n", loop);
 		skip_whitespace(line, &i);
-		printf("line[%d] = %c\n", i, line[i]); //c
 		if (line[i] == '\0')
 			break ;
 		count++;
-		printf("line[%d] = %c\n", i, line[i]); //c
 		if (line && line[i] && is_quote(line[i]) == true)
-		{
 			skip_quotes(line, &i);
-			printf("line[%d] = %c\n", i, line[i]);
-		}
 		else if (line && line[i] && is_meta(line[i]) == true)
-		{
 			skip_meta(&line[i], &i);
-			printf("line[%d] = %c\n", i, line[i]);
-		}
 		else if (line && line[i] && is_whitespace(line[i]) == false
 			&& is_quote(line[i]) == false && is_meta(line[i]) == false)
 		{
@@ -82,7 +73,8 @@ bool	line_is_empty(char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] != '\0')
+	// while (line && line[i]) // to be checked if it creates a problem in the program
+	while (line[i]) // to be checked if it creates a problem in the program
 		i++;
 	return (i == 0);
 }

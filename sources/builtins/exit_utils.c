@@ -50,7 +50,7 @@ int	exit_atoi(char *exit_code, t_data *data)
 	while (is_digit(exit_code[i]) == true)
 	{
 		number = number * 10 + (exit_code[i] - '0');
-		if (number > INT_MAX)
+		if (errno == ENOMEM || number > INT_MAX)
 		{
 			free_system_error(data, ERROR_NUMERIC_ARG);
 			return (ERROR_NUMERIC_ARG);

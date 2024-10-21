@@ -11,13 +11,13 @@ int	ft_pwd(char **cmds, t_data *data)
 		out_fd = data->info->fd_out;
 	printf("---FT__PWD----\n");
 	cwd = NULL;
-	if (cmds[0] != NULL)
+	if (errno == ENOMEM || cmds[0] != NULL)
 	{
 		free_system_error(data, ERROR_TOO_MANY_ARGS);
 		return (ERROR_TOO_MANY_ARGS);
 	}
 	cwd = getcwd(cwd, 0);
-	if (cwd == NULL)
+	if (errno == ENOMEM || cwd == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "cwd in ft_pwd");
 		return (ERROR_ALLOCATION);

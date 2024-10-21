@@ -40,6 +40,7 @@ void	make_initial_path_checks(char **envp, t_data *data)
 
 bool	minishell_routine(t_data *data, char *line)
 {
+	// noninteractive_signals();
 	if ((line = rl_gets()) == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
@@ -77,19 +78,20 @@ int	main(int argc, char *argv[], char **envp)
 	if (argc != 1)
 		return (ft_printf_fd(STDERR_FILENO, "%s\n",
 				ft_print_error(ERROR_ARGUMENT_COUNT)));
+	// interactive_signals();
 	data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");
 	data->envp = envp;
+	handle_signals(PARENT);
 	init_data(data);
 	make_initial_path_checks(envp, data);
 	line = NULL;
 	while (1)
 	{
-		handle_signals(PARENT);
-		minishell_routine(data, line);
-		// if (minishell_routine(data, line) == true);
-			// free_system(data);
+		// interactive_signals();
+		if (minishell_routine(data, line) == true)
+			free_system(data);
 	}
 	return (data->exit_code);
 }

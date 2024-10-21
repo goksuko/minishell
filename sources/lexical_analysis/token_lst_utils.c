@@ -40,7 +40,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
 	printf("----PRINT TOKENS----\n"); // Only for testing purposes
-	int i;
+	int	i;
 
 	if (tokens == NULL) // Only for testing purposes
 	{

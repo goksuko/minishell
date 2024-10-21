@@ -34,7 +34,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	{
 		ft_putstr3_fd("command not found: ", cmd_matrix[0], "\n",
 			STDERR_FILENO);
-		free_data(&info->data); // free_system
+		// free_data(&info->data); // free_system
 		info->data->exit_code = 127;
 		// exit(127);
 	}
@@ -52,6 +52,11 @@ bool	start_exec(t_info *info)
 		return (false);
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
+	if (path == NULL)
+	{
+		ft_free_matrix(cmd_matrix);
+		return (true);
+	}
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 		return (false);
 	return (true);

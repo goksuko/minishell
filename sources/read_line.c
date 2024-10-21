@@ -12,6 +12,9 @@
 
 #include "../includes/minishell.h"
 
+
+// TO BE FIXED. NO GLOBAL VARIABLES ALLOWED
+
 static char	*line_read = (char *)NULL;
 
 char	*rl_gets(void)
