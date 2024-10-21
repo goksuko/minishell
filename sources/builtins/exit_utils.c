@@ -52,11 +52,12 @@ int	exit_atoi(char *exit_code, t_data *data)
 		number = number * 10 + (exit_code[i] - '0');
 		if (number > INT_MAX)
 		{
-			free_data(&data);
-			ft_exit_str_fd(ERROR_NUMERIC_ARG, STDERR_FILENO);
+			free_system_error(data, ERROR_NUMERIC_ARG);
+			return (ERROR_NUMERIC_ARG);
 		}
 		i++;
 	}
 	number = ((number * sign) % 256);
-	return (number);
+	data->exit_code = number;
+	return (SUCCESS);
 }

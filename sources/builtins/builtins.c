@@ -5,7 +5,6 @@ int	execute_builtin(char **cmds, t_data *data)
 	int	return_value;
 	int	cmd_len;
 
-	return_value = -25;
 	cmd_len = ft_strlen(cmds[0]);
 	if (cmd_len == 4 && (ft_strncmp(cmds[0], "echo", 4) == 0
 			|| ft_strncmp(cmds[0], "ECHO", 4) == 0))
@@ -23,9 +22,7 @@ int	execute_builtin(char **cmds, t_data *data)
 			|| ft_strncmp(cmds[0], "ENV", 3) == 0))
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
-		ft_exit(cmds + 1, data);
-	if (return_value != 0)
-		return_value = -25; // to be checked again
+		return_value = ft_exit(cmds + 1, data);
 	return (return_value);
 }
 

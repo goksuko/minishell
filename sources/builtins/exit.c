@@ -1,36 +1,39 @@
 #include "../../includes/minishell.h"
 
-void	handle_numeric_arg(char *exit_code, t_data *data)
+int	handle_numeric_arg(char *exit_code, t_data *data)
 {
-	int	exit_code_value;
+	int	return_value;
 
+	return_value = -1;
 	if (arg_is_digit(exit_code) == false)
 	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_NUMERIC_ARG, STDERR_FILENO);
+		free_system_error(data, ERROR_NUMERIC_ARG);
+		return (ERROR_NUMERIC_ARG);
 	}
 	else
 	{
-		exit_code_value = exit_atoi(exit_code, data);
-		// free_data(&data);
-			// commented out for testing purposes because free_data causes a seg fault currently
-		exit(exit_code_value);
-			// check again if this is really correct...although it should
+		return_value = exit_atoi(exit_code, data);
+		if (return_value == SUCCESS)
+		{
+			free_system(data);
+			exit(data->exit_code);
+		}
 	}
+	return (return_value);
 }
 
-void	ft_exit(char **cmds, t_data *data)
+int	ft_exit(char **cmds, t_data *data)
 {
 	if (cmds[0] == NULL)
 	{
-		free_data(&data);
+		free_system(data);
 		exit(SUCCESS);
 	}
 	else if (cmds != NULL && cmds[1] != NULL)
 	{
-		free_data(&data);
-		ft_exit_str_fd(ERROR_TOO_MANY_ARGS, STDERR_FILENO);
+		free_system_error(data, ERROR_TOO_MANY_ARGS);
+		return (ERROR_TOO_MANY_ARGS);
 	}
 	else if (cmds != NULL && cmds[1] == NULL)
-		handle_numeric_arg(cmds[0], data);
+		return (handle_numeric_arg(cmds[0], data));
 }

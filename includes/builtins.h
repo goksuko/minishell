@@ -26,8 +26,8 @@ int		ft_pwd(char **cmds, t_data *data);
 int		ft_cd(char **cmds, t_env *env_list, t_data *data);
 
 // EXIT
-void	ft_exit(char **cmds, t_data *data);
-void	handle_numeric_arg(char *exit_code, t_data *data);
+int		ft_exit(char **cmds, t_data *data);
+int		handle_numeric_arg(char *exit_code, t_data *data);
 int		exit_atoi(char *exit_code, t_data *data);
 int		get_sign(char c, int *i);
 bool	arg_is_digit(char *str);
