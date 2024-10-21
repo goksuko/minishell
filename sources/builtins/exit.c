@@ -36,4 +36,5 @@ int	ft_exit(char **cmds, t_data *data)
 	}
 	else if (cmds != NULL && cmds[1] == NULL)
 		return (handle_numeric_arg(cmds[0], data));
+	return (SUCCESS);
 }

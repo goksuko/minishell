@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 10:32:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 11:15:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ bool	create_children(t_data *data)
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	i = 0;
 	while (i < data->nbr_of_cmds)

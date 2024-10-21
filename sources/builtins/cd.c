@@ -88,7 +88,12 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	int		cmd_len;
 
 	return_value = -1;
-	if (cmds[0] != NULL && cmds[1] != NULL)
+	// if (!cmds)
+	// {
+	// 	free_system_error(data, ERROR_NO_FILE_DIR);
+	// 	return (ERROR_NO_FILE_DIR);
+	// }
+	if (cmds && cmds[0] != NULL && cmds[1] != NULL)
 	{
 		free_system_error(data, ERROR_TOO_MANY_ARGS);
 		return (ERROR_TOO_MANY_ARGS);
