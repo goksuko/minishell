@@ -40,7 +40,6 @@ void	make_initial_path_checks(char **envp, t_data *data)
 
 bool	minishell_routine(t_data *data, char *line)
 {
-	handle_signals(PARENT);
 	if ((line = rl_gets()) == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
@@ -87,14 +86,10 @@ int	main(int argc, char *argv[], char **envp)
 	line = NULL;
 	while (1)
 	{
-		if (minishell_routine(data, line) == false)
-		{
+		handle_signals(PARENT);
+		minishell_routine(data, line);
+		// if (minishell_routine(data, line) == true);
 			// free_system(data);
-			return (data->exit_code);
-		}
-		else
-			free_system(data);
-			// return (data->exit_code);
 	}
 	return (data->exit_code);
 }

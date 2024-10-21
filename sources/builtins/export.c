@@ -58,13 +58,13 @@ char	*get_new_value(char *command, int start)
 	return (ft_substr(command, start, ft_strlen(command) - start));
 }
 
-void	handle_allocation_error_env(t_data **data)
+int	handle_allocation_error_env(t_data *data)
 {
-	free_data(data);
-	ft_exit_perror(ERROR_ALLOCATION, "malloc in create_new_env");
+	free_system_perror(data, ERROR_ALLOCATION, "substr in export()");
+	return (ERROR_ALLOCATION);
 }
 
-void	create_new_env(t_data **data, char *command)
+int	create_new_env(t_data **data, char *command)
 {
 	char	*new_key;
 	char	*new_value;
@@ -73,30 +73,31 @@ void	create_new_env(t_data **data, char *command)
 
 	new_key = get_new_key(command);
 	if (new_key == NULL)
-		handle_allocation_error_env(data);
+		return (handle_allocation_error_env(*data));
 	i = ft_strlen(new_key);
 	if (command[i] == '=')
 	{
 		i++;
 		new_value = get_new_value(command, i);
 		if (new_value == NULL)
-			handle_allocation_error_env(data);
+			return (handle_allocation_error_env(*data));
 	}
 	else
 		new_value = NULL;
 	new_env = ft_new_node(*data, new_key, new_value);
 	if (new_env == NULL)
-		handle_allocation_error_env(data);
-	printf("new_env->key: %s\n", new_env->key);
-	printf("new_env->value: %s\n", new_env->value);
+		return (handle_allocation_error_env(*data));
 	add_new_env_node(&(*data)->env_list, new_env);
+	return (SUCCESS);
 }
 
 int	ft_export(char **cmds, t_data *data)
 {
 	int	i;
 	int	out_fd;
+	int	return_value;
 
+	return_value = SUCCESS;
 	if (data->info->fd_out == -10)
 		out_fd = STDOUT_FILENO;
 	else
@@ -111,13 +112,15 @@ int	ft_export(char **cmds, t_data *data)
 		while (cmds[i] != NULL)
 		{
 			if (verify_key(cmds[i], out_fd) == false)
+			{
+				free_system_error(data, ERROR_INVALID_IDENTIFIER);
 				return (ERROR_INVALID_IDENTIFIER);
-					// need to make sure that this error message does not get printed or else remove the print statements in the validation check
-			create_new_env(&data, cmds[i]);
+			}
+			return_value = create_new_env(&data, cmds[i]);
 			i++;
 		}
 	}
-	return (SUCCESS);
+	return (return_value);
 }
 
 // Example 1:

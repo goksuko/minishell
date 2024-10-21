@@ -50,7 +50,7 @@ bool	execute_shell(t_data *data)
 	}
 	exit_code = data->exit_code;
 	data->exit_code = last_exit_code_checks(exit_code, data); // to be checked
-	free_system(data);
+	// free_system(data);
 	return (true);
 }
 

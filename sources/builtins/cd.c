@@ -25,14 +25,14 @@ int	cd_parent_dir(char *cwd, t_data *data)
 {
 	if (ft_strlen(cwd) != 1)
 	{
-		if (chdir("..") != 0)
+		if (errno == ENOMEM || chdir("..") != 0)
 		{
 			free(cwd);
 			free_system_error(data, ERROR_PARENT_DIR);
 			return (ERROR_PARENT_DIR);
 		}
 		cwd = getcwd(NULL, 0);
-		if (cwd == NULL)
+		if (errno == ENOMEM || cwd == NULL)
 		{
 			free_system_perror(data, ERROR_ALLOCATION, "cwd in cd_parent_dir");
 			return (ERROR_ALLOCATION);

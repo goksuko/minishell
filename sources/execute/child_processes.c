@@ -40,13 +40,15 @@ bool	create_children(t_data *data)
 	int		status;
 
 	status = 0;
-	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	i = 0;
+	printf("number of commands for which to create child processes: %d\n", data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds)
 	{
+		printf("loop[%d] in create_children()\n", i);
 		if (do_commands(data, i) == false)
 			return (false);
 		pid = child_process(data->info);
+		handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 		if (pid == -125)
 			return (false);
 		data->info->curr_cmd++;
@@ -84,7 +86,7 @@ bool	do_child_of_child(t_info *info)
 		if (start_exec(info) == false)
 			return_value = false;
 	}
-	ft_free_matrix(command);
+	// ft_free_matrix(command);
 	return (return_value);
 }
 

@@ -110,51 +110,55 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 	exit(code);
 }
 
-// void	ft_close_exit_perror(t_info *info, t_error code, char *s)
-// {
-// 	close_info(info);
-// 	free_system(info->data); // to be replaced with free_data
-// 	perror(s);
-// 	exit(code);
-// }
+void	free_and_null(char *str)
+{
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
+	return ;
+}
 
 void	close_info(t_info *info)
 {
 	if (info->infile)
-		free(info->infile);
+		free_and_null(info->infile);
 	if (info->outfile)
-		free(info->outfile);
+		free_and_null(info->outfile);
 	if (info->limiter)
-		free(info->limiter);
+		free_and_null(info->limiter);
 	if (info->path)
-		free(info->path);
-	free(info);
+		free_and_null(info->path);
+	// free(info);
+	// info = NULL;
 	return ;
 }
 
 void	free_system(t_data *data)
 {
-	if (data->cmds && data->cmds[0] != NULL)
+	if (data && data->cmds && data->cmds[0])
 		ft_free_matrix(data->cmds);
-	if (data->line && data->line[0] != '\0')
-		free(data->line);
-	if (data->info)
+	if (data && data->line && data->line[0])
+		free_and_null(data->line);
+	if (data && data->info)
 		close_info(data->info);
-	if (data->tokens)
+	if (data && data->tokens)
 		free_token_list(&data->tokens);
 	return ;
 }
 
-void	free_data(t_data **data) // to be adjusted
+void	free_data(t_data **data)
 {
 	free_system(*data);
-	if ((*data)->envp && (*data)->envp[0] != NULL)
+	if ((*data)->envp && (*data)->envp[0])
 		ft_free_matrix((*data)->envp);
-	if ((*data)->path) // goksu is going to fix it
+	if ((*data)->path)
 		free((*data)->path);
 	if ((*data)->env_list)
 		free_env(&(*data)->env_list);
 	free(*data);
+	*data = NULL;
 	return ;
 }
 

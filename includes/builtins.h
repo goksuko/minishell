@@ -51,11 +51,11 @@ int		get_list_size(t_env *list);
 void	print_env_var(t_env *var, int fd);
 
 // EXPORT WITH ARGS
-void	create_new_env(t_data **data, char *command);
+int		create_new_env(t_data **data, char *command);
 void	add_new_env_node(t_env **env_list, t_env *new_env);
 char	*extract_key(char *command);
 bool	verify_key(char *key, int fd);
-void	handle_allocation_error_env(t_data **data);
+int		handle_allocation_error_env(t_data *data);
 char	*get_new_value(char *command, int start);
 char	*get_new_key(char *command);
 
