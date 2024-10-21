@@ -12,7 +12,7 @@ int	handle_numeric_arg(char *exit_code, t_data *data)
 	}
 	else
 	{
-		return_value = exit_atoi(exit_code, data);
+		return_value = exit_atoi(exit_code, data); // SHOULD WE COMPLETELY CLOSE THE MINISHELL HERE? HENCE, CLEAN DATA ??
 		if (return_value == SUCCESS)
 		{
 			free_system(data);

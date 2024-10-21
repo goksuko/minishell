@@ -24,7 +24,12 @@ char	*rl_gets(void)
 		free(line_read);
 		line_read = (char *)NULL;
 	}
-	line_read = readline("> ");
+	line_read = readline(">[minishell]: ");
+	if (line_read == NULL)
+	{
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		exit(0);
+	}
 	if (line_is_empty(line_read) == true)
 	{
 		line_read = ft_strdup(" ");

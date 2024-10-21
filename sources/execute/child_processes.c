@@ -45,6 +45,7 @@ bool	create_children(t_data *data)
 	while (i < data->nbr_of_cmds)
 	{
 		printf("loop[%d] in create_children()\n", i);
+		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		if (do_commands(data, i) == false)
 			return (false);
 		pid = child_process(data->info);
@@ -63,32 +64,68 @@ bool	create_children(t_data *data)
 	return (true);
 }
 
-bool	do_child_of_child(t_info *info)
+// we need to exit the cild process
+// everything that has been created in the parent will need to
+void	do_child_of_child(t_info *info)
 {
+	// TO CHECK include an exit of the child process
 	char	**command;
-	bool	return_value;
+	// bool	return_value;
 
-	return_value = true;
+	// return_value = true;
 	command = NULL;
 	if (handle_child_type(info) == false)
-		return (false);
+		exit(EXIT_FAILURE);
+		// return (false);
 	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (command == NULL)
-		return (false);
+		exit(EXIT_FAILURE);
+		// return (false);
 	if (is_builtin(command[0]))
 	{
 		if (handle_builtin(info, command) == false)
-			return_value = false;
+			exit(EXIT_FAILURE);
+			// return_value = false;
 	}
 	else
 	{
 		ft_free_matrix(command);
 		if (start_exec(info) == false)
-			return_value = false;
+			exit(EXIT_FAILURE);
+			//return_value = false;
 	}
 	// ft_free_matrix(command);
-	return (return_value);
+	//return (return_value);
+	exit(EXIT_SUCCESS);
 }
+
+// bool	do_child_of_child(t_info *info)
+// {
+// 	// TO CHECK include an exit of the child process
+// 	char	**command;
+// 	bool	return_value;
+
+// 	return_value = true;
+// 	command = NULL;
+// 	if (handle_child_type(info) == false)
+// 		return (false);
+// 	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
+// 	if (command == NULL)
+// 		return (false);
+// 	if (is_builtin(command[0]))
+// 	{
+// 		if (handle_builtin(info, command) == false)
+// 			return_value = false;
+// 	}
+// 	else
+// 	{
+// 		ft_free_matrix(command);
+// 		if (start_exec(info) == false)
+// 			return_value = false;
+// 	}
+// 	// ft_free_matrix(command);
+// 	return (return_value);
+// }
 
 bool	do_parent_of_child(t_info *info)
 {
@@ -126,8 +163,9 @@ pid_t	child_process(t_info *info)
 		return (-125);
 	else if (pid == 0)
 	{
-		if (do_child_of_child(info) == false)
-			return (-125);
+		do_child_of_child(info);
+		// if (do_child_of_child(info) == false)
+		// 	return (-125);
 	}
 	else
 	{
