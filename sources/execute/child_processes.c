@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 11:15:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/21 23:22:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	do_commands(t_data *data, int i)
 	return (true);
 }
 
-bool	create_children(t_data *data)
+int	create_children(t_data *data)
 {
 	int		i;
 	pid_t	pid;
@@ -48,20 +48,23 @@ bool	create_children(t_data *data)
 		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		if (do_commands(data, i) == false)
 			return (false);
+		printf("exit code before fork: %d\n", data->exit_code);
 		pid = child_process(data->info);
 		if (pid == -125)
 			return (false);
+		printf("exit code after fork: %d\n", data->exit_code);
 		data->info->curr_cmd++;
 		i++;
 	}
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
+	printf("exit code after waitpid: %d\n", data->exit_code);
 	if (WIFEXITED(status))
 	{
-		data->exit_code = WEXITSTATUS(status);
-		return (true);
+		// data->exit_code = WEXITSTATUS(status);
+		return (data->exit_code);
 	}
-	return (true);
+	return (data->exit_code);
 }
 
 // we need to exit the cild process
@@ -84,17 +87,25 @@ void	do_child_of_child(t_info *info)
 	if (is_builtin(command[0]))
 	{
 		if (handle_builtin(info, command) == false)
+		{
+			printf("error in handle_builtin\n");
+			printf("exit code: %d\n", info->data->exit_code);
+			ft_free_matrix(command);
 			exit(EXIT_FAILURE);
 			// return_value = false;
+		}
 	}
 	else
 	{
 		ft_free_matrix(command);
 		if (start_exec(info) == false)
+		{
+			ft_free_matrix(command);
 			exit(EXIT_FAILURE);
-			//return_value = false;
+			// return_value = false;
+		}
 	}
-	// ft_free_matrix(command);
+	ft_free_matrix(command);
 	//return (return_value);
 	exit(EXIT_SUCCESS);
 }
@@ -166,6 +177,7 @@ pid_t	child_process(t_info *info)
 		do_child_of_child(info);
 		// if (do_child_of_child(info) == false)
 		// 	return (-125);
+		printf("exit code after do_child_of_child: %d\n", info->data->exit_code);
 	}
 	else
 	{
