@@ -1,5 +1,8 @@
 #include "../../includes/minishell.h"
 
+
+// return boolean and update data->exit_code in functions 
+
 int	execute_builtin(char **cmds, t_data *data)
 {
 	int	return_value;

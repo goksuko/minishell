@@ -21,92 +21,100 @@ char	*get_env_str(t_data *data, char *str)
 	return (env);
 }
 
-// char	*dollar_exit_code(t_data *data, int start_dollar, int *end_dollar)
+// char	*expand_exit_code(t_data *data)
 // {
-// 	char	*exit_code_str;
+// 	char	*middle_str;
 
-// 	exit_code_str = ft_itoa(data->exit_code);
-// 	if (exit_code_str == NULL)
+// 	middle_str = NULL;
+// 	middle_str = ft_itoa(data->exit_code);
+// 	if (middle_str == NULL)
 // 		return (NULL);
-// 	*end_dollar = start_dollar + 1;
-// 	return (exit_code_str);
+// 	return (middle_str);
 // }
 
-// char	*dollar_pid(int start_dollar, int *end_dollar)
+// char	*expand_pid(void)
 // {
-// 	char	*pid_str;
-
-// 	pid_str = ft_itoa(getpid());
-// 	if (pid_str == NULL)
+// 	char	*middle_str;
+	
+// 	middle_str = ft_itoa(getpid()); // to be checked of this one can be used or the one from env!!
+// 	if (middle_str == NULL)
 // 		return (NULL);
-// 	*end_dollar = start_dollar + 1;
-// 	return (pid_str);
+// 	return (middle_str);
 // }
 
-// char	*dollar_env_value(t_data *data, char *str, int *end_dollar, int i)
+// char	*expand_pid_dollar(t_data *data, char *str, int start_dollar, int *end_dollar)
 // {
-// 	char	*env_value;
+// 	char	*middle_str;
 
-// 	env_value = get_env_str(data, str + i + 1);
-// 	if (env_value == NULL)
-// 		return (NULL);
-// 	*end_dollar = get_end_dollar(str, i + 1);
-// 	return (env_value);
+// 	middle_str = NULL;
+// 	if (*str == '?' || *str == '$')
+// 	{
+// 		if (*str == '?')
+// 			middle_str = expand_exit_code(data);
+// 		else if (*str == '$')
+// 			middle_str = expand_pid();
+// 		if (middle_str != NULL)
+// 			*end_dollar = start_dollar + 1;
+// 	}
+// 	return (middle_str);
 // }
 
-// char	*get_dollar_replacement(t_data **data, char *str, int i,
-// 		int *end_dollar)
+// char	*expand_env(t_data *data, char *str, int i, int *end_dollar)
 // {
-// 	if (str[i + 1] == '?')
-// 		return (dollar_exit_code(*data, i, end_dollar));
-// 	else if (str[i + 1] == '$')
-// 		return (dollar_pid(i, end_dollar));
-// 	else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i
-// 			+ 1] == ' '))
-// 		return (dollar_env_value(*data, str, end_dollar, i));
-// 	return (NULL);
+// 	char	*middle_str;
+
+// 	middle_str = get_env_str(data, str);
+// 	if (middle_str == NULL)
+// 		return (NULL);
+// 	*end_dollar = get_end_dollar(str, i + 1); // +1 because i is the index of the dollar sign
+// 	printf("end dollar: %c\n", str[*end_dollar]);
+// 	return (middle_str);
+// }
+
+// bool	init_variables(int *i, int *start_dollar, int *end_dollar, char **temp)
+// {
+// 	*i = 0;
+// 	*start_dollar = 0;
+// 	*end_dollar = 0;
+// 	*temp = ft_strdup("");
+// 	if (temp == NULL)
+// 		return (false);
+// 	return (true);
 // }
 
 // char	*handle_dollar_sign(t_data **data, char *str)
 // {
 // 	int		i;
+// 	int		start_dollar;
 // 	int		end_dollar;
 // 	char	*temp;
-// 	char	*new_temp;
 // 	char	*middle_to_add;
-// 	char	*new_temp;
-// 	char	*new_temp;
 
-// 	i = 0;
-// 	end_dollar = 0;
-// 	temp = ft_strdup("");
-// 	if (temp == NULL)
+// 	if (init_variables(&i, &start_dollar, &end_dollar, &temp) == false)
 // 		return (NULL);
 // 	while (str[i] != '\0')
 // 	{
 // 		if (str[i] == '$')
 // 		{
-// 			middle_to_add = get_dollar_replacement(data, str, i, &end_dollar);
+// 			start_dollar = i;
+// 			if (str[i + 1] == '?' || str[i + 1] == '$')
+// 				middle_to_add = expand_pid_dollar(*data, &str[i + 1], start_dollar, &end_dollar);
+// 			else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i+ 1] == ' '))
+// 				middle_to_add = expand_env(*data, &str[i + 1], i, &end_dollar);
 // 			if (middle_to_add == NULL)
-// 			{
-// 				free(temp);
 // 				return (NULL);
-// 			}
-// 			new_temp = ft_strjoin(temp, middle_to_add);
-// 			free(temp);
-// 			free(middle_to_add);
-// 			if (new_temp == NULL)
-// 				return (NULL);
-// 			temp = new_temp;
-// 			i = end_dollar + 1;
+// 			printf("Middle to add: %s\n", middle_to_add);
+// 			temp = ft_strjoin(temp, middle_to_add);
+// 			if (temp == NULL)
+// 					return (NULL);
+// 			i = end_dollar + 1; // Jump to end_dollar
+// 			printf("%c\n", str[i]);
 // 		}
 // 		else
 // 		{
-// 			new_temp = ft_strjoin_c(temp, str[i]);
-// 			free(temp);
-// 			if (new_temp == NULL)
+// 			temp = ft_strjoin_c(temp, str[i]);
+// 			if (temp == NULL)
 // 				return (NULL);
-// 			temp = new_temp;
 // 			i++;
 // 		}
 // 	}
@@ -146,8 +154,7 @@ char	*handle_dollar_sign(t_data **data, char *str)
 					return (NULL);
 				end_dollar = start_dollar + 1;
 			}
-			else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i
-+ 1] == ' '))
+			else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i+ 1] == ' '))
 			{
 				middle_to_add = get_env_str(*data, str + i + 1);
 				if (middle_to_add == NULL)
