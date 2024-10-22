@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 20:25:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:52:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	do_child_of_child(t_info *info)
 		// return (false);
 	if (is_builtin(command[0]))
 	{
-		if (handle_builtin(info, command) == false)
+		if (handle_builtin(info->data, command) == false)
 		{
 			printf("error in handle_builtin\n");
 			printf("exit code: %d\n", info->data->exit_code);

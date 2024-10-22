@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:32:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:55:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ bool	is_heredoc(t_token *current)
 
 bool	heredoc_inside(t_token *current)
 {
-	printf("heredoc_inside\n");
 	while (current && current->type != T_DSMALLER)
 		current = current->next;
 	if (current)

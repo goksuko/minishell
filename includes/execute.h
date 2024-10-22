@@ -16,7 +16,7 @@ bool	do_first_child(t_info *info);
 bool	do_middle_child(t_info *info);
 bool	do_last_child(t_info *info);
 bool	handle_child_type(t_info *info);
-bool	handle_builtin(t_info *info, char **command);
+int		handle_builtin(t_data *data, char **command);
 
 // env_list_utils.c
 void	free_prev_nodes(t_env *head);

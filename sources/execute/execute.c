@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:11:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:55:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int clean_from_redir(t_data *data, char **cmd_matrix)
 	}
 	new_cmd_matrix[j] = NULL;
 	data->cmd_matrix = new_cmd_matrix;
-	printf_array(data->cmd_matrix);
 	ft_free_matrix(cmd_matrix);
 	return (SUCCESS);
 }
@@ -103,7 +102,12 @@ int	heredoc_fork(t_data *data)
 			if (dup2(data->here_doc_outfile_fd, STDOUT_FILENO) < 0)
 				exit(error_assign(data, ERROR_DUP2));
 		}
-		if (execve(path, data->cmd_matrix, data->envp) == -1)
+		if (is_builtin(data->cmd_matrix[0]))
+		{
+			if (handle_builtin(data, data->cmd_matrix) > 0)
+				exit(data->exit_code);
+		}
+		else if (execve(path, data->cmd_matrix, data->envp) == -1)
 			exit(error_assign(data, ERROR_EXECVE));
 	}
 	else
