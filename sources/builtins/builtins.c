@@ -23,6 +23,8 @@ int	execute_builtin(char **cmds, t_data *data)
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 		return_value = ft_exit(cmds + 1, data);
+	// printf("exit code in execute_builtin: %d\n", data->exit_code);
+	// printf("return value in execute_builtin: %d\n", return_value);
 	return (return_value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:55:35 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 00:16:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,10 @@ int	execute_shell(t_data *data)
 	else
 	{
 		if (create_children(data) > 0)
+		{
+			free_system_error(data, data->exit_code);
 			return (data->exit_code);
+		}
 	}
 	// data->exit_code = last_exit_code_checks(data->exit_code, data); // to be checked
 	// free_system(data);

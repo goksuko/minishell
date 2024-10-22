@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:02:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 23:04:19 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_error(t_error code)
 							[ERROR_FILE_OPEN] = "Error: file open failed\n",
 							[ERROR_NULL_PATH] = "bash: path not found\n",
 							[ERROR_FORK] = "Error: fork failed\n",
+							[ERROR_PIPE] = "Error: pipe failed\n",
 							// [ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
 							[ERROR_CLOSE] = "Error: close failed\n",
 							[ERROR_DUP2] = "Error: dup2 failed\n",

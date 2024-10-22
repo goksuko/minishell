@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:52:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 23:27:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	return (path);
 }
 
-bool	start_exec(t_info *info)
+int	start_exec(t_info *info)
 {
 	char	**cmd_matrix;
 	char	*path;
@@ -46,17 +46,17 @@ bool	start_exec(t_info *info)
 	path = NULL;
 	cmd_matrix = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
-		return (false);
+		return (error_assign(info->data, ERROR_ALLOCATION));
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	if (path == NULL)
 	{
 		ft_free_matrix(cmd_matrix);
-		return (true);
+		return (info->data->exit_code);
 	}
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
-		return (false);
-	return (true);
+		return (error_assign(info->data, ERROR_EXECVE));
+	return (SUCCESS);
 }
 
 char	*put_main_command(char *command, char space)

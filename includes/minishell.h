@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:04:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 23:04:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef enum e_error
 	ERROR_NULL_PATH,
 	// ERROR_PIPE,
 	ERROR_FORK,
+	ERROR_PIPE,
 	ERROR_CLOSE,
 	ERROR_DUP2,
 	ERROR_EXECVE,

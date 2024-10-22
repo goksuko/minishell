@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:55:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:57:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_token	*array_to_list(char **tokens, int token_count)
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
 		return (ft_free_matrix(tokens), NULL);
-	// head->is_head = true;
 	current = head;
 	i++;
 	while (tokens[i] != NULL)

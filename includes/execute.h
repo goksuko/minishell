@@ -6,16 +6,16 @@
 bool	do_commands(t_data *data, int i);
 int	create_children(t_data *data);
 // bool	do_child_of_child(t_info *info);
-void	do_child_of_child(t_info *info);
+int	do_child_of_child(t_info *info);
 int	do_parent_of_child(t_info *info);
 pid_t	child_process(t_info *info);
 
 // children.c
 
-bool	do_first_child(t_info *info);
-bool	do_middle_child(t_info *info);
-bool	do_last_child(t_info *info);
-bool	handle_child_type(t_info *info);
+int	do_first_child(t_info *info);
+int	do_middle_child(t_info *info);
+int	do_last_child(t_info *info);
+int	handle_child_type(t_info *info);
 int		handle_builtin(t_data *data, char **command);
 
 // env_list_utils.c
@@ -47,7 +47,7 @@ int	last_exit_code_checks(int exit_code, t_data *data); // to be checked
 
 // Utils functions //
 char	*put_main_command(char *command, char space);
-bool	start_exec(t_info *info);
+int	start_exec(t_info *info);
 bool	is_whitespace(char c);
 
 // Path functions //

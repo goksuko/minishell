@@ -6,100 +6,102 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 22:55:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 00:19:25 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	do_first_child(t_info *info)
+int	do_first_child(t_info *info)
 {
 	if (info->fd_in != -10)
 	{
 		if (dup2(info->fd_in, STDIN_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	if (info->fd_out != -10)
 	{
 		if (dup2(info->fd_out, STDOUT_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	else
 	{
 		if (dup2(info->pipefd[1], STDOUT_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
-bool	do_middle_child(t_info *info)
+int	do_middle_child(t_info *info)
 {
 	if (info->fd_in != -10)
 	{
 		if (dup2(info->fd_in, STDIN_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	else
 	{
 		if (dup2(info->pipe_read_end, STDIN_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	if (info->fd_out != -10)
 	{
 		if (dup2(info->fd_out, STDOUT_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	else
 	{
 		if (dup2(info->pipefd[1], STDOUT_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
-bool	do_last_child(t_info *info)
+int	do_last_child(t_info *info)
 {
 	if (info->fd_out != -10)
 	{
 		if (dup2(info->fd_out, STDOUT_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	if (info->fd_in != -10)
 	{
 		if (dup2(info->fd_in, STDIN_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));	
 	}
 	else if (info->curr_cmd != 0)
 	{
 		if (dup2(info->pipe_read_end, STDIN_FILENO) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_DUP2));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
-bool	handle_child_type(t_info *info)
+int	handle_child_type(t_info *info)
 {
 	if (info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
-		if (do_last_child(info) == false)
-			return (false);
+		if (do_last_child(info) > 0)
+			return (info->data->exit_code);
 	}
 	else if (info->curr_cmd == 0)
 	{
-		if (do_first_child(info) == false)
-			return (false);
+		if (do_first_child(info) > 0)
+			return (info->data->exit_code);
 	}
 	else
 	{
-		if (do_middle_child(info) == false)
-			return (false);
+		if (do_middle_child(info) > 0)
+			return (info->data->exit_code);
 	}
-	return (true);
+	return (SUCCESS);
 }
 
 int	handle_builtin(t_data *data, char **command)
 {
+	// printf("handle_builtin\n");
 	if (command && command[0])
 		data->exit_code = execute_builtin(command, data);
+	// printf("exit code in handle_builtin: %d\n", data->exit_code);
 	return(data->exit_code);
 }
