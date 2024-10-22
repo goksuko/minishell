@@ -69,7 +69,6 @@ OBJS_DIR = objects
 SRCS = $(addprefix $(SRCS_DIR)/, \
 		errors.c \
 		main.c \
-		read_line.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix expander/, $(EXPANDER)) \
 		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \

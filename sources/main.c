@@ -12,6 +12,32 @@
 
 #include "../includes/minishell.h"
 
+char	*rl_gets(void)
+{
+	char	*line_read;
+
+	line_read = readline(">[minishell]: ");
+	if (line_read == NULL)
+	{
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		exit(0);
+	}
+	if (line_is_empty(line_read) == true)
+	{
+		free(line_read);
+		return (ft_strdup(" "));
+	}
+	if (line_is_whitespace(line_read) == true)
+	{
+		add_history(line_read);
+		free(line_read);
+		return (ft_strdup(" "));
+	}
+	if (line_read != NULL && *line_read != '\0')
+		add_history(line_read);
+	return (line_read);
+}
+
 void	make_initial_path_checks(char **envp, t_data *data)
 {
 	t_env	*head;
@@ -40,7 +66,6 @@ void	make_initial_path_checks(char **envp, t_data *data)
 
 bool	minishell_routine(t_data *data, char *line)
 {
-	// noninteractive_signals();
 	if ((line = rl_gets()) == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
@@ -78,7 +103,6 @@ int	main(int argc, char *argv[], char **envp)
 	if (argc != 1)
 		return (ft_printf_fd(STDERR_FILENO, "%s\n",
 				ft_print_error(ERROR_ARGUMENT_COUNT)));
-	// interactive_signals();
 	data = ft_calloc(sizeof(t_data), 1);
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");
@@ -89,7 +113,6 @@ int	main(int argc, char *argv[], char **envp)
 	line = NULL;
 	while (1)
 	{
-		// interactive_signals();
 		if (minishell_routine(data, line) == true)
 			free_system(data);
 	}

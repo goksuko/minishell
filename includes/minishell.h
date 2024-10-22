@@ -155,7 +155,5 @@ void				handle_signals(int process);
 void				handle_child_sigquit(int signal);
 void				handle_child_sigint(int signal);
 void				handle_parent_sigint(int signal);
-// void				interactive_signals(void);
-// void				noninteractive_signals(void);
 
 #endif
