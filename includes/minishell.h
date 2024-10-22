@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 19:50:10 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:04:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
 	int				here_doc_fd;
+	int				here_doc_outfile_fd;
 	char			**expanded_cmds;
 	struct s_info	*info;
 	struct s_env	*env_list;
@@ -57,17 +58,15 @@ typedef struct s_data
 typedef enum e_error
 {
 	NO_ERROR,
-	
 	ERROR_ARGUMENT_COUNT,
 	ERROR_NO_ENVP,
 	ERROR_TOO_MANY_ARGS,
 	ERROR_NUMERIC_ARG,
-	ERROR_INVALID_ARGUMENTS,
+	// ERROR_INVALID_ARGUMENTS,
 	ERROR_ALLOCATION,
 	ERROR_FILE_OPEN,
 	ERROR_NULL_PATH,
-
-	ERROR_PIPE,
+	// ERROR_PIPE,
 	ERROR_FORK,
 	ERROR_CLOSE,
 	ERROR_DUP2,
@@ -78,16 +77,16 @@ typedef enum e_error
 	ERROR_NO_FILE_DIR,
 	ERROR_QUOTE,
 	ERROR_WRONG_CHAR,
-	ERROR_FILE_NOT_FOUND,
+	// ERROR_FILE_NOT_FOUND,
 	ERROR_META,
 	ERROR_SYNTAX,
 	ERROR_EMPTY_LINE,
-	UNDEFINED_ERROR,
 	ERROR_INVALID_IDENTIFIER,
 	ERROR_UNLINK,
 	ERROR_PERM = 126, // it was 1
-	// ERROR_CMD_NOT_FOUND = 127,
 	ERROR_NOT_DIR = 127,
+	// ERROR_CMD_NOT_FOUND = 127,
+	UNDEFINED_ERROR,
 }					t_error;
 
 typedef struct s_info

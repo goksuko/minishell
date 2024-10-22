@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 19:53:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 22:11:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,37 @@ int	last_exit_code_checks(int exit_code, t_data *data)  // to be checked
 //     return (false);
 // }
 
+int clean_from_redir(t_data *data, char **cmd_matrix)
+{
+	int i;
+	int j;
+	char **new_cmd_matrix;
+
+	i = 0;
+	while (cmd_matrix[i])
+	{
+		if (ft_strncmp(cmd_matrix[i], "<", 1) == 0 || ft_strncmp(cmd_matrix[i], ">", 1) == 0 || ft_strncmp(cmd_matrix[i], ">>", 2) == 0)
+			break;
+		i++;
+	}
+	new_cmd_matrix = ft_calloc(i + 1, sizeof(char *));
+	if (errno == ENOMEM || !new_cmd_matrix)
+		return (error_assign(data, ERROR_ALLOCATION));
+	j = 0;
+	while (j < i)
+	{
+		new_cmd_matrix[j] = ft_strdup(cmd_matrix[j]);
+		if (errno == ENOMEM || !new_cmd_matrix[j])
+			return (error_assign(data, ERROR_ALLOCATION));
+		j++;
+	}
+	new_cmd_matrix[j] = NULL;
+	data->cmd_matrix = new_cmd_matrix;
+	printf_array(data->cmd_matrix);
+	ft_free_matrix(cmd_matrix);
+	return (SUCCESS);
+}
+
 int	heredoc_fork(t_data *data)
 {
 	int		here_doc_fd;
@@ -61,12 +92,19 @@ int	heredoc_fork(t_data *data)
 	if (pid == 0)
 	{
 		if (init_heredoc(data) > 0)
-			return (data->exit_code);
+			exit(data->exit_code);
 		path = data->path;
 		if (path == NULL)
-			return (error_assign(data, ERROR_NULL_PATH));
+			exit(error_assign(data, ERROR_NULL_PATH));
+		if (clean_from_redir(data, data->cmd_matrix) > 0)
+			exit(data->exit_code);
+		if (data->here_doc_outfile_fd != -10)
+		{
+			if (dup2(data->here_doc_outfile_fd, STDOUT_FILENO) < 0)
+				exit(error_assign(data, ERROR_DUP2));
+		}
 		if (execve(path, data->cmd_matrix, data->envp) == -1)
-			return (error_assign(data, ERROR_EXECVE));
+			exit(error_assign(data, ERROR_EXECVE));
 	}
 	else
 	{
@@ -108,8 +146,12 @@ int	execute_shell(t_data *data)
 	if (heredoc_inside(data->tokens))
 	{
 		if (first_checks(data) > 0)
+		{
+			free_system_error(data, data->exit_code);
 			return (data->exit_code);
-		heredoc_fork(data);	
+		}
+		if (heredoc_fork(data) > 0)
+			return (data->exit_code);
 	}
 	else
 	{

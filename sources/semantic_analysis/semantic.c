@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 21:20:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 21:37:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,29 @@ int	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	return (SUCCESS);
 }
 
+int	handle_heredoc_outfile(t_data *data, t_token *current)
+{
+	current = current->next;
+	while (current)
+	{
+		if (current->fd_out != -10)
+		{
+			if (data->here_doc_outfile_fd != -10)
+			{
+				if (close(data->here_doc_outfile_fd) < 0)
+				{
+					free_system_perror(data, ERROR_CLOSE,
+						"data->here_doc_outfile_fd in initialize_fds");
+					return (error_assign(data, ERROR_CLOSE));
+				}
+			}
+			data->here_doc_outfile_fd = current->fd_out;
+		}
+		current = current->next;
+	}
+	return (SUCCESS);
+}
+
 void	initialize_fds_array(t_info *info)
 {
 	int	i;
@@ -90,6 +113,11 @@ int	initialize_fds(t_info *info, t_data *data)
 			if (handle_outfile(data, info, i, current) > 0)
 				return (data->exit_code);
 		}
+		if (current->type == T_DSMALLER)
+		{
+			if (handle_heredoc_outfile(data, current) > 0)
+				return (data->exit_code);
+		}
 		if (current->type == T_PIPE)
 			i++;
 		current = current->next;
@@ -113,7 +141,7 @@ int	semantic_analysis(t_data *data)
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
 	data->info->limiter = NULL;
-	data->info->here_doc_cmd = -100;
+	// data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (data->exit_code);
