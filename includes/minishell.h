@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 11:00:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:18:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ typedef struct s_data
 	char			*line;
 	char			**envp;
 	char			*path;
+	char			*limiter;
 	int				exit_code;
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
+	int				here_doc_fd;
 	char			**expanded_cmds;
 	struct s_info	*info;
 	struct s_env	*env_list;
@@ -93,8 +95,8 @@ typedef struct s_info
 	char			*infile;
 	char			*outfile;
 	int				curr_cmd;
-	int				here_doc_cmd;
-	char			*limiter;
+	int				here_doc_cmd; //delete later
+	char			*limiter; //delete later
 	char			*path;
 	int				pipe_read_end;
 	struct s_data	*data;
@@ -135,6 +137,8 @@ void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 void				free_system_error(t_data *data, t_error code);
 void				free_system_perror(t_data *data, t_error code, char *s);
 void				free_and_null(char *str);
+int					error_assign(t_data *data, t_error code);
+
 
 // Libft functions //
 

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:02:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:43:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,37 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 	return (new_token);
 }
 
-void	ft_print_tokens(t_token *tokens) // Only for testing purposes
+void    ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
-	printf("----PRINT TOKENS----\n"); // Only for testing purposes
-	int	i;
+    printf("----PRINT TOKENS----\n"); // Only for testing purposes
+    int i;
+    t_token *temp;
 
-	if (tokens == NULL) // Only for testing purposes
-	{
-		printf("No tokens\n");
-		return ;
-	}
-	i = 1;
-	while (tokens != NULL)
-	{
-		printf("===Token number --%d--\n", i);
-		printf("Value: %s\n", tokens->value);
-		printf("Expanded value: %s\n", tokens->expanded_value);
-		printf("Token type: %s\n", token_type_to_string(tokens->type));
-		// printf("Is file: %d\n", tokens->is_file);
-		printf("Type: %s\n", token_type_to_string(tokens->type));
-		//		printf("Is file: %d\n", tokens->is_file);
-		if (tokens->limiter)
-			printf("Limiter: %s\n", tokens->limiter);
-		if (tokens->fd_in != -10)
-			printf("Fd_in: %d\n", tokens->fd_in);
-		if (tokens->fd_out != -10)
-			printf("Fd_out: %d\n", tokens->fd_out);
-		tokens = tokens->next;
-		i++;
-	}
+    if (tokens == NULL) // Only for testing purposes
+    {
+        printf("No tokens\n");
+        return ;
+    }
+    i = 1;
+    temp = tokens;
+    while (temp != NULL)
+    {
+        printf("===Token number --%d--\n", i);
+        printf("Value: %s\n", temp->value);
+        printf("Expanded value: %s\n", temp->expanded_value);
+        printf("Token type: %s\n", token_type_to_string(temp->type));
+        // printf("Is file: %d\n", temp->is_file);
+        printf("Type: %s\n", token_type_to_string(temp->type));
+        //      printf("Is file: %d\n", temp->is_file);
+        if (temp->limiter)
+            printf("Limiter: %s\n", temp->limiter);
+        if (temp->fd_in != -10)
+            printf("Fd_in: %d\n", temp->fd_in);
+        if (temp->fd_out != -10)
+            printf("Fd_out: %d\n", temp->fd_out);
+        temp = temp->next;
+        i++;
+    }
 }
 
 t_token_type	token_type_check(char *token)

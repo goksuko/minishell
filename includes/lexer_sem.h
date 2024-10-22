@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:41:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:31:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ int					find_pipe_count(t_token *tokens);
 void				initialize_info(t_info *info, t_data *data);
 
 // heredoc_semantic.c
-bool				limiter_check(t_data *data);
+int				limiter_check(t_data *data);
 int					here_doc_fd_check(t_data *data);
-bool				init_heredoc(t_data *data);
+int				init_heredoc(t_data *data);
 
 #endif

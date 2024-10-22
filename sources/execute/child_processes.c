@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 23:22:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:16:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 bool	do_commands(t_data *data, int i)
 {
-	if (data->info->curr_cmd == data->info->here_doc_cmd)
-	{
-		if (init_heredoc(data) == false)
-			return (false);
-		data->info->fds[i][0] = open("0ur_h3r3_d0c", O_RDONLY, 0777);
-		if (data->info->fds[i][0] < 0)
-			return (false);
-	}
+	// if (data->info->curr_cmd == data->info->here_doc_cmd)
+	// {
+	// 	if (init_heredoc(data) == false)
+	// 		return (false);
+	// 	data->info->fds[i][0] = open("0ur_h3r3_d0c", O_RDONLY, 0777);
+	// 	if (data->info->fds[i][0] < 0)
+	// 		return (false);
+	// }
 	data->info->fd_in = data->info->fds[i][0];
 	data->info->fd_out = data->info->fds[i][1];
 	if (i != data->nbr_of_cmds - 1)

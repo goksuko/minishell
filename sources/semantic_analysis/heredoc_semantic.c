@@ -6,13 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:39:21 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:43:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:12:25 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	limiter_check(t_data *data)
+int	limiter_check(t_data *data)
 {
 	t_token	*current;
 
@@ -23,11 +23,11 @@ bool	limiter_check(t_data *data)
 		{
 			data->info->limiter = ft_strdup(current->limiter);
 			if (data->info->limiter == NULL)
-				return (false);
+				return (error_assign(data, ERROR_ALLOCATION));
 		}
 		current = current->next;
 	}
-	return (true);
+	return (SUCCESS);
 }
 
 int	here_doc_fd_check(t_data *data)
@@ -45,7 +45,7 @@ int	here_doc_fd_check(t_data *data)
 	return (temp_fd);
 }
 
-bool	init_heredoc(t_data *data)
+int	init_heredoc(t_data *data)
 {
 	char	*limiter;
 	char	*line;
@@ -53,8 +53,8 @@ bool	init_heredoc(t_data *data)
 
 	handle_signals(HEREDOC);
 	here_doc_fd = here_doc_fd_check(data);
-	if (limiter_check(data) == false)
-		return (false);
+	if (limiter_check(data) > 0)
+		return (data->exit_code);
 	limiter = data->info->limiter;
 	line = readline("> ");
 	while (line)
@@ -68,7 +68,7 @@ bool	init_heredoc(t_data *data)
 		line = readline("> ");
 	}
 	if (close(here_doc_fd) < 0)
-		return (false);
+		return (error_assign(data, ERROR_CLOSE));
 	free(line);
-	return (true);
+	return (SUCCESS);
 }

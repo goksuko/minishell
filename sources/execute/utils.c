@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 23:09:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:52:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,18 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	if (cmd_matrix[0])
 		path = find_path(info, cmd_matrix[0]);
 	else
-	/////////////////////////////////////////////////////////////////// CHECK HERE
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
 			info->outfile);
 		info->data->exit_code = 126;
-		free_data(&info->data); // free_system
-								// exit(126);
+		free_system(info->data);
 	}
 	if (!path)
 	{
 		ft_putstr3_fd("command not found: ", cmd_matrix[0], "\n",
 			STDERR_FILENO);
-		// free_data(&info->data); // free_system
+		free_system(info->data);
 		info->data->exit_code = 127;
-		// exit(127);
 	}
 	return (path);
 }

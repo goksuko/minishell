@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 20:15:16 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 14:46:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	close_info(t_info *info)
 	if (info->outfile)
 		free_and_null(info->outfile);
 	if (info->limiter)
-		free_and_null(info->limiter);
+		free_and_null(info->limiter); //to be deleted
 	if (info->path)
 		free_and_null(info->path);
 	// free(info);
@@ -153,6 +153,8 @@ void	free_system(t_data *data)
 void	free_data(t_data **data)
 {
 	free_system(*data);
+	if ((*data)->limiter)
+		free((*data)->limiter);
 	if ((*data)->envp && (*data)->envp[0])
 		ft_free_matrix((*data)->envp);
 	if ((*data)->path)
@@ -184,6 +186,12 @@ void	free_env(t_env **env_var)
 	*env_var = NULL;
 }
 
+int	error_assign(t_data *data, t_error code)
+{
+	data->exit_code = code;
+	return (code);
+}
+
 void	ft_putstr2_fd(char *s1, char *s2, int fd)
 {
 	ft_putstr_fd(s1, fd);
@@ -196,3 +204,4 @@ void	ft_putstr3_fd(char *s1, char *s2, char *s3, int fd)
 	ft_putstr_fd(s2, fd);
 	ft_putstr_fd(s3, fd);
 }
+
