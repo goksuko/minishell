@@ -41,7 +41,7 @@ int		check_key(t_data *data, char *key);
 
 // execute.c
 int		is_file(const char *path);
-bool	execute_shell(t_data *data);
+int	execute_shell(t_data *data);
 
 // Utils functions //
 char	*put_main_command(char *command, char space);

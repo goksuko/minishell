@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 23:14:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:34:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*find_path_helper(t_info *info, char *main_command, char **path_split,
 	char	*path;
 	char	*temp;
 
+	printf("inside find_path_helper\n");
 	if (is_file(path_split[i]))
 	{
 		if (info->infile == NULL)
@@ -29,9 +30,13 @@ char	*find_path_helper(t_info *info, char *main_command, char **path_split,
 	path = ft_strjoin(temp, main_command);
 	if (path == NULL)
 		return (NULL);
+	printf("path: %s\n", path);
 	free(temp);
 	if (access(path, F_OK | X_OK) == 0)
+	{
+		printf("path found: %s\n", path);
 		return (ft_free_matrix(path_split), path);
+	}
 	free(path);
 	return (NULL);
 }
@@ -51,6 +56,7 @@ char	*find_path(t_info *info, char *main_command)
 	i = 0;
 	while (path_split[i])
 	{
+		printf("path_split[%d]: %s\n", i, path_split[i]);
 		path = find_path_helper(info, main_command, path_split, i);
 		if (path)
 			return (path);

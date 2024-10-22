@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:53:38 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:40:29 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	heredoc_fork(t_data *data)
 	int		here_doc_fd;
 	pid_t	pid;
 	int		status;
-
+	char	*path;
+	
 	handle_signals(HEREDOC);
-	printf("before open\n");
 	here_doc_fd = open("0ur_h3r3_d0c", O_RDONLY, 0777);
 	if (here_doc_fd < 0)
 		return (error_assign(data, ERROR_FILE_OPEN));
@@ -62,24 +62,11 @@ int	heredoc_fork(t_data *data)
 	{
 		if (init_heredoc(data) > 0)
 			return (data->exit_code);
-		char	**cmd_matrix;
-		char	*path;
-
-		path = NULL;
-		cmd_matrix = ft_split(data->cmds[0], ' ');
-		if (!cmd_matrix || errno == ENOMEM)
-			return (false);
-		update_path(data);
-		path = before_exec(data->cmds[0], info, cmd_matrix);
+		path = data->path;
 		if (path == NULL)
-		{
-			ft_free_matrix(cmd_matrix);
-			return (true);
-		}
-		if (execve(path, cmd_matrix, info->data->envp) == -1)
-			return (false);
-		return (true);
-		}
+			return (error_assign(data, ERROR_NULL_PATH));
+		if (execve(path, data->cmd_matrix, data->envp) == -1)
+			return (error_assign(data, ERROR_EXECVE));
 	}
 	else
 	{
@@ -92,27 +79,42 @@ int	heredoc_fork(t_data *data)
 	return (SUCCESS);	
 }
 
+int first_checks(t_data *data)
+{
+	char	**cmd_matrix;
 
-bool	execute_shell(t_data *data)
+	cmd_matrix = NULL;
+	if (data->cmds[0][0] == ' ')
+		return(error_assign(data, ERROR_NOT_DIR));
+	cmd_matrix = ft_split(data->cmds[0], ' ');
+	if (!cmd_matrix || errno == ENOMEM)
+		return (error_assign(data, ERROR_ALLOCATION));
+	data->cmd_matrix = cmd_matrix;
+	if (cmd_matrix[0])
+		data->path = find_path(data->info, cmd_matrix[0]);
+	else
+		return (error_assign(data, ERROR_PERM));
+	if (!data->path)
+		return(error_assign(data, ERROR_NOT_DIR));
+	return (SUCCESS);
+}
+
+int	execute_shell(t_data *data)
 {
 	int	exit_code;
 
-	printf("inside execute_shell\n");
-	// data->nbr_of_pipes = find_pipe_count(data->tokens);
-	// data->exit_code = 0;
 	data->info->pipe_read_end = STDIN_FILENO;
-	// printf("%d\n", data->nbr_of_pipes);
 	if (heredoc_inside(data->tokens))
 	{
-		printf("inside loop\n");
+		update_path(data);
+		if (first_checks(data) > 0)
+			return (data->exit_code);
 		heredoc_fork(data);	
 	}
 	else
 	{
 		if (create_children(data) > 0)
-		{
-			return (false);
-		}
+			return (data->exit_code);
 	}
 	if (data->info->limiter)
 	{
@@ -122,7 +124,7 @@ bool	execute_shell(t_data *data)
 	exit_code = data->exit_code;
 	data->exit_code = last_exit_code_checks(exit_code, data); // to be checked
 	// free_system(data);
-	return (true);
+	return (SUCCESS);
 }
 
 int	is_file(const char *path)

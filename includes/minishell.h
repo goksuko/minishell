@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:18:27 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:28:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	char			**envp;
 	char			*path;
 	char			*limiter;
+	char			**cmd_matrix;
 	int				exit_code;
 	int				nbr_of_cmds;
 	int				nbr_of_pipes;
@@ -56,7 +57,7 @@ typedef struct s_data
 typedef enum e_error
 {
 	NO_ERROR,
-	ERROR_PERM = 1,
+	
 	ERROR_ARGUMENT_COUNT,
 	ERROR_NO_ENVP,
 	ERROR_TOO_MANY_ARGS,
@@ -65,7 +66,7 @@ typedef enum e_error
 	ERROR_ALLOCATION,
 	ERROR_FILE_OPEN,
 	ERROR_NULL_PATH,
-	ERROR_CMD_NOT_FOUND,
+
 	ERROR_PIPE,
 	ERROR_FORK,
 	ERROR_CLOSE,
@@ -83,6 +84,8 @@ typedef enum e_error
 	ERROR_EMPTY_LINE,
 	UNDEFINED_ERROR,
 	ERROR_INVALID_IDENTIFIER,
+	ERROR_PERM = 126, // it was 1
+	// ERROR_CMD_NOT_FOUND = 127,
 	ERROR_NOT_DIR = 127,
 }					t_error;
 

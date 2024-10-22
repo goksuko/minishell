@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:46:35 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:28:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_error(t_error code)
 {
 	static char *str[] = {[NO_ERROR] = "No Error\n",
-							[ERROR_PERM] = "bash: permission denied: \n",
+							[ERROR_PERM] = "Permission denied: \n",
 							// >>   test.txt returns this but bash does nothing,
 							//		with 0 exit_code
 							[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
@@ -24,7 +24,7 @@ char	*ft_error(t_error code)
 							[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
 							[ERROR_ALLOCATION] = "Allocation Failure\n",
 							[ERROR_NULL_PATH] = "bash: path not found\n",
-							[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
+							// [ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
 							[ERROR_WRONG_CHAR] = "Error: wrong character\n",
 							[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
 							[ERROR_NOT_DIR] = "bash: not a directory: \n",
