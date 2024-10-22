@@ -47,15 +47,12 @@ char	*get_env_str(t_data *data, char *str)
 // 	char	*middle_str;
 
 // 	middle_str = NULL;
-// 	if (*str == '?' || *str == '$')
-// 	{
-// 		if (*str == '?')
-// 			middle_str = expand_exit_code(data);
-// 		else if (*str == '$')
-// 			middle_str = expand_pid();
-// 		if (middle_str != NULL)
-// 			*end_dollar = start_dollar + 1;
-// 	}
+// 	if (*str == '?')
+// 		middle_str = expand_exit_code(data);
+// 	else if (*str == '$')
+// 		middle_str = expand_pid();
+// 	if (middle_str != NULL)
+// 		*end_dollar = start_dollar + 1;
 // 	return (middle_str);
 // }
 
