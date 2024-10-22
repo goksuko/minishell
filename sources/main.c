@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 11:06:40 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 21:18:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ bool	minishell_routine(t_data *data, char *line)
 	if (data->tokens == NULL)
 		return (true);
 	expander(&data);
-	if (semantic_analysis(data) == false)
+	if (semantic_analysis(data) > 0)
 		return (false);
 	printf("\n**********Result*********\n\n");
-	if (execute_shell(data) == false)
+	if (execute_shell(data) > 0)
 		return (false);
+	data->exit_code = last_exit_code_checks(data->exit_code, data); // to be checked
 	printf("\n**********Exit code: %d***\n", data->exit_code);
 	return (true);
 }
@@ -61,6 +62,7 @@ void	init_data(t_data *data)
 	data->cmds = NULL;
 	data->line = NULL;
 	data->path = NULL;
+	data->cmd_matrix = NULL;
 	data->exit_code = 0;
 	data->expanded_cmds = NULL;
 	data->info = NULL;

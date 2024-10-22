@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:44:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 21:22:27 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ char	**cmds_from_tokens(t_data *data)
 	if (errno == ENOMEM || cmds == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
+		error_assign(data, ERROR_ALLOCATION);
 		return (NULL);
 	}
 	cmds = cmds_between_pipes(data, cmds);
 	if (cmds == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
+		error_assign(data, ERROR_ALLOCATION);
 		return (NULL);
 	}
 	return (cmds);

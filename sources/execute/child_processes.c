@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:16:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 20:25:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,30 +138,30 @@ void	do_child_of_child(t_info *info)
 // 	return (return_value);
 // }
 
-bool	do_parent_of_child(t_info *info)
+int	do_parent_of_child(t_info *info)
 {
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
 		if (close(info->pipe_read_end) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->fd_out != -10)
 	{
 		if (close(info->fd_out) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->fd_in != -10)
 	{
 		if (close(info->fd_in) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->curr_cmd != info->data->nbr_of_cmds - 1)
 	{
 		if (close(info->pipefd[1]) < 0)
-			return (false);
+			return (error_assign(info->data, ERROR_CLOSE));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
 pid_t	child_process(t_info *info)
@@ -171,7 +171,7 @@ pid_t	child_process(t_info *info)
 	pid = fork();
 	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	if (pid == -1)
-		return (-125);
+		return (error_assign(info->data, ERROR_FORK));
 	else if (pid == 0)
 	{
 		do_child_of_child(info);
@@ -181,8 +181,8 @@ pid_t	child_process(t_info *info)
 	}
 	else
 	{
-		if (do_parent_of_child(info) == false)
-			return (-125);
+		if (do_parent_of_child(info) > 0)
+			return (info->data->exit_code);
 	}
 	return (pid);
 }

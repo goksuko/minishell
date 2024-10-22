@@ -6,13 +6,13 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:47:03 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 21:20:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
+int	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][0] != -10)
 	{
@@ -20,7 +20,7 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 		{
 			free_system_perror(data, ERROR_CLOSE,
 				"info->fds[i][0] in initialize_fds");
-			return (false);
+			return (error_assign(data, ERROR_CLOSE));
 		}
 	}
 	info->fds[i][0] = current->fd_in;
@@ -29,12 +29,12 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"info->infile in initialize_fds");
-		return (false);
+		return (error_assign(data, ERROR_ALLOCATION));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
-bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
+int	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][1] != -10)
 	{
@@ -42,7 +42,7 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 		{
 			free_system_perror(data, ERROR_CLOSE,
 				"info->fds[i][1] in initialize_fds");
-			return (false);
+			return (error_assign(data, ERROR_CLOSE));
 		}
 	}
 	info->fds[i][1] = current->fd_out;
@@ -51,9 +51,9 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"info->outfile in initialize_fds");
-		return (false);
+		return (error_assign(data, ERROR_ALLOCATION));
 	}
-	return (true);
+	return (SUCCESS);
 }
 
 void	initialize_fds_array(t_info *info)
@@ -70,7 +70,7 @@ void	initialize_fds_array(t_info *info)
 	return ;
 }
 
-bool	initialize_fds(t_info *info, t_data *data)
+int	initialize_fds(t_info *info, t_data *data)
 {
 	int		i;
 	t_token	*current;
@@ -82,22 +82,22 @@ bool	initialize_fds(t_info *info, t_data *data)
 	{
 		if (current->fd_in != -10)
 		{
-			if (!handle_infile(data, info, i, current))
-				return (false);
+			if (handle_infile(data, info, i, current) > 0)
+				return (data->exit_code);
 		}
 		if (current->fd_out != -10)
 		{
-			if (!handle_outfile(data, info, i, current))
-				return (false);
+			if (handle_outfile(data, info, i, current) > 0)
+				return (data->exit_code);
 		}
 		if (current->type == T_PIPE)
 			i++;
 		current = current->next;
 	}
-	return (true);
+	return (SUCCESS);
 }
 
-bool	semantic_analysis(t_data *data)
+int	semantic_analysis(t_data *data)
 {
 	t_info	*info;
 
@@ -108,7 +108,7 @@ bool	semantic_analysis(t_data *data)
 	if (info == NULL || errno == ENOMEM)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
-		return (false);
+		return (error_assign(data, ERROR_ALLOCATION));
 	}
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
@@ -116,9 +116,9 @@ bool	semantic_analysis(t_data *data)
 	data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
-		return (false);
+		return (data->exit_code);
 	initialize_info(info, data);
-	if (initialize_fds(info, data) == false)
-		return (false);
-	return (true);
+	if (initialize_fds(info, data) > 0)
+		return (data->exit_code);
+	return (SUCCESS);
 }

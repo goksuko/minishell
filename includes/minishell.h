@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 19:28:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:50:10 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef enum e_error
 	ERROR_EMPTY_LINE,
 	UNDEFINED_ERROR,
 	ERROR_INVALID_IDENTIFIER,
+	ERROR_UNLINK,
 	ERROR_PERM = 126, // it was 1
 	// ERROR_CMD_NOT_FOUND = 127,
 	ERROR_NOT_DIR = 127,

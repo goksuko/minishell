@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 19:40:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:53:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	heredoc_fork(t_data *data)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (unlink("0ur_h3r3_d0c") < 0)
+			return (error_assign(data, ERROR_UNLINK));
 		// if (WIFEXITED(data->exit_code))
 		// 	data->exit_code = WEXITSTATUS(data->exit_code);
 		//???? signals
@@ -101,12 +103,10 @@ int first_checks(t_data *data)
 
 int	execute_shell(t_data *data)
 {
-	int	exit_code;
-
 	data->info->pipe_read_end = STDIN_FILENO;
+	update_path(data);
 	if (heredoc_inside(data->tokens))
 	{
-		update_path(data);
 		if (first_checks(data) > 0)
 			return (data->exit_code);
 		heredoc_fork(data);	
@@ -116,13 +116,7 @@ int	execute_shell(t_data *data)
 		if (create_children(data) > 0)
 			return (data->exit_code);
 	}
-	if (data->info->limiter)
-	{
-		if (unlink("0ur_h3r3_d0c") < 0)
-			return (false);
-	}
-	exit_code = data->exit_code;
-	data->exit_code = last_exit_code_checks(exit_code, data); // to be checked
+	// data->exit_code = last_exit_code_checks(data->exit_code, data); // to be checked
 	// free_system(data);
 	return (SUCCESS);
 }

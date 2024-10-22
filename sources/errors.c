@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 19:28:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 19:50:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_error(t_error code)
 							[ERROR_SYNTAX] = "bash: syntax error near unexpected token: \n",
 							[ERROR_EMPTY_LINE] = "Error: empty line\n",
 							[ERROR_INVALID_IDENTIFIER] = "Error: invalid identifier\n",
+							[ERROR_UNLINK] = "Error: unlink failed\n",
 							[UNDEFINED_ERROR] = "Undefined Error\n"};
 	if (code < 0 || code >= UNDEFINED_ERROR)
 		return (str[UNDEFINED_ERROR]);

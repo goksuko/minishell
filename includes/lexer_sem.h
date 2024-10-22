@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/22 14:31:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/22 21:21:34 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ bool				handle_command(t_token **current, char **cmds, int *j);
 bool				handle_loop(t_token **current, char **cmds, int *j, bool *cat_cmd);
 
 // semantic.c
-bool				handle_infile(t_data *data, t_info *info, int i, t_token *current);
-bool				handle_outfile(t_data *data, t_info *info, int i, t_token *current);
+int					handle_infile(t_data *data, t_info *info, int i, t_token *current);
+int					handle_outfile(t_data *data, t_info *info, int i, t_token *current);
 void				initialize_fds_array(t_info *info);
-bool				initialize_fds(t_info *info, t_data *data);
-bool				semantic_analysis(t_data *data);
+int					initialize_fds(t_info *info, t_data *data);
+int					semantic_analysis(t_data *data);
 
 // semantic_utils.c
 int					find_pipe_count(t_token *tokens);
