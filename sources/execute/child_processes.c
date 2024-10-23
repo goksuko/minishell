@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 11:40:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 22:19:28 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,32 @@ int	create_children(t_data *data)
 int	do_child_of_child(t_info *info)
 {
 	// TO CHECK include an exit of the child process
-	char	**command;
+	// char	**command;
 
-	command = NULL;
+	// command = NULL;
 	if (handle_child_type(info) > 0)
 		return(info->data->exit_code);
-	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
-	if (command == NULL)
-		return(error_assign(info->data, ERROR_ALLOCATION));
-	if (is_builtin(command[0]))
-	{
-		if (handle_builtin(info->data, command) > 0)
-		{
-			ft_free_matrix(command);
-			return(info->data->exit_code);
-		}
-	}
-	else
-	{
-		ft_free_matrix(command);
+	// command = ft_split(info->data->cmds[info->curr_cmd], ' ');
+	// if (command == NULL)
+	// 	return(error_assign(info->data, ERROR_ALLOCATION));
+	// if (is_builtin(command[0]))
+	// {
+	// 	if (handle_builtin(info->data, command) > 0)
+	// 	{
+	// 		ft_free_matrix(command);
+	// 		return(info->data->exit_code);
+	// 	}
+	// }
+	// else
+	// {
+	// 	ft_free_matrix(command);
 		if (start_exec(info) > 0)
 		{
-			ft_free_matrix(command);
+			// ft_free_matrix(command);
 			return(info->data->exit_code);
 		}
-	}
-	ft_free_matrix(command);
+	// }
+	// ft_free_matrix(command);
 	return (SUCCESS);
 }
 

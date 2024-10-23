@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 11:21:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 22:21:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,12 @@ int first_checks(t_data *data)
 
 int	execute_shell(t_data *data)
 {
+	char **command;
+
+	command = NULL;	
+	command = ft_split(data->cmds[0], ' ');
+	if (command == NULL)
+		return(error_assign(data, ERROR_ALLOCATION));
 	data->info->pipe_read_end = STDIN_FILENO;
 	update_path(data);
 	if (heredoc_inside(data->tokens))
@@ -156,6 +162,15 @@ int	execute_shell(t_data *data)
 		}
 		if (heredoc_fork(data) > 0)
 			return (data->exit_code);
+	}
+	else if (is_builtin(command[0]))
+	{
+		if (handle_builtin(data, command) > 0)
+		{
+			ft_free_matrix(command);
+			free_system_error(data, data->exit_code);
+			return(data->exit_code);
+		}
 	}
 	else
 	{
