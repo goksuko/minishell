@@ -14,7 +14,7 @@ char	*expand_identifier(t_data **data, char *argument)
 	}
 	if (dollar_sign_check(expanded_str) == true)
 	{
-		expanded_str = handle_dollar_sign(data, expanded_str);
+		expanded_str = handle_dollar_sign(*data, expanded_str);
 		if (errno == ENOMEM || expanded_str == NULL)
 		{
 			free_system_perror(*data, ERROR_ALLOCATION,

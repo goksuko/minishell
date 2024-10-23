@@ -10,6 +10,7 @@ char	*remove_quotation_marks(char *argument)
 	if (clean_str == NULL)
 		return (NULL);
 	clean_str = ft_strcpy(clean_str, argument + 1, ft_strlen(argument) - 2);
+	printf("--Remove quotation marks done--\n");
 	return (clean_str);
 }
 
@@ -18,6 +19,8 @@ char	*ft_strjoin_c(char const *s1, char c)
 	char *new_str;
 	char *temp;
 
+	temp = NULL;
+	new_str = NULL;
 	if (s1 == NULL)
 		return (NULL);
 	new_str = (char *)ft_calloc((ft_strlen(s1) + 1 + 1), sizeof(char));

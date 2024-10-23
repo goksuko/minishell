@@ -118,7 +118,7 @@ char	*get_env_str(t_data *data, char *str)
 // 	return (temp);
 // }
 
-char	*handle_dollar_sign(t_data **data, char *str)
+char	*handle_dollar_sign(t_data *data, char *str)
 {
 	int		i;
 	int		start_dollar;
@@ -139,7 +139,7 @@ char	*handle_dollar_sign(t_data **data, char *str)
 			start_dollar = i;
 			if (str[i + 1] == '?')
 			{
-				middle_to_add = ft_itoa((*data)->exit_code);
+				middle_to_add = ft_itoa(data->exit_code);
 				if (middle_to_add == NULL)
 					return (NULL);
 				end_dollar = start_dollar + 1;
@@ -153,7 +153,7 @@ char	*handle_dollar_sign(t_data **data, char *str)
 			}
 			else if (str[i + 1] != '\0' && (ft_isalnum(str[i + 1]) == 1 || str[i+ 1] == ' '))
 			{
-				middle_to_add = get_env_str(*data, str + i + 1);
+				middle_to_add = get_env_str(data, str + i + 1);
 				if (middle_to_add == NULL)
 					return (NULL);
 				end_dollar = get_end_dollar(str, i + 1); // +1 because i is the index of the dollar sign

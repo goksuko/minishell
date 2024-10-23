@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/20 19:54:25 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/23 19:45:44 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		ft_pwd(char **cmds, t_data *data);
 
 // CD
 int		ft_cd(char **cmds, t_env *env_list, t_data *data);
+// int		ft_cd(char **cmds, t_env *env_list);
 
 // EXIT
 int		ft_exit(char **cmds, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 11:15:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 20:03:15 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ bool	create_children(t_data *data)
 	printf("number of commands for which to create child processes: %d\n", data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds)
 	{
-		printf("loop[%d] in create_children()\n", i);
 		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		if (do_commands(data, i) == false)
 			return (false);

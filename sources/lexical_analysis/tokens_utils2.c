@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/21 10:55:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 19:35:23 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ int	count_tokens(char *line)
 {
 	int	i;
 	int	count;
-	int loop;
-
-	loop = 0;
 
 	i = 0;
 	count = 0;
@@ -63,7 +60,6 @@ int	count_tokens(char *line)
 		}
 		if (line[i] != '\0')
 			i++;
-		loop++;
 	}
 	return (count);
 }

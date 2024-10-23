@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-
-
 void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd)
 {
 	t_env	*env;
