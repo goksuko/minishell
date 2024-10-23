@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 00:19:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 11:40:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	assign_fds_and_pipe(t_data *data, int i)
 			return (error_assign(data, ERROR_PIPE));
 	}
 	data->info->pipe_read_end = data->info->pipefd[0];
+	printf("pipefd[0] = %d\n", data->info->pipefd[0]);
+	printf("pipefd[1] = %d\n", data->info->pipefd[1]);
 	return (SUCCESS);
 }
 
@@ -31,7 +33,7 @@ int	create_children(t_data *data)
 	pid_t	pid;
 	int		status;
 
-	// status = 0;
+	status = 0;
 	i = 0;
 	while (i < data->nbr_of_cmds)
 	{
@@ -42,9 +44,6 @@ int	create_children(t_data *data)
 		if (pid < 0)
 			return (data->exit_code);
 		// ???? signals
-		// printf("exit code after fork: %d\n", data->exit_code);
-		// if (data->exit_code > 0)
-		// 	return (data->exit_code);
 		data->info->curr_cmd++;
 		i++;
 		if (WIFEXITED(status))
@@ -54,28 +53,8 @@ int	create_children(t_data *data)
 			break;
 	}
 	waitpid(pid, &status, 0);
+	// do_parent_of_child(data->info); // to close open files
 	waitpid(-1, &status, 0);
-	// printf("exit code after waitpid: %d\n", data->exit_code);
-	// Check if the child exited normally and retrieve the exit code
-    // if (WIFEXITED(status)) {
-    //     data->exit_code = WEXITSTATUS(status);
-    //     printf("exit code after waitpid 1: %d\n", data->exit_code);
-    // } else {
-    //     data->exit_code = -5;  // Indicate an error if the child did not exit normally
-    // }
-	    // Wait for any other child processes
-    // while (waitpid(-1, &status, 0) > 0) {
-    //     if (WIFEXITED(status)) {
-    //         data->exit_code = WEXITSTATUS(status);
-    //         printf("exit code after waitpid 2: %d\n", data->exit_code);
-    //     }
-    // }
-	
-	// if (WIFEXITED(status))
-	// {
-	// 	data->exit_code = WEXITSTATUS(status);
-	// 	return (data->exit_code);
-	// }
 	return (data->exit_code);
 }
 
@@ -85,28 +64,18 @@ int	do_child_of_child(t_info *info)
 {
 	// TO CHECK include an exit of the child process
 	char	**command;
-	// bool	return_value;
 
-	// return_value = true;
 	command = NULL;
 	if (handle_child_type(info) > 0)
-		// exit(EXIT_FAILURE);
-		// return (false);
 		return(info->data->exit_code);
 	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	if (command == NULL)
-		// exit(EXIT_FAILURE);
-		// return (false);
 		return(error_assign(info->data, ERROR_ALLOCATION));
 	if (is_builtin(command[0]))
 	{
 		if (handle_builtin(info->data, command) > 0)
 		{
-			// printf("error in handle_builtin\n");
-			// printf("exit code: %d\n", info->data->exit_code);
 			ft_free_matrix(command);
-			// exit(EXIT_FAILURE);
-			// return_value = false;
 			return(info->data->exit_code);
 		}
 	}
@@ -116,14 +85,10 @@ int	do_child_of_child(t_info *info)
 		if (start_exec(info) > 0)
 		{
 			ft_free_matrix(command);
-			// exit(EXIT_FAILURE);
-			// return_value = false;
 			return(info->data->exit_code);
 		}
 	}
 	ft_free_matrix(command);
-	//return (return_value);
-	// exit(EXIT_SUCCESS);
 	return (SUCCESS);
 }
 
@@ -132,24 +97,34 @@ int	do_parent_of_child(t_info *info)
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
+		printf("to be closed: %d\n", info->pipe_read_end);
 		if (close(info->pipe_read_end) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->fd_out != -10)
 	{
+		printf("to be closed: %d\n", info->fd_out);
 		if (close(info->fd_out) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->fd_in != -10)
 	{
+		printf("to be closed: %d\n", info->fd_in);
 		if (close(info->fd_in) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
 	if (info->curr_cmd != info->data->nbr_of_cmds - 1)
 	{
+		printf("to be closed: %d\n", info->pipefd[1]);
 		if (close(info->pipefd[1]) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
+	// if (info->pipefd[0] != STDOUT_FILENO && info->curr_cmd == 0)
+	// {
+	// 	printf("to be closed: %d\n", info->pipefd[0]);
+	// 	if (close(info->pipefd[0]) < 0)
+	// 		return (error_assign(info->data, ERROR_CLOSE));
+	// }
 	return (SUCCESS);
 }
 
@@ -167,6 +142,7 @@ pid_t	child_process(t_info *info)
 	{
 		exit_code = do_child_of_child(info);
 		info->data->exit_code = exit_code;
+		do_parent_of_child(info); // to close open files
 		// printf("exit code after do_child_of_child before exit: %d\n", info->data->exit_code);
 		exit(exit_code);
 		// if (do_child_of_child(info) == false)

@@ -6,15 +6,33 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/22 21:37:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 11:50:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+bool used_before(t_info *info, int i, t_token *current) // did nit help at all
+{
+	int	j;
+
+	j = 0;
+	while (j < i)
+	{
+		if (current->fd_in == info->fds[j][0] || current->fd_in == info->fds[j][1])
+			return (true);
+		if (current->fd_out == info->fds[j][0] || current->fd_out == info->fds[j][1])
+			return (true);
+		j++;
+	}
+	if (ft_strncmp(current->prev->value, "cat", 3) == 0) // did not help
+		return (true);
+	return (false);	
+}
+
 int	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
-	if (info->fds[i][0] != -10)
+	if (info->fds[i][0] != -10 || used_before(info, i, current))
 	{
 		if (close(info->fds[i][0]) < 0)
 		{
@@ -25,7 +43,7 @@ int	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 	}
 	info->fds[i][0] = current->fd_in;
 	info->infile = ft_strdup(current->expanded_value);
-	if (info->infile == NULL)
+	if (info->infile == NULL || used_before(info, i, current))
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"info->infile in initialize_fds");
@@ -140,6 +158,7 @@ int	semantic_analysis(t_data *data)
 	}
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
+	info->data = data;
 	data->info->limiter = NULL;
 	// data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);

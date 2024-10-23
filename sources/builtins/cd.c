@@ -172,19 +172,20 @@ int ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
 {
 	free_and_null(*old_cwd);
 	free_and_null(*cwd);
+	(void)data;
 	if (return_value == ERROR_TOO_MANY_ARGS)
 	{
-		free_system_error(data, ERROR_TOO_MANY_ARGS);
+		// free_system_error(data, ERROR_TOO_MANY_ARGS);
 		return (ERROR_TOO_MANY_ARGS);
 	}
 	else if (return_value == ERROR_ALLOCATION)
 	{
-		free_system_perror(data, ERROR_ALLOCATION, "ft_cd");
+		// free_system_perror(data, ERROR_ALLOCATION, "ft_cd");
 		return (ERROR_ALLOCATION);
 	}
 	else if (return_value == ERROR_NO_FILE_DIR)
 	{
-		free_system_error(data, ERROR_NO_FILE_DIR);
+		// free_system_error(data, ERROR_NO_FILE_DIR);
 		return (ERROR_NO_FILE_DIR);
 	}
 	return (SUCCESS);
