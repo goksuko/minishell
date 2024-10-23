@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 00:19:25 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:40:55 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,24 @@ int	handle_child_type(t_info *info)
 int	handle_builtin(t_data *data, char **command)
 {
 	// printf("handle_builtin\n");
+	// printf("fd_in: %d, fd_out: %d\n", data->info->fd_in, data->info->fd_out);
+	printf("fd_in: %d, fd_out: %d\n", data->info->fds[0][0], data->info->fds[0][1]);
+	if (data->info->fds[0][0] != -10)
+		data->info->fd_in = data->info->fds[0][0];
+	if (data->info->fds[0][1] != -10)
+		data->info->fd_out = data->info->fds[0][1];
 	if (command && command[0])
 		data->exit_code = execute_builtin(command, data);
 	// printf("exit code in handle_builtin: %d\n", data->exit_code);
+	if (data->info->fds[0][0] != -10)
+	{
+		if (close(data->info->fd_in) < 0)
+			return (error_assign(data, ERROR_CLOSE));
+	}
+	if (data->info->fds[0][1] != -10)
+	{
+		if (close(data->info->fd_out) < 0)
+			return (error_assign(data, ERROR_CLOSE));
+	}
 	return(data->exit_code);
 }

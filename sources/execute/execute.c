@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:01:43 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:11:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,24 +160,37 @@ int first_checks(t_data *data)
 	return (SUCCESS);
 }
 
-int	execute_shell(t_data *data)
+bool	if_builtin(t_data *data)
 {
 	char **command;
+	bool builtin;
 
+	builtin = false;
 	command = NULL;	
 	command = ft_split(data->cmds[0], ' ');
 	if (command == NULL)
 		return(error_assign(data, ERROR_ALLOCATION));
-	data->info->pipe_read_end = STDIN_FILENO;
-	update_path(data);
 	if (is_builtin(command[0]))
 	{
+		builtin = true;
 		handle_builtin(data, command);
-		ft_free_matrix(command);
-		return(data->exit_code);
 	}
 	ft_free_matrix(command);
-	if (heredoc_inside(data->tokens))
+	return (builtin);
+}
+
+int	execute_shell(t_data *data)
+{
+	char **command;
+
+	update_path(data);
+	command = NULL;	
+	command = ft_split(data->cmds[0], ' ');
+	if (command == NULL)
+		return(error_assign(data, ERROR_ALLOCATION));
+	if (if_builtin(data))
+		return (data->exit_code);
+	else if (heredoc_inside(data->tokens))
 	{
 		if (first_checks(data) > 0)
 			return (data->exit_code);
