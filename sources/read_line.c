@@ -6,12 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:13:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:04:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:55:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 // TO BE FIXED. NO GLOBAL VARIABLES ALLOWED
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:11:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:54:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	cat_inside(t_token *current)
 	return (false);
 }
 
-int	last_exit_code_checks(int exit_code, t_data *data)  // to be checked
+int	last_exit_code_checks(int exit_code, t_data *data) // to be checked
 {
 	if (exit_code == 1 && cat_inside(data->tokens))
 		return (0);
@@ -44,17 +44,18 @@ int	last_exit_code_checks(int exit_code, t_data *data)  // to be checked
 //     return (false);
 // }
 
-int clean_from_redir(t_data *data, char **cmd_matrix)
+int	clean_from_redir(t_data *data, char **cmd_matrix)
 {
-	int i;
-	int j;
-	char **new_cmd_matrix;
+	int		i;
+	int		j;
+	char	**new_cmd_matrix;
 
 	i = 0;
 	while (cmd_matrix[i])
 	{
-		if (ft_strncmp(cmd_matrix[i], "<", 1) == 0 || ft_strncmp(cmd_matrix[i], ">", 1) == 0 || ft_strncmp(cmd_matrix[i], ">>", 2) == 0)
-			break;
+		if (ft_strncmp(cmd_matrix[i], "<", 1) == 0 || ft_strncmp(cmd_matrix[i],
+				">", 1) == 0 || ft_strncmp(cmd_matrix[i], ">>", 2) == 0)
+			break ;
 		i++;
 	}
 	new_cmd_matrix = ft_calloc(i + 1, sizeof(char *));
@@ -74,7 +75,7 @@ int clean_from_redir(t_data *data, char **cmd_matrix)
 	return (SUCCESS);
 }
 
-void exit_and_close(t_data *data, t_error code, int here_doc_fd)
+void	exit_and_close(t_data *data, t_error code, int here_doc_fd)
 {
 	if (close(here_doc_fd) < 0)
 		error_assign(data, ERROR_CLOSE);
@@ -83,11 +84,11 @@ void exit_and_close(t_data *data, t_error code, int here_doc_fd)
 
 int	heredoc_fork(t_data *data)
 {
-	// int		here_doc_fd;
 	pid_t	pid;
 	int		status;
 	char	*path;
-	
+
+	// int		here_doc_fd;
 	handle_signals(HEREDOC);
 	// here_doc_fd = open("0ur_h3r3_d0c", O_RDONLY, 0777);
 	// if (here_doc_fd < 0)
@@ -112,7 +113,7 @@ int	heredoc_fork(t_data *data)
 		}
 		if (is_builtin(data->cmd_matrix[0]))
 		{
-			if (handle_builtin(data, data->cmd_matrix) > 0)	
+			if (handle_builtin(data, data->cmd_matrix) > 0)
 				exit_and_close(data, data->exit_code, data->here_doc_fd);
 		}
 		else if (execve(path, data->cmd_matrix, data->envp) == -1)
@@ -137,16 +138,16 @@ int	heredoc_fork(t_data *data)
 		//???? signals
 	}
 	// if (child_exit_normal(&pid, data))
-	return (SUCCESS);	
+	return (SUCCESS);
 }
 
-int first_checks(t_data *data)
+int	first_checks(t_data *data)
 {
 	char	**cmd_matrix;
 
 	cmd_matrix = NULL;
 	if (data->cmds[0][0] == ' ')
-		return(error_assign(data, ERROR_NOT_DIR));
+		return (error_assign(data, ERROR_NOT_DIR));
 	cmd_matrix = ft_split(data->cmds[0], ' ');
 	if (!cmd_matrix || errno == ENOMEM)
 		return (error_assign(data, ERROR_ALLOCATION));
@@ -156,20 +157,20 @@ int first_checks(t_data *data)
 	else
 		return (error_assign(data, ERROR_PERM));
 	if (!data->path)
-		return(error_assign(data, ERROR_NOT_DIR));
+		return (error_assign(data, ERROR_NOT_DIR));
 	return (SUCCESS);
 }
 
 bool	if_builtin(t_data *data)
 {
-	char **command;
-	bool builtin;
+	char	**command;
+	bool	builtin;
 
 	builtin = false;
-	command = NULL;	
+	command = NULL;
 	command = ft_split(data->cmds[0], ' ');
 	if (command == NULL)
-		return(error_assign(data, ERROR_ALLOCATION));
+		return (error_assign(data, ERROR_ALLOCATION));
 	if (is_builtin(command[0]))
 	{
 		builtin = true;
@@ -181,13 +182,13 @@ bool	if_builtin(t_data *data)
 
 int	execute_shell(t_data *data)
 {
-	char **command;
+	char	**command;
 
 	update_path(data);
-	command = NULL;	
+	command = NULL;
 	command = ft_split(data->cmds[0], ' ');
 	if (command == NULL)
-		return(error_assign(data, ERROR_ALLOCATION));
+		return (error_assign(data, ERROR_ALLOCATION));
 	if (if_builtin(data))
 		return (data->exit_code);
 	else if (heredoc_inside(data->tokens))

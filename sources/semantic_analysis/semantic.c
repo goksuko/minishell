@@ -6,28 +6,31 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 22:51:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:55:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool used_before(t_info *info, int i, t_token *current) // did nit help at all
+bool	used_before(t_info *info, int i, t_token *current)
+		// did nit help at all
 {
-	int	j;
+	int j;
 
 	j = 0;
 	while (j < i)
 	{
-		if (current->fd_in == info->fds[j][0] || current->fd_in == info->fds[j][1])
+		if (current->fd_in == info->fds[j][0]
+			|| current->fd_in == info->fds[j][1])
 			return (true);
-		if (current->fd_out == info->fds[j][0] || current->fd_out == info->fds[j][1])
+		if (current->fd_out == info->fds[j][0]
+			|| current->fd_out == info->fds[j][1])
 			return (true);
 		j++;
 	}
 	if (ft_strncmp(current->prev->value, "cat", 3) == 0) // did not help
 		return (true);
-	return (false);	
+	return (false);
 }
 
 int	handle_infile(t_data *data, t_info *info, int i, t_token *current)

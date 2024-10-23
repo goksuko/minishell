@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 10:48:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:55:12 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	close_info(t_info *info)
 	if (info->outfile)
 		free_and_null(info->outfile);
 	if (info->limiter)
-		free_and_null(info->limiter); //to be deleted
+		free_and_null(info->limiter); // to be deleted
 	if (info->path)
 		free_and_null(info->path);
 	free(info);
@@ -211,4 +211,3 @@ void	ft_putstr3_fd(char *s1, char *s2, char *s3, int fd)
 	ft_putstr_fd(s2, fd);
 	ft_putstr_fd(s3, fd);
 }
-

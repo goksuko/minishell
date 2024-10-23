@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/21 10:55:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:57:05 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ int	count_tokens(char *line)
 {
 	int	i;
 	int	count;
-	int loop;
+	int	loop;
 
 	loop = 0;
-
 	i = 0;
 	count = 0;
 	while (line && line[i] != '\0')
@@ -73,7 +72,8 @@ bool	line_is_empty(char *line)
 	int	i;
 
 	i = 0;
-	// while (line && line[i]) // to be checked if it creates a problem in the program
+	// while (line && line[i])
+	// to be checked if it creates a problem in the program
 	while (line[i]) // to be checked if it creates a problem in the program
 		i++;
 	return (i == 0);

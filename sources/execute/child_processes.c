@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 22:19:28 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:56:30 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	create_children(t_data *data)
 	i = 0;
 	while (i < data->nbr_of_cmds)
 	{
-		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
+		// TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		if (assign_fds_and_pipe(data, i) > 0)
 			return (data->exit_code);
 		pid = child_process(data->info);
@@ -47,10 +47,10 @@ int	create_children(t_data *data)
 		data->info->curr_cmd++;
 		i++;
 		if (WIFEXITED(status))
-        	data->exit_code = WEXITSTATUS(status);
+			data->exit_code = WEXITSTATUS(status);
 		// printf("exit code after fork 1: %d\n", data->exit_code);
 		if (data->exit_code > 0)
-			break;
+			break ;
 	}
 	waitpid(pid, &status, 0);
 	// do_parent_of_child(data->info); // to close open files
@@ -64,10 +64,9 @@ int	do_child_of_child(t_info *info)
 {
 	// TO CHECK include an exit of the child process
 	// char	**command;
-
 	// command = NULL;
 	if (handle_child_type(info) > 0)
-		return(info->data->exit_code);
+		return (info->data->exit_code);
 	// command = ft_split(info->data->cmds[info->curr_cmd], ' ');
 	// if (command == NULL)
 	// 	return(error_assign(info->data, ERROR_ALLOCATION));
@@ -82,11 +81,11 @@ int	do_child_of_child(t_info *info)
 	// else
 	// {
 	// 	ft_free_matrix(command);
-		if (start_exec(info) > 0)
-		{
-			// ft_free_matrix(command);
-			return(info->data->exit_code);
-		}
+	if (start_exec(info) > 0)
+	{
+		// ft_free_matrix(command);
+		return (info->data->exit_code);
+	}
 	// }
 	// ft_free_matrix(command);
 	return (SUCCESS);
@@ -131,8 +130,8 @@ int	do_parent_of_child(t_info *info)
 pid_t	child_process(t_info *info)
 {
 	pid_t	pid;
-	int exit_code;
-	int status;
+	int		exit_code;
+	int		status;
 
 	pid = fork();
 	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
@@ -143,7 +142,9 @@ pid_t	child_process(t_info *info)
 		exit_code = do_child_of_child(info);
 		info->data->exit_code = exit_code;
 		do_parent_of_child(info); // to close open files
-		// printf("exit code after do_child_of_child before exit: %d\n", info->data->exit_code);
+									// printf("exit code after do_child_of_child before exit:
+									//						%d\n",
+		// info->data->exit_code);
 		exit(exit_code);
 		// if (do_child_of_child(info) == false)
 		// 	return (-125);
@@ -151,15 +152,17 @@ pid_t	child_process(t_info *info)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-        info->data->exit_code = WEXITSTATUS(status);
-        // printf("exit code in parent after waitpid 3: %d\n", info->data->exit_code);
-    // } else {
-    //     info->data->exit_code = -1;  // Indicate an error if the child did not exit normally
-    }
+		info->data->exit_code = WEXITSTATUS(status);
+		// printf("exit code in parent after waitpid 3: %d\n",
+		//	info->data->exit_code);
+		// } else {
+		//     info->data->exit_code = -1;
+		// Indicate an error if the child did not exit normally
+	}
 	waitpid(-1, &status, 0);
 	do_parent_of_child(info);
 	// if (do_parent_of_child(info) > 0)
-		// return (-125);
+	// return (-125);
 	// if (info->data->exit_code > 0)
 	// 	return (-125);
 	return (pid);

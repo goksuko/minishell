@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 22:28:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:55:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ bool	minishell_routine(t_data *data, char *line)
 	printf("\n**********Result*********\n\n");
 	if (execute_shell(data) > 0)
 		return (false);
-	data->exit_code = last_exit_code_checks(data->exit_code, data); // to be checked
+	data->exit_code = last_exit_code_checks(data->exit_code, data);
+	// to be checked
 	// printf("\n**********Exit code: %d***\n", data->exit_code);
 	return (true);
 }
@@ -74,8 +75,8 @@ void	init_data(t_data *data)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	char	*line;
-	t_data	*data;
+	char *line;
+	t_data *data;
 
 	(void)argv;
 	if (argc != 1)

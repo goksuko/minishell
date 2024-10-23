@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/23 22:58:08 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:56:43 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ bool	define_dsmaller(t_data *data, t_token *token)
 		return (false);
 	}
 	printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd,
-			token->next->limiter);
+		token->next->limiter);
 	return (true);
 }
 

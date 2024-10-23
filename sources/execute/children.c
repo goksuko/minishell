@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:40:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:54:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	do_last_child(t_info *info)
 	if (info->fd_in != -10)
 	{
 		if (dup2(info->fd_in, STDIN_FILENO) < 0)
-			return (error_assign(info->data, ERROR_DUP2));	
+			return (error_assign(info->data, ERROR_DUP2));
 	}
 	else if (info->curr_cmd != 0)
 	{
@@ -101,7 +101,8 @@ int	handle_builtin(t_data *data, char **command)
 {
 	// printf("handle_builtin\n");
 	// printf("fd_in: %d, fd_out: %d\n", data->info->fd_in, data->info->fd_out);
-	printf("fd_in: %d, fd_out: %d\n", data->info->fds[0][0], data->info->fds[0][1]);
+	printf("fd_in: %d, fd_out: %d\n", data->info->fds[0][0],
+		data->info->fds[0][1]);
 	if (data->info->fds[0][0] != -10)
 		data->info->fd_in = data->info->fds[0][0];
 	if (data->info->fds[0][1] != -10)
@@ -119,5 +120,5 @@ int	handle_builtin(t_data *data, char **command)
 		if (close(data->info->fd_out) < 0)
 			return (error_assign(data, ERROR_CLOSE));
 	}
-	return(data->exit_code);
+	return (data->exit_code);
 }
