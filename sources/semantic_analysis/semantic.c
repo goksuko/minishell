@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 11:50:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 22:51:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ int	semantic_analysis(t_data *data)
 	data->info = info;
 	info->data = data;
 	data->info->limiter = NULL;
-	// data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (data->exit_code);

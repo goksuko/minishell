@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 22:21:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/23 23:01:43 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,45 +74,62 @@ int clean_from_redir(t_data *data, char **cmd_matrix)
 	return (SUCCESS);
 }
 
+void exit_and_close(t_data *data, t_error code, int here_doc_fd)
+{
+	if (close(here_doc_fd) < 0)
+		error_assign(data, ERROR_CLOSE);
+	exit(error_assign(data, code));
+}
+
 int	heredoc_fork(t_data *data)
 {
-	int		here_doc_fd;
+	// int		here_doc_fd;
 	pid_t	pid;
 	int		status;
 	char	*path;
 	
 	handle_signals(HEREDOC);
-	here_doc_fd = open("0ur_h3r3_d0c", O_RDONLY, 0777);
-	if (here_doc_fd < 0)
-		return (error_assign(data, ERROR_FILE_OPEN));
+	// here_doc_fd = open("0ur_h3r3_d0c", O_RDONLY, 0777);
+	// if (here_doc_fd < 0)
+	// 	return (error_assign(data, ERROR_FILE_OPEN));
+	// printf("here_doc_fd just before fork: %d\n", here_doc_fd);
 	pid = fork(); // to also signal???
 	if (pid < 0)
 		return (error_assign(data, ERROR_FORK));
 	if (pid == 0)
 	{
 		if (init_heredoc(data) > 0)
-			exit(data->exit_code);
+			exit_and_close(data, data->exit_code, data->here_doc_fd);
 		path = data->path;
 		if (path == NULL)
-			exit(error_assign(data, ERROR_NULL_PATH));
+			exit_and_close(data, ERROR_NULL_PATH, data->here_doc_fd);
 		if (clean_from_redir(data, data->cmd_matrix) > 0)
-			exit(data->exit_code);
+			exit_and_close(data, data->exit_code, data->here_doc_fd);
 		if (data->here_doc_outfile_fd != -10)
 		{
 			if (dup2(data->here_doc_outfile_fd, STDOUT_FILENO) < 0)
-				exit(error_assign(data, ERROR_DUP2));
+				exit_and_close(data, ERROR_DUP2, data->here_doc_fd);
 		}
 		if (is_builtin(data->cmd_matrix[0]))
 		{
-			if (handle_builtin(data, data->cmd_matrix) > 0)
-				exit(data->exit_code);
+			if (handle_builtin(data, data->cmd_matrix) > 0)	
+				exit_and_close(data, data->exit_code, data->here_doc_fd);
 		}
 		else if (execve(path, data->cmd_matrix, data->envp) == -1)
-			exit(error_assign(data, ERROR_EXECVE));
+			exit_and_close(data, ERROR_EXECVE, data->here_doc_fd);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		// printf("here_doc_fd: %d\n", data->here_doc_fd);
+		if (close(data->here_doc_fd) < 0)
+			return (error_assign(data, ERROR_CLOSE));
+		// printf("here_doc_outfile_fd: %d\n", data->here_doc_outfile_fd);
+		if (data->here_doc_outfile_fd != -10)
+		{
+			if (close(data->here_doc_outfile_fd) < 0)
+				return (error_assign(data, ERROR_CLOSE));
+		}
 		if (unlink("0ur_h3r3_d0c") < 0)
 			return (error_assign(data, ERROR_UNLINK));
 		// if (WIFEXITED(data->exit_code))
@@ -153,32 +170,24 @@ int	execute_shell(t_data *data)
 		return(error_assign(data, ERROR_ALLOCATION));
 	data->info->pipe_read_end = STDIN_FILENO;
 	update_path(data);
+	if (is_builtin(command[0]))
+	{
+		handle_builtin(data, command);
+		ft_free_matrix(command);
+		return(data->exit_code);
+	}
+	ft_free_matrix(command);
 	if (heredoc_inside(data->tokens))
 	{
 		if (first_checks(data) > 0)
-		{
-			free_system_error(data, data->exit_code);
 			return (data->exit_code);
-		}
 		if (heredoc_fork(data) > 0)
 			return (data->exit_code);
-	}
-	else if (is_builtin(command[0]))
-	{
-		if (handle_builtin(data, command) > 0)
-		{
-			ft_free_matrix(command);
-			free_system_error(data, data->exit_code);
-			return(data->exit_code);
-		}
 	}
 	else
 	{
 		if (create_children(data) > 0)
-		{
-			free_system_error(data, data->exit_code);
 			return (data->exit_code);
-		}
 	}
 	return (SUCCESS);
 }
