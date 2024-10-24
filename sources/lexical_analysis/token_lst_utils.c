@@ -53,18 +53,28 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 	while (temp != NULL)
 	{
 		printf("===Token number --%d--\n", i);
-		printf("Value: %s\n", temp->value);
-		printf("Expanded value: %s\n", temp->expanded_value);
+		if (temp->value != NULL)
+			printf("Value: %s\n", temp->value);
+		else
+			printf("Value: (null)\n");
+		if (temp->expanded_value != NULL)
+			printf("Expanded value: %s\n", temp->expanded_value);
+		else
+			printf("Expanded value: (null)\n");
 		printf("Token type: %s\n", token_type_to_string(temp->type));
-		// printf("Is file: %d\n", temp->is_file);
-		printf("Type: %s\n", token_type_to_string(temp->type));
-		//		printf("Is file: %d\n", temp->is_file);
-		if (temp->limiter)
+		if (temp->limiter != NULL)
 			printf("Limiter: %s\n", temp->limiter);
+		else
+			printf("Limiter: (null)\n");
 		if (temp->fd_in != -10)
 			printf("Fd_in: %d\n", temp->fd_in);
+		else
+			printf("Fd_in: (not set)\n");
+
 		if (temp->fd_out != -10)
 			printf("Fd_out: %d\n", temp->fd_out);
+		else
+			printf("Fd_out: (not set)\n");
 		temp = temp->next;
 		i++;
 	}

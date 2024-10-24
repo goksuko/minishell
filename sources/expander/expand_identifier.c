@@ -3,18 +3,21 @@
 char	*expand_identifier(t_data **data, char *argument)
 {
 	printf("----EXPAND_identifier----\n"); // Only for testing purposes
-	char *expanded_str;
+	char	*expanded_str;
+	char	*temp;
 
-	expanded_str = ft_strdup(argument);
-	if (errno == ENOMEM || expanded_str == NULL)
+	expanded_str = NULL;
+	temp = ft_strdup(argument);
+	if (errno == ENOMEM || temp == NULL)
 	{
 		free_system_perror(*data, ERROR_ALLOCATION,
-			"expanded_str in expand_identifier");
+			"temp in expand_identifier");
 		return (NULL);
 	}
-	if (dollar_sign_check(expanded_str) == true)
+	if (dollar_sign_check(temp) == true)
 	{
-		expanded_str = handle_dollar_sign(*data, expanded_str);
+		expanded_str = handle_dollar_sign(*data, temp);
+		free (temp);
 		if (errno == ENOMEM || expanded_str == NULL)
 		{
 			free_system_perror(*data, ERROR_ALLOCATION,

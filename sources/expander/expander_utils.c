@@ -1,15 +1,18 @@
 #include "../../includes/minishell.h"
 
-char	*remove_quotation_marks(char *argument)
+char	*remove_quotation_marks(char *argument) // ADJUSTED 
 {
-	char	*clean_str;
-
 	printf("----REMOVE_QUOTATION_MARKS----\n");
-	clean_str = (char *)ft_calloc(sizeof(char), ((ft_strlen(argument) - 2)
-				+ 1));
+	char	*clean_str;
+	int		len;
+
+	len = ft_strlen(argument);
+	if (len < 2)
+		return (ft_strdup(argument));
+	clean_str = (char *)ft_calloc(sizeof(char), len - 2 + 1);
 	if (clean_str == NULL)
 		return (NULL);
-	clean_str = ft_strcpy(clean_str, argument + 1, ft_strlen(argument) - 2);
+	ft_strlcpy(clean_str, argument + 1, len - 1);
 	printf("--Remove quotation marks done--\n");
 	return (clean_str);
 }
@@ -23,7 +26,7 @@ char	*ft_strjoin_c(char const *s1, char c)
 	new_str = NULL;
 	if (s1 == NULL)
 		return (NULL);
-	new_str = (char *)ft_calloc((ft_strlen(s1) + 1 + 1), sizeof(char));
+	new_str = (char *)ft_calloc((ft_strlen(s1) + 2), sizeof(char));
 	if (new_str == NULL)
 		return (NULL);
 	temp = new_str;

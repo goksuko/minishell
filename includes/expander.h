@@ -15,12 +15,15 @@ char	*expand_identifier(t_data **data, char *argument);
 // Dollar sign
 bool	dollar_sign_check(char *str);
 char	*handle_dollar_sign(t_data *data, char *str);
-int		get_end_dollar(char *str, int i);
-char	*get_env_str(t_data *data, char *str);
+char	*add_char(char *to_update, char char_to_add);
+char	*add_str(char *to_update, char *str_to_add);
+char	*process_dollar_sign(t_data *data, char *str, int *i);
+char	*expand_env_variable(t_data *data, char *str, int *i);
+char	*expand_pid(int *i);
+char	*expand_exit_code(t_data *data, int *i);
+char	*get_env_str(t_data *data, char *str, int *index);
+
+// Utils
 char	*ft_strjoin_c(char const *s1, char c);
-// char	*dollar_exit_code(t_data *data, int start_dollar, int *end_dollar);
-// char	*dollar_pid(int start_dollar, int *end_dollar);
-// char	*dollar_env_value(t_data *data, char *str, int *end_dollar, int i);
-// char	*handle_dollar_sign(t_data **data, char *str);
 
 #endif

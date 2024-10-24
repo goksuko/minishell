@@ -54,12 +54,13 @@ EXECUTE =				child_processes.c \
 
 SIGNALS = 				signals.c \
 
-EXPANDER =				expander.c \
-						expander_utils.c \
-						single_quotes.c \
+EXPANDER =				single_quotes.c \
 						double_quotes.c \
-						dollar_sign.c \
 						expand_identifier.c \
+						dollar_sign.c \
+						dollar_sign_utils.c \
+						expander.c \
+						expander_utils.c \
 
 SRCS_DIR = sources
 OBJS_DIR = objects

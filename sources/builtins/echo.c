@@ -43,6 +43,7 @@ void	print_commands(char **cmds, int start_index, int out_fd)
 
 int	ft_echo(char **cmds, t_info *info)
 {
+	printf("----ECHO----\n");
 	int		i;
 	bool	n_flag;
 	int		out_fd;
@@ -57,5 +58,6 @@ int	ft_echo(char **cmds, t_info *info)
 	print_commands(cmds, i, out_fd);
 	if (n_flag == false)
 		ft_putchar_fd('\n', out_fd);
+	printf("----ECHO DONE----\n");
 	return (SUCCESS);
 }

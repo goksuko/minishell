@@ -38,6 +38,7 @@
 typedef struct s_data
 {
 	char			**cmds;
+	bool			is_quote; // NEW
 	char			*line;
 	char			**envp;
 	char			*path;
