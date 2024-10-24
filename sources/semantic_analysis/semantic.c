@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:55:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 11:04:30 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,23 @@ bool	used_before(t_info *info, int i, t_token *current)
 
 int	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
-	if (info->fds[i][0] != -10 || used_before(info, i, current))
+	// if (info->fds[i][0] != -10 || used_before(info, i, current))
+	if (info->fds[i][0] != -10)
 	{
 		if (close(info->fds[i][0]) < 0)
 		{
-			free_system_perror(data, ERROR_CLOSE,
-				"info->fds[i][0] in initialize_fds");
+			// free_system_perror(data, ERROR_CLOSE,
+			// 	"info->fds[i][0] in initialize_fds");
 			return (error_assign(data, ERROR_CLOSE));
 		}
 	}
 	info->fds[i][0] = current->fd_in;
 	info->infile = ft_strdup(current->expanded_value);
-	if (info->infile == NULL || used_before(info, i, current))
+	// if (info->infile == NULL || used_before(info, i, current))
+	if (info->infile == NULL)
 	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"info->infile in initialize_fds");
+		// free_system_perror(data, ERROR_ALLOCATION,
+		// 	"info->infile in initialize_fds");
 		return (error_assign(data, ERROR_ALLOCATION));
 	}
 	return (SUCCESS);
@@ -61,8 +63,8 @@ int	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	{
 		if (close(info->fds[i][1]) < 0)
 		{
-			free_system_perror(data, ERROR_CLOSE,
-				"info->fds[i][1] in initialize_fds");
+			// free_system_perror(data, ERROR_CLOSE,
+			// 	"info->fds[i][1] in initialize_fds");
 			return (error_assign(data, ERROR_CLOSE));
 		}
 	}
@@ -70,8 +72,8 @@ int	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	info->outfile = ft_strdup(current->expanded_value);
 	if (info->outfile == NULL)
 	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"info->outfile in initialize_fds");
+		// free_system_perror(data, ERROR_ALLOCATION,
+		// 	"info->outfile in initialize_fds");
 		return (error_assign(data, ERROR_ALLOCATION));
 	}
 	return (SUCCESS);
@@ -88,8 +90,8 @@ int	handle_heredoc_outfile(t_data *data, t_token *current)
 			{
 				if (close(data->here_doc_outfile_fd) < 0)
 				{
-					free_system_perror(data, ERROR_CLOSE,
-						"data->here_doc_outfile_fd in initialize_fds");
+					// free_system_perror(data, ERROR_CLOSE,
+					// 	"data->here_doc_outfile_fd in initialize_fds");
 					return (error_assign(data, ERROR_CLOSE));
 				}
 			}
@@ -156,7 +158,7 @@ int	semantic_analysis(t_data *data)
 	info = (t_info *)ft_calloc(1, sizeof(t_info));
 	if (info == NULL || errno == ENOMEM)
 	{
-		free_system_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
+		// free_system_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
 		return (error_assign(data, ERROR_ALLOCATION));
 	}
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;

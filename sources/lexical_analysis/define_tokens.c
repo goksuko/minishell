@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:56:43 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 15:08:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,30 @@ bool	define_token_fd(t_data *data, t_token *token)
 		if (define_dgreater(data, token) == false)
 			return (false);
 	}
+	// else if (ft_strncmp(token->value, "cat", 3) == 0)
+	// {
+	// 	if (define_cat(data, token) == false)
+	// 		return (false);
+	// }
+	return (true);
+}
+
+bool define_cat(t_data *data, t_token *token)
+{
+	int	temp_fd;
+
+	temp_fd = open(token->next->value, O_RDONLY, 0777);
+	if (temp_fd == -1)
+	{
+		// ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
+		// 	token->next->value);
+		// data->exit_code = ERROR_NO_FILE_DIR;
+		// free_system(data);
+		error_assign(data, ERROR_NO_FILE_DIR);
+		return (false);
+	}
+	token->next->fd_in = temp_fd;
+	printf("cat fd_in: %d, infile: %s\n", temp_fd, token->next->value);
 	return (true);
 }
 
@@ -41,13 +65,15 @@ bool	define_smaller(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
+	printf("infile: %s\n", token->next->value);
 	temp_fd = open(token->next->value, O_RDONLY, 0777);
 	if (temp_fd == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
 			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// data->exit_code = ERROR_NO_FILE_DIR;
+		// free_system(data);
+		error_assign(data, ERROR_NO_FILE_DIR);
 		return (false);
 	}
 	token->next->fd_in = temp_fd;
@@ -64,8 +90,9 @@ bool	define_greater(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
 			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// data->exit_code = ERROR_NO_FILE_DIR;
+		// free_system(data);
+		error_assign(data, ERROR_NO_FILE_DIR);
 		return (false);
 	}
 	token->next->fd_out = temp_fd;
@@ -82,8 +109,9 @@ bool	define_dsmaller(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
 			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// data->exit_code = ERROR_NO_FILE_DIR;
+		// free_system(data);
+		error_assign(data, ERROR_NO_FILE_DIR);
 		return (false);
 	}
 	token->next->here_doc_fd = temp_fd;
@@ -91,8 +119,9 @@ bool	define_dsmaller(t_data *data, t_token *token)
 	token->next->limiter = ft_strdup(token->next->value);
 	if (errno == ENOMEM || token->next->limiter == NULL)
 	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"limiter in define_dsmaller");
+		// free_system_perror(data, ERROR_ALLOCATION,
+		// 	"limiter in define_dsmaller");
+		error_assign(data, ERROR_ALLOCATION);
 		return (false);
 	}
 	printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd,
@@ -109,8 +138,9 @@ bool	define_dgreater(t_data *data, t_token *token)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
 			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// data->exit_code = ERROR_NO_FILE_DIR;
+		// free_system(data);
+		error_assign(data, ERROR_NO_FILE_DIR);
 		return (false);
 	}
 	token->next->fd_out = temp_fd;

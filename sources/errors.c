@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:55:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 16:37:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,42 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 	exit(code);
 }
 
-void	free_and_null(char *str)
+void	free_and_null(0x600)
 {
 	if (str)
 	{
-		free(str);
-		str = NULL;
+		free(str);//it frees but cann not set to null
+		
+		str = NULL; 
 	}
 	return ;
 }
+// {
+// 	// if (str)
+// 	// {
+// 		free(*str);
+// 		*str = NULL;
+// 	// }
+// 	return ;
+// }
+
+void integerthingy(int *x)
+{
+	(*x)++;
+}
+
+int x (lives at address 0x500)
+
+x = 5;
+
+0x600 h                      
+0x601 e 
+
+char *str(oh by the way this variable is located at 0x600) = 0x100 <- strdup("hello"); //in the computer
+
+str -> 0x100
+
+free_and_null(&str);
 
 void	close_info(t_info *info)
 {

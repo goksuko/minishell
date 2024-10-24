@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:55:16 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 16:27:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,19 @@ bool	minishell_routine(t_data *data, char *line)
 
 void	init_data(t_data *data)
 {
-	data->cmds = NULL;
-	data->line = NULL;
-	data->path = NULL;
-	data->cmd_matrix = NULL;
-	data->here_doc_outfile_fd = -10;
+	ft_bzero(data, sizeof(t_data));
+	// data->cmds = NULL;
+	// data->line = NULL;
+	// data->path = NULL;
+	// data->cmd_matrix = NULL;
 	data->exit_code = 0;
-	data->expanded_cmds = NULL;
-	data->info = NULL;
-	data->env_list = NULL;
-	data->tokens = NULL;
+	// data->expanded_cmds = NULL;
+	// data->info = NULL;
+	// data->env_list = NULL;
+	// data->tokens = NULL;
+	data->here_doc_outfile_fd = -10;
 	return ;
+	// do not forget that the pointers are also numbers
 }
 
 int	main(int argc, char *argv[], char **envp)

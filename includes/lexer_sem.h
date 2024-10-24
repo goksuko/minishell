@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/22 21:21:34 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 11:12:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_token_type		check_single_quotes(char *token);
 // define_tokens
 
 bool				define_token_fd(t_data *data, t_token *token);
+bool				define_cat(t_data *data, t_token *token);
 bool				define_smaller(t_data *data, t_token *token);
 bool				define_greater(t_data *data, t_token *token);
 bool				define_dsmaller(t_data *data, t_token *token);

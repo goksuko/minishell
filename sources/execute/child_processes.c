@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:56:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 15:56:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,38 +63,19 @@ int	create_children(t_data *data)
 int	do_child_of_child(t_info *info)
 {
 	// TO CHECK include an exit of the child process
-	// char	**command;
-	// command = NULL;
 	if (handle_child_type(info) > 0)
 		return (info->data->exit_code);
-	// command = ft_split(info->data->cmds[info->curr_cmd], ' ');
-	// if (command == NULL)
-	// 	return(error_assign(info->data, ERROR_ALLOCATION));
-	// if (is_builtin(command[0]))
-	// {
-	// 	if (handle_builtin(info->data, command) > 0)
-	// 	{
-	// 		ft_free_matrix(command);
-	// 		return(info->data->exit_code);
-	// 	}
-	// }
-	// else
-	// {
-	// 	ft_free_matrix(command);
 	if (start_exec(info) > 0)
-	{
-		// ft_free_matrix(command);
 		return (info->data->exit_code);
-	}
-	// }
-	// ft_free_matrix(command);
 	return (SUCCESS);
 }
 
 int	do_parent_of_child(t_info *info)
 {
+	printf("do_parent_of_child\n");
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
+	// if (info->pipe_read_end != STDIN_FILENO)
 	{
 		printf("to be closed: %d\n", info->pipe_read_end);
 		if (close(info->pipe_read_end) < 0)
@@ -112,18 +93,13 @@ int	do_parent_of_child(t_info *info)
 		if (close(info->fd_in) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
-	if (info->curr_cmd != info->data->nbr_of_cmds - 1)
+	// if (info->curr_cmd != info->data->nbr_of_cmds - 1)
+	if (info->curr_cmd != 0)
 	{
 		printf("to be closed: %d\n", info->pipefd[1]);
 		if (close(info->pipefd[1]) < 0)
 			return (error_assign(info->data, ERROR_CLOSE));
 	}
-	// if (info->pipefd[0] != STDOUT_FILENO && info->curr_cmd == 0)
-	// {
-	// 	printf("to be closed: %d\n", info->pipefd[0]);
-	// 	if (close(info->pipefd[0]) < 0)
-	// 		return (error_assign(info->data, ERROR_CLOSE));
-	// }
 	return (SUCCESS);
 }
 
@@ -141,7 +117,7 @@ pid_t	child_process(t_info *info)
 	{
 		exit_code = do_child_of_child(info);
 		info->data->exit_code = exit_code;
-		do_parent_of_child(info); // to close open files
+		// do_parent_of_child(info); // to close open files
 									// printf("exit code after do_child_of_child before exit:
 									//						%d\n",
 		// info->data->exit_code);
@@ -159,8 +135,9 @@ pid_t	child_process(t_info *info)
 		//     info->data->exit_code = -1;
 		// Indicate an error if the child did not exit normally
 	}
-	waitpid(-1, &status, 0);
 	do_parent_of_child(info);
+	waitpid(-1, &status, 0);
+
 	// if (do_parent_of_child(info) > 0)
 	// return (-125);
 	// if (info->data->exit_code > 0)

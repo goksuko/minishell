@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 23:54:52 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/24 15:16:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int	execute_shell(t_data *data)
 	char	**command;
 
 	update_path(data);
-	command = NULL;
+	// command = NULL;
 	command = ft_split(data->cmds[0], ' ');
 	if (command == NULL)
 		return (error_assign(data, ERROR_ALLOCATION));

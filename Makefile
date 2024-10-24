@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/21 11:15:01 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/24 16:12:53 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fPIE -fPIC
+CFLAGS = -Wall -Wextra -Werror -g -fPIE -fPIC #-Ofast -flto
 SFLAGS = -lreadline
 
 all: $(NAME)
