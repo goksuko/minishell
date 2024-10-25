@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:18:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 16:03:19 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef enum e_error
 	ERROR_FORK,
 	ERROR_CLOSE,
 	ERROR_DUP2,
+	ERROR_UNLINK,
 	ERROR_EXECVE,
 	ERROR_HOME_DIR,
 	ERROR_PARENT_DIR,
@@ -156,5 +157,16 @@ void				handle_signals(int process);
 void				handle_child_sigquit(int signal);
 void				handle_child_sigint(int signal);
 void				handle_parent_sigint(int signal);
+
+void	set_signals(t_data *data);
+void	unset_signals(void);
+void	signals_for_kids(void);
+void	signal_int_handler(int sig);
+
+void    ms_dup2(t_data *data, int old_fd, int new_fd);
+void    ms_close(t_data *data, int fd);
+void    ms_open(t_data *data, char *file, int flags, int mode);
+void    ms_pipe(t_data *data, int *pipefd);
+void    ms_fork(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:21:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:46:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,10 @@ bool	do_child_of_child(t_info *info)
 	if (is_builtin(command[0]))
 	{
 		if (handle_builtin(info, command) == false)
-			// exit(EXIT_FAILURE);
-			return_value = false;
+			// return_value = false;
+			exit(EXIT_FAILURE);
+		else
+			exit(EXIT_SUCCESS);
 	}
 	else
 	{
@@ -128,6 +130,18 @@ bool	do_child_of_child(t_info *info)
 
 bool	do_parent_of_child(t_info *info)
 {
+	char	**command;
+
+	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
+	if (command == NULL)
+		// exit(EXIT_FAILURE);
+		return (false);
+	if (is_builtin(command[0]))
+	{
+		if (handle_builtin(info, command) == false)
+			return (false);
+	}	
+	
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
@@ -157,17 +171,18 @@ pid_t	child_process(t_info *info)
 	pid_t	pid;
 
 	pid = fork();
-	handle_signals(CHILD); // TO BE CHECKED IF CORRECT POSITION
 	if (pid == -1)
 		return (-125);
 	else if (pid == 0)
 	{
+		signals_for_kids();
 		do_child_of_child(info);
 		// if (do_child_of_child(info) == false)
 		// 	return (-125);
 	}
 	else
 	{
+		unset_signals();
 		if (do_parent_of_child(info) == false)
 			return (-125);
 	}

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:20:20 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 16:02:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ char	*ft_error(t_error code)
 							[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
 							[ERROR_WRONG_CHAR] = "Error: wrong character\n",
 							[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
+							[ERROR_PIPE] = "bash: pipe error: \n",
+							[ERROR_FORK] = "bash: fork error: \n",
+							[ERROR_DUP2] = "bash: dup2 error: \n",
+							[ERROR_UNLINK] = "bash: unlink error: \n",
 							[ERROR_NOT_DIR] = "bash: not a directory: \n",
 							[ERROR_HOME_DIR] = "Error: HOME directory not set\n",
 							[ERROR_PARENT_DIR] = "Error: Parent directory not set\n",

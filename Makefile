@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/21 11:15:01 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/25 16:00:34 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ OBJS_DIR = objects
 SRCS = $(addprefix $(SRCS_DIR)/, \
 		errors.c \
 		main.c \
+		new_signals.c \
+		ms_funcs.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix expander/, $(EXPANDER)) \
 		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \
