@@ -73,7 +73,7 @@ char	*process_dollar_sign(t_data *data, char *str, int *i)
 		return (expand_exit_code(data, i));
 	else if (str[0] == '$')
 		return (expand_pid(i));
-	else if (str[0] != '\0' && (ft_isalnum(str[0]) == 1 ||\
+	else if (str[0] != '\0' && (ft_isalnum(str[0]) == 1 || \
 	str[0] == '_')) // "_" or " " ??
 		return (expand_env_variable(data, str, i));
 	return (NULL);

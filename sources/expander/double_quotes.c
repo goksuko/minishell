@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   double_quotes.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:29:08 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:29:08 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*d_quotes(t_data **data, char *argument)
@@ -8,7 +20,6 @@ char	*d_quotes(t_data **data, char *argument)
 	clean_str = NULL;
 	expanded_str = NULL;
 	clean_str = remove_quotation_marks(argument);
-	printf("Clean string: %s\n", clean_str);
 	if (errno == ENOMEM || clean_str == NULL)
 	{
 		free_system_perror(*data, ERROR_ALLOCATION,

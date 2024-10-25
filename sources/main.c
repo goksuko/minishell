@@ -72,8 +72,6 @@ bool	minishell_routine(t_data *data, char *line)
 	if (data->tokens == NULL)
 		return (true);
 	expander(&data);
-	printf("\n**********Tokens*********\n\n");
-	ft_print_tokens(data->tokens);
 	if (semantic_analysis(data) == false)
 		return (false);
 	printf("\n**********Result*********\n\n");
