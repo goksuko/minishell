@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 20:15:16 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:20:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,26 +112,46 @@ void	ft_exit_str_free_fd(t_error code, char *str, int fd)
 	exit(code);
 }
 
-void	free_and_null(char *str)
+void	free_and_null(char **ptr)
 {
-	if (str)
+	if (*ptr)
 	{
-		free(str);
-		str = NULL;
+		free(*ptr);
+		*ptr = NULL;
 	}
 	return ;
 }
 
+void	free_2d_null(char ***ptr)
+{
+	int i;
+	char **array;
+
+	if (*ptr == NULL)
+		return ;
+	array = *ptr;
+	i = 0;
+	while (array[i])
+	{
+		free_and_null(&array[i]);
+		i++;
+	}
+	free(array);
+	*ptr = NULL;
+	return ;
+}
+
+
 void	close_info(t_info *info)
 {
 	if (info->infile)
-		free_and_null(info->infile);
+		free_and_null(&info->infile);
 	if (info->outfile)
-		free_and_null(info->outfile);
+		free_and_null(&info->outfile);
 	if (info->limiter)
-		free_and_null(info->limiter);
+		free_and_null(&info->limiter);
 	if (info->path)
-		free_and_null(info->path);
+		free_and_null(&info->path);
 	// free(info);
 	// info = NULL;
 	return ;
@@ -140,9 +160,9 @@ void	close_info(t_info *info)
 void	free_system(t_data *data)
 {
 	if (data && data->cmds && data->cmds[0])
-		ft_free_matrix(data->cmds);
+		free_2d_null(&data->cmds);
 	if (data && data->line && data->line[0])
-		free_and_null(data->line);
+		free_and_null(&data->line);
 	if (data && data->info)
 		close_info(data->info);
 	if (data && data->tokens)
@@ -154,7 +174,7 @@ void	free_data(t_data **data)
 {
 	free_system(*data);
 	if ((*data)->envp && (*data)->envp[0])
-		ft_free_matrix((*data)->envp);
+		free_2d_null(&(*data)->envp);
 	if ((*data)->path)
 		free((*data)->path);
 	if ((*data)->env_list)

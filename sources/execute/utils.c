@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 23:09:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:21:40 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ bool	start_exec(t_info *info)
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	if (path == NULL)
 	{
-		ft_free_matrix(cmd_matrix);
+		free_2d_null(&cmd_matrix);
 		return (true);
 	}
 	if (execve(path, cmd_matrix, info->data->envp) == -1)

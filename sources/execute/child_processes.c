@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/23 20:03:15 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:21:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ bool	do_child_of_child(t_info *info)
 	}
 	else
 	{
-		ft_free_matrix(command);
+		free_2d_null(&command);
 		if (start_exec(info) == false)
 			// exit(EXIT_FAILURE);
 			return_value = false;
 	}
-	// ft_free_matrix(command);
+	// free_2d_null(command);
 	return (return_value);
 	// exit(EXIT_SUCCESS);
 }
@@ -118,11 +118,11 @@ bool	do_child_of_child(t_info *info)
 // 	}
 // 	else
 // 	{
-// 		ft_free_matrix(command);
+// 		free_2d_null(command);
 // 		if (start_exec(info) == false)
 // 			return_value = false;
 // 	}
-// 	// ft_free_matrix(command);
+// 	// free_2d_null(command);
 // 	return (return_value);
 // }
 

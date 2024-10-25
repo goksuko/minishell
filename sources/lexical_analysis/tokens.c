@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 18:52:19 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:21:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**create_token_array(t_data *data, char *line)
 	tokens = split_tokens(line, number_tokens, tokens);
 	if (errno == ENOMEM || tokens == NULL)
 	{
-		ft_free_matrix(tokens);
+		free_2d_null(&tokens);
 		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
 		return (NULL);
 	}
@@ -114,7 +114,7 @@ t_token	*array_to_list(char **tokens, int token_count)
 	i = 0;
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
-		return (ft_free_matrix(tokens), NULL);
+		return (free_2d_null(&tokens), NULL);
 	// head->is_head = true;
 	current = head;
 	i++;
@@ -123,12 +123,12 @@ t_token	*array_to_list(char **tokens, int token_count)
 		current->next = init_new_token(tokens[i], token_type_check(tokens[i]),
 				token_count);
 		if (current->next == NULL)
-			return (ft_free_matrix(tokens), NULL);
+			return (free_2d_null(&tokens), NULL);
 		current->next->prev = current;
 		current = current->next;
 		i++;
 	}
-	ft_free_matrix(tokens);
+	free_2d_null(&tokens);
 	return (head);
 }
 

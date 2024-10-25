@@ -168,8 +168,8 @@ int	cd_old_pwd(t_env *env_list, t_data *data)
 
 int ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
 {
-	free_and_null(*old_cwd);
-	free_and_null(*cwd);
+	free_and_null(&*old_cwd);
+	free_and_null(&*cwd);
 	if (return_value == ERROR_TOO_MANY_ARGS)
 	{
 		free_system_error(data, ERROR_TOO_MANY_ARGS);

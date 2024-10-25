@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 23:14:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:21:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*find_path_helper(t_info *info, char *main_command, char **path_split,
 		return (NULL);
 	free(temp);
 	if (access(path, F_OK | X_OK) == 0)
-		return (ft_free_matrix(path_split), path);
+		return (free_2d_null(&path_split), path);
 	free(path);
 	return (NULL);
 }
@@ -56,6 +56,6 @@ char	*find_path(t_info *info, char *main_command)
 			return (path);
 		i++;
 	}
-	ft_free_matrix(path_split);
+	free_2d_null(&path_split);
 	return (NULL);
 }

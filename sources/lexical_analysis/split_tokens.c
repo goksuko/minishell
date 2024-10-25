@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:34:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:01:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 13:21:08 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**split_tokens(char *line, int number_tokens, char **tokens)
 		tokens[i] = create_substr(&line[token_start], token_len);
 		if (tokens[i] == NULL)
 		{
-			ft_free_matrix(tokens);
+			free_2d_null(&tokens);
 			return (NULL);
 		}
 		i++;
