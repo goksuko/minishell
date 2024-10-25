@@ -109,12 +109,12 @@ int	main(int argc, char *argv[], char **envp)
 	if (errno == ENOMEM || data == NULL)
 		ft_exit_perror(ERROR_ALLOCATION, "data in main");
 	data->envp = envp;
-	handle_signals(PARENT);
 	init_data(data);
 	make_initial_path_checks(envp, data);
 	line = NULL;
 	while (1)
 	{
+		handle_signals(PARENT); // recheck position 
 		if (minishell_routine(data, line) == true)
 			free_system(data);
 	}
