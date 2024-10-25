@@ -24,6 +24,7 @@ char	*expand_identifier(t_data **data, char *argument)
 				"handle dollar sign in expand_identifier");
 			return (NULL);
 		}
+		return (expanded_str);
 	}
-	return (expanded_str);
+	return (temp);
 }
