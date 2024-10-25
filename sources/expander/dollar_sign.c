@@ -35,25 +35,26 @@ char	*add_char(char *to_update, char char_to_add)
 	return (temp);
 }
 
-// bool	init_dollar_data(int *i, char **new)
-// {
-// 	*i = 0;
-// 	*new = ft_strdup("");
-// 	if (*new == NULL)
-// 		return (false);
-// 	return (true);
-// }
+bool	dollar_in_loop(t_data *data, char **new, char *str, int *i)
+{
+	char	*temp;
+
+	temp = NULL;
+	(*i)++;
+	temp = process_dollar_sign(data, &str[*i], i);
+	if (temp == NULL)
+		return (false);
+	*new = add_str(*new, temp);
+	if (*new == NULL)
+		return (false);
+	return (true);
+}
 
 char	*handle_dollar_sign(t_data *data, char *str)
 {
 	int		i;
 	char	*new;
-	char	*temp;
 
-	// if (init_dollar_data(&i, &new) == false)
-	// 	return (NULL);
-	// printf("Value of i after init: %d\n", i);
-	// printf("Value of new after init: %s\n", new);
 	i = 0;
 	new = ft_strdup("");
 	if (new == NULL)
@@ -62,16 +63,11 @@ char	*handle_dollar_sign(t_data *data, char *str)
 	{
 		if (str[i] == '$')
 		{
-			i++;
-			temp = process_dollar_sign(data, &str[i], &i);
-			if (temp == NULL)
+			if (dollar_in_loop(data, &new, str, &i) == false)
 			{
 				free (new);
 				return (NULL);
 			}
-			new = add_str(new, temp);
-			if (new == NULL)
-				return (NULL);
 			continue ;
 		}
 		new = add_char(new, str[i]);

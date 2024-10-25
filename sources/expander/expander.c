@@ -1,8 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expander.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:30:51 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:30:51 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+bool	duplicate_token_value(t_data **data, t_token *temp)
+{
+	temp->expanded_value = ft_strdup(temp->value);
+	if (temp->expanded_value == NULL)
+	{
+		free_system_perror(*data, ERROR_ALLOCATION,
+			"temp->expanded_value in expander");
+		return (false);
+	}
+	return (true);
+}
 
 bool	expand_value(t_data **data, t_token *token, char *type)
 {
-	printf("----VALUE EXPANSION----\n");
 	if (ft_strncmp(type, "SINGLE_QUOTES", 13) == 0)
 	{
 		token->expanded_value = s_quotes(data, token->value);
@@ -26,8 +49,8 @@ bool	expand_value(t_data **data, t_token *token, char *type)
 
 bool	expander(t_data **data)
 {
-	char *type;
-	t_token *temp;
+	char	*type;
+	t_token	*temp;
 
 	temp = (*data)->tokens;
 	while (temp != NULL)
@@ -42,13 +65,8 @@ bool	expander(t_data **data)
 		}
 		else
 		{
-			temp->expanded_value = ft_strdup(temp->value);
-			if (temp->expanded_value == NULL)
-			{
-				free_system_perror(*data, ERROR_ALLOCATION,
-					"temp->expanded_value in expander");
+			if (duplicate_token_value(data, temp) == false)
 				return (false);
-			}
 		}
 		temp = temp->next;
 	}

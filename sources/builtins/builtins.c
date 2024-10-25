@@ -1,5 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   builtins.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:45:43 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:45:43 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 
 // return boolean and update data->exit_code in functions 
 

@@ -13,24 +13,19 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-typedef enum s_token_type // ADJUST AS NECESSARY
-// NOT SURE IF I SHOULD ADD METACHARACTERS see: https://www.gnu.org/software/bash/manual/bash.html#Shell-Operation
+typedef enum s_token_type
 {
-	T_BUILTIN, // echo (with option -n), cd, pwd, export, unset, env,
-	//	exit, etc.
-	T_IDENTIFIER, // path for cd, variables for export, and unset
-	T_FLAG,       // e.g. echo -n
-	T_SMALLER,    // <
-	T_DSMALLER,   // <<
-	T_GREATER,    // >
-	T_DGREATER,   // >>
-	T_PIPE,       // |
+	T_BUILTIN,
+	T_IDENTIFIER,
+	T_FLAG,
+	T_SMALLER,
+	T_DSMALLER,
+	T_GREATER,
+	T_DGREATER,
+	T_PIPE,
 	T_DOUBLE_QUOTES,
-	// single quotes and double quotes opening --NOT interpret unclosed characters
 	T_SINGLE_QUOTES,
-	// single quotes and double quotes opening --NOT interpret unclosed characters
-	// T_FILE, // file
-	T_UNKNOWN // anything not defined and not categorized in tokens
+	T_UNKNOWN
 }					t_token_type;
 
 typedef struct s_token

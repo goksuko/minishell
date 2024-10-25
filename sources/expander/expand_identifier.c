@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expand_identifier.c                                :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:29:36 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:29:36 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*expand_identifier(t_data **data, char *argument)
 {
-	printf("----EXPAND_identifier----\n"); // Only for testing purposes
 	char	*expanded_str;
 	char	*temp;
 

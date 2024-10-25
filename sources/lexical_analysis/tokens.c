@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:21:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 16:19:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,74 +80,6 @@ bool	is_file_check(t_data *data, t_token *token_lst)
 		current = current->next;
 	}
 	return (true);
-}
-
-char	**create_token_array(t_data *data, char *line)
-{
-	int		number_tokens;
-	char	**tokens;
-
-	number_tokens = count_tokens(line);
-	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
-	if (errno == ENOMEM || tokens == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"tokens in create_token_array");
-		return (NULL);
-	}
-	tokens = split_tokens(line, number_tokens, tokens);
-	if (errno == ENOMEM || tokens == NULL)
-	{
-		free_2d_null(&tokens);
-		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
-		return (NULL);
-	}
-	return (tokens);
-}
-
-t_token	*array_to_list(char **tokens, int token_count)
-{
-	t_token	*head;
-	t_token	*current;
-	int		i;
-
-	i = 0;
-	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
-	if (head == NULL)
-		return (free_2d_null(&tokens), NULL);
-	// head->is_head = true;
-	current = head;
-	i++;
-	while (tokens[i] != NULL)
-	{
-		current->next = init_new_token(tokens[i], token_type_check(tokens[i]),
-				token_count);
-		if (current->next == NULL)
-			return (free_2d_null(&tokens), NULL);
-		current->next->prev = current;
-		current = current->next;
-		i++;
-	}
-	free_2d_null(&tokens);
-	return (head);
-}
-
-t_token	*create_token_list(t_data *data, char **token_array)
-{
-	t_token	*token_lst;
-	int		token_count;
-
-	token_count = count_tokens(data->line);
-	token_lst = array_to_list(token_array, token_count);
-	if (errno == ENOMEM || token_lst == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"token_lst in array_to_list");
-		return (NULL);
-	}
-	if (check_unclosed_quotes(data, token_lst) == false)
-		return (NULL);
-	return (token_lst);
 }
 
 t_token	*lexical_analysis(t_data *data, char *line)

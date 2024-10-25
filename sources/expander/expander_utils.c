@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expander_utils.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:30:06 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:30:06 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-char	*remove_quotation_marks(char *argument) // ADJUSTED 
+char	*remove_quotation_marks(char *argument)
 {
-	printf("----REMOVE_QUOTATION_MARKS----\n");
 	char	*clean_str;
 	int		len;
 
@@ -13,14 +24,13 @@ char	*remove_quotation_marks(char *argument) // ADJUSTED
 	if (clean_str == NULL)
 		return (NULL);
 	ft_strlcpy(clean_str, argument + 1, len - 1);
-	printf("--Remove quotation marks done--\n");
 	return (clean_str);
 }
 
 char	*ft_strjoin_c(char const *s1, char c)
 {
-	char *new_str;
-	char *temp;
+	char	*new_str;
+	char	*temp;
 
 	temp = NULL;
 	new_str = NULL;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   pwd.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:46:35 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:46:35 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	ft_pwd(char **cmds, t_data *data)
@@ -9,7 +21,6 @@ int	ft_pwd(char **cmds, t_data *data)
 		out_fd = STDOUT_FILENO;
 	else
 		out_fd = data->info->fd_out;
-	printf("---FT__PWD----\n");
 	cwd = NULL;
 	if (errno == ENOMEM || cmds[0] != NULL)
 	{

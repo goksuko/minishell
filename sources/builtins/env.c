@@ -1,8 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   env.c                                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/25 13:45:56 by vbusekru      #+#    #+#                 */
+/*   Updated: 2024/10/25 13:45:56 by vbusekru      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-// only print the list if there is a key with a value. e.g. PATH=bskjd.
-// However, if there is simply the key "VANESSA" with no other value,
-//	then it should not be printed
+#include "../../includes/minishell.h"
 
 void	print_env(t_env *env)
 {
