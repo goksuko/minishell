@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:46:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/25 16:49:22 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,15 @@ bool	create_children(t_data *data)
 
 // we need to exit the cild process
 // everything that has been created in the parent will need to
-bool	do_child_of_child(t_info *info)
+bool	do_child_of_child(t_data *data, t_info *info, char *builtin_command)
 {
 	// TO CHECK include an exit of the child process
-	char	**command;
 	bool	return_value;
 
 	return_value = true;
-	command = NULL;
-	if (handle_child_type(info) == false)
-		// exit(EXIT_FAILURE);
-		return (false);
-	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
-	if (command == NULL)
-		// exit(EXIT_FAILURE);
-		return (false);
-	if (is_builtin(command[0]))
+	if (builtin_command)
 	{
-		if (handle_builtin(info, command) == false)
+		if (handle_builtin(info, builtin_command) == false)
 			// return_value = false;
 			exit(EXIT_FAILURE);
 		else
@@ -90,7 +81,6 @@ bool	do_child_of_child(t_info *info)
 	}
 	else
 	{
-		free_2d_null(&command);
 		if (start_exec(info) == false)
 			// exit(EXIT_FAILURE);
 			return_value = false;
@@ -100,48 +90,13 @@ bool	do_child_of_child(t_info *info)
 	// exit(EXIT_SUCCESS);
 }
 
-// bool	do_child_of_child(t_info *info)
-// {
-// 	// TO CHECK include an exit of the child process
-// 	char	**command;
-// 	bool	return_value;
-
-// 	return_value = true;
-// 	command = NULL;
-// 	if (handle_child_type(info) == false)
-// 		return (false);
-// 	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
-// 	if (command == NULL)
-// 		return (false);
-// 	if (is_builtin(command[0]))
-// 	{
-// 		if (handle_builtin(info, command) == false)
-// 			return_value = false;
-// 	}
-// 	else
-// 	{
-// 		free_2d_null(command);
-// 		if (start_exec(info) == false)
-// 			return_value = false;
-// 	}
-// 	// free_2d_null(command);
-// 	return (return_value);
-// }
-
-bool	do_parent_of_child(t_info *info)
+bool	do_parent_of_child(t_data *data, t_info *info, char *builtin_command)
 {
-	char	**command;
-
-	command = ft_split(info->data->cmds[info->curr_cmd], ' ');
-	if (command == NULL)
-		// exit(EXIT_FAILURE);
-		return (false);
-	if (is_builtin(command[0]))
+	if (builtin_command)
 	{
-		if (handle_builtin(info, command) == false)
+		if (handle_parent_builtin(info, builtin_command) == false)
 			return (false);
 	}	
-	
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
@@ -166,24 +121,51 @@ bool	do_parent_of_child(t_info *info)
 	return (true);
 }
 
+char	*take_command_name(t_data *data)
+{
+	char	**command;
+	char	*command_name;
+
+	command_name = NULL;
+	command = ft_split(data->cmds[0], ' ');
+	if (command == NULL)
+	{
+		error_assign(data, ERROR_ALLOCATION);
+		return (NULL);
+	}
+	if (is_builtin(command[0]))
+	{
+		command_name = ft_strdup(command[0]);
+		if (command_name == NULL)
+		{
+			error_assign(data, ERROR_ALLOCATION);
+			return (NULL);
+		}
+	}
+	ft_free_matrix(command);
+	return (command_name);
+}
+
 pid_t	child_process(t_info *info)
 {
 	pid_t	pid;
+	char	*command_name;
 
+	command_name = take_command_name(info->data);
 	pid = fork();
 	if (pid == -1)
 		return (-125);
 	else if (pid == 0)
 	{
 		signals_for_kids();
-		do_child_of_child(info);
+		do_child_of_child(data, info, command_name);
 		// if (do_child_of_child(info) == false)
 		// 	return (-125);
 	}
 	else
 	{
 		unset_signals();
-		if (do_parent_of_child(info) == false)
+		if (do_parent_of_child(data, info, command_name) == false)
 			return (-125);
 	}
 	return (pid);

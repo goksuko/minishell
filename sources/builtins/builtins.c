@@ -6,13 +6,11 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:45:43 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/25 16:49:22 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// return boolean and update data->exit_code in functions 
 
 int	execute_builtin(char **cmds, t_data *data)
 {
@@ -37,6 +35,23 @@ int	execute_builtin(char **cmds, t_data *data)
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 		return_value = ft_exit(cmds + 1, data);
+	return (return_value);
+}
+
+int	execute_parent_builtin(char **cmds, t_data *data)
+{
+	int	return_value;
+	int	cmd_len;
+
+	cmd_len = ft_strlen(cmds[0]);
+	if (cmd_len == 2 && ft_strncmp(cmds[0], "cd", 2) == 0)
+		return_value = ft_cd(cmds + 1, data->env_list, data);
+	else if (cmd_len == 6 && ft_strncmp(cmds[0], "export", 6) == 0)
+		return_value = ft_parent_export(cmds + 1, data);
+	else if (cmd_len == 5 && ft_strncmp(cmds[0], "unset", 5) == 0)
+		return_value = ft_unset(cmds + 1, data);
+	// else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
+	// 	return_value = ft_exit(cmds + 1, data);
 	return (return_value);
 }
 

@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/25 16:00:34 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/25 16:41:00 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ BUILTINS = 				builtins.c \
 						exit.c \
 						pwd.c \
 						export.c \
+						export_parent.c \
 						export_print_env.c \
 						export_new_env.c \
 						unset.c \
