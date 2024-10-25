@@ -14,6 +14,7 @@ NAME = minishell
 LIBFT = ./Libft/libft.a
 
 LEXICAL_ANALSYSIS =		tokens.c \
+						token_array_list.c \
 						define_tokens.c \
 						meta_char_check.c \
 						tokens_utils.c \

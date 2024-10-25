@@ -51,7 +51,6 @@ bool	define_smaller(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->fd_in = temp_fd;
-	// printf("< fd_in: %d, infile: %s\n", temp_fd, token->next->value);
 	return (true);
 }
 
@@ -69,7 +68,6 @@ bool	define_greater(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->fd_out = temp_fd;
-	// printf("> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
 	return (true);
 }
 
@@ -94,8 +92,6 @@ bool	define_dsmaller(t_data *data, t_token *token)
 			"limiter in define_dsmaller");
 		return (false);
 	}
-	// printf("<< here_doc_fd: %d, limiter: %s\n", token->next->here_doc_fd,
-	//		token->next->limiter);
 	return (true);
 }
 
@@ -113,6 +109,5 @@ bool	define_dgreater(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->fd_out = temp_fd;
-	// printf(">> fd_out: %d, outfile: %s\n", temp_fd, token->next->value);
 	return (true);
 }

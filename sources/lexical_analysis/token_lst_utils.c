@@ -25,6 +25,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 		free(new_token);
 		return (NULL);
 	}
+	new_token->expanded_value = NULL;
 	new_token->type = type;
 	new_token->token_count = token_count;
 	new_token->prev = NULL;
@@ -39,11 +40,11 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 
 void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
-	printf("----PRINT TOKENS----\n"); // Only for testing purposes
-	int	i;
+	printf("----PRINT TOKENS----\n");
+	int		i;
 	t_token	*temp;
 
-	if (tokens == NULL) // Only for testing purposes
+	if (tokens == NULL)
 	{
 		printf("No tokens\n");
 		return ;
@@ -70,7 +71,6 @@ void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 			printf("Fd_in: %d\n", temp->fd_in);
 		else
 			printf("Fd_in: (not set)\n");
-
 		if (temp->fd_out != -10)
 			printf("Fd_out: %d\n", temp->fd_out);
 		else
@@ -102,8 +102,5 @@ t_token_type	token_type_check(char *token)
 	type = check_double_quotes(token);
 	if (type != T_UNKNOWN)
 		return (type);
-	// type = check_file(token);
-	// if (type != T_UNKNOWN)
-	// 	return (type);
 	return (T_IDENTIFIER);
 }
