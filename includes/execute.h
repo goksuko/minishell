@@ -5,9 +5,9 @@
 
 bool	do_commands(t_data *data, int i);
 bool	create_children(t_data *data);
-bool	do_child_of_child(t_data *data, t_info *info, char *builtin_command);
+bool	do_child_of_child(t_data *data, t_info *info, char **command_array);
 // void	do_child_of_child(t_info *info);
-bool	do_parent_of_child(t_data *data, t_info *info, char *builtin_command);
+bool	do_parent_of_child(t_data *data, t_info *info, char **command_array);
 pid_t	child_process(t_info *info);
 char	*take_command_name(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:49:22 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 22:23:46 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,16 @@ bool	create_children(t_data *data)
 
 // we need to exit the cild process
 // everything that has been created in the parent will need to
-bool	do_child_of_child(t_data *data, t_info *info, char *builtin_command)
+bool	do_child_of_child(t_data *data, t_info *info, char **command_array)
 {
 	// TO CHECK include an exit of the child process
 	bool	return_value;
+	(void)data;
 
 	return_value = true;
-	if (builtin_command)
+	if (command_array)
 	{
-		if (handle_builtin(info, builtin_command) == false)
+		if (handle_builtin(info, command_array) == false)
 			// return_value = false;
 			exit(EXIT_FAILURE);
 		else
@@ -90,13 +91,15 @@ bool	do_child_of_child(t_data *data, t_info *info, char *builtin_command)
 	// exit(EXIT_SUCCESS);
 }
 
-bool	do_parent_of_child(t_data *data, t_info *info, char *builtin_command)
+bool	do_parent_of_child(t_data *data, t_info *info, char **command_array)
 {
-	if (builtin_command)
-	{
-		if (handle_parent_builtin(info, builtin_command) == false)
-			return (false);
-	}	
+	(void)data;
+	(void)command_array;
+	// if (command_array)
+	// {
+	// 	if (handle_parent_builtin(info, command_array) == false)
+	// 		return (false);
+	// }	
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
@@ -121,51 +124,43 @@ bool	do_parent_of_child(t_data *data, t_info *info, char *builtin_command)
 	return (true);
 }
 
-char	*take_command_name(t_data *data)
+char	**make_command_array(t_data *data)
 {
-	char	**command;
-	char	*command_name;
+	char	**command_array;
 
-	command_name = NULL;
-	command = ft_split(data->cmds[0], ' ');
-	if (command == NULL)
+	command_array = ft_split(data->cmds[0], ' ');
+	if (command_array == NULL)
 	{
-		error_assign(data, ERROR_ALLOCATION);
+		// error_assign(data, ERROR_ALLOCATION);
 		return (NULL);
 	}
-	if (is_builtin(command[0]))
+	if (is_builtin(command_array[0]))
 	{
-		command_name = ft_strdup(command[0]);
-		if (command_name == NULL)
-		{
-			error_assign(data, ERROR_ALLOCATION);
-			return (NULL);
-		}
+		return (command_array);
 	}
-	ft_free_matrix(command);
-	return (command_name);
+	return (NULL);
 }
 
 pid_t	child_process(t_info *info)
 {
 	pid_t	pid;
-	char	*command_name;
+	char	**command_array;
 
-	command_name = take_command_name(info->data);
+	command_array = make_command_array(info->data);
 	pid = fork();
 	if (pid == -1)
 		return (-125);
 	else if (pid == 0)
 	{
 		signals_for_kids();
-		do_child_of_child(data, info, command_name);
+		do_child_of_child(info->data, info, command_array);
 		// if (do_child_of_child(info) == false)
 		// 	return (-125);
 	}
 	else
 	{
 		unset_signals();
-		if (do_parent_of_child(data, info, command_name) == false)
+		if (do_parent_of_child(info->data, info, command_array) == false)
 			return (-125);
 	}
 	return (pid);
