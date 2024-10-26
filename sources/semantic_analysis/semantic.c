@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:52:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:28:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ bool	semantic_analysis(t_data *data)
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
 	data->info->here_doc_cmd = -100;
+	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (false);
+	printf_array(data->cmds);
 	initialize_info(info, data);
 	if (initialize_fds(info, data) == false)
 		return (false);

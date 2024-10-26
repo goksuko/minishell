@@ -1,3 +1,20 @@
+ls > out 
+works well but 
+echo hi > out 
+does not work
+when there is a redirection, data->cmds are not updated
+
+
+
+
+
+
+
+
+
+
+
+
 echo 1
 < test.txt grep a1 | cat -e | wc -w > result.txt
 echo result: 
@@ -203,3 +220,17 @@ cat read.sh | echo >> out4
 
 echo 37
 > cat read.sh | cat out \ cat out5
+
+
+
+
+
+
+
+
+
+
+
+
+
+

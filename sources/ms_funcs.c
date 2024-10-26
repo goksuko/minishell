@@ -2,6 +2,7 @@
 
 void	ms_dup2(t_data *data, int old_fd, int new_fd)
 {
+	printf("dup2 %d, %d\n", old_fd, new_fd);	
 	if (dup2(old_fd, new_fd) < 0)
 		ft_exit_perror(data, ERROR_DUP2);
 	return ;

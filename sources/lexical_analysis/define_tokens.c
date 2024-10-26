@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:41:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 01:05:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ bool	define_smaller(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->fd_in = temp_fd;
+	printf("< %d, %s\n", token->next->fd_in, token->next->value);
 	return (true);
 }
 
@@ -68,6 +69,7 @@ bool	define_greater(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->fd_out = temp_fd;
+	printf("> %d, %s\n", token->next->fd_out, token->next->value);
 	return (true);
 }
 

@@ -5,12 +5,13 @@
 
 bool	assign_fds_and_pipe(t_data *data, int i);
 bool	create_children(t_data *data);
-bool	do_child_of_child(t_data *data, t_info *info, char **command_array);
-// void	do_child_of_child(t_info *info);
-bool	do_parent_of_child(t_data *data, t_info *info, char **command_array);
 pid_t	time_to_fork(t_info *info);
-char	*take_command_name(t_data *data);
+char	**make_command_array(t_data *data);
 
+// parent_and_child.c
+
+bool	do_child(t_data *data, t_info *info, char **command_array);
+bool	do_parent(t_data *data, t_info *info, char **command_array);
 
 // children.c
 

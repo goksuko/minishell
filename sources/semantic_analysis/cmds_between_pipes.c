@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 00:02:28 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:52:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,27 @@ bool	handle_redirection(t_token **current, bool *cat_cmd)
 	return (true);
 }
 
-bool	handle_redirection2(t_data *data, t_token **current, char **cmds,
-		int *j, bool *cat_cmd)
+char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 {
+	char	*cmd;
+
 	if (is_first_after_pipe(*current))
 	{
-		cmds[*j] = ms_strdup(data, (*current)->expanded_value);
+		cmd = ms_strdup(data, (*current)->expanded_value);
 		(*current) = (*current)->next;
 	}
 	if ((*current) && is_redir_except_heredoc(*current))
 	{
-		if (*cat_cmd)
+		if (cat_cmd)
 		{
-			cmds[*j] = do_cat_addition(data, *current, cmds[*j]);
-			if (cmds[*j] == NULL)
-				return (false);
+			// cmds[*j] = do_cat_addition(data, *current, cmds[*j]);
+			cmd = ms_strjoin(data, cmd, " ");
+			cmd = ms_strjoin(data, cmd, (*current)->next->expanded_value);
 			*cat_cmd = false;
 		}
 		(*current) = (*current)->next->next;
 	}
-	return (true);
+	return (cmd);
 }
 
 bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
@@ -73,9 +74,11 @@ bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 	return (true);
 }
 
-bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j,
-		bool *cat_cmd)
+bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 {
+	bool	*cat_cmd;
+
+	cat_cmd = false;
 	while ((*current) && (*current)->type != T_PIPE)
 	{
 		if (is_heredoc(*current))
@@ -85,8 +88,7 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j,
 		}
 		if (!handle_redirection(current, cat_cmd))
 			return (false);
-		if (!handle_redirection2(data, current, cmds, j, cat_cmd))
-			return (false);
+		cmds[*j] = ms_strdup(data, handle_redirection2(data, current, cat_cmd));
 		if (!handle_command(data, current, cmds, j))
 			return (false);
 	}

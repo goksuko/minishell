@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:19:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:50:22 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ bool	do_last_child(t_info *info)
 
 bool	handle_child_type(t_info *info)
 {
+	printf("info->curr_cmd: %d\n", info->curr_cmd);
+	printf("info->data->nbr_of_cmds: %d\n", info->data->nbr_of_cmds);
 	if (info->curr_cmd == info->data->nbr_of_cmds - 1)
 	{
 		if (do_last_child(info) == false)
@@ -102,9 +104,6 @@ bool	handle_builtin(t_info *info, char **command)
 	if (command && command[0])
 		info->data->exit_code = execute_builtin(command, info->data);
 	if (info->data->exit_code != 0)
-	{
-		// free_2d_null(command);
 		return (false);
-	}
 	return (true);
 }

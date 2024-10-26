@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:49:39 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:28:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ t_token	*redir_first(t_token *current)
 	return (temp);
 }
 
-char	*do_cat_addition(t_data *data, t_token *current, char *cmd)
-{
-	cmd = ms_strjoin(data, cmd, " ");
-	cmd = ms_strjoin(data, cmd, current->next->expanded_value);
-	return (cmd);
-}
+// char	*do_cat_addition(t_data *data, t_token *current, char *cmd)
+// {
+// 	cmd = ms_strjoin(data, cmd, " ");
+// 	cmd = ms_strjoin(data, cmd, current->next->expanded_value);
+// 	return (cmd);
+// }
 
 bool	is_first_after_pipe(t_token *current)
 {
@@ -50,14 +50,12 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 {
 	int		j;
 	t_token	*current;
-	bool	cat_cmd;
 
-	cat_cmd = false;
 	j = 0;
 	current = data->tokens;
 	while (current && current->type != T_PIPE)
 	{
-		if (handle_loop(data, &current, cmds, &j, &cat_cmd) == false)
+		if (handle_loop(data, &current, cmds, &j) == false)
 			return (NULL);
 		if (current && current->type == T_PIPE)
 			current = current->next;
@@ -72,6 +70,7 @@ char	**cmds_from_tokens(t_data *data)
 	char	**cmds;
 
 	cmds = (char **)ms_calloc(data, sizeof(char *), (data->nbr_of_pipes + 2));
+	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	cmds = cmds_between_pipes(data, cmds);
 	return (cmds);
 }

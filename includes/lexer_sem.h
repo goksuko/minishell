@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:49:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:26:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ char				**cmds_from_tokens(t_data *data);
 
 bool				handle_heredoc(t_data *data, t_token **current, char **cmds, int *j);
 bool				handle_redirection(t_token **current, bool *cat_cmd);
-bool				handle_redirection2(t_data *data, t_token **current, char **cmds, int *j, bool *cat_cmd);
+char				*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd);
 bool				handle_command(t_data *data, t_token **current, char **cmds, int *j);
-bool				handle_loop(t_data *data, t_token **current, char **cmds, int *j, bool *cat_cmd);
+bool				handle_loop(t_data *data, t_token **current, char **cmds, int *j);
 
 // semantic.c
 bool				handle_infile(t_data *data, t_info *info, int i, t_token *current);
