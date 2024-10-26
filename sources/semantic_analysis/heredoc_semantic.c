@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:39:21 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:43:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:50:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ bool	limiter_check(t_data *data)
 	while (current)
 	{
 		if (current->limiter)
-		{
-			data->info->limiter = ft_strdup(current->limiter);
-			if (data->info->limiter == NULL)
-				return (false);
-		}
+			data->info->limiter = ms_strdup(data, current->limiter);
 		current = current->next;
 	}
 	return (true);

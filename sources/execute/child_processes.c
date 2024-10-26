@@ -6,29 +6,24 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 22:23:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:14:46 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-bool	do_commands(t_data *data, int i)
+bool	assign_fds_and_pipe(t_data *data, int i)
 {
 	if (data->info->curr_cmd == data->info->here_doc_cmd)
 	{
 		if (init_heredoc(data) == false)
 			return (false);
-		data->info->fds[i][0] = open("0ur_h3r3_d0c", O_RDONLY, 0777);
-		if (data->info->fds[i][0] < 0)
-			return (false);
+		data->info->fds[i][0] = ms_open(data, "0ur_h3r3_d0c", O_RDONLY, 0777);
 	}
 	data->info->fd_in = data->info->fds[i][0];
 	data->info->fd_out = data->info->fds[i][1];
 	if (i != data->nbr_of_cmds - 1)
-	{
-		if (pipe(data->info->pipefd) == -1)
-			return (false);
-	}
+		ms_pipe(data, data->info->pipefd);
 	data->info->pipe_read_end = data->info->pipefd[0];
 	return (true);
 }
@@ -45,9 +40,9 @@ bool	create_children(t_data *data)
 	while (i < data->nbr_of_cmds)
 	{
 		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
-		if (do_commands(data, i) == false)
+		if (assign_fds_and_pipe(data, i) == false)
 			return (false);
-		pid = child_process(data->info);
+		pid = time_to_fork(data->info);
 		if (pid == -125)
 			return (false);
 		data->info->curr_cmd++;
@@ -63,19 +58,13 @@ bool	create_children(t_data *data)
 	return (true);
 }
 
-// we need to exit the cild process
-// everything that has been created in the parent will need to
 bool	do_child_of_child(t_data *data, t_info *info, char **command_array)
 {
-	// TO CHECK include an exit of the child process
-	bool	return_value;
 	(void)data;
 
-	return_value = true;
 	if (command_array)
 	{
 		if (handle_builtin(info, command_array) == false)
-			// return_value = false;
 			exit(EXIT_FAILURE);
 		else
 			exit(EXIT_SUCCESS);
@@ -83,12 +72,9 @@ bool	do_child_of_child(t_data *data, t_info *info, char **command_array)
 	else
 	{
 		if (start_exec(info) == false)
-			// exit(EXIT_FAILURE);
-			return_value = false;
+			return (false);
 	}
-	// free_2d_null(command);
-	return (return_value);
-	// exit(EXIT_SUCCESS);
+	return (true);
 }
 
 bool	do_parent_of_child(t_data *data, t_info *info, char **command_array)
@@ -102,25 +88,13 @@ bool	do_parent_of_child(t_data *data, t_info *info, char **command_array)
 	// }	
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
-	{
-		if (close(info->pipe_read_end) < 0)
-			return (false);
-	}
+		ms_close(data, info->pipe_read_end);
 	if (info->fd_out != -10)
-	{
-		if (close(info->fd_out) < 0)
-			return (false);
-	}
+		ms_close(data, info->fd_out);
 	if (info->fd_in != -10)
-	{
-		if (close(info->fd_in) < 0)
-			return (false);
-	}
+		ms_close(data, info->fd_in);
 	if (info->curr_cmd != info->data->nbr_of_cmds - 1)
-	{
-		if (close(info->pipefd[1]) < 0)
-			return (false);
-	}
+		ms_close(data, info->pipefd[1]);
 	return (true);
 }
 
@@ -128,34 +102,23 @@ char	**make_command_array(t_data *data)
 {
 	char	**command_array;
 
-	command_array = ft_split(data->cmds[0], ' ');
-	if (command_array == NULL)
-	{
-		// error_assign(data, ERROR_ALLOCATION);
-		return (NULL);
-	}
+	command_array = ms_split(data, data->cmds[0], ' ');
 	if (is_builtin(command_array[0]))
-	{
 		return (command_array);
-	}
 	return (NULL);
 }
 
-pid_t	child_process(t_info *info)
+pid_t	time_to_fork(t_info *info)
 {
 	pid_t	pid;
 	char	**command_array;
 
 	command_array = make_command_array(info->data);
-	pid = fork();
-	if (pid == -1)
-		return (-125);
-	else if (pid == 0)
+	pid = ms_fork(info->data);
+	if (pid == 0)
 	{
 		signals_for_kids();
 		do_child_of_child(info->data, info, command_array);
-		// if (do_child_of_child(info) == false)
-		// 	return (-125);
 	}
 	else
 	{

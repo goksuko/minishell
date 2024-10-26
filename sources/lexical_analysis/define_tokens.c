@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:01:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:41:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,7 @@ bool	define_dsmaller(t_data *data, t_token *token)
 		return (false);
 	}
 	token->next->here_doc_fd = temp_fd;
-	token->next->limiter = ft_strdup(token->next->value);
-	if (errno == ENOMEM || token->next->limiter == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"limiter in define_dsmaller");
-		return (false);
-	}
+	token->next->limiter = ms_strdup(data, token->next->value);
 	return (true);
 }
 

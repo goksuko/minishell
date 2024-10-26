@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:44:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:49:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,10 @@ t_token	*redir_first(t_token *current)
 	return (temp);
 }
 
-char	*do_cat_addition(t_token *current, char *cmd)
+char	*do_cat_addition(t_data *data, t_token *current, char *cmd)
 {
-	cmd = ft_strjoin(cmd, " ");
-	if (cmd == NULL)
-		return (NULL);
-	cmd = ft_strjoin(cmd, current->next->expanded_value);
-	if (cmd == NULL)
-		return (NULL);
+	cmd = ms_strjoin(data, cmd, " ");
+	cmd = ms_strjoin(data, cmd, current->next->expanded_value);
 	return (cmd);
 }
 
@@ -61,7 +57,7 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 	current = data->tokens;
 	while (current && current->type != T_PIPE)
 	{
-		if (handle_loop(&current, cmds, &j, &cat_cmd) == false)
+		if (handle_loop(data, &current, cmds, &j, &cat_cmd) == false)
 			return (NULL);
 		if (current && current->type == T_PIPE)
 			current = current->next;
@@ -75,17 +71,7 @@ char	**cmds_from_tokens(t_data *data)
 {
 	char	**cmds;
 
-	cmds = (char **)ft_calloc(sizeof(char *), (data->nbr_of_pipes + 2));
-	if (errno == ENOMEM || cmds == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
-		return (NULL);
-	}
+	cmds = (char **)ms_calloc(data, sizeof(char *), (data->nbr_of_pipes + 2));
 	cmds = cmds_between_pipes(data, cmds);
-	if (cmds == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION, "cmds in cmds_from_tokens");
-		return (NULL);
-	}
 	return (cmds);
 }

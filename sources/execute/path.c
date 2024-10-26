@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/18 23:18:03 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:21:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:15:24 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,8 @@ char	*find_path_helper(t_info *info, char *main_command, char **path_split,
 		if (info->infile == NULL)
 			info->infile = path_split[i];
 	}
-	temp = ft_strjoin(path_split[i], "/");
-	if (temp == NULL)
-		return (NULL);
-	path = ft_strjoin(temp, main_command);
-	if (path == NULL)
-		return (NULL);
+	temp = ms_strjoin(info->data, path_split[i], "/");
+	path = ms_strjoin(info->data, temp, main_command);
 	free(temp);
 	if (access(path, F_OK | X_OK) == 0)
 		return (free_2d_null(&path_split), path);
@@ -44,10 +40,7 @@ char	*find_path(t_info *info, char *main_command)
 
 	if (access(main_command, F_OK | X_OK) == 0)
 		return (main_command);
-	path_split = ft_split(info->data->path, ':');
-	if (errno == ENOMEM || path_split == NULL)
-		ft_exit_data_perror(info->data, ERROR_ALLOCATION,
-			"path_split in find_path");
+	path_split = ms_split(info->data, info->data->path, ':');
 	i = 0;
 	while (path_split[i])
 	{

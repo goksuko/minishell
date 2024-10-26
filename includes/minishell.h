@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:03:19 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:19:36 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,14 @@ typedef struct s_env
 // main.c
 
 char				*rl_gets(void);
+void				init_data(t_data *data, char **envp);
+void	make_initial_path_checks(t_data *data, char **envp);
 bool				minishell_routine(t_data *data, char *line);
 
 // errors.c
 
 int					ft_print_error(t_error code);
-void				ft_exit_perror(t_error code, char *s);
+void				ft_exit_perror(t_data *data, t_error code);
 void				ft_exit_str_fd(t_error code, int fd);
 void				ft_exit_str_free_fd(t_error code, char *str, int fd);
 void				free_system(t_data *data);
@@ -135,6 +137,7 @@ void				ft_putstr2_fd(char *s1, char *s2, int fd);
 void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
 void				free_system_error(t_data *data, t_error code);
 void				free_system_perror(t_data *data, t_error code, char *s);
+int					error_assign(t_data *data, t_error code);
 void				free_and_null(char **ptr);
 void				free_2d_null(char ***ptr);
 
@@ -165,8 +168,12 @@ void	signal_int_handler(int sig);
 
 void    ms_dup2(t_data *data, int old_fd, int new_fd);
 void    ms_close(t_data *data, int fd);
-void    ms_open(t_data *data, char *file, int flags, int mode);
+int		ms_open(t_data *data, char *file, int flags, int mode);
 void    ms_pipe(t_data *data, int *pipefd);
-void    ms_fork(t_data *data);
-
+int		ms_fork(t_data *data);
+void    ms_unlink(t_data *data, char *file);
+void	**ms_calloc(t_data *data, size_t nmemb, size_t size);
+char	*ms_strjoin(t_data *data, const char *s1, const char *s2);
+char	*ms_strdup(t_data *data, const char *s);
+char	**ms_split(t_data *data, char const *s, char c);
 #endif

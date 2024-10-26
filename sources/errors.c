@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:02:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 22:43:48 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ void	free_system_perror(t_data *data, t_error code, char *s)
 	free_system(data);
 }
 
-// only called in main.c
-// exit program with error message from code
-void	ft_exit_perror(t_error code, char *s)
+// exit program with exit_code, clean if data is present, and writes error message from errno
+void	ft_exit_perror(t_data *data, t_error code)
 {
-	perror(s);
+	perror(NULL);
+	free_data(&data);
 	exit(code);
 }
 
@@ -177,11 +177,11 @@ void	free_system(t_data *data)
 void	free_data(t_data **data)
 {
 	free_system(*data);
-	if ((*data)->envp && (*data)->envp[0])
+	if ((*data) && (*data)->envp && (*data)->envp[0])
 		free_2d_null(&(*data)->envp);
-	if ((*data)->path)
+	if ((*data) && (*data)->path)
 		free((*data)->path);
-	if ((*data)->env_list)
+	if ((*data) && (*data)->env_list)
 		free_env(&(*data)->env_list);
 	free(*data);
 	*data = NULL;
@@ -206,6 +206,12 @@ void	free_env(t_env **env_var)
 		current = next;
 	}
 	*env_var = NULL;
+}
+
+int	error_assign(t_data *data, t_error code)
+{
+	data->exit_code = code;
+	return (code);
 }
 
 void	ft_putstr2_fd(char *s1, char *s2, int fd)

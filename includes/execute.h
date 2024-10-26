@@ -3,12 +3,12 @@
 
 // child_processes.c
 
-bool	do_commands(t_data *data, int i);
+bool	assign_fds_and_pipe(t_data *data, int i);
 bool	create_children(t_data *data);
 bool	do_child_of_child(t_data *data, t_info *info, char **command_array);
 // void	do_child_of_child(t_info *info);
 bool	do_parent_of_child(t_data *data, t_info *info, char **command_array);
-pid_t	child_process(t_info *info);
+pid_t	time_to_fork(t_info *info);
 char	*take_command_name(t_data *data);
 
 
@@ -46,7 +46,6 @@ int		is_file(const char *path);
 bool	execute_shell(t_data *data);
 
 // Utils functions //
-char	*put_main_command(char *command, char space);
 bool	start_exec(t_info *info);
 bool	is_whitespace(char c);
 

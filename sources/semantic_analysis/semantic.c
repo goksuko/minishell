@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:40:39 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:52:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,18 @@
 bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][0] != -10)
-	{
-		if (close(info->fds[i][0]) < 0)
-		{
-			free_system_perror(data, ERROR_CLOSE,
-				"info->fds[i][0] in initialize_fds");
-			return (false);
-		}
-	}
+		ms_close(data, info->fds[i][0]);
 	info->fds[i][0] = current->fd_in;
-	info->infile = ft_strdup(current->expanded_value);
-	if (info->infile == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"info->infile in initialize_fds");
-		return (false);
-	}
+	info->infile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
 
 bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][1] != -10)
-	{
-		if (close(info->fds[i][1]) < 0)
-		{
-			free_system_perror(data, ERROR_CLOSE,
-				"info->fds[i][1] in initialize_fds");
-			return (false);
-		}
-	}
+		ms_close(data, info->fds[i][1]);
 	info->fds[i][1] = current->fd_out;
-	info->outfile = ft_strdup(current->expanded_value);
-	if (info->outfile == NULL)
-	{
-		free_system_perror(data, ERROR_ALLOCATION,
-			"info->outfile in initialize_fds");
-		return (false);
-	}
+	info->outfile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
 
@@ -75,6 +49,7 @@ bool	initialize_fds(t_info *info, t_data *data)
 	int		i;
 	t_token	*current;
 
+	printf("initialize_fds\n");
 	initialize_fds_array(info);
 	i = 0;
 	current = data->tokens;
@@ -104,15 +79,10 @@ bool	semantic_analysis(t_data *data)
 	data->exit_code = 0;
 	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	info = (t_info *)ft_calloc(1, sizeof(t_info));
-	if (info == NULL || errno == ENOMEM)
-	{
-		free_system_perror(data, ERROR_ALLOCATION, "info in semantic_analysis");
-		return (false);
-	}
+	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
+	info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
-	data->info->limiter = NULL;
 	data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)

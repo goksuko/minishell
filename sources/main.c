@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:35:49 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:26:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*rl_gets(void)
 	return (line_read);
 }
 
-void	make_initial_path_checks(char **envp, t_data *data)
+void	make_initial_path_checks(t_data *data, char **envp)
 {
 	t_env	*head;
 	t_env	*node;
@@ -72,25 +72,21 @@ bool	minishell_routine(t_data *data, char *line)
 	if (data->tokens == NULL)
 		return (true);
 	expander(&data);
+	printf("expander done\n");
 	if (semantic_analysis(data) == false)
 		return (false);
 	printf("\n**********Result*********\n\n");
 	if (execute_shell(data) == false)
 		return (false);
+	ms_unlink(data, "0ur_h3r3_d0c");
 	printf("\n**********Exit code: %d***\n", data->exit_code);
 	return (true);
 }
 
-void	init_data(t_data *data)
+void	init_data(t_data *data, char **envp)
 {
-	data->cmds = NULL;
-	data->line = NULL;
-	data->path = NULL;
-	data->exit_code = 0;
-	data->expanded_cmds = NULL;
-	data->info = NULL;
-	data->env_list = NULL;
-	data->tokens = NULL;
+	ft_bzero(data, sizeof(t_data));
+	data->envp = envp;
 	return ;
 }
 
@@ -104,18 +100,18 @@ int	main(int argc, char *argv[], char **envp)
 		return (ft_printf_fd(STDERR_FILENO, "%s\n",
 				ft_print_error(ERROR_ARGUMENT_COUNT)));
 	data = ft_calloc(sizeof(t_data), 1);
-	if (errno == ENOMEM || data == NULL)
-		ft_exit_perror(ERROR_ALLOCATION, "data in main");
-	data->envp = envp;
-	init_data(data);
-	make_initial_path_checks(envp, data);
+	if (!data || errno == ENOMEM)
+		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
+	init_data(data, envp);
+	make_initial_path_checks(data, envp);
 	line = NULL;
 	while (1)
 	{
+		printf("inside while loop\n");
 		// handle_signals(PARENT); // recheck position 
 		set_signals(data);
-		if (minishell_routine(data, line) == true)
-			free_system(data);
+		minishell_routine(data, line);
+		free_system(data);
 	}
 	return (data->exit_code);
 }

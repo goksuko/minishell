@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:21 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:31:25 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/26 23:27:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	find_pipe_count(t_token *tokens)
 
 void	initialize_info(t_info *info, t_data *data)
 {
+	printf("initialize_info\n");
+	ft_bzero(info, sizeof(info));
 	info->data = data;
 	info->curr_cmd = 0;
 	info->pipe_read_end = STDIN_FILENO;
