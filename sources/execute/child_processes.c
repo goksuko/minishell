@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:14:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:03:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ bool	create_children(t_data *data)
 
 	status = 0;
 	i = 0;
-	printf("number of commands for which to create child processes: %d\n", data->nbr_of_cmds);
+	printf("number of commands for which to create child processes: %d\n",
+		data->nbr_of_cmds);
 	while (i < data->nbr_of_cmds)
 	{
-		//TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
+		// TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		if (assign_fds_and_pipe(data, i) == false)
 			return (false);
 		pid = time_to_fork(data->info);
@@ -61,7 +62,6 @@ bool	create_children(t_data *data)
 bool	do_child_of_child(t_data *data, t_info *info, char **command_array)
 {
 	(void)data;
-
 	if (command_array)
 	{
 		if (handle_builtin(info, command_array) == false)
@@ -85,7 +85,7 @@ bool	do_parent_of_child(t_data *data, t_info *info, char **command_array)
 	// {
 	// 	if (handle_parent_builtin(info, command_array) == false)
 	// 		return (false);
-	// }	
+	// }
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 		ms_close(data, info->pipe_read_end);

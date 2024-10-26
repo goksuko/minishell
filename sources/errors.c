@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 22:43:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:02:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	free_system_perror(t_data *data, t_error code, char *s)
 	free_system(data);
 }
 
-// exit program with exit_code, clean if data is present, and writes error message from errno
+// exit program with exit_code, clean if data is present,
+// and writes error message from errno
 void	ft_exit_perror(t_data *data, t_error code)
 {
 	perror(NULL);
@@ -128,8 +129,8 @@ void	free_and_null(char **ptr)
 
 void	free_2d_null(char ***ptr)
 {
-	int i;
-	char **array;
+	int		i;
+	char	**array;
 
 	if (*ptr == NULL)
 		return ;
@@ -144,7 +145,6 @@ void	free_2d_null(char ***ptr)
 	*ptr = NULL;
 	return ;
 }
-
 
 void	close_info(t_info *info)
 {

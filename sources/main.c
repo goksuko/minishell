@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:26:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 00:01:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	init_data(t_data *data, char **envp)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	char	*line;
-	t_data	*data;
+	char *line;
+	t_data *data;
 
 	(void)argv;
 	if (argc != 1)
@@ -108,7 +108,7 @@ int	main(int argc, char *argv[], char **envp)
 	while (1)
 	{
 		printf("inside while loop\n");
-		// handle_signals(PARENT); // recheck position 
+		// handle_signals(PARENT); // recheck position
 		set_signals(data);
 		minishell_routine(data, line);
 		free_system(data);

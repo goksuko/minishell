@@ -7,22 +7,22 @@ void	ms_dup2(t_data *data, int old_fd, int new_fd)
 	return ;
 }
 
-void    ms_close(t_data *data, int fd)
+void	ms_close(t_data *data, int fd)
 {
 	if (close(fd) < 0)
 		ft_exit_perror(data, ERROR_CLOSE);
 	return ;
 }
 
-int    ms_open(t_data *data, char *file, int flags, int mode)
+int	ms_open(t_data *data, char *file, int flags, int mode)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, flags, mode);
 	if (fd < 0)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
-		"token->next->value");
+			"token->next->value");
 		data->exit_code = ERROR_NO_FILE_DIR;
 		free_system(data);
 		return (-1);
@@ -30,16 +30,16 @@ int    ms_open(t_data *data, char *file, int flags, int mode)
 	return (fd);
 }
 
-void    ms_pipe(t_data *data, int *pipefd)
+void	ms_pipe(t_data *data, int *pipefd)
 {
 	if (pipe(pipefd) < 0)
 		ft_exit_perror(data, ERROR_PIPE);
 	return ;
 }
 
-int    ms_fork(t_data *data)
+int	ms_fork(t_data *data)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)
@@ -47,10 +47,10 @@ int    ms_fork(t_data *data)
 	return (pid);
 }
 
-void    ms_unlink(t_data *data, char *file)
+void	ms_unlink(t_data *data, char *file)
 {
 	if (!data->info->limiter)
-		return ;	
+		return ;
 	if (unlink(file) < 0)
 		ft_exit_perror(data, ERROR_UNLINK);
 	return ;
@@ -58,7 +58,7 @@ void    ms_unlink(t_data *data, char *file)
 
 void	**ms_calloc(t_data *data, size_t nmemb, size_t size)
 {
-	void **ptr;
+	void	**ptr;
 
 	ptr = ft_calloc(nmemb, size);
 	if (ptr == NULL)
@@ -68,7 +68,7 @@ void	**ms_calloc(t_data *data, size_t nmemb, size_t size)
 
 char	*ms_strjoin(t_data *data, const char *s1, const char *s2)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strjoin(s1, s2);
 	if (str == NULL)
@@ -78,7 +78,7 @@ char	*ms_strjoin(t_data *data, const char *s1, const char *s2)
 
 char	*ms_strdup(t_data *data, const char *s)
 {
-	char *str;
+	char	*str;
 
 	str = ft_strdup(s);
 	if (str == NULL)
