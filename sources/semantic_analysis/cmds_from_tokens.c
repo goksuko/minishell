@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 00:28:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 11:45:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 	{
 		if (handle_loop(data, &current, cmds, &j) == false)
 			return (NULL);
+		while (current && current->type != T_PIPE) //for skipping redirections
+			current = current->next;
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/22 15:18:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:19:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 11:43:46 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	is_redir(t_token *current)
 {
+	// printf("is_redir\n");
 	if (current && (current->type == T_SMALLER || current->type == T_GREATER
 			|| current->type == T_DSMALLER || current->type == T_DGREATER))
 		return (true);
@@ -30,6 +31,7 @@ bool	is_redir_except_heredoc(t_token *current)
 
 bool	is_heredoc(t_token *current)
 {
+	printf("is_heredoc\n");
 	if (current->type == T_DSMALLER)
 		return (true);
 	return (false);

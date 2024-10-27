@@ -1,8 +1,11 @@
 ls > out 
 works well but 
 echo hi > out 
-does not work
-when there is a redirection, data->cmds are not updated
+writes inside this :
+----ECHO----
+hi > out
+----ECHO DONE----
+
 
 
 
