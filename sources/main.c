@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 00:01:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 12:01:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	make_initial_path_checks(t_data *data, char **envp)
 
 bool	minishell_routine(t_data *data, char *line)
 {
-	if ((line = rl_gets()) == NULL)
+	line = rl_gets();
+	if (line == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
 	if (data->tokens == NULL)
 		return (true);
 	expander(&data);
-	printf("expander done\n");
 	if (semantic_analysis(data) == false)
 		return (false);
 	printf("\n**********Result*********\n\n");
@@ -92,8 +92,8 @@ void	init_data(t_data *data, char **envp)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	char *line;
-	t_data *data;
+	char		*line;
+	t_data		*data;
 
 	(void)argv;
 	if (argc != 1)
@@ -107,7 +107,6 @@ int	main(int argc, char *argv[], char **envp)
 	line = NULL;
 	while (1)
 	{
-		printf("inside while loop\n");
 		// handle_signals(PARENT); // recheck position
 		set_signals(data);
 		minishell_routine(data, line);

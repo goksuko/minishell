@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/13 12:24:12 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/23 19:35:23 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/10/27 12:06:28 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,13 @@ bool	line_is_whitespace(char *line)
 			return (false);
 	}
 	return (true);
+}
+
+int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	else
+		return (0);
 }

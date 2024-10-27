@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/27 01:14:11 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/10/27 12:02:38 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_array_list.c \
 						define_tokens.c \
 						meta_char_check.c \
+						lexical.c \
 						tokens_utils.c \
 						tokens_utils2.c \
 						split_tokens.c \
@@ -73,6 +74,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		main.c \
 		new_signals.c \
 		ms_funcs.c \
+		ms_funcs2.c \
 		$(addprefix lexical_analysis/, $(LEXICAL_ANALSYSIS)) \
 		$(addprefix expander/, $(EXPANDER)) \
 		$(addprefix semantic_analysis/, $(SEMANTIC_ANALYSIS)) \

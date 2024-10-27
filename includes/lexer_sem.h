@@ -6,12 +6,12 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 00:26:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 12:06:23 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef LEXER_SEM_H
+# define LEXER_SEM_H
 
 typedef enum s_token_type
 {
@@ -44,15 +44,18 @@ typedef struct s_token
 	char			*limiter;
 }					t_token;
 
-// Tokens
+// Lexical
+
 t_token				*lexical_analysis(t_data *data, char *line);
+bool				is_file_check(t_data *data, t_token *token_lst);
+
+// Tokens
 int					count_tokens(char *line);
 char				**create_token_array(t_data *data, char *line);
 t_token				*create_token_list(t_data *data, char **token_array);
 bool				is_redir(t_token *current);
 bool				is_redir_except_heredoc(t_token *current);
 bool				is_heredoc(t_token *current);
-bool				is_file_check(t_data *data, t_token *token_lst);
 bool				heredoc_inside(t_token *current);
 int					heredoc_position(t_token *current);
 
@@ -74,6 +77,7 @@ bool				check_unclosed_quotes(t_data *data, t_token *token_lst);
 void				free_token_list(t_token **tokens);
 bool				line_is_empty(char *line);
 bool				line_is_whitespace(char *line);
+int					ft_isspace(int c);
 
 // Meta character check
 bool				further_meta_check(char *line, int i, char meta);

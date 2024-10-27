@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:45:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 11:50:06 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char	**cmds_from_tokens(t_data *data)
 	char	**cmds;
 
 	cmds = (char **)ms_calloc(data, sizeof(char *), (data->nbr_of_pipes + 2));
-	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	cmds = cmds_between_pipes(data, cmds);
 	return (cmds);
 }

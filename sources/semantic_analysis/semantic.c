@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 00:28:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 11:50:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ bool	initialize_fds(t_info *info, t_data *data)
 	int		i;
 	t_token	*current;
 
-	printf("initialize_fds\n");
 	initialize_fds_array(info);
 	i = 0;
 	current = data->tokens;
@@ -79,16 +78,13 @@ bool	semantic_analysis(t_data *data)
 	data->exit_code = 0;
 	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	printf("nbr_of_pipes: %d\n", data->nbr_of_pipes);
 	info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
 	data->info = info;
 	data->info->here_doc_cmd = -100;
-	printf("nbr_of_cmds: %d\n", data->nbr_of_cmds);
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (false);
-	printf_array(data->cmds);
 	initialize_info(info, data);
 	if (initialize_fds(info, data) == false)
 		return (false);

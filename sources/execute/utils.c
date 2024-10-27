@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 01:10:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/10/27 11:49:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	char	*path;
 
 	path = NULL;
-	printf_array(cmd_matrix);
 	if (long_command[0] == ' ')
 		ft_exit_data_error(info->data, ERROR_NOT_DIR);
 	if (cmd_matrix[0])
@@ -48,11 +47,8 @@ bool	start_exec(t_info *info)
 	char	*path;
 
 	path = NULL;
-	printf_array(info->data->cmds);
-	printf("%s\n", info->data->cmds[info->curr_cmd]);
 	cmd_matrix = ms_split(info->data, info->data->cmds[info->curr_cmd], ' ');
 	update_path(info->data);
-	printf_array(cmd_matrix);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	if (path == NULL)
 	{
