@@ -85,3 +85,57 @@
 // 	update_env_list(&env_list, old_cwd, cwd);
 // 	return (return_value);
 // }
+
+
+// REMOVED ON 4 NOVEMBER!!
+// int	ft_cd(char **cmds, t_env *env_list, t_data *data)
+// {
+// 	char	*cwd;
+// 	char	*old_cwd;
+// 	int		return_value;
+// 	int		cmd_len;
+
+// 	return_value = -1;
+// 	cwd = NULL;
+// 	old_cwd = NULL;
+// 	if (errno == ENOMEM || (cmds && cmds[0] != NULL && cmds[1] != NULL))
+// 		return(ft_cd_error(data, &cwd, &old_cwd, ERROR_TOO_MANY_ARGS));
+// 	cmd_len = ft_strlen(cmds[0]);
+// 	cwd = getcwd(NULL, 0);
+// 	if (errno == ENOMEM || cwd == NULL)
+// 		return(ft_cd_error(data, &cwd, &old_cwd, ERROR_ALLOCATION));
+// 	old_cwd = ft_strdup(cwd);
+// 	if (errno == ENOMEM || old_cwd == NULL)
+// 		return(ft_cd_error(data, &cwd, &old_cwd, ERROR_ALLOCATION));
+// 	if (cmds[0] == NULL || (ft_strncmp(cmds[0], "~", 1) == 0 && cmd_len == 1))
+// 		return_value = cd_home(env_list, data);
+// 	else if (ft_strncmp(cmds[0], "/", 1) == 0 && cmd_len == 1)
+// 	{
+// 		if (errno == ENOMEM || chdir("/") != 0)
+// 			return(ft_cd_error(data, &cwd, &old_cwd, ERROR_NO_FILE_DIR));
+// 	}
+// 	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
+// 	{
+// 		return_value = cd_old_pwd(env_list, data);
+// 		if (return_value != SUCCESS)
+// 			ft_cd_error(data, &cwd, &old_cwd, return_value);
+// 	}
+// 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
+// 	{
+// 		return_value = cd_parent_dir(cwd, data);
+// 		if (return_value != SUCCESS)
+// 			ft_cd_error(data, &cwd, &old_cwd, return_value);
+// 	}
+// 	else if (access(cmds[0], F_OK) == 0)
+// 	{
+// 		if (errno == ENOMEM || chdir(cmds[0]) != 0)
+// 			return(ft_cd_error(data, &cwd, &old_cwd, ERROR_NO_FILE_DIR));
+// 	}
+// 	else if (errno == ENOMEM || cmds[0] != NULL)
+// 		return(ft_cd_error(data, &cwd, &old_cwd, ERROR_NO_FILE_DIR));
+// 	cwd = getcwd(NULL, 0);
+// 	if (errno == ENOMEM || cwd == NULL)
+// 		return(ft_cd_error(data, &cwd, &old_cwd, ERROR_ALLOCATION));
+// 	update_env_list(&env_list, old_cwd, cwd);
+// 	return (return_value);
+// }

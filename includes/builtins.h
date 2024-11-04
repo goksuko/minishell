@@ -13,6 +13,14 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+typedef struct s_cd_data
+{
+	t_data  *data;
+	char    *cwd;
+	char    *old_cwd;
+	t_env   *env_list;
+} t_cd_data;
+
 bool	is_builtin(char *command);
 int		execute_builtin(char **cmds, t_data *data);
 int		execute_parent_builtin(char **cmds, t_data *data);
