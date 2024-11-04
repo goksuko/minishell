@@ -27,14 +27,15 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_types2.c \
 						token_count.c \
 
-SEMANTIC_ANALYSIS = semantic.c \
-					cmds_between_pipes.c \
-					cmds_from_tokens.c \
-					heredoc_semantic.c \
-					semantic_utils.c \
+SEMANTIC_ANALYSIS = 	semantic.c \
+						cmds_between_pipes.c \
+						cmds_from_tokens.c \
+						heredoc_semantic.c \
+						semantic_utils.c \
 
 BUILTINS = 				builtins.c \
 						cd.c \
+						cd_utils.c \
 						echo.c \
 						env.c \
 						exit_utils.c \
@@ -67,11 +68,15 @@ EXPANDER =				single_quotes.c \
 						expander.c \
 						expander_utils.c \
 
+ERRORS_FREE_EXIT = 		errors.c \
+						error_messages.c \
+						exit_functions.c \
+						free_stuff.c \
+
 SRCS_DIR = sources
 OBJS_DIR = objects
 
 SRCS = $(addprefix $(SRCS_DIR)/, \
-		errors.c \
 		main.c \
 		new_signals.c \
 		ms_funcs.c \
@@ -82,6 +87,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, \
 		$(addprefix builtins/, $(BUILTINS)) \
 		$(addprefix execute/, $(EXECUTE)) \
 		$(addprefix signals/, $(SIGNALS)) \
+		$(addprefix errors_free_exit/, $(ERRORS_FREE_EXIT)) \
 	)
 
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
@@ -109,6 +115,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)/execute
 	@mkdir -p $(OBJS_DIR)/signals
 	@mkdir -p $(OBJS_DIR)/expander
+	@mkdir -p $(OBJS_DIR)/errors_free_exit
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -129,6 +136,9 @@ $(OBJS_DIR)/signals/%.o: $(SRCS_DIR)/signals/%.c | $(OBJS_DIR)/signals
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR)/expander/%.o: $(SRCS_DIR)/expander/%.c | $(OBJS_DIR)/expander
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJS_DIR)/errors_free_exit/%.o: $(SRCS_DIR)/errors_free_exit/%.c | $(OBJS_DIR)/errors_free_exit
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -59,7 +59,7 @@ int	execute_parent_builtin(char **cmds, t_data *data) // to be called in executi
 
 bool	is_builtin(char *command)
 {
-	int cmd_len;
+	int	cmd_len;
 
 	if (command == NULL)
 		return (false);

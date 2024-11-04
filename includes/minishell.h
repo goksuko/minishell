@@ -51,40 +51,6 @@ typedef struct s_data
 	struct s_token	*tokens;
 }					t_data;
 
-typedef enum e_error
-{
-	NO_ERROR,
-	ERROR_PERM = 1,
-	ERROR_ARGUMENT_COUNT,
-	ERROR_NO_ENVP,
-	ERROR_TOO_MANY_ARGS,
-	ERROR_NUMERIC_ARG,
-	ERROR_INVALID_ARGUMENTS,
-	ERROR_ALLOCATION,
-	ERROR_FILE_OPEN,
-	ERROR_NULL_PATH,
-	ERROR_CMD_NOT_FOUND,
-	ERROR_PIPE,
-	ERROR_FORK,
-	ERROR_CLOSE,
-	ERROR_DUP2,
-	ERROR_UNLINK,
-	ERROR_EXECVE,
-	ERROR_HOME_DIR,
-	ERROR_PARENT_DIR,
-	ERROR_OLDPWD,
-	ERROR_NO_FILE_DIR,
-	ERROR_QUOTE,
-	ERROR_WRONG_CHAR,
-	ERROR_FILE_NOT_FOUND,
-	ERROR_META,
-	ERROR_SYNTAX,
-	ERROR_EMPTY_LINE,
-	UNDEFINED_ERROR,
-	ERROR_INVALID_IDENTIFIER,
-	ERROR_NOT_DIR = 127,
-}					t_error;
-
 typedef struct s_info
 {
 	int				pipefd[2];
@@ -112,7 +78,8 @@ typedef struct s_env
 # include "expander.h"
 # include "builtins.h"
 # include "execute.h"
-// Otherwise the program cannot be compiled if it is higher up because it needs to data strut
+# include "errors_free_exit.h"
+// Otherwise the program cannot be compiled if it is higher up because it needs to data struct
 # define SUCCESS 0
 
 // main.c
@@ -121,25 +88,6 @@ char				*rl_gets(void);
 void				init_data(t_data *data, char **envp);
 void	make_initial_path_checks(t_data *data, char **envp);
 bool				minishell_routine(t_data *data, char *line);
-
-// errors.c
-
-int					ft_print_error(t_error code);
-void				ft_exit_perror(t_data *data, t_error code);
-void				ft_exit_str_fd(t_error code, int fd);
-void				ft_exit_str_free_fd(t_error code, char *str, int fd);
-void				free_system(t_data *data);
-void				ft_exit_data_perror(t_data *data, t_error code, char *s);
-void				ft_exit_data_error(t_data *data, t_error code);
-void				close_info(t_info *info);
-void				free_data(t_data **data);
-void				ft_putstr2_fd(char *s1, char *s2, int fd);
-void				ft_putstr3_fd(char *s1, char *s2, char *s3, int fd);
-void				free_system_error(t_data *data, t_error code);
-void				free_system_perror(t_data *data, t_error code, char *s);
-int					error_assign(t_data *data, t_error code);
-void				free_and_null(char **ptr);
-void				free_2d_null(char ***ptr);
 
 // Libft functions //
 
@@ -161,10 +109,10 @@ void				handle_child_sigquit(int signal);
 void				handle_child_sigint(int signal);
 void				handle_parent_sigint(int signal);
 
-void	set_signals(t_data *data);
-void	unset_signals(void);
-void	signals_for_kids(void);
-void	signal_int_handler(int sig);
+void				set_signals(t_data *data);
+void				unset_signals(void);
+void				signals_for_kids(void);
+void				signal_int_handler(int sig);
 
 void    ms_dup2(t_data *data, int old_fd, int new_fd);
 void    ms_close(t_data *data, int fd);

@@ -25,6 +25,10 @@ int		ft_pwd(char **cmds, t_data *data);
 
 // CD
 int		ft_cd(char **cmds, t_env *env_list, t_data *data);
+int		cd_old_pwd(t_env *env_list, t_data *data);
+int		cd_home(t_env *env_list, t_data *data);
+int		cd_parent_dir(char *cwd, t_data *data);
+void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd);
 // int		ft_cd(char **cmds, t_env *env_list);
 
 // EXIT
@@ -46,6 +50,7 @@ void	unset_env_var(char *key, t_env **env_list);
 // EXPORT
 int		ft_export(char **cmds, t_data *data);
 int		ft_parent_export(char **cmds, t_data *data);
+int		set_out_fd(t_data *data);
 
 // EXPORT NO ARGS
 void	print_sorted_env_vars(t_env **env, int fd);

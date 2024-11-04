@@ -50,9 +50,9 @@ int	get_sign(char c, int *i)
 
 int	exit_atoi(char *exit_code, t_data *data)
 {
-	int i;
-	int sign;
-	long number;
+	int		i;
+	int		sign;
+	long	number;
 
 	i = 0;
 	sign = 1;

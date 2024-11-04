@@ -12,6 +12,13 @@
 
 #include "../../includes/minishell.h"
 
+int	set_out_fd(t_data *data)
+{
+	if (data->info->fd_out == -10)
+		return (STDOUT_FILENO);
+	return (data->info->fd_out);
+}
+
 void	print_env_var(t_env *var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);

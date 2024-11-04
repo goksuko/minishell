@@ -25,8 +25,8 @@ void	print_env(t_env *env)
 
 int	ft_env(char **cmds, t_data *data)
 {
-	t_env *env;
-	int return_value;
+	t_env	*env;
+	int		return_value;
 
 	env = data->env_list;
 	if (cmds[0] == NULL)
