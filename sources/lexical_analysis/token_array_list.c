@@ -18,6 +18,7 @@ char	**create_token_array(t_data *data, char *line)
 	char	**tokens;
 
 	number_tokens = count_tokens(line);
+	printf("Number of tokens in this line: %d\n", number_tokens); // DEBUGGING PURPOSES!
 	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
 	if (errno == ENOMEM || tokens == NULL)
 	{

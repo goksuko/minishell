@@ -34,36 +34,6 @@ bool	check_unclosed_quotes(t_data *data, t_token *token_lst)
 	return (true);
 }
 
-int	count_tokens(char *line)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (line && line[i] != '\0')
-	{
-		skip_whitespace(line, &i);
-		if (line[i] == '\0')
-			break ;
-		count++;
-		if (line && line[i] && is_quote(line[i]) == true)
-			skip_quotes(line, &i);
-		else if (line && line[i] && is_meta(line[i]) == true)
-			skip_meta(&line[i], &i);
-		else if (line && line[i] && is_whitespace(line[i]) == false
-			&& is_quote(line[i]) == false && is_meta(line[i]) == false)
-		{
-			while (line && line[i] && is_whitespace(line[i]) == false
-				&& is_meta(line[i]) == false)
-				i++;
-		}
-		if (line[i] != '\0')
-			i++;
-	}
-	return (count);
-}
-
 bool	line_is_empty(char *line)
 {
 	int	i;

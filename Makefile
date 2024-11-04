@@ -25,6 +25,7 @@ LEXICAL_ANALSYSIS =		tokens.c \
 						token_lst_free.c \
 						token_types.c \
 						token_types2.c \
+						token_count.c \
 
 SEMANTIC_ANALYSIS = semantic.c \
 					cmds_between_pipes.c \
