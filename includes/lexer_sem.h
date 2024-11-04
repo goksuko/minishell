@@ -88,6 +88,7 @@ void				ft_print_tokens(t_token *tokens);
 t_token				*init_new_token(char *str, t_token_type type,
 						int token_count);
 t_token				*array_to_list(char **tokens, int token_count);
+void				free_matrix(char **matrix);
 
 // Token types check
 char				*token_type_to_string(t_token_type type);

@@ -17,6 +17,7 @@ int	execute_builtin(char **cmds, t_data *data)
 	int	return_value;
 	int	cmd_len;
 
+	return_value = -1;
 	cmd_len = ft_strlen(cmds[0]);
 	if (cmd_len == 4 && (ft_strncmp(cmds[0], "echo", 4) == 0
 			|| ft_strncmp(cmds[0], "ECHO", 4) == 0))
@@ -38,11 +39,12 @@ int	execute_builtin(char **cmds, t_data *data)
 	return (return_value);
 }
 
-int	execute_parent_builtin(char **cmds, t_data *data)
+int	execute_parent_builtin(char **cmds, t_data *data) // to be called in execution
 {
 	int	return_value;
 	int	cmd_len;
 
+	return_value = -1;
 	cmd_len = ft_strlen(cmds[0]);
 	if (cmd_len == 2 && ft_strncmp(cmds[0], "cd", 2) == 0)
 		return_value = ft_cd(cmds + 1, data->env_list, data);
@@ -51,7 +53,7 @@ int	execute_parent_builtin(char **cmds, t_data *data)
 	else if (cmd_len == 5 && ft_strncmp(cmds[0], "unset", 5) == 0)
 		return_value = ft_unset(cmds + 1, data);
 	// else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
-	// 	return_value = ft_exit(cmds + 1, data);
+	// 	return_value = ft_exit(cmds + 1, data); // but exit code does need to be updated. to be checked with goksu
 	return (return_value);
 }
 

@@ -33,7 +33,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 	new_token->fd_in = -10;
 	new_token->fd_out = -10;
 	new_token->here_doc_fd = -10;
-	new_token->is_head = false;
+	new_token->is_head = false; // is this needed and used because I see it was commented out in array_to_list()
 	new_token->limiter = NULL;
 	return (new_token);
 }
