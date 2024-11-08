@@ -31,6 +31,7 @@ pid_t	time_to_fork(t_info *info)
 		if (do_parent(info->data, info, command_array) == false)
 			return (-125);
 	}
+	free_2d_null(&command_array);
 	return (pid);
 }
 
@@ -101,5 +102,6 @@ char	**make_command_array(t_data *data)
 	command_array = ms_split(data, data->cmds[0], ' ');
 	if (is_builtin(command_array[0]))
 		return (command_array);
+	free_2d_null(&command_array);
 	return (NULL);
 }

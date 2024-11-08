@@ -56,7 +56,11 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 	while (current && current->type != T_PIPE)
 	{
 		if (handle_loop(data, &current, cmds, &j) == false)
-			return (NULL);
+		{
+			free_2d_null(&cmds);
+			return	(NULL);
+		}
+			// return (NULL);
 		while (current && current->type != T_PIPE) //for skipping redirections
 			current = current->next;
 		if (current && current->type == T_PIPE)

@@ -77,8 +77,10 @@ bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 {
 	bool	cat_cmd;
+	char	*cmd;
 
 	cat_cmd = false;
+	cmd = NULL;
 	while ((*current) && (*current)->type != T_PIPE)
 	{
 		if (is_heredoc(*current))
@@ -88,11 +90,20 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 		}
 		if (!handle_redirection(current, &cat_cmd))
 			return (false);
-		cmds[*j] = ms_strdup(data, handle_redirection2(data, current, &cat_cmd));
+		cmd = handle_redirection2(data, current, &cat_cmd);
+		if (cmd)
+		{
+			cmds[*j] = ms_strdup(data, cmd);
+			free_and_null(&cmd);
+		}
 		if (!handle_command(data, current, cmds, j))
+		{
+			free_and_null(&cmd);
 			return (false);
+		}
 		if (is_redir(*current) && cmds[*j]) //for skipping redirections
 			break ;
+		free_and_null(&cmd);
 	}
 	return (true);
 }

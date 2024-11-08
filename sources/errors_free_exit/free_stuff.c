@@ -57,12 +57,12 @@ void	free_matrix(char **matrix)
 
 void	free_system(t_data *data)
 {
-	if (data && data->cmds && data->cmds[0])
+	if (data && data->cmds)
 		free_2d_null(&data->cmds);
 	if (data && data->line && data->line[0])
 		free_and_null(&data->line);
 	if (data && data->info)
-		close_info(data->info);
+		free_info(data->info);
 	if (data && data->tokens)
 		free_token_list(&data->tokens);
 	return ;

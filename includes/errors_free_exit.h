@@ -46,7 +46,7 @@ typedef enum e_error
 
 char	*ft_error(t_error code);
 void	ft_system_error(t_data *data, t_error code);
-void	close_info(t_info *info);
+void	free_info(t_info *info);
 void	free_env(t_env **env_var);
 int		error_assign(t_data *data, t_error code);
 

@@ -87,7 +87,7 @@ typedef struct s_env
 char				*rl_gets(void);
 void				init_data(t_data *data, char **envp);
 void	make_initial_path_checks(t_data *data, char **envp);
-bool				minishell_routine(t_data *data, char *line);
+bool				minishell_routine(t_data *data);
 
 // Libft functions //
 

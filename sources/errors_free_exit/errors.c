@@ -55,7 +55,7 @@ void	ft_system_error(t_data *data, t_error code)
 	free_system(data);
 }
 
-void	close_info(t_info *info)
+void	free_info(t_info *info)
 {
 	if (info->infile)
 		free_and_null(&info->infile);

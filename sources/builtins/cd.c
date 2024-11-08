@@ -83,10 +83,12 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	return_value = handle_special_cases(cmds, &cd_data);
 	if (return_value != SUCCESS)
 		return (return_value);
+	free_and_null(&cd_data.cwd); // NEW
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
 	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd);
-	// free cd struct in the end??
+	free_and_null(&cd_data.cwd); // NEW
+	free_and_null(&cd_data.old_cwd); // NEW
 	return (return_value);
 }

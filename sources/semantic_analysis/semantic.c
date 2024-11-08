@@ -27,6 +27,7 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 		ms_close(data, info->fds[i][1]);
 	info->fds[i][1] = current->fd_out;
 	info->outfile = ms_strdup(data, current->expanded_value);
+	// free_and_null(&current->expanded_value); // added new
 	return (true);
 }
 
@@ -73,20 +74,22 @@ bool	initialize_fds(t_info *info, t_data *data)
 
 bool	semantic_analysis(t_data *data)
 {
-	t_info	*info;
+	// t_info	*info;
 
+	// info = NULL;
 	data->exit_code = 0;
 	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
+	// free_info(data->info);
+	// info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
-	data->info = info;
+	// data->info = info;
 	data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	if (data->cmds == NULL)
 		return (false);
-	initialize_info(info, data);
-	if (initialize_fds(info, data) == false)
+	initialize_info(data->info, data);
+	if (initialize_fds(data->info, data) == false)
 		return (false);
 	return (true);
 }
