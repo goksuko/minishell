@@ -32,13 +32,11 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 
 bool	do_parent(t_data *data, t_info *info, char **command_array)
 {
-	(void)data;
-	(void)command_array;
-	// if (command_array)
-	// {
-	// 	if (handle_parent_builtin(info, command_array) == false)
-	// 		return (false);
-	// }
+	if (command_array)
+	{
+		if (execute_parent_builtin(command_array, data) == false)
+			return (false);
+	}
 	if (info->pipe_read_end != STDIN_FILENO
 		&& info->curr_cmd == info->data->nbr_of_cmds - 1)
 		ms_close(data, info->pipe_read_end);

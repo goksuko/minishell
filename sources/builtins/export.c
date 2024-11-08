@@ -69,7 +69,8 @@ int	ft_export(char **cmds, t_data *data)
 	return_value = SUCCESS;
 	out_fd = set_out_fd(data);
 	if (cmds[0] == NULL)
-		print_sorted_env_vars(&data->env_list, out_fd);
+		// print_sorted_env_vars(&data->env_list, out_fd);
+		return (return_value);
 	else
 	{
 		i = 0;

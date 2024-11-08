@@ -19,11 +19,10 @@ int	ft_parent_export(char **cmds, t_data *data)
 	int	return_value;
 
 	return_value = SUCCESS;
-	if (data->info->fd_out == -10)
-		out_fd = STDOUT_FILENO;
+	out_fd = set_out_fd(data);
+	if (cmds[0] == NULL)
+		print_sorted_env_vars(&data->env_list, out_fd);
 	else
-		out_fd = data->info->fd_out;
-	if (cmds[0])
 	{
 		i = 0;
 		while (cmds[i] != NULL)
