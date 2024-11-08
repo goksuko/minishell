@@ -69,7 +69,6 @@ bool	minishell_routine(t_data *data)
 	char		*line;
 
 	line = rl_gets();
-	// free_info(data->info);
 	if (line == NULL)
 		return (false);
 	data->tokens = lexical_analysis(data, line);
@@ -78,50 +77,41 @@ bool	minishell_routine(t_data *data)
 	expander(&data);
 	free_and_null(&line);
 	if (semantic_analysis(data) == false)
-	{
-		// free_info(data->info);
 		return (false);
-	}
-	// free_info(data->info);
 	printf("\n**********Result*********\n\n");
 	if (execute_shell(data) == false)
-	{
-		// free_info(data->info);
 		return (false);
-	}
 	ms_unlink(data, "0ur_h3r3_d0c");
 	printf("\n**********Exit code: %d***\n", data->exit_code);
-	// free_info(data->info);
 	return (true);
 }
 
-void	init_data(t_data *data, char **envp)
+void	init_data(t_info *info, t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
-	data->info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
+	ft_bzero(info, sizeof(t_info));
+	data->info = info;
 	data->envp = envp;
 	return ;
 }
 
 int	main(int argc, char *argv[], char **envp)
 {
-	t_data		*data;
+	t_data		data;
+	t_info		info;
 
 	(void)argv;
 	if (argc != 1)
 		return (ft_printf_fd(STDERR_FILENO, "%s\n",
 				ft_print_error(ERROR_ARGUMENT_COUNT)));
-	data = ft_calloc(sizeof(t_data), 1);
-	if (!data || errno == ENOMEM)
-		ft_exit_str_fd(ERROR_ALLOCATION, STDERR_FILENO);
-	init_data(data, envp);
-	make_initial_path_checks(data, envp);
+	init_data(&info, &data, envp);
+	make_initial_path_checks(&data, envp);
 	while (1)
 	{
 		// handle_signals(PARENT); // recheck position
-		set_signals(data);
-		minishell_routine(data);
-		free_system(data);
+		set_signals(&data);
+		minishell_routine(&data);
+		free_system(&data);
 	}
-	return (data->exit_code);
+	return (data.exit_code);
 }

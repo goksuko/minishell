@@ -77,6 +77,7 @@ void	free_data(t_data **data)
 		free((*data)->path);
 	if ((*data) && (*data)->env_list)
 		free_env(&(*data)->env_list);
+	rl_clear_history();
 	free(*data);
 	*data = NULL;
 	return ;

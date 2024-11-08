@@ -85,7 +85,7 @@ typedef struct s_env
 // main.c
 
 char				*rl_gets(void);
-void				init_data(t_data *data, char **envp);
+void				init_data(t_info *info, t_data *data, char **envp);
 void	make_initial_path_checks(t_data *data, char **envp);
 bool				minishell_routine(t_data *data);
 
