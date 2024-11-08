@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 01:17:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/08 15:36:52 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ pid_t	time_to_fork(t_info *info)
 		signals_for_kids();
 		handle_child_type(info);
 		do_child(info->data, info, command_array);
+		close_fds(info->data, info);
 	}
 	else
 	{
 		unset_signals();
 		if (do_parent(info->data, info, command_array) == false)
 			return (-125);
+		close_fds(info->data, info);
 	}
 	free_2d_null(&command_array);
 	return (pid);
@@ -82,6 +84,7 @@ bool	create_children(t_data *data)
 		pid = pipe_and_fork(data, i);
 		if (pid < 0)
 			return (false);
+		close_fds(data, data->info);
 		data->info->curr_cmd++;
 		i++;
 	}

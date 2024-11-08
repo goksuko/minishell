@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:49:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/08 15:34:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	start_exec(t_info *info)
 		free_2d_null(&cmd_matrix);
 		return (true);
 	}
+	close_fds(info->data, info);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
 		return (false);
 	return (true);

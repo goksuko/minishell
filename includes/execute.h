@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 12:03:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/08 15:37:12 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	**make_command_array(t_data *data);
 
 // parent_and_child.c
 
+bool	close_fds(t_data *data, t_info *info);
 bool	do_child(t_data *data, t_info *info, char **command_array);
 bool	do_parent(t_data *data, t_info *info, char **command_array);
 

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:02:02 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 12:03:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/08 15:32:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ms_open(t_data *data, char *file, int flags, int mode)
 		free_system(data);
 		return (-1);
 	}
+	ft_printf("ms_open %d: %s\n", fd, file);
 	return (fd);
 }
 
@@ -47,6 +48,7 @@ void	ms_pipe(t_data *data, int *pipefd)
 {
 	if (pipe(pipefd) < 0)
 		ft_exit_perror(data, ERROR_PIPE);
+	printf("pipe %d %d\n", pipefd[0], pipefd[1]);
 	return ;
 }
 
@@ -57,5 +59,6 @@ int	ms_fork(t_data *data)
 	pid = fork();
 	if (pid < 0)
 		ft_exit_perror(data, ERROR_FORK);
+	printf("fork %d\n", pid);
 	return (pid);
 }

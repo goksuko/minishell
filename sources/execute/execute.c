@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 22:55:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/08 15:35:50 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ bool	execute_shell(t_data *data)
 	int	exit_code;
 
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	data->info->pipe_read_end = STDIN_FILENO;
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	if (create_children(data) == false)
 		return (false);
