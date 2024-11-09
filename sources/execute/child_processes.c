@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 22:18:27 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 22:37:28 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ pid_t	time_to_fork(t_info *info)
 	char	**command_array;
 
 	command_array = make_command_array(info->data);
+	// printf("----COMMAND ARRAY----\n"); // DEBUGGING PURPOSES!
+	// printf_array(command_array); // DEBUGGING PURPOSES!
 	pid = ms_fork(info->data);
 	if (pid == 0)
 	{
@@ -73,8 +75,9 @@ bool	create_children(t_data *data)
 
 	status = 0;
 	i = 0;
-	// printf("cmds\n"); // DEBUGGING PURPOSES!
+	// printf("---cmds:\n"); // DEBUGGING PURPOSES!
 	// printf_array(data->cmds); // DEBUGGING PURPOSES!
+	// printf("--------\n"); // DEBUGGING PURPOSES!
 	while (i < data->nbr_of_cmds)
 	{
 		// TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
@@ -104,7 +107,7 @@ char	**make_command_array(t_data *data)
 {
 	char	**command_array;
 
-	command_array = ms_split(data, data->cmds[0], ' ');
+	command_array = ms_split(data, data->cmds[data->info->curr_cmd], ' ');
 	if (is_builtin(command_array[0]))
 		return (command_array);
 	free_2d_null(&command_array);
