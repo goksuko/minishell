@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/08 15:35:30 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 21:48:33 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	close_fds(t_data *data, t_info *info)
 {
-	printf("---------------close_fds\n");
 	if (info->pipefd[0] != STDIN_FILENO)
 	{
 		ms_close(data, info->pipefd[0]);

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:50 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:45:50 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/09 21:50:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_commands(char **cmds, int start_index, int out_fd)
 
 int	ft_echo(char **cmds, t_info *info)
 {
-	printf("----ECHO----\n");
+	// printf("----ECHO----\n");
 	int		i;
 	bool	n_flag;
 	int		out_fd;
@@ -70,6 +70,6 @@ int	ft_echo(char **cmds, t_info *info)
 	print_commands(cmds, i, out_fd);
 	if (n_flag == false)
 		ft_putchar_fd('\n', out_fd);
-	printf("----ECHO DONE----\n");
+	// printf("----ECHO DONE----\n");
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 21:32:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 22:17:56 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ bool	minishell_routine(t_data *data)
 		return (true);
 	expander(&data);
 	free_and_null(&line);
+	// ft_print_tokens(data->tokens); //DEBUGGING PURPOSES!
 	if (semantic_analysis(data) == false)
 		return (false);
-	printf("\n**********Result*********\n\n");
+	// printf("\n**********Result*********\n\n");
 	if (execute_shell(data) == false)
 		return (false);
 	ms_unlink(data, "0ur_h3r3_d0c");
-	printf("\n**********Exit code: %d***\n", data->exit_code);
+	// printf("\n**********Exit code: %d***\n", data->exit_code);
 	return (true);
 }
 

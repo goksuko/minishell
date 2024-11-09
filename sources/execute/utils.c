@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/08 15:34:20 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 22:21:07 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 			STDERR_FILENO);
 		// free_data(&info->data); // free_system
 		info->data->exit_code = 127;
-		// exit(127);
+		free_system(info->data);
+		exit(127);
 	}
 	return (path);
 }

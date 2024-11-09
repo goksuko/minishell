@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/08 15:33:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 22:02:50 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ bool	define_smaller(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
+	(void)data;
 	temp_fd = open(token->next->value, O_RDONLY, 0777);
 	if (temp_fd == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
+		ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
 			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
-		return (false);
+		// data->exit_code = 0; //changed from ERROR_NO_FILE_DIR
+		// free_system(data);
+		// return (false);
 	}
-	ft_printf("open %d: %s\n", temp_fd, token->next->value);
-	token->next->fd_in = temp_fd;
+	// ft_printf("open %d: %s\n", temp_fd, token->next->value);
+	if (temp_fd > 0)
+		token->next->fd_in = temp_fd;
 	return (true);
 }
 

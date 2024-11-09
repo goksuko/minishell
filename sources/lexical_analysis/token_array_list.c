@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 16:03:29 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:52:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 21:48:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**create_token_array(t_data *data, char *line)
 	char	**tokens;
 
 	number_tokens = count_tokens(line);
-	printf("Number of tokens in this line: %d\n", number_tokens); // DEBUGGING PURPOSES!
+	// printf("Number of tokens in this line: %d\n", number_tokens); // DEBUGGING PURPOSES!
 	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
 	if (errno == ENOMEM || tokens == NULL)
 	{
