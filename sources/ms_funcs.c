@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:02:02 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 21:49:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 23:09:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	ms_open(t_data *data, char *file, int flags, int mode)
 	fd = open(file, flags, mode);
 	if (fd < 0)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
-			"token->next->value");
-		data->exit_code = ERROR_NO_FILE_DIR;
+		// ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
+		// 	"token->next->value");
+		// data->exit_code = ERROR_NO_FILE_DIR;
 		free_system(data);
 		return (-1);
 	}

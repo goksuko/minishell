@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/09 22:26:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 23:25:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ bool	define_smaller(t_data *data, t_token *token)
 {
 	int	temp_fd;
 
+	// printf("define_smaller\n");
 	(void)data;
 	temp_fd = open(token->next->value, O_RDONLY, 0777);
 	if (temp_fd == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
-			token->next->value);
-		// data->exit_code = 0; //changed from ERROR_NO_FILE_DIR
+		// printf("inside if\n");
+		// ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+		// 	token->next->value);
+		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
 		// free_system(data);
 		// return (false);
 	}
