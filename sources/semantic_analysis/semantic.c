@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:50:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 21:42:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 	if (info->fds[i][0] != -10)
 		ms_close(data, info->fds[i][0]);
 	info->fds[i][0] = current->fd_in;
+	info->fd_in = current->fd_in; //added newly
 	info->infile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
@@ -26,6 +27,7 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	if (info->fds[i][1] != -10)
 		ms_close(data, info->fds[i][1]);
 	info->fds[i][1] = current->fd_out;
+	info->fd_out = current->fd_out; //added newly
 	info->outfile = ms_strdup(data, current->expanded_value);
 	// free_and_null(&current->expanded_value); // added new
 	return (true);
@@ -86,10 +88,10 @@ bool	semantic_analysis(t_data *data)
 	// data->info = info;
 	data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
-	if (data->cmds == NULL)
-		return (false);
 	initialize_info(data->info, data);
 	if (initialize_fds(data->info, data) == false)
+		return (false);
+	if (data->cmds == NULL) //changed position because of the "< infile" case
 		return (false);
 	return (true);
 }

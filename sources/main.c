@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 12:01:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/09 21:32:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ int	main(int argc, char *argv[], char **envp)
 	{
 		// handle_signals(PARENT); // recheck position
 		set_signals(&data);
-		minishell_routine(&data);
+		if(minishell_routine(&data) == false)
+			close_fds(&data, &info);
 		free_system(&data);
 	}
 	return (data.exit_code);
