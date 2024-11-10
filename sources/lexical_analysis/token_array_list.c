@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 16:03:29 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:52:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 19:23:13 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 char	**create_token_array(t_data *data, char *line)
 {
-	int		number_tokens;
 	char	**tokens;
 
-	number_tokens = count_tokens(line);
-	printf("Number of tokens in this line: %d\n", number_tokens); // DEBUGGING PURPOSES!
-	tokens = (char **)ft_calloc(number_tokens + 1, sizeof(char *));
+	data->nbr_of_tokens = count_tokens(line);
+	tokens = (char **)ft_calloc(data->nbr_of_tokens + 1, sizeof(char *));
 	if (errno == ENOMEM || tokens == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,
 			"tokens in create_token_array");
 		return (NULL);
 	}
-	tokens = split_tokens(line, number_tokens, tokens);
+	tokens = split_tokens(line, data->nbr_of_tokens, tokens);
 	if (errno == ENOMEM || tokens == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION, "tokens in split_tokens");
@@ -65,10 +63,8 @@ t_token	*array_to_list(char **tokens, int token_count)
 t_token	*create_token_list(t_data *data, char **token_array)
 {
 	t_token	*token_lst;
-	int		token_count;
 
-	token_count = count_tokens(data->line);
-	token_lst = array_to_list(token_array, token_count);
+	token_lst = array_to_list(token_array, data->nbr_of_tokens);
 	if (errno == ENOMEM || token_lst == NULL)
 	{
 		free_system_perror(data, ERROR_ALLOCATION,

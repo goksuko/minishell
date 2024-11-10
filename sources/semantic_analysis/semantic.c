@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:50:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 17:36:11 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ bool	semantic_analysis(t_data *data)
 
 	// info = NULL;
 	data->exit_code = 0;
-	data->nbr_of_tokens = count_tokens(data->line);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	// free_info(data->info);
 	// info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
