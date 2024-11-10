@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/08/02 15:17:39 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:58:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 18:10:07 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	skip_quotes(char *line, int *i)
 	quote = line[*i];
 	(*i)++;
 	while (line[*i] != '\0' && line[*i] != quote)
+		(*i)++;
+	if (line[*i] == quote) // NEW
 		(*i)++;
 }
 

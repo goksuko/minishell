@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/08 15:37:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 19:32:49 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_env	*ft_new_node(t_data *data, char *key, char *value);
 int		find_data_if_no_pos(t_data *data, char *envp_i, char **key,
 			char **value);
 t_env	*create_node(t_data *data, char *envp_i, int pos);
-void	free_env(t_env **env_var);
 
 // env_key_funcs.c
 bool	key_rules(char c, int index);

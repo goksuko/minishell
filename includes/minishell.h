@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:19:36 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 19:29:28 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_env
 # include "builtins.h"
 # include "execute.h"
 # include "errors_free_exit.h"
-// Otherwise the program cannot be compiled if it is higher up because it needs to data struct
+// Otherwise the program cannot be compiled if it is higher up because it needs the data struct
 # define SUCCESS 0
 
 // main.c
