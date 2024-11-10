@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 21:48:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 20:36:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 	}
 	else
 	{
+		data->exit_code = SUCCESS;
 		if (start_exec(info) == false)
 			return (false);
 	}

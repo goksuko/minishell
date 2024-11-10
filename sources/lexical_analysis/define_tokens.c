@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/10 20:15:22 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 20:50:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ bool	define_smaller(t_data *data, t_token *token)
 	if (temp_fd == -1)
 	{
 		// printf("inside if\n");
-		// ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
-		// 	token->next->value);
+		if (!cat_inside(token->prev))
+			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+				token->next->value);
 		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
 		// free_system(data);
-		// return (false);
+		return (false);
 	}
 	// ft_printf("open %d: %s\n", temp_fd, token->next->value);
 	if (temp_fd > 0)
@@ -66,14 +67,17 @@ bool	define_greater(t_data *data, t_token *token)
 	temp_fd = open(token->next->value, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (temp_fd == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
-			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// printf("inside if\n");
+		if (!cat_inside(token->prev))
+			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+				token->next->value);
+		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
+		// free_system(data);
 		return (false);
 	}
 	// ft_printf("open %d: %s\n", temp_fd, token->next->value);
-	token->next->fd_out = temp_fd;
+	if (temp_fd > 0)
+		token->next->fd_out = temp_fd;
 	return (true);
 }
 
@@ -102,13 +106,16 @@ bool	define_dgreater(t_data *data, t_token *token)
 	temp_fd = open(token->next->value, O_CREAT | O_APPEND | O_WRONLY, 0777);
 	if (temp_fd == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
-			token->next->value);
-		data->exit_code = ERROR_NO_FILE_DIR;
-		free_system(data);
+		// printf("inside if\n");
+		if (!cat_inside(token->prev))
+			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+				token->next->value);
+		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
+		// free_system(data);
 		return (false);
 	}
 	// ft_printf("open %d: %s\n", temp_fd, token->next->value);
-	token->next->fd_out = temp_fd;
+	if (temp_fd > 0)
+		token->next->fd_out = temp_fd;
 	return (true);
 }

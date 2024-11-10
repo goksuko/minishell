@@ -6,11 +6,19 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 22:21:07 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 21:50:42 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+bool is_directory(const char *path)
+{
+    struct stat path_stat;
+
+   	stat(path, &path_stat);
+    return S_ISDIR(path_stat.st_mode);
+}
 
 char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 {
@@ -32,14 +40,52 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 	}
 	if (!path)
 	{
-		ft_putstr3_fd("command not found: ", cmd_matrix[0], "\n",
-			STDERR_FILENO);
-		// free_data(&info->data); // free_system
-		info->data->exit_code = 127;
+		if (cmd_matrix[0][0] == '.' && cmd_matrix[0][1] == '/')
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": Permission denied", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 126;
+		}
+		else if (cmd_matrix[0][0] == '/')
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": No such file or directory", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 127;		
+		}
+		else if (is_file(cmd_matrix[0]))
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": No such file or directory", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 127;		
+		}
+		else if (is_directory(cmd_matrix[0]))
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": Is a directory", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 126;
+		}
+		else
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": command not found", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 127;
+		}
 		free_system(info->data);
-		exit(127);
+		exit(info->data->exit_code);
 	}
 	return (path);
+}
+
+bool is_readable(const char *path)
+{
+    struct stat statbuf;
+
+ 	stat(path, &statbuf);
+
+    if (statbuf.st_mode & S_IRUSR)
+		return (true);
+	else
+		return (false);
 }
 
 bool	start_exec(t_info *info)
@@ -51,6 +97,7 @@ bool	start_exec(t_info *info)
 	cmd_matrix = ms_split(info->data, info->data->cmds[info->curr_cmd], ' ');
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
+	// printf("path: %s\n", path);
 	if (path == NULL)
 	{
 		free_2d_null(&cmd_matrix);
@@ -58,7 +105,29 @@ bool	start_exec(t_info *info)
 	}
 	close_fds(info->data, info);
 	if (execve(path, cmd_matrix, info->data->envp) == -1)
-		return (false);
+	{
+		if (cmd_matrix[0][0] == '.' && cmd_matrix[0][1] == '/')
+		{
+			if (is_readable(path))
+				ft_putstr3_fd(cmd_matrix[0], ": Is a directory", "\n",
+					STDERR_FILENO);
+			else
+				ft_putstr3_fd(cmd_matrix[0], ": Permission denied", "\n",
+					STDERR_FILENO);
+
+			info->data->exit_code = 126;
+			free_system(info->data);
+			exit(info->data->exit_code);
+		}
+		else
+		{
+			ft_putstr3_fd(cmd_matrix[0], ": command not found", "\n",
+				STDERR_FILENO);
+			info->data->exit_code = 127;
+			free_system(info->data);
+			exit(info->data->exit_code);
+		}
+	}
 	return (true);
 }
 

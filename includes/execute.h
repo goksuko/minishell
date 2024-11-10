@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 19:32:49 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/10 20:47:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ bool	key_rules(char c, int index);
 int		check_key(t_data *data, char *key);
 
 // execute.c
+
+bool	cat_inside(t_token *current);
 int		is_file(const char *path);
 bool	execute_shell(t_data *data);
 

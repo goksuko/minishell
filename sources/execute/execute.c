@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 22:17:51 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/10 20:49:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 bool	cat_inside(t_token *current)
 {
-	if (current && ft_strncmp(current->value, "cat", 3) == 0)
-		return (true);
+	while (current && current->type != T_PIPE)
+	{
+		if (current && ft_strncmp(current->value, "cat", 3) == 0)
+			return (true);
+		current = current->next;
+	}
 	return (false);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/04 13:55:44 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/10 19:23:38 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/10 20:20:34 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int	count_tokens(char *line)
 		// if (line[i]) // Perhaps remove entirely because this creates a false count
 		// 	i++; // Perhaps remove entirely because this creates a false count
 	}
-	printf("Number of tokens in this line: %d\n", count); // DEBUGGING PURPOSES!
+	// printf("Number of tokens in this line: %d\n", count); // DEBUGGING PURPOSES!
 	return (count);
 }
