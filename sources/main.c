@@ -91,8 +91,12 @@ void	init_data(t_info *info, t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
 	ft_bzero(info, sizeof(t_info));
-	data->info = info;
+	data->cmds = NULL;
+	data->line = NULL;
 	data->envp = envp;
+	data->path = NULL;
+	data->info = info;
+	data->tokens = NULL;
 	return ;
 }
 

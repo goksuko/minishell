@@ -92,5 +92,6 @@ bool	semantic_analysis(t_data *data)
 		return (false);
 	if (data->cmds == NULL) //changed position because of the "< infile" case
 		return (false);
+	printf("---End of semantic analysis---\n");
 	return (true);
 }

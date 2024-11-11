@@ -57,6 +57,7 @@ void	free_matrix(char **matrix)
 
 void	free_system(t_data *data)
 {
+	printf("----FREE SYSTEM----\n");
 	if (data && data->cmds)
 		free_2d_null(&data->cmds);
 	if (data && data->line && data->line[0])
