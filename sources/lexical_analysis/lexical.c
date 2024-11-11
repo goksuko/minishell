@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 11:53:13 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 20:42:45 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/11 10:44:55 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ bool	is_file_check(t_data *data, t_token *token_lst)
 			if (define_token_fd(data, current) == false)
 			{
 				// printf("define_token_fd() failed for token: %s\n", current->value); //Debugging purposes
+				if (data->exit_code == 126 || data->exit_code == 127)
+					return(false);
 				while (current && current->type != T_PIPE)
 					current = current->next;
 				if (current == NULL)

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 23:20:37 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/11 11:02:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ bool	create_children(t_data *data)
 	// printf("---cmds:\n"); // DEBUGGING PURPOSES!
 	// printf_array(data->cmds); // DEBUGGING PURPOSES!
 	// printf("--------\n"); // DEBUGGING PURPOSES!
-	while (i < data->nbr_of_cmds)
+	while (i < data->nbr_of_cmds && data->exit_code == 0)
 	{
+		// printf("curr_cmd: %d, exit_code: %d\n", data->info->curr_cmd, data->exit_code); // DEBUGGING PURPOSES!
 		// TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
 		// if (assign_fds_and_pipe(data, i) == false)
 		// 	return (false);
@@ -93,6 +94,7 @@ bool	create_children(t_data *data)
 		data->info->curr_cmd++;
 		i++;
 	}
+	close_fds(data, data->info);
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
