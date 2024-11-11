@@ -48,7 +48,10 @@ int	len_new_token(char *line, int i)
 		&& is_meta(line[i]) == false)
 	{
 		if (is_quote(line[i]) == true)
+		{
 			skip_quotes(line, &i);
+			i = i - 1;
+		}
 		if (line[i] != '\0' && is_whitespace(line[i]) == true)
 			break ;
 		i++;
