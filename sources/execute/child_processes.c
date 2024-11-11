@@ -75,9 +75,9 @@ bool	create_children(t_data *data)
 
 	status = 0;
 	i = 0;
-	// printf("---cmds:\n"); // DEBUGGING PURPOSES!
-	// printf_array(data->cmds); // DEBUGGING PURPOSES!
-	// printf("--------\n"); // DEBUGGING PURPOSES!
+	printf("---cmds:\n"); // DEBUGGING PURPOSES!
+	printf_array(data->cmds); // DEBUGGING PURPOSES!
+	printf("--------\n"); // DEBUGGING PURPOSES!
 	while (i < data->nbr_of_cmds && data->exit_code == 0)
 	{
 		// printf("curr_cmd: %d, exit_code: %d\n", data->info->curr_cmd, data->exit_code); // DEBUGGING PURPOSES!

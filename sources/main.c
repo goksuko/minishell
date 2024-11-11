@@ -25,13 +25,13 @@ char	*rl_gets(void)
 	if (line_is_empty(line_read) == true)
 	{
 		free(line_read);
-		return (ft_strdup(" "));
+		return (ft_strdup("  "));
 	}
 	if (line_is_whitespace(line_read) == true)
 	{
 		add_history(line_read);
 		free(line_read);
-		return (ft_strdup(" "));
+		return (ft_strdup("  "));
 	}
 	if (line_read != NULL && *line_read != '\0')
 		add_history(line_read);
@@ -71,6 +71,8 @@ bool	minishell_routine(t_data *data)
 	line = rl_gets();
 	if (line == NULL)
 		return (false);
+	if (ft_strncmp(line, "  ", 2) == 0)
+		return (free_and_null(&line), true);
 	data->tokens = lexical_analysis(data, line);
 	if (data->tokens == NULL)
 		return (true);

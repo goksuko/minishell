@@ -100,7 +100,7 @@ char	*before_exec(char *long_command, t_info *info, char **cmd_matrix)
 				STDERR_FILENO);
 			info->data->exit_code = 127;
 		}
-		free_system(info->data);
+		// free_system(info->data);
 		return (NULL);
 	}
 	return (path);

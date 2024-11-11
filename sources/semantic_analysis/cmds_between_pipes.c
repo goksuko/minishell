@@ -42,13 +42,13 @@ bool	handle_redirection(t_token **current, bool *cat_cmd)
 
 char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 {
+	printf("---HANDLE_REDIRECTION2()----\n");
 	char	*cmd;
 
 	cmd = NULL;
 	if (is_first_after_pipe(*current))
 	{
-		// cmd = ms_strdup(data, (*current)->expanded_value);
-		cmd = (*current)->expanded_value;
+		cmd = ms_strdup(data, (*current)->expanded_value);
 		(*current) = (*current)->next;
 	}
 	if ((*current) && is_redir_except_heredoc(*current))

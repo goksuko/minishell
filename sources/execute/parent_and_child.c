@@ -14,6 +14,7 @@
 
 bool	close_fds(t_data *data, t_info *info)
 {
+	printf("---CLOSE FDs---\n");
 	if (info->pipefd[0] != STDIN_FILENO)
 	{
 		ms_close(data, info->pipefd[0]);
@@ -44,12 +45,15 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 	{
 		if (handle_builtin(info, command_array) == false)
 		{
+			printf("--HANDLE BUILTIN RETURNED FALSE\n"); // DEBUG
 			close_fds(data, info);
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
+			printf("---HANLDE BUILTIN RETURNED TRUE---\n"); // DEBUG
 			close_fds(data, info);
+			printf("---Close FDs done in do_child\n");
 			exit(EXIT_SUCCESS);
 		}
 	}

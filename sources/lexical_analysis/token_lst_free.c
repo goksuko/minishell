@@ -23,11 +23,11 @@ void	free_token_list(t_token **tokens)
 	while (current != NULL)
 	{
 		if (current->value)
-			free(current->value);
+			free_and_null(&current->value);
 		if (current->expanded_value)
-			free(current->expanded_value);
+			free_and_null(&current->expanded_value);
 		if (current->limiter)
-			free(current->limiter);
+			free_and_null(&current->limiter);
 		temp = current->next;
 		free(current);
 		current = temp;

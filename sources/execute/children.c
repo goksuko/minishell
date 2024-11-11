@@ -101,6 +101,7 @@ bool	handle_builtin(t_info *info, char **command)
 {
 	if (command && command[0])
 		info->data->exit_code = execute_builtin(command, info->data);
+	printf("--Finished execute builtin in handle_builtin\n");
 	if (info->data->exit_code != 0)
 		return (false);
 	return (true);

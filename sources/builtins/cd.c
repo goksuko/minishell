@@ -49,6 +49,7 @@ int	change_directory(char *path, t_cd_data *cd_data)
 
 int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 {
+	printf("---HANDLE SPECIAL CASES---\n");
 	int	cmd_len;
 
 	cmd_len = ft_strlen(cmds[0]);
@@ -88,7 +89,8 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
 	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd);
-	free_and_null(&cd_data.cwd); // NEW
-	free_and_null(&cd_data.old_cwd); // NEW
+	// free_and_null(&cd_data.cwd); // NEW
+	// free_and_null(&cd_data.old_cwd); // NEW
+	printf("---FT_CD DONE---\n");
 	return (return_value);
 }

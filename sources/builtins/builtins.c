@@ -38,6 +38,7 @@ int	execute_builtin(char **cmds, t_data *data)
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 		return_value = ft_exit(cmds + 1, data);
+	printf("----EXECUTE BUILTIN DONE---\n");
 	return (return_value);
 }
 
@@ -56,6 +57,7 @@ int	execute_parent_builtin(char **cmds, t_data *data) // to be called in executi
 		return_value = ft_unset(cmds + 1, data);
 	// else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 	// 	return_value = ft_exit(cmds + 1, data); // but exit code does need to be updated. to be checked with goksu
+	printf("---EXECUTE PARENT BUILT IN DONE---\n");
 	return (return_value);
 }
 

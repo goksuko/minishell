@@ -78,6 +78,5 @@ char	**cmds_from_tokens(t_data *data)
 
 	cmds = (char **)ms_calloc(data, sizeof(char *), (data->nbr_of_pipes + 2));
 	cmds = cmds_between_pipes(data, cmds);
-	printf("size of cmds matrix in data struct: %lu\n", sizeof(data->cmds));
 	return (cmds);
 }

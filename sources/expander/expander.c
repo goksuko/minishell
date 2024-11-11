@@ -40,6 +40,7 @@ bool	expand_value(t_data **data, t_token *token, char *type)
 	}
 	else if (ft_strncmp(type, "IDENTIFIER", 10) == 0)
 	{
+		
 		token->expanded_value = expand_identifier(data, token->value);
 		if (token->expanded_value == NULL)
 			return (false);
