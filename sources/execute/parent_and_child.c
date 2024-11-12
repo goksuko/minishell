@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/11 10:44:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/12 20:13:08 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ bool	close_fds(t_data *data, t_info *info)
 
 bool	do_child(t_data *data, t_info *info, char **command_array)
 {
-	(void)data;
 	if (command_array)
 	{
 		if (handle_builtin(info, command_array) == false)
@@ -68,11 +67,11 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 
 bool	do_parent(t_data *data, t_info *info, char **command_array)
 {
+	(void)info;
 	if (command_array)
 	{
-		if (execute_parent_builtin(command_array, data) == false)
+		if (execute_parent_builtin(command_array, data) == false) // should be < 0 ?????
 			return (false);
 	}
-	close_fds(data, info);
 	return (true);
 }

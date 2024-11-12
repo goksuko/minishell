@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/11 10:36:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/12 19:49:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	minishell_routine(t_data *data)
 		return (free_and_null(&line), true);
 	data->tokens = lexical_analysis(data, line);
 	if (data->tokens == NULL)
-		return (true);
+		return (free_and_null(&line), true);
 	expander(&data);
 	free_and_null(&line);
 	// ft_print_tokens(data->tokens); //DEBUGGING PURPOSES!
@@ -118,7 +118,7 @@ int	main(int argc, char *argv[], char **envp)
 		// handle_signals(PARENT); // recheck position
 		set_signals(&data);
 		if(minishell_routine(&data) == false)
-			close_fds(&data, &info);
+			close_fds(&data, &info); //why only in false? I have to think about it
 		free_system(&data);
 	}
 	return (data.exit_code);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/11 11:02:39 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/12 20:18:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,23 @@ pid_t	time_to_fork(t_info *info)
 	pid_t	pid;
 	char	**command_array;
 
-	command_array = make_command_array(info->data);
+	command_array = make_command_array(info->data); // returns NULL if not builtin
 	// printf("----COMMAND ARRAY----\n"); // DEBUGGING PURPOSES!
 	// printf_array(command_array); // DEBUGGING PURPOSES!
 	pid = ms_fork(info->data);
 	if (pid == 0)
 	{
 		signals_for_kids();
-		handle_child_type(info);
+		handle_child_type(info); //does dup2s
 		do_child(info->data, info, command_array);
-		close_fds(info->data, info);
 	}
 	else
 	{
 		unset_signals();
 		if (do_parent(info->data, info, command_array) == false)
-			return (-125);
-		close_fds(info->data, info);
+			pid = -125;
 	}
+	close_fds(info->data, info);
 	free_2d_null(&command_array);
 	return (pid);
 }
@@ -62,8 +61,6 @@ int	pipe_and_fork(t_data *data, int i)
 	if (assign_fds_and_pipe(data, i) == false)
 		return (-250);
 	pid = time_to_fork(data->info);
-	if (pid == -125)
-		return (-125);
 	return (pid);
 }
 
@@ -80,17 +77,10 @@ bool	create_children(t_data *data)
 	printf("--------\n"); // DEBUGGING PURPOSES!
 	while (i < data->nbr_of_cmds && data->exit_code == 0)
 	{
-		// printf("curr_cmd: %d, exit_code: %d\n", data->info->curr_cmd, data->exit_code); // DEBUGGING PURPOSES!
-		// TO CHECK maybe it is necessary to fork to use the signal inside the heredoc
-		// if (assign_fds_and_pipe(data, i) == false)
-		// 	return (false);
-		// pid = time_to_fork(data->info);
-		// if (pid == -125)
-		// 	return (false);
 		pid = pipe_and_fork(data, i);
-		if (pid < 0)
-			return (false);
 		close_fds(data, data->info);
+		if (pid < 0)
+			return (false); //break??
 		data->info->curr_cmd++;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:39:21 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/26 23:50:17 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/12 20:15:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ bool	init_heredoc(t_data *data)
 		free(line);
 		line = readline("> ");
 	}
-	if (close(here_doc_fd) < 0)
-		return (false);
-	free(line);
+	ms_close(data, here_doc_fd);
+	free_and_null(&line);
 	return (true);
 }
