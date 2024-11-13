@@ -23,13 +23,13 @@ void	print_env_var(t_env *var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(var->key, fd);
-	if (var->value != NULL && strcmp(var->value, "") != 0)
+	if (var->value != NULL && ft_strncmp(var->value, "", 1) != 0)
 	{
 		ft_putstr_fd("=\"", fd);
 		ft_putstr_fd(var->value, fd);
 		ft_putstr_fd("\"", fd);
 	}
-	else if (strchr(var->key, '=') != 0)
+	else if (ft_strchr(var->key, '=') != 0)
 		ft_putstr_fd("=\"\"", fd);
 	ft_putstr_fd("\n", fd);
 }
@@ -54,9 +54,9 @@ t_env	*get_next_var_to_print(t_env *list, t_env *last_printed)
 	next_var = NULL;
 	while (list != NULL)
 	{
-		if (last_printed == NULL || strcmp(list->key, last_printed->key) > 0)
+		if (last_printed == NULL || ft_strncmp(list->key, last_printed->key, ft_strlen(list->key) > 0))
 		{
-			if (next_var == NULL || strcmp(list->key, next_var->key) < 0)
+			if (next_var == NULL || ft_strncmp(list->key, next_var->key, ft_strlen(list->key) < 0))
 				next_var = list;
 		}
 		list = list->next;
