@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 20:47:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 12:50:02 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ bool	execute_shell(t_data *data);
 
 // Utils functions //
 bool	start_exec(t_info *info);
+void 	close_fds_from_next_cmds(t_info *info);
 bool	is_whitespace(char c);
 
 // Path functions //

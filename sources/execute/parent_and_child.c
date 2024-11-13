@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/12 20:13:08 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 13:03:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	close_fds(t_data *data, t_info *info)
 {
-	printf("---CLOSE FDs---\n");
 	if (info->pipefd[0] != STDIN_FILENO)
 	{
 		ms_close(data, info->pipefd[0]);
@@ -46,6 +45,7 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 		{
 			printf("--HANDLE BUILTIN RETURNED FALSE\n"); // DEBUG
 			close_fds(data, info);
+			close_fds_from_next_cmds(info);
 			exit(EXIT_FAILURE);
 		}
 		else
@@ -53,6 +53,7 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 			printf("---HANLDE BUILTIN RETURNED TRUE---\n"); // DEBUG
 			close_fds(data, info);
 			printf("---Close FDs done in do_child\n");
+			close_fds_from_next_cmds(info);
 			exit(EXIT_SUCCESS);
 		}
 	}

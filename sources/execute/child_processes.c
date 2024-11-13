@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/12 20:18:35 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 13:03:58 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ pid_t	time_to_fork(t_info *info)
 	else
 	{
 		unset_signals();
-		if (do_parent(info->data, info, command_array) == false)
-			pid = -125;
+		// if (do_parent(info->data, info, command_array) == false)
+		// 	pid = -125;
 	}
 	close_fds(info->data, info);
 	free_2d_null(&command_array);
@@ -78,13 +78,13 @@ bool	create_children(t_data *data)
 	while (i < data->nbr_of_cmds && data->exit_code == 0)
 	{
 		pid = pipe_and_fork(data, i);
-		close_fds(data, data->info);
+		// close_fds(data, data->info);
 		if (pid < 0)
 			return (false); //break??
 		data->info->curr_cmd++;
 		i++;
 	}
-	close_fds(data, data->info);
+	// close_fds(data, data->info); // probably not needed
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
 	if (WIFEXITED(status))

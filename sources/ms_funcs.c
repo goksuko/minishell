@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:02:02 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 23:09:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 13:04:08 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	ms_pipe(t_data *data, int *pipefd)
 {
 	if (pipe(pipefd) < 0)
 		ft_exit_perror(data, ERROR_PIPE);
-	// printf("pipe %d %d\n", pipefd[0], pipefd[1]);
 	return ;
 }
 
