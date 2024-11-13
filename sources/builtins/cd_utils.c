@@ -57,7 +57,7 @@ int	cd_home(t_env *env_list, t_data *data)
 {
 	char	*home;
 
-	home = ft_get_env(env_list, "HOME"); // add strlen here?? // if HOME is unset it should return an error but instead if HOME cannot be found it goes to HOMEBREW instead. Hence, the first onne that is similar to HOME
+	home = ft_get_env(env_list, "HOME"); // if HOME is unset it should return an error but instead if HOME cannot be found it goes to HOMEBREW instead. Hence, the first onne that is similar to HOME
 	if (errno == ENOMEM || home == NULL)
 	{
 		free_system_error(data, ERROR_HOME_DIR);
