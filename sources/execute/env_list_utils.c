@@ -96,11 +96,13 @@ void	update_path(t_data *data)
 char	*ft_get_env(t_env *env_list, char *key)
 {
 	t_env	*temp;
+	int		key_len;
 
 	temp = env_list;
+	key_len = ft_strlen(key);
 	while (temp != NULL)
 	{
-		if (ft_strncmp(temp->key, key, ft_strlen(key)) == 0)
+		if (ft_strncmp(temp->key, key, key_len) == 0 && (int)ft_strlen(temp->key) == key_len)
 			return (temp->value);
 		temp = temp->next;
 	}

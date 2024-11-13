@@ -55,23 +55,56 @@ void	print_commands(char **cmds, int start_index, int out_fd)
 	}
 }
 
+int	print_home_env_value(t_env *env, char *env_key, t_data *data)
+{
+	int	key_len;
+
+	key_len = ft_strlen(env_key);	
+	while (env != NULL && env->value != NULL)
+	{
+		if (ft_strncmp(env->key, env_key, key_len) == 0 && (int)ft_strlen(env->key) == key_len)
+			printf("%s\n", env->value);
+		env = env->next;
+	}
+	if (env == NULL || errno == ENOMEM)
+	{
+		free_system_error(data, ERROR_HOME_DIR);
+		return (ERROR_HOME_DIR);
+	}
+	return (SUCCESS);
+}
+
 int	ft_echo(char **cmds, t_info *info)
 {
 	// printf("----ECHO----\n");
 	int		i;
 	bool	n_flag;
 	int		out_fd;
+	int		return_value;
 
+	return_value = SUCCESS;
 	out_fd = get_output_fd(info);
 	if (cmds == NULL)
 	{
 		ft_putstr_fd("", out_fd);
-		return (SUCCESS);
+		return (return_value);
 	}
 	n_flag = check_n_flag(cmds, &i);
+	if (ft_strncmp(cmds[i], "~", 1) && ft_strlen(cmds[i]) == 1) // NEW. TO BE FIXED
+	{
+		return_value = print_home_env_value(info->data->env_list, "HOME", info->data);
+		if (return_value != SUCCESS)
+			return (return_value);
+		i++;
+	}
 	print_commands(cmds, i, out_fd);
 	if (n_flag == false)
 		ft_putchar_fd('\n', out_fd);
 	// printf("----ECHO DONE----\n");
-	return (SUCCESS);
+	return (return_value);
 }
+
+
+// echo ~ needs to print HOME var. 
+// BUT Check first if HOME exists at all in the env var
+//  or if it has been unset

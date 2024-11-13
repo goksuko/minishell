@@ -24,8 +24,8 @@ int	execute_builtin(char **cmds, t_data *data)
 	if (cmd_len == 4 && (ft_strncmp(cmds[0], "echo", 4) == 0
 			|| ft_strncmp(cmds[0], "ECHO", 4) == 0))
 		return_value = ft_echo(cmds + 1, data->info);
-	else if (cmd_len == 2 && ft_strncmp(cmds[0], "cd", 2) == 0)
-		return_value = ft_cd(cmds + 1, data->env_list, data);
+	// else if (cmd_len == 2 && ft_strncmp(cmds[0], "cd", 2) == 0)
+	// 	return_value = ft_cd(cmds + 1, data->env_list, data);
 	else if (cmd_len == 3 && (ft_strncmp(cmds[0], "pwd", 3) == 0
 			|| ft_strncmp(cmds[0], "PWD", 3) == 0))
 		return_value = ft_pwd(cmds + 1, data);
