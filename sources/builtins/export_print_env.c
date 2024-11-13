@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:46:19 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:56:36 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 21:52:18 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_env	*get_next_var_to_print(t_env *list, t_env *last_printed)
 	{
 		if (last_printed == NULL || ft_strncmp(list->key, last_printed->key, ft_strlen(list->key) > 0))
 		{
-			if (next_var == NULL || ft_strncmp(list->key, next_var->key, ft_strlen(list->key) < 0))
+			if (next_var == NULL || ft_strncmp(list->key, next_var->key, ft_strlen(list->key)) < 0)
 				next_var = list;
 		}
 		list = list->next;

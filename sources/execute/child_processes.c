@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/13 13:03:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/13 22:38:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,95 @@ bool	create_children(t_data *data)
 	int		i;
 	pid_t	pid;
 	int		status;
+	char	**command_array;
+	// int		kid_pids[100];
+	// int		j;
+	bool	is_builtin;
 
 	status = 0;
 	i = 0;
+	// j = 0;
+	is_builtin = false;
 	printf("---cmds:\n"); // DEBUGGING PURPOSES!
 	printf_array(data->cmds); // DEBUGGING PURPOSES!
 	printf("--------\n"); // DEBUGGING PURPOSES!
 	while (i < data->nbr_of_cmds && data->exit_code == 0)
 	{
-		pid = pipe_and_fork(data, i);
-		// close_fds(data, data->info);
+		command_array = make_command_array(data); // returns NULL if not builtin
+		if (command_array)
+			is_builtin = true;
+		if (data->info->curr_cmd == data->info->here_doc_cmd)
+		{
+			if (init_heredoc(data) == false)
+				return (false);
+			data->info->fds[i][0] = ms_open(data, "0ur_h3r3_d0c", O_RDONLY, 0777);
+		}
+		data->info->fd_in = data->info->fds[i][0];
+		data->info->fd_out = data->info->fds[i][1];
+		if (i != data->nbr_of_cmds - 1 && !command_array)
+			ms_pipe(data, data->info->pipefd);
+		else
+		{
+			data->info->pipefd[0] = STDIN_FILENO;			
+			data->info->pipefd[1] = STDOUT_FILENO;
+		}
+		data->info->pipe_read_end = data->info->pipefd[0];
+		// printf("----COMMAND ARRAY----\n"); // DEBUGGING PURPOSES!
+		// printf_array(command_array); // DEBUGGING PURPOSES!
+		if (!command_array)
+			pid = ms_fork(data);
+		// else
+		// 	pid = 1;
+		// if (pid == 0 || pid == 1)
+		if (pid == 0 || is_builtin)
+		{
+			signals_for_kids();
+			handle_child_type(data->info); //does dup2s
+			if (command_array)
+			{
+				if (handle_builtin(data->info, command_array) == false)
+				{
+					printf("--HANDLE BUILTIN RETURNED FALSE\n"); // DEBUG
+					close_fds(data, data->info);
+					close_fds_from_next_cmds(data->info);
+					// exit(EXIT_FAILURE);
+				}
+				else
+				{
+					printf("---HANLDE BUILTIN RETURNED TRUE---\n"); // DEBUG
+					close_fds(data, data->info);
+					printf("---Close FDs done in do_child\n");
+					close_fds_from_next_cmds(data->info);
+					// exit(EXIT_SUCCESS);
+				}
+			}
+			else
+			{
+				// data->exit_code = SUCCESS;
+				if (start_exec(data->info) == false)
+					return (false);
+			}
+		}
+		else
+		{
+			unset_signals();
+			// if (do_parent(info->data, info, command_array) == false)
+			// 	pid = -125;
+		}
+		close_fds(data, data->info);
+		free_2d_null(&command_array);
 		if (pid < 0)
 			return (false); //break??
 		data->info->curr_cmd++;
+		// kid_pids[i] = pid;
 		i++;
 	}
+	// while (j < i)
+	// {
+	// 	if (kid_pids[j] != 1)
+	// 		waitpid(kid_pids[j], &status, 0);
+	// 	j++;
+	// }
 	// close_fds(data, data->info); // probably not needed
 	waitpid(pid, &status, 0);
 	waitpid(-1, &status, 0);
@@ -94,6 +168,38 @@ bool	create_children(t_data *data)
 	}
 	return (true);
 }
+
+
+// bool	create_children(t_data *data)
+// {
+// 	int		i;
+// 	pid_t	pid;
+// 	int		status;
+
+// 	status = 0;
+// 	i = 0;
+// 	printf("---cmds:\n"); // DEBUGGING PURPOSES!
+// 	printf_array(data->cmds); // DEBUGGING PURPOSES!
+// 	printf("--------\n"); // DEBUGGING PURPOSES!
+// 	while (i < data->nbr_of_cmds && data->exit_code == 0)
+// 	{
+// 		pid = pipe_and_fork(data, i);
+// 		// close_fds(data, data->info);
+// 		if (pid < 0)
+// 			return (false); //break??
+// 		data->info->curr_cmd++;
+// 		i++;
+// 	}
+// 	// close_fds(data, data->info); // probably not needed
+// 	waitpid(pid, &status, 0);
+// 	waitpid(-1, &status, 0);
+// 	if (WIFEXITED(status))
+// 	{
+// 		data->exit_code = WEXITSTATUS(status);
+// 		return (true);
+// 	}
+// 	return (true);
+// }
 
 char	**make_command_array(t_data *data)
 {
