@@ -39,39 +39,51 @@ bool	check_n_flag(char **cmds, int *index)
 	return (n_flag);
 }
 
-void	print_commands(char **cmds, int start_index, int out_fd)
-{
-	int	i;
+int	print_home_env_value(t_env *env, t_data *data)
+{	
+	char *env_value;
 
-	i = start_index;
-	// printf("----PRINT COMMANDS----\n"); // DEBUGGING PURPOSES!
-	// printf_array(cmds); // DEBUGGING PURPOSES!
-	while (cmds[i] != NULL)
-	{
-		ft_putstr_fd(cmds[i], out_fd);
-		if (cmds[i + 1] != NULL)
-			ft_putchar_fd(' ', out_fd);
-		i++;
-	}
-}
-
-int	print_home_env_value(t_env *env, char *env_key, t_data *data)
-{
-	int	key_len;
-
-	key_len = ft_strlen(env_key);	
+	env_value = NULL;
 	while (env != NULL && env->value != NULL)
 	{
-		if (ft_strncmp(env->key, env_key, key_len) == 0 && (int)ft_strlen(env->key) == key_len)
-			printf("%s\n", env->value);
+		if (ft_strncmp(env->key, "HOME", 4) == 0 && (int)ft_strlen(env->key) == 4)
+			env_value = env->value;
 		env = env->next;
 	}
-	if (env == NULL || errno == ENOMEM)
+	if (env_value == NULL || errno == ENOMEM)
 	{
 		free_system_error(data, ERROR_HOME_DIR);
 		return (ERROR_HOME_DIR);
 	}
+	else
+		ft_putstr_fd(env_value, STDOUT_FILENO);
 	return (SUCCESS);
+}
+
+int	print_commands(char **cmds, int start_index, int out_fd, t_info *info)
+{
+	int	i;
+	int	return_value;
+
+	i = start_index;
+	return_value = SUCCESS;
+	while (cmds[i] != NULL)
+	{
+		if (ft_strncmp(cmds[i], "~", 1) == 0 && ft_strlen(cmds[i]) == 1) // NEW. TO BE FIXED
+		{
+			return_value = print_home_env_value(info->data->env_list, info->data);
+			if (return_value != SUCCESS)
+				return (return_value);
+		}
+		else
+		{
+			ft_putstr_fd(cmds[i], out_fd);
+			if (cmds[i + 1] != NULL)
+				ft_putchar_fd(' ', out_fd);
+		}
+		i++;
+	}
+	return (return_value);
 }
 
 int	ft_echo(char **cmds, t_info *info)
@@ -82,6 +94,7 @@ int	ft_echo(char **cmds, t_info *info)
 	int		out_fd;
 	int		return_value;
 
+	i = 0;
 	return_value = SUCCESS;
 	out_fd = get_output_fd(info);
 	if (cmds == NULL)
@@ -90,14 +103,7 @@ int	ft_echo(char **cmds, t_info *info)
 		return (return_value);
 	}
 	n_flag = check_n_flag(cmds, &i);
-	if (ft_strncmp(cmds[i], "~", 1) && ft_strlen(cmds[i]) == 1) // NEW. TO BE FIXED
-	{
-		return_value = print_home_env_value(info->data->env_list, "HOME", info->data);
-		if (return_value != SUCCESS)
-			return (return_value);
-		i++;
-	}
-	print_commands(cmds, i, out_fd);
+	print_commands(cmds, i, out_fd, info);
 	if (n_flag == false)
 		ft_putchar_fd('\n', out_fd);
 	// printf("----ECHO DONE----\n");
