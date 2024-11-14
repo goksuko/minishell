@@ -65,11 +65,9 @@ int	cd_home(t_env *env_list, t_data *data)
 	}
 	if (errno == ENOMEM || chdir(home) != 0)
 	{
-		free(home);
 		free_system_error(data, ERROR_NO_FILE_DIR);
 		return (ERROR_NO_FILE_DIR);
 	}
-	free(home); // NEW to be checked if this works properly 
 	return (SUCCESS);
 }
 
