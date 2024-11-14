@@ -25,6 +25,8 @@ bool	arg_is_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i] != '\0')
 	{
 		if (is_digit(str[i]) == false)

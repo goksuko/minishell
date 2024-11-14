@@ -18,7 +18,7 @@ char	*add_str(char *to_update, char *str_to_add)
 
 	temp = ft_strjoin(to_update, str_to_add);
 	free(to_update);
-	free(str_to_add);
+	// free(str_to_add); commented out for now for memory check purposes
 	if (temp == NULL)
 		return (NULL);
 	return (temp);

@@ -16,9 +16,10 @@ void	print_env(t_env *env)
 {
 	while (env != NULL && env->value != NULL)
 	{
-		printf("%s", env->key);
-		printf("=");
-		printf("%s\n", env->value);
+		ft_putstr_fd(env->key, STDOUT_FILENO);
+		ft_putchar_fd('=', STDOUT_FILENO);
+		ft_putstr_fd(env->value, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		env = env->next;
 	}
 }
@@ -35,6 +36,9 @@ int	ft_env(char **cmds, t_data *data)
 		return_value = SUCCESS;
 	}
 	else
+	{
+		free_system_error(data, ERROR_NO_FILE_DIR);
 		return_value = ERROR_NO_FILE_DIR;
+	}
 	return (return_value);
 }
