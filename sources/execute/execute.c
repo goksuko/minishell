@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 20:49:18 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/15 13:57:17 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ bool	execute_shell(t_data *data)
 {
 	int	exit_code;
 
+	printf("fds[0][0]: %d\n", data->info->fds[0][0]);
+	printf("fds[0][1]: %d\n", data->info->fds[0][1]);
+	printf("fds[1][0]: %d\n", data->info->fds[1][0]);
+	printf("fds[1][1]: %d\n", data->info->fds[1][1]);
+	printf("fds[2][0]: %d\n", data->info->fds[2][0]);
+	printf("fds[2][1]: %d\n", data->info->fds[2][1]);
+	printf("fds[3][0]: %d\n", data->info->fds[3][0]);
+	printf("fds[3][1]: %d\n", data->info->fds[3][1]);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	// printf("nbr_of_pipes: %d\n", data->nbr_of_pipes); // DEBUGGING PURPOSES!
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
