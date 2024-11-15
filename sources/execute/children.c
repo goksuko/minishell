@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/14 13:03:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/15 12:01:55 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,22 @@ bool	do_last_child(t_info *info)
 	{
 		if (dup2(info->fd_out, STDOUT_FILENO) < 0)
 			return (false);
-		ms_close(info->data, info->fd_out);
-		info->fd_out = -10;
+		// ms_close(info->data, info->fd_out);
+		// info->fd_out = -10;
 	}
 	if (info->fd_in != -10)
 	{
 		if (dup2(info->fd_in, STDIN_FILENO) < 0)
 			return (false);
-		ms_close(info->data, info->fd_in);
-		info->fd_in = -10;
+		// ms_close(info->data, info->fd_in);
+		// info->fd_in = -10;
 	}
 	else if (info->curr_cmd != 0)
 	{
 		if (dup2(info->pipe_read_end, STDIN_FILENO) < 0)
 			return (false);
-		ms_close(info->data, info->pipe_read_end);
-		info->pipe_read_end = STDIN_FILENO;
+		// ms_close(info->data, info->pipe_read_end);
+		// info->pipe_read_end = STDIN_FILENO;
 	}
 	return (true);
 }
@@ -100,7 +100,7 @@ bool	handle_child_type(t_info *info)
 		if (do_middle_child(info) == false)
 			return (false);
 	}
-	close_fds(info->data, info);
+	// close_fds(info->data, info);
 	//ms_close(info->data, info->pipefd[0]);
 	//ms_close(info->data, info->pipefd[1]);
 	return (true);

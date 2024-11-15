@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/13 12:44:19 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/15 11:34:10 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ bool	start_exec(t_info *info)
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
 	// printf("path: %s\n", path);
-	close_fds(info->data, info);
+	close_fds(info->data, info); //probabyly not needed
 	if (path == NULL)
 	{
 		free_2d_null(&cmd_matrix);
