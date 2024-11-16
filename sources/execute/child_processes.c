@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/15 13:00:28 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/16 15:42:49 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ bool	one_builtin(t_data *data)
 	{
 		handle_builtin(data->info, command_array);
 		close_fds(data, data->info);
+		free_2d_null(&command_array);
 		return (true);
 	}
 	return (false);

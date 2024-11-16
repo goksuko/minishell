@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:47 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/13 13:02:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/16 15:56:39 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	cd_data.old_cwd = ft_strdup(cd_data.cwd);
+	cd_data.old_cwd = cd_data.cwd;
 	if (errno == ENOMEM || cd_data.old_cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
 	if (cmds && cmds[0] != NULL && cmds[1] != NULL)
