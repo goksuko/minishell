@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:49:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/17 15:25:37 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	print_sorted_env_vars(t_env **env, int fd);
 t_env	*get_next_var_to_print(t_env *list, t_env *last_printed);
 int		get_list_size(t_env *list);
 void	print_env_var(t_env *var, int fd);
+int		ft_strcmp(const char *s1, const char *s2);
 
 // EXPORT WITH ARGS
 int		create_new_env(t_data **data, char *command);
