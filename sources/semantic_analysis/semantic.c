@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:08:09 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:56:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 	if (info->fds[i][0] != -10)
 		ms_close(data, info->fds[i][0]);
 	info->fds[i][0] = current->fd_in;
-	info->fd_in = current->fd_in; //added newly
+	info->fd_in = current->fd_in;
 	info->infile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
@@ -27,9 +27,8 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	if (info->fds[i][1] != -10)
 		ms_close(data, info->fds[i][1]);
 	info->fds[i][1] = current->fd_out;
-	info->fd_out = current->fd_out; //added newly
+	info->fd_out = current->fd_out;
 	info->outfile = ms_strdup(data, current->expanded_value);
-	// free_and_null(&current->expanded_value); // added new
 	return (true);
 }
 
@@ -76,22 +75,15 @@ bool	initialize_fds(t_info *info, t_data *data)
 
 bool	semantic_analysis(t_data *data)
 {
-	// t_info	*info;
-
-	// info = NULL;
 	data->exit_code = 0;
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	// free_info(data->info);
-	// info = (t_info *)ms_calloc(data, 1, sizeof(t_info));
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
-	// data->info = info;
 	data->info->here_doc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	initialize_info(data->info, data);
 	if (initialize_fds(data->info, data) == false)
 		return (false);
-	if (data->cmds == NULL) //changed position because of the "< infile" case
+	if (data->cmds == NULL)
 		return (false);
-	// printf("---End of semantic analysis---\n");
 	return (true);
 }

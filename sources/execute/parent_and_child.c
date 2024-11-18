@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:52:25 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 12:19:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,36 +69,62 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 	{
 		if (handle_builtin(info, command_array) == false)
 		{
-			// printf("--HANDLE BUILTIN RETURNED FALSE\n"); // DEBUG
 			close_fds(data, info);
 			close_fds_from_next_cmds(info);
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			// printf("---HANLDE BUILTIN RETURNED TRUE---\n"); // DEBUG
 			close_fds(data, info);
-			// printf("---Close FDs done in do_child\n");
 			close_fds_from_next_cmds(info);
 			exit(EXIT_SUCCESS);
 		}
 	}
 	else
 	{
-		// data->exit_code = SUCCESS;
 		if (start_exec(info) == false)
 			return (false);
 	}
 	return (true);
 }
 
-// bool	do_parent(t_data *data, t_info *info, char **command_array)
-// {
-// 	(void)info;
-// 	if (command_array)
-// 	{
-// 		if (execute_parent_builtin(command_array, data) == false) // should be < 0 ?????
-// 			return (false);
-// 	}
-// 	return (true);
-// }
+void	do_parent(t_info *info)
+{
+	if (info->fd_out != -10)
+	{
+		ms_close(info->data, info->fd_out);
+		info->fd_out = -10;
+	}
+	if (info->fd_in != -10)
+	{
+		ms_close(info->data, info->fd_in);
+		info->fd_in = -10;
+	}
+	if (info->pipefd[1] != STDOUT_FILENO)
+	{
+		ms_close(info->data, info->pipefd[1]);
+		info->pipefd[1] = STDOUT_FILENO;
+	}
+	if (info->pipe_read_end != STDIN_FILENO)
+	{
+		ms_close(info->data, info->pipe_read_end);
+		if (info->pipefd[0] != STDIN_FILENO)
+			info->pipe_read_end = info->pipefd[0];
+		else
+			info->pipe_read_end = STDIN_FILENO;
+	}
+	return ;
+}
+
+char	**make_command_array(t_data *data)
+{
+	char	**command_array;
+
+	if (data->cmds[data->info->curr_cmd] == NULL)
+		return (NULL);
+	command_array = ms_split(data, data->cmds[data->info->curr_cmd], ' ');
+	if (is_builtin(command_array[0]))
+		return (command_array);
+	free_2d_null(&command_array);
+	return (NULL);
+}

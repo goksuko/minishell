@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:08:06 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:59:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ bool	handle_redirection(t_token **current, bool *cat_cmd)
 
 char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 {
-	// printf("---HANDLE_REDIRECTION2()----\n");
 	char	*cmd;
 
 	cmd = NULL;
@@ -66,7 +65,7 @@ char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 
 bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 {
-	char *temp;
+	char	*temp;
 
 	while ((*current) && (*current)->type != T_PIPE && !is_redir(*current))
 	{
@@ -80,17 +79,6 @@ bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 	}
 	return (true);
 }
-
-// bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
-// {
-// 	while ((*current) && (*current)->type != T_PIPE && !is_redir(*current))
-// 	{
-// 		cmds[*j] = ms_strjoin(data, cmds[*j], " ");
-// 		cmds[*j] = ms_strjoin(data, cmds[*j], (*current)->expanded_value);
-// 		(*current) = (*current)->next;
-// 	}
-// 	return (true);
-// }
 
 bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 {
@@ -110,19 +98,11 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 			return (false);
 		cmd = handle_redirection2(data, current, &cat_cmd);
 		if (cmd)
-		// {
-		// 	cmds[*j] = ms_strdup(data, cmd);
-		// 	free_and_null(&cmd);
-		// }
 			cmds[*j] = cmd;
 		if (!handle_command(data, current, cmds, j))
-		{
-			free_and_null(&cmd);
-			return (false);
-		}
-		if (is_redir(*current) && cmds[*j]) //for skipping redirections
+			return (free_and_null(&cmd), false);
+		if (is_redir(*current) && cmds[*j])
 			break ;
-		// free_and_null(&cmd);
 	}
 	return (true);
 }

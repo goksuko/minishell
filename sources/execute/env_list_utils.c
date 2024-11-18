@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:22 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/21 10:31:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 12:01:31 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ char	*ft_get_env(t_env *env_list, char *key)
 	key_len = ft_strlen(key);
 	while (temp != NULL)
 	{
-		if (ft_strncmp(temp->key, key, key_len) == 0 && (int)ft_strlen(temp->key) == key_len)
+		if (ft_strncmp(temp->key, key, key_len) == 0
+			&& (int)ft_strlen(temp->key) == key_len)
 			return (temp->value);
 		temp = temp->next;
 	}

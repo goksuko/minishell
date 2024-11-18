@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:45:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 12:33:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**make_command_array(t_data *data);
 
 bool	close_fds(t_data *data, t_info *info);
 bool	do_child(t_data *data, t_info *info, char **command_array);
-bool	do_parent(t_data *data, t_info *info, char **command_array);
+void	do_parent(t_info *info);
 bool	print_fds(t_data *data, t_info *info);
 
 // children.c
@@ -61,10 +61,17 @@ bool	cat_inside(t_token *current);
 int		is_file(const char *path);
 bool	execute_shell(t_data *data);
 
+// messages.c
+
+void    all_messages(t_data *data, char *str);
+
+
 // Utils functions //
 bool	start_exec(t_info *info);
 void 	close_fds_from_next_cmds(t_info *info);
 bool	is_whitespace(char c);
+bool	is_directory(const char *path);
+
 
 // Path functions //
 char	*find_path_helper(t_info *info, char *main_command, char **path_split,

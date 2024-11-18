@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:31:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/09 22:13:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:57:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ t_token	*redir_first(t_token *current)
 	return (temp);
 }
 
-// char	*do_cat_addition(t_data *data, t_token *current, char *cmd)
-// {
-// 	cmd = ms_strjoin(data, cmd, " ");
-// 	cmd = ms_strjoin(data, cmd, current->next->expanded_value);
-// 	return (cmd);
-// }
-
 bool	is_first_after_pipe(t_token *current)
 {
 	if (current && (current->prev == NULL || current->prev->type == T_PIPE))
@@ -58,17 +51,15 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 		if (handle_loop(data, &current, cmds, &j) == false)
 		{
 			free_2d_null(&cmds);
-			return	(NULL);
+			return (NULL);
 		}
-			// return (NULL);
-		while (current && current->type != T_PIPE) //for skipping redirections
+		while (current && current->type != T_PIPE)
 			current = current->next;
 		if (current && current->type == T_PIPE)
 			current = current->next;
 		j++;
 	}
 	cmds[j] = NULL;
-	// printf_array(cmds);
 	return (cmds);
 }
 
