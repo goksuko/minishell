@@ -62,8 +62,11 @@ void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, \
 	}
 }
 
-int	cd_parent_dir(char *cwd, t_data *data)
+int	cd_parent_dir(char *cwd, t_data *data, t_cd_data *cd_data)
 {
+	char	*temp;
+
+	temp = NULL;
 	if (ft_strlen(cwd) != 1)
 	{
 		if (errno == ENOMEM || chdir("..") != 0)
@@ -72,12 +75,14 @@ int	cd_parent_dir(char *cwd, t_data *data)
 			free_system_error(data, ERROR_PARENT_DIR);
 			return (ERROR_PARENT_DIR);
 		}
-		cwd = getcwd(NULL, 0);
-		if (errno == ENOMEM || cwd == NULL)
+		temp = getcwd(NULL, 0);
+		if (errno == ENOMEM || temp == NULL)
 		{
+			free(cd_data->old_cwd);
 			free_system_perror(data, ERROR_ALLOCATION, "cwd in cd_parent_dir");
 			return (ERROR_ALLOCATION);
 		}
+		free(temp);
 	}
 	return (SUCCESS);
 }

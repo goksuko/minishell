@@ -62,8 +62,8 @@ int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
 		return (cd_old_pwd(cd_data->env_list, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
-		return (cd_parent_dir(cd_data->cwd, cd_data->data));
-	else if (ft_strncmp(cmds[0], "/", 1) == 0 && cmd_len == 1)
+		return (cd_parent_dir(cd_data->cwd, cd_data->data, cd_data));
+	else if (ft_strncmp(cmds[0], "/", 1) == 0 && cmd_len == 1) // TO BE CHECKED - IF THERE ARE MEMORY LEAKS
 		return (change_directory("/", cd_data));
 	else if (access(cmds[0], F_OK) == 0)
 		return (change_directory(cmds[0], cd_data));
