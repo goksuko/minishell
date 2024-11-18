@@ -14,12 +14,11 @@
 
 void	free_and_null(char **ptr)
 {
-	if (*ptr)
+	if (ptr && *ptr)
 	{
 		free(*ptr);
 		*ptr = NULL;
 	}
-	return ;
 }
 
 void	free_2d_null(char ***ptr)

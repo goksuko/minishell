@@ -21,12 +21,12 @@ void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd)
 	{
 		if (ft_strncmp("OLDPWD", env->key, 6) == 0)
 		{
-			free(env->value);
+			free(env->value); // Need to leave this in! Otherwise, it will cause a memory leak
 			env->value = old_cwd;
 		}
 		else if (ft_strncmp("PWD", env->key, 3) == 0)
 		{
-			free(env->value);
+			free(env->value); // Need to leave this in! Otherwise, it will cause a memory leak
 			env->value = new_cwd;
 		}
 		env = env->next;
@@ -53,18 +53,22 @@ int	cd_parent_dir(char *cwd, t_data *data)
 	return (SUCCESS);
 }
 
-int	cd_home(t_env *env_list, t_data *data)
+
+// if HOME does not exist we need to free cwd and old cwd in cd_data!! 
+int	cd_home(t_env *env_list, t_data *data, t_cd_data *cd_data)
 {
 	char	*home;
 
-	home = ft_get_env(env_list, "HOME"); // if HOME is unset it should return an error but instead if HOME cannot be found it goes to HOMEBREW instead. Hence, the first onne that is similar to HOME
+	home = ft_get_env(env_list, "HOME");
 	if (errno == ENOMEM || home == NULL)
 	{
+		free(cd_data->cwd); // NEW
 		free_system_error(data, ERROR_HOME_DIR);
 		return (ERROR_HOME_DIR);
 	}
 	if (errno == ENOMEM || chdir(home) != 0)
 	{
+		free(cd_data->cwd); // NEW
 		free_system_error(data, ERROR_NO_FILE_DIR);
 		return (ERROR_NO_FILE_DIR);
 	}
