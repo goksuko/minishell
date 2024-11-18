@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 20:16:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:08:09 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ bool	semantic_analysis(t_data *data)
 		return (false);
 	if (data->cmds == NULL) //changed position because of the "< infile" case
 		return (false);
-	printf("---End of semantic analysis---\n");
+	// printf("---End of semantic analysis---\n");
 	return (true);
 }

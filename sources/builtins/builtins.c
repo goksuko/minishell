@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:43 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/16 15:52:33 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:06:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	execute_builtin(char **cmds, t_data *data)
 		return_value = ft_env(cmds + 1, data);
 	else if (cmd_len == 4 && ft_strncmp(cmds[0], "exit", 4) == 0)
 		return_value = ft_exit(cmds + 1, data);
-	printf("----EXECUTE BUILTIN DONE---\n");
+	// printf("----EXECUTE BUILTIN DONE---\n");
 	return (return_value);
 }
 

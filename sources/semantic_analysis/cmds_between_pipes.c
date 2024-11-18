@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:52:44 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:08:06 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	handle_redirection(t_token **current, bool *cat_cmd)
 
 char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 {
-	printf("---HANDLE_REDIRECTION2()----\n");
+	// printf("---HANDLE_REDIRECTION2()----\n");
 	char	*cmd;
 
 	cmd = NULL;

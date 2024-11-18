@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:07 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/15 12:01:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:07:12 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool	handle_builtin(t_info *info, char **command)
 {
 	if (command && command[0])
 		info->data->exit_code = execute_builtin(command, info->data);
-	printf("--Finished execute builtin in handle_builtin\n");
+	// printf("--Finished execute builtin in handle_builtin\n");
 	if (info->data->exit_code != 0)
 		return (false);
 	return (true);

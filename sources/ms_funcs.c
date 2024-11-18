@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:02:02 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/14 12:28:12 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:06:28 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ms_close(t_data *data, int fd)
 {
 	if (close(fd) < 0)
 		ft_exit_perror(data, ERROR_CLOSE);
-	printf(" closed %d\n", fd);
+	// printf(" closed %d\n", fd);
 	return ;
 }
 
