@@ -45,7 +45,7 @@ bool	dollar_in_loop(t_data *data, char **new, char *str, int *i)
 	if (temp == NULL)
 		return (false);
 	*new = add_str(*new, temp);
-	free(temp);
+	// free(temp); // temp is being freed in add_str but now need to check again echo $NONEXISTINGVAR because this will give a memory leak
 	if (*new == NULL)
 		return (false);
 	return (true);
