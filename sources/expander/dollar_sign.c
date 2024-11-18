@@ -45,6 +45,7 @@ bool	dollar_in_loop(t_data *data, char **new, char *str, int *i)
 	if (temp == NULL)
 		return (false);
 	*new = add_str(*new, temp);
+	free(temp);
 	if (*new == NULL)
 		return (false);
 	return (true);
