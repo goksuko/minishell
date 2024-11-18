@@ -34,7 +34,8 @@ bool	verify_oldpwd_pwd(t_env *env_list)
 	return (false);
 }
 
-void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, t_cd_data *cd_data)// 
+void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, \
+		t_cd_data *cd_data)// 
 {
 	t_env	*env;
 
@@ -49,12 +50,12 @@ void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, t_cd_data *
 	{
 		if (ft_strncmp("OLDPWD", env->key, 6) == 0)
 		{
-			free(env->value); // Need to leave this in! Otherwise, it will cause a memory leak
+			free(env->value);
 			env->value = old_cwd;
 		}
 		else if (ft_strncmp("PWD", env->key, 3) == 0)
 		{
-			free(env->value); // Need to leave this in! Otherwise, it will cause a memory leak
+			free(env->value);
 			env->value = new_cwd;
 		}
 		env = env->next;
@@ -81,8 +82,6 @@ int	cd_parent_dir(char *cwd, t_data *data)
 	return (SUCCESS);
 }
 
-
-// if HOME does not exist we need to free cwd and old cwd in cd_data!! 
 int	cd_home(t_env *env_list, t_data *data, t_cd_data *cd_data)
 {
 	char	*home;
@@ -90,13 +89,13 @@ int	cd_home(t_env *env_list, t_data *data, t_cd_data *cd_data)
 	home = ft_get_env(env_list, "HOME");
 	if (errno == ENOMEM || home == NULL)
 	{
-		free(cd_data->cwd); // NEW
+		free(cd_data->cwd);
 		free_system_error(data, ERROR_HOME_DIR);
 		return (ERROR_HOME_DIR);
 	}
 	if (errno == ENOMEM || chdir(home) != 0)
 	{
-		free(cd_data->cwd); // NEW
+		free(cd_data->cwd);
 		free_system_error(data, ERROR_NO_FILE_DIR);
 		return (ERROR_NO_FILE_DIR);
 	}
@@ -111,14 +110,14 @@ int	cd_old_pwd(t_env *env_list, t_data *data, t_cd_data *cd_data)
 	if (errno == ENOMEM || old_pwd == NULL)
 	{
 		printf("Freee 1\n");
-		free(cd_data->cwd); // NEW
+		free(cd_data->cwd);
 		free_system_error(data, ERROR_OLDPWD);
 		return (ERROR_OLDPWD);
 	}
 	if (errno == ENOMEM || chdir(old_pwd) != 0)
 	{
 		printf("Freee 2\n");
-		free(cd_data->cwd); // NEW
+		free(cd_data->cwd);
 		free(old_pwd);
 		free_system_error(data, ERROR_NO_FILE_DIR);
 		return (ERROR_NO_FILE_DIR);
