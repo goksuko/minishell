@@ -39,7 +39,7 @@ int		cd_old_pwd(t_env *env_list, t_data *data, t_cd_data *cd_data);
 int		cd_home(t_env *env_list, t_data *data, t_cd_data *cd_data);
 int		cd_parent_dir(char *cwd, t_data *data);
 void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, t_cd_data *cd_data);
-bool	verify_oldpwd_pwd(t_env *env_list)
+bool	verify_oldpwd_pwd(t_env *env_list);
 // int		ft_cd(char **cmds, t_env *env_list);
 
 // EXIT
