@@ -59,6 +59,8 @@ bool	meta_character_check(t_data *data, char *line)
 	while (line[i] != '\0')
 	{
 		skip_whitespace(line, &i);
+		if (line[i] == '\0')
+			break ;
 		if (is_quote(line[i]) == true)
 		{
 			closed_quote = quote_closed_check(data, line, i, line[i]);
