@@ -45,7 +45,7 @@ int	handle_cd_error(t_cd_data *cd_data, int error_code)
 
 int	change_directory(char *path, t_cd_data *cd_data)
 {
-	// printf("----CHANGE DIRECTORY-----\n");
+	printf("----CHANGE DIRECTORY-----\n");
 	if (errno == ENOMEM || chdir(path) != 0)
 		return (handle_cd_error(cd_data, ERROR_NO_FILE_DIR));
 	return (SUCCESS);
@@ -60,9 +60,9 @@ int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 	if (cmds[0] == NULL || (ft_strncmp(cmds[0], "~", 1) == 0 && cmd_len == 1))
 		return (cd_home(cd_data->env_list, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
-		return (cd_old_pwd(cd_data->env_list, cd_data->data));
+		return (cd_old_pwd(cd_data->env_list, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
-		return (cd_parent_dir(cd_data->cwd, cd_data->data));
+		return (cd_parent_dir(cd_data->cwd, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "/", 1) == 0 && cmd_len == 1)
 		return (change_directory("/", cd_data));
 	else if (access(cmds[0], F_OK) == 0)
@@ -89,6 +89,6 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd);
+	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd, &cd_data);
 	return (return_value);
 }
