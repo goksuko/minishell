@@ -6,7 +6,7 @@
 #    By: vbusekru <vbusekru@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/09/03 14:03:42 by vbusekru      #+#    #+#                  #
-#    Updated: 2024/10/27 12:02:38 by akaya-oz      ########   odam.nl          #
+#    Updated: 2024/11/18 12:32:01 by akaya-oz      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ EXECUTE =				child_processes.c \
 						env_list.c \
 						env_list_utils.c \
 						env_key_funcs.c \
+						messages.c \
 						parent_and_child.c \
 						path.c \
 						utils.c \

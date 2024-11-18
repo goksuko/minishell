@@ -6,16 +6,17 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:47 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/13 13:02:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:06:41 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
+// int	ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
+int	ft_cd_error(t_data *data, char **cwd, int return_value)
 {
-	printf("----FT_CD_ERROR----\n");
-	free_and_null(&*old_cwd);
+	// printf("----FT_CD_ERROR----\n");
+	// free_and_null(&*old_cwd); // Debugging purposes 
 	free_and_null(&*cwd);
 	if (return_value == ERROR_TOO_MANY_ARGS)
 	{
@@ -37,9 +38,9 @@ int	ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
 
 int	handle_cd_error(t_cd_data *cd_data, int error_code)
 {
-	printf("----HANLDE_CD_ERROR----\n");
+	// printf("----HANLDE_CD_ERROR----\n");
 	return (ft_cd_error(cd_data->data, &cd_data->cwd, \
-	&cd_data->old_cwd, error_code));
+	error_code));
 }
 
 int	change_directory(char *path, t_cd_data *cd_data)
@@ -52,16 +53,16 @@ int	change_directory(char *path, t_cd_data *cd_data)
 
 int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 {
-	printf("---HANDLE SPECIAL CASES---\n");
+	// printf("---HANDLE SPECIAL CASES---\n");
 	int	cmd_len;
 
 	cmd_len = ft_strlen(cmds[0]);
 	if (cmds[0] == NULL || (ft_strncmp(cmds[0], "~", 1) == 0 && cmd_len == 1))
-		return (cd_home(cd_data->env_list, cd_data->data));
+		return (cd_home(cd_data->env_list, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "-", 1) == 0 && cmd_len == 1)
-		return (cd_old_pwd(cd_data->env_list, cd_data->data));
+		return (cd_old_pwd(cd_data->env_list, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "..", 2) == 0 && cmd_len == 2)
-		return (cd_parent_dir(cd_data->cwd, cd_data->data));
+		return (cd_parent_dir(cd_data->cwd, cd_data->data, cd_data));
 	else if (ft_strncmp(cmds[0], "/", 1) == 0 && cmd_len == 1)
 		return (change_directory("/", cd_data));
 	else if (access(cmds[0], F_OK) == 0)
@@ -79,18 +80,15 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	cd_data.old_cwd = ft_strdup(cd_data.cwd);
-	if (errno == ENOMEM || cd_data.old_cwd == NULL)
-		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
+	cd_data.old_cwd = cd_data.cwd;
 	if (cmds && cmds[0] != NULL && cmds[1] != NULL)
 		return (handle_cd_error(&cd_data, ERROR_TOO_MANY_ARGS));
 	return_value = handle_special_cases(cmds, &cd_data);
 	if (return_value != SUCCESS)
 		return (return_value);
-	free_and_null(&cd_data.cwd);
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd);
+	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd, &cd_data);
 	return (return_value);
 }

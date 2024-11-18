@@ -12,3 +12,9 @@ git checkout --theirs .
 git add .
 git commit
 git push origin your-branch
+
+
+
+git fetch --all
+git rebase origin main
+git push origin main

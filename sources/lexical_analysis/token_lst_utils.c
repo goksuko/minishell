@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/19 13:02:02 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 11:08:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 
 void	ft_print_tokens(t_token *tokens) // Only for testing purposes
 {
-	printf("----PRINT TOKENS----\n");
+	// printf("----PRINT TOKENS----\n");
 	int		i;
 	t_token	*temp;
 

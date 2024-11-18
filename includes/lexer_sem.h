@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/27 12:06:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 14:56:13 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ char				*do_cat_addition(t_data *data, t_token *current, char *cmd);
 bool				is_first_after_pipe(t_token *current);
 char				**cmds_between_pipes(t_data *data, char **cmds);
 char				**cmds_from_tokens(t_data *data);
+bool				is_redir_inside(t_token *current);
 
 // cmds_between_pipes.c
 

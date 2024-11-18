@@ -6,11 +6,21 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:46:16 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:46:16 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/17 15:23:46 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
 
 bool	verify_key(char *key, int fd)
 {

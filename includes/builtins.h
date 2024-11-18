@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/25 16:49:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/17 15:25:37 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ int		ft_pwd(char **cmds, t_data *data);
 
 // CD
 int		ft_cd(char **cmds, t_env *env_list, t_data *data);
-int		cd_old_pwd(t_env *env_list, t_data *data);
-int		cd_home(t_env *env_list, t_data *data);
-int		cd_parent_dir(char *cwd, t_data *data);
-void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd);
+int		cd_old_pwd(t_env *env_list, t_data *data, t_cd_data *cd_data);
+int		cd_home(t_env *env_list, t_data *data, t_cd_data *cd_data);
+int		cd_parent_dir(char *cwd, t_data *data, t_cd_data *cd_data);
+void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, t_cd_data *cd_data);
+bool	verify_oldpwd_pwd(t_env *env_list);
 // int		ft_cd(char **cmds, t_env *env_list);
 
 // EXIT
@@ -65,6 +66,7 @@ void	print_sorted_env_vars(t_env **env, int fd);
 t_env	*get_next_var_to_print(t_env *list, t_env *last_printed);
 int		get_list_size(t_env *list);
 void	print_env_var(t_env *var, int fd);
+int		ft_strcmp(const char *s1, const char *s2);
 
 // EXPORT WITH ARGS
 int		create_new_env(t_data **data, char *command);
