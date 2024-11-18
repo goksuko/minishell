@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:59:15 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 15:28:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ bool	handle_heredoc(t_data *data, t_token **current, char **cmds, int *j)
 		cmds[*j] = ms_strjoin(data, cmds[*j], (*current)->expanded_value);
 		(*current) = (*current)->next;
 	}
+	return (true);
+}
+
+bool	handle_later_heredoc(t_data *data, t_token **current, char **cmds, int *j)
+{
+	cmds[*j] = ms_strdup(data, (*current)->expanded_value);
+	(*current) = (*current)->next;
+	while ((*current) && (*current)->type != T_DSMALLER)
+	{
+		cmds[*j] = ms_strjoin(data, cmds[*j], " ");
+		cmds[*j] = ms_strjoin(data, cmds[*j], (*current)->expanded_value);
+		(*current) = (*current)->next;
+	}
+	while ((*current) && (*current)->type != T_PIPE)
+		(*current) = (*current)->next;
 	return (true);
 }
 
@@ -87,13 +102,12 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 
 	cat_cmd = false;
 	cmd = NULL;
+	if (is_heredoc(*current))
+		handle_heredoc(data, current, cmds, j);
+	if (is_redir_inside(*current))
+		handle_later_heredoc(data, current, cmds, j);
 	while ((*current) && (*current)->type != T_PIPE)
 	{
-		if (is_heredoc(*current))
-		{
-			if (!handle_heredoc(data, current, cmds, j))
-				return (false);
-		}
 		if (!handle_redirection(current, &cat_cmd))
 			return (false);
 		cmd = handle_redirection2(data, current, &cat_cmd);

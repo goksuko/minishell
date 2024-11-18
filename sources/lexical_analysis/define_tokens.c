@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 11:22:02 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:07:48 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 14:37:47 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ bool	define_smaller(t_data *data, t_token *token)
 	{
 		// printf("inside if\n");
 		if (!cat_inside(token->prev))
-			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
-				token->next->value);
+			// ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+			// 	token->next->value);
+			all_messages(data, token->next->value);
 		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
 		// free_system(data);
 		return (false);
@@ -69,8 +70,9 @@ bool	define_greater(t_data *data, t_token *token)
 	{
 		// printf("inside if\n");
 		if (!cat_inside(token->prev))
-			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
-				token->next->value);
+			// ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
+			// 	token->next->value);
+			all_messages(data, token->next->value);
 		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
 		// free_system(data);
 		return (false);
@@ -88,8 +90,9 @@ bool	define_dsmaller(t_data *data, t_token *token)
 	temp_fd = open("0ur_h3r3_d0c", O_CREAT | O_TRUNC | O_WRONLY, 0777);
 	if (temp_fd == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
-			token->next->value);
+		// ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
+		// 	token->next->value);
+		all_messages(data, token->next->value);
 		data->exit_code = ERROR_NO_FILE_DIR;
 		free_system(data);
 		return (false);
@@ -108,8 +111,9 @@ bool	define_dgreater(t_data *data, t_token *token)
 	{
 		// printf("inside if\n");
 		if (!cat_inside(token->prev))
-			ft_printf_fd(STDERR_FILENO, "bash: %s: No such file or directory\n",
-				token->next->value);
+			// ft_printf_fd(STDERR_FILENO, "bash: %s: No sgfhdfghuch file or directory\n",
+			// 	token->next->value);
+			all_messages(data, token->next->value);
 		data->exit_code = 1; //changed from ERROR_NO_FILE_DIR
 		// free_system(data);
 		return (false);
