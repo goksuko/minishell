@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/20 14:25:56 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/20 23:00:19 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,25 @@ bool	handle_redirection(t_token **current, bool *cat_cmd, bool *no_cmd)
 	{
 		// printf("here2\n");
 		// printf("current: %s\n", (*current)->expanded_value);
-		if ((*current)->next->next == NULL)
+		if ((*current)->next->next == NULL || (*current)->next->next->type == T_PIPE)	
 		{
 			// printf("here3\n");
 			*no_cmd = true;
 			// return (true);
 		}
-		if ((*current)->next->next->type == T_PIPE)
-		{
-			// printf("here\n");
-			*no_cmd = true;
-			// *current = (*current)->next->next;
-			// return (true);
-		}
-		// else
+		// if ((*current)->next->next->type == T_PIPE)
 		// {
+		// 	// printf("here\n");
+		// 	*no_cmd = true;
+		// 	// *current = (*current)->next->next;
+		// 	// return (true);
+		// }
+		else
+		{
 			*current = redir_first(*current);
 			if (!*current)
 				return (false);
-		// }
+		}
 	}
 	if (*current && ft_strncmp((*current)->expanded_value, "cat", 3) == 0)
 		*cat_cmd = true;
@@ -134,16 +134,17 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 		// if (*current)
 		// 	printf("1: %s\n", (*current)->expanded_value);
 		if (!handle_redirection(current, &cat_cmd, &no_cmd))
-		// {
+		{
 			// printf("returned false\n");
 			return (false);
-		// }
-		// if (no_cmd)
-		// {
-		// 	cmds[*j] = NULL;
-		// 	// (*j)++;
-		// 	return (true);
-		// }
+		}
+		// printf("handle redir returning true\n");
+		if (no_cmd)
+		{
+			cmds[*j] = NULL;
+			// (*j)++;
+			return (true);
+		}
 		// else
 		// {
 			// if (*current)
@@ -152,7 +153,10 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 				// break ;
 			cmd = handle_redirection2(data, current, &cat_cmd);
 			if (cmd)
+			{
 				cmds[*j] = cmd;
+				// printf("cmd: %s\n", cmd);
+			}
 			// else
 			// 	printf("cmd is null\n");
 			// if (*current)
