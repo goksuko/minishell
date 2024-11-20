@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/04 14:35:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:08:46 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/20 23:18:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	free_system(t_data *data)
 		free_info(data->info);
 	if (data && data->tokens)
 		free_token_list(&data->tokens);
+	// close_fds(data, data->info);
 	return ;
 }
 
@@ -77,6 +78,7 @@ void	free_data(t_data **data)
 		free((*data)->path);
 	if ((*data) && (*data)->env_list)
 		free_env(&(*data)->env_list);
+	close_fds(*data, (*data)->info);
 	rl_clear_history();
 	free(*data);
 	*data = NULL;

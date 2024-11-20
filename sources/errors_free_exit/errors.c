@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 11:50:49 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/20 23:21:36 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	ft_system_error(t_data *data, t_error code)
 
 void	free_info(t_info *info)
 {
-	if (info->infile)
-		free_and_null(&info->infile);
-	if (info->outfile)
-		free_and_null(&info->outfile);
+	// if (info->infile)
+	// 	free_and_null(&info->infile);
+	// if (info->outfile)
+	// 	free_and_null(&info->outfile);
 	if (info->limiter)
 		free_and_null(&info->limiter);
 	if (info->path)
