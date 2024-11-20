@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/10 19:29:28 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:48:46 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_data
 	int				nbr_of_pipes;
 	int				nbr_of_tokens;
 	char			**expanded_cmds;
+	char			**limiters;
+	int				nbr_of_heredoc;
+	int				heredoc_fd;
 	struct s_info	*info;
 	struct s_env	*env_list;
 	struct s_token	*tokens;
@@ -57,10 +60,11 @@ typedef struct s_info
 	int				fds[100][2];
 	int				fd_in;
 	int				fd_out;
+	int				heredoc_fd;
 	char			*infile;
 	char			*outfile;
 	int				curr_cmd;
-	int				here_doc_cmd;
+	int				heredoc_cmd;
 	char			*limiter;
 	char			*path;
 	int				pipe_read_end;

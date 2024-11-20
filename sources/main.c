@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/16 13:36:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 16:58:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:44:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ bool	minishell_routine(t_data *data)
 	// ft_print_tokens(data->tokens); //DEBUGGING PURPOSES!
 	if (semantic_analysis(data) == false)
 		return (false);
-	// printf("\n**********Result*********\n\n");
+	printf("\n**********Result*********\n\n");
 	if (execute_shell(data) == false)
 		return (false);
 	ms_unlink(data, "0ur_h3r3_d0c");
@@ -99,6 +99,9 @@ void	init_data(t_info *info, t_data *data, char **envp)
 	data->path = NULL;
 	data->info = info;
 	data->tokens = NULL;
+	data->limiters  = NULL;
+	data->nbr_of_heredoc = 0;
+	data->heredoc_fd = -10;
 	return ;
 }
 

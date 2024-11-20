@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:45:47 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 12:37:34 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:53:23 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ pid_t	time_to_fork(t_info *info)
 
 bool	assign_fds_and_pipe(t_data *data, int i)
 {
-	if (data->info->curr_cmd == data->info->here_doc_cmd)
+	if (data->info->curr_cmd == data->info->heredoc_cmd)
 	{
 		if (init_heredoc(data) == false)
 			return (false);
-		data->info->fds[i][0] = ms_open(data, "0ur_h3r3_d0c", O_RDONLY, 0777);
+		// data->info->fds[i][0] = ms_open(data, "0ur_h3r3_d0c", O_RDONLY, 0777);
+		data->info->fds[i][0] = data->info->heredoc_fd;
 	}
 	data->info->fd_in = data->info->fds[i][0];
 	data->info->fd_out = data->info->fds[i][1];

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:56:38 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:52:40 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ bool	initialize_fds(t_info *info, t_data *data)
 			if (!handle_outfile(data, info, i, current))
 				return (false);
 		}
+		if (current->heredoc_fd != -10)
+			info->heredoc_fd = current->heredoc_fd;
 		if (current->type == T_PIPE)
 			i++;
 		current = current->next;
@@ -78,7 +80,7 @@ bool	semantic_analysis(t_data *data)
 	data->exit_code = 0;
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	data->nbr_of_cmds = data->nbr_of_pipes + 1;
-	data->info->here_doc_cmd = -100;
+	data->info->heredoc_cmd = -100;
 	data->cmds = cmds_from_tokens(data);
 	initialize_info(data->info, data);
 	if (initialize_fds(data->info, data) == false)

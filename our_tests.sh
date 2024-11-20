@@ -210,7 +210,7 @@ cat read.sh > out
 #cat: out: input file is output file
 
 echo 34
-->here_doc_cmd
+->heredoc_cmd
 #zsh: segmentation fault (core dumped)  ./minishell
 
 echo 35

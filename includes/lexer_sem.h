@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 14:56:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:13:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_token
 	int				token_count;
 	int				fd_in;
 	int				fd_out;
-	int				here_doc_fd;
+	int				heredoc_fd;
 	bool			is_head;
 	char			*limiter;
 }					t_token;
@@ -138,7 +138,7 @@ void				initialize_info(t_info *info, t_data *data);
 
 // heredoc_semantic.c
 bool				limiter_check(t_data *data);
-int					here_doc_fd_check(t_data *data);
+int					heredoc_fd_check(t_data *data);
 bool				init_heredoc(t_data *data);
 
 #endif

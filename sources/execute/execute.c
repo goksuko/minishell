@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:08:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 21:09:04 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:13:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,8 @@ bool	execute_shell(t_data *data)
 {
 	int	exit_code;
 
-	printf("fds[0][0]: %d\n", data->info->fds[0][0]);
-	printf("fds[0][1]: %d\n", data->info->fds[0][1]);
-	printf("fds[1][0]: %d\n", data->info->fds[1][0]);
-	printf("fds[1][1]: %d\n", data->info->fds[1][1]);
-	printf("fds[2][0]: %d\n", data->info->fds[2][0]);
-	printf("fds[2][1]: %d\n", data->info->fds[2][1]);
-	printf("fds[3][0]: %d\n", data->info->fds[3][0]);
-	printf("fds[3][1]: %d\n", data->info->fds[3][1]);
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
-	data->info->here_doc_cmd = heredoc_position(data->tokens);
+	data->info->heredoc_cmd = heredoc_position(data->tokens);
 	if (create_children(data) == false)
 		return (false);
 	exit_code = data->exit_code;

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 15:22:08 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:08:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/18 21:13:37 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 	new_token->next = NULL;
 	new_token->fd_in = -10;
 	new_token->fd_out = -10;
-	new_token->here_doc_fd = -10;
+	new_token->heredoc_fd = -10;
 	new_token->is_head = false; // is this needed and used because I see it was commented out in array_to_list()
 	new_token->limiter = NULL;
 	return (new_token);
