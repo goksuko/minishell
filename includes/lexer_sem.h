@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 14:56:13 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/20 13:11:01 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool				is_redir_inside(t_token *current);
 // cmds_between_pipes.c
 
 bool				handle_heredoc(t_data *data, t_token **current, char **cmds, int *j);
-bool				handle_redirection(t_token **current, bool *cat_cmd);
+bool				handle_redirection(t_token **current, bool *cat_cmd, bool *no_cmd);
 char				*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd);
 bool				handle_command(t_data *data, t_token **current, char **cmds, int *j);
 bool				handle_loop(t_data *data, t_token **current, char **cmds, int *j);
