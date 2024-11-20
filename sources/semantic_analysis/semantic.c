@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:40:37 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/20 23:21:43 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/20 23:33:45 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 	}
 	info->fds[i][0] = current->fd_in;
 	info->fd_in = current->fd_in;
-	// info->infile = ms_strdup(data, current->expanded_value);
+	free_and_null(&info->infile);
+	info->infile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
 
@@ -34,7 +35,8 @@ bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 	}
 	info->fds[i][1] = current->fd_out;
 	info->fd_out = current->fd_out;
-	// info->outfile = ms_strdup(data, current->expanded_value);
+	free_and_null(&info->outfile);
+	info->outfile = ms_strdup(data, current->expanded_value);
 	return (true);
 }
 
