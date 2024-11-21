@@ -24,6 +24,8 @@ char	*get_new_key(char *command)
 
 char	*get_new_value(char *command, int start)
 {
+	if (command[start] == '\0')
+		return (ft_strdup("")); // NEW
 	return (ft_substr(command, start, ft_strlen(command) - start));
 }
 
