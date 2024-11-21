@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/20 23:00:19 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/21 13:05:59 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ bool	handle_loop(t_data *data, t_token **current, char **cmds, int *j)
 		// printf("handle redir returning true\n");
 		if (no_cmd)
 		{
-			cmds[*j] = NULL;
+			cmds[*j] = ms_strdup(data, "");
 			// (*j)++;
 			return (true);
 		}

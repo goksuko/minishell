@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 12:33:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/21 12:55:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	execute_shell(t_data *data);
 // messages.c
 
 void    all_messages(t_data *data, char *str);
-
+void	not_found(t_data *data, char *str);
 
 // Utils functions //
 bool	start_exec(t_info *info);

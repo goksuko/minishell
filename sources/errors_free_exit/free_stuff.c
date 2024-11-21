@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/04 14:35:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/21 12:15:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/21 12:47:26 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	free_matrix(char **matrix)
 
 void	free_system(t_data *data)
 {
-	int	i;
+	// int	i;
 
-	i = 0;	
+	// i = 0;	
 	// printf("----FREE SYSTEM----\n");
 	if (data && data->cmds)
 		free_2d_null(&data->cmds);
@@ -68,14 +68,14 @@ void	free_system(t_data *data)
 		free_info(data->info);
 	if (data && data->tokens)
 		free_token_list(&data->tokens);
-	while (i < 100)
-	{
-		if (data && data->info && data->info->fds[i][0] != -10)
-			ms_close(data, data->info->fds[i][0]);
-		if (data && data->info && data->info->fds[i][1] != -10)
-			ms_close(data, data->info->fds[i][1]);
-		i++;
-	}
+	// while (i < 100)
+	// {
+	// 	if (data && data->info && data->info->fds[i][0] != -10)
+	// 		ms_close(data, data->info->fds[i][0]);
+	// 	if (data && data->info && data->info->fds[i][1] != -10)
+	// 		ms_close(data, data->info->fds[i][1]);
+	// 	i++;
+	// }
 	// close_fds(data, data->info);
 	return ;
 }

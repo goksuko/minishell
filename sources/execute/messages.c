@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/18 12:20:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 14:38:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/21 12:58:57 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	all_messages(t_data *data, char *str)
 	{
 		if (access(str, F_OK))
 		{
-			if (access(str, X_OK) == 0)
+			if (access(str, X_OK) != 0)
 				permission_denied(data, str);
 			else
 				not_found(data, str);
