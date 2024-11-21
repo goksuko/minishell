@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:46:27 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/15 11:22:47 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/21 17:10:58 by vbusekru      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*get_new_key(char *command)
 
 char	*get_new_value(char *command, int start)
 {
+	// while (command[start] == '\"' || command[start] == '\'')
+	// 	start++;
 	if (command[start] == '\0')
 		return (ft_strdup("")); // NEW
 	return (ft_substr(command, start, ft_strlen(command) - start));
