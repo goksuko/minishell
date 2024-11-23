@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:22 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 12:01:31 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/23 15:59:11 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ void	update_shell(t_data *data, t_env **env_list)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "cwd in update_shell");
 	while (env)
 	{
-		if (!ft_strncmp("SHELL", env->key, 5))
+		if (ft_strncmp("SHELL", env->key, 5) == 0)
 		{
-			free(env->value);
-			env->value = cwd;
-			return ;
+			free_and_null(&env->value);
+			env->value = ms_strdup(data, cwd);
+			break ;
 		}
 		env = env->next;
 	}
 	env_list = &start;
-	free(cwd);
+	free_and_null(&cwd);
 	return ;
 }
 
@@ -62,33 +62,24 @@ char	*take_path_from_env(t_data *data, t_env **env)
 	path = NULL;
 	while (*env)
 	{
-		if (!ft_strncmp("PATH", (*env)->key, 4))
+		if (ft_strncmp("PATH", (*env)->key, 4) == 0)
 		{
-			path = ft_strdup((*env)->value);
-			if (path == NULL)
-				ft_exit_data_perror(data, ERROR_ALLOCATION,
-					"path in update_path");
+			path = ms_strdup(data, (*env)->value);
 			break ;
 		}
 		(*env) = (*env)->next;
 	}
 	if (!path)
-		path = ft_strdup("");
-	if (path == NULL)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "path in update_path");
+		path = ms_strdup(data, "");
 	return (path);
 }
 
 void	update_path(t_data *data)
 {
 	t_env	*env;
-	char	*path;
 
 	env = data->env_list;
-	path = data->path;
-	if (path)
-		free(path);
-	path = NULL;
+	free_and_null(&data->path);
 	data->path = take_path_from_env(data, &env);
 	return ;
 }

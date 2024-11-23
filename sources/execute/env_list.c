@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:58:36 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/19 22:58:58 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/23 15:43:23 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env	*ft_new_node(t_data *data, char *key, char *value)
 int	find_data_if_no_pos(t_data *data, char *envp_i, char **key, char **value)
 {
 	*key = ft_substr(envp_i, 0, ft_strlen(envp_i));
-	if (errno == ENOMEM || key == NULL)
+	if (errno == ENOMEM || *key == NULL)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "key in find data");
 	if (check_key(data, *key))
 		return (free(*key), EXIT_FAILURE);
@@ -72,7 +72,10 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 			return (free(key), NULL);
 		value = ft_substr(envp_i, pos + 1, ft_strlen(envp_i));
 		if (errno == ENOMEM || value == NULL)
+		{
+			free_and_null(&key);
 			ft_exit_data_perror(data, ERROR_ALLOCATION, "value in create node");
+		}
 	}
 	else
 	{
