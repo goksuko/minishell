@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/20 23:29:00 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/24 22:25:42 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	free_env(t_env **env_var) // Not sure if elsewhere already! Need to check !
 	{
 		next = current->next;
 		if (current->key)
-			free(current->key);
+			free_and_null(&current->key);
 		if (current->value)
-			free(current->value);
+			free_and_null(&current->value);
 		free(current);
 		current = next;
 	}
