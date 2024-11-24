@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/18 12:20:50 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/21 12:58:57 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/24 21:34:04 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,17 @@ void	not_found(t_data *data, char *str)
 
 void	comm_not_found(t_data *data, char *str)
 {
-	ft_putstr3_fd(str, ": command not found", "\n", STDERR_FILENO);
+	if (str)
+		ft_putstr3_fd(str, ": command not found", "\n", STDERR_FILENO);
 	data->exit_code = 127;
 	return ;
 }
 
 void	all_messages(t_data *data, char *str)
 {
-	if (str[0] == '/')
+	if (str && str[0] == '/')
 		not_found(data, str);
-	else if (str[0] == '.' && str[1] == '/')
+	else if (str && str[0] == '.' && str[1] == '/')
 	{
 		if (access(str, F_OK))
 		{

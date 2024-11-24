@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 11:53:13 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/11 10:44:55 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/24 21:30:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ t_token	*lexical_analysis(t_data *data, char *line)
 	token_lst = create_token_list(data, tokens);
 	if (token_lst == NULL)
 		return (NULL);
-	if (is_file_check(data, token_lst) == false)
-	{
-		// printf("is_file_check() failed\n"); // DEBUGGING PURPOSES!
-		return (NULL);
-	}
+	is_file_check(data, token_lst);
+	// if (is_file_check(data, token_lst) == false)
+	// {
+	// 	// printf("is_file_check() failed\n"); // DEBUGGING PURPOSES!
+	// 	return (NULL);
+	// }
 	return (token_lst);
 }
