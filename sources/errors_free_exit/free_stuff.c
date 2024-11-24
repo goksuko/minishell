@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/04 14:35:10 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/21 12:47:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/24 22:19:44 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void	free_system(t_data *data)
 		free_info(data->info);
 	if (data && data->tokens)
 		free_token_list(&data->tokens);
+	// if (data && data->envp && data->envp[0])
+	// 	free_2d_null(&data->envp);
+	if (data && data->path)
+		free_and_null(&data->path);
 	// while (i < 100)
 	// {
 	// 	if (data && data->info && data->info->fds[i][0] != -10)
@@ -85,8 +89,8 @@ void	free_data(t_data **data)
 	free_system(*data);
 	if ((*data) && (*data)->envp && (*data)->envp[0])
 		free_2d_null(&(*data)->envp);
-	if ((*data) && (*data)->path)
-		free((*data)->path);
+	// if ((*data) && (*data)->path)
+	// 	free_and_null(&(*data)->path);
 	if ((*data) && (*data)->env_list)
 		free_env(&(*data)->env_list);
 	close_fds(*data, (*data)->info);
