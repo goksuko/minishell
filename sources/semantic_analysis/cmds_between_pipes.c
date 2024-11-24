@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/21 13:05:59 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/24 21:42:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	handle_redirection(t_token **current, bool *cat_cmd, bool *no_cmd)
 	{
 		// printf("here2\n");
 		// printf("current: %s\n", (*current)->expanded_value);
-		if ((*current)->next->next == NULL || (*current)->next->next->type == T_PIPE)	
+		if ((*current)->next == NULL || (*current)->next->type == T_PIPE || (*current)->next->next == NULL || (*current)->next->next->type == T_PIPE)	
 		{
 			// printf("here3\n");
 			*no_cmd = true;
