@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/17 15:25:37 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:09:34 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef struct s_cd_data
 
 bool	is_builtin(char *command);
 int		execute_builtin(char **cmds, t_data *data);
-int		execute_parent_builtin(char **cmds, t_data *data);
 
 // Echo
 int		ft_echo(char **cmds, t_info *info);

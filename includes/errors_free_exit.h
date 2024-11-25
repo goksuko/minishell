@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/04 14:41:19 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/04 14:41:19 by vbusekru      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:11:30 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef enum e_error
 	ERROR_ALLOCATION,
 	ERROR_FILE_OPEN,
 	ERROR_NULL_PATH,
-	ERROR_CMD_NOT_FOUND,
 	ERROR_PIPE,
 	ERROR_FORK,
 	ERROR_CLOSE,

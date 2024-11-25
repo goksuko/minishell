@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:03:33 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/21 12:55:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:12:54 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,14 @@ bool	execute_shell(t_data *data);
 
 // messages.c
 
-void    all_messages(t_data *data, char *str);
+void	all_messages(t_data *data, char *str);
 void	not_found(t_data *data, char *str);
 
 // Utils functions //
 bool	start_exec(t_info *info);
-void 	close_fds_from_next_cmds(t_info *info);
+void	close_fds_from_next_cmds(t_info *info);
 bool	is_whitespace(char c);
 bool	is_directory(const char *path);
-
 
 // Path functions //
 char	*find_path_helper(t_info *info, char *main_command, char **path_split,

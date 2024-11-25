@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:47 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/18 11:06:41 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:26:20 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	return_value = handle_special_cases(cmds, &cd_data);
 	if (return_value != SUCCESS)
 		return (return_value);
+	free_and_null(&cd_data.cwd);
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));

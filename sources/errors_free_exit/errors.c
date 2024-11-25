@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/05/23 22:55:51 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/24 22:25:42 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:12:00 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,12 @@ char	*ft_error(t_error code)
 {
 	static char	*str[] = {[NO_ERROR] = "No Error\n",
 	[ERROR_PERM] = "bash: permission denied: \n",
-		// >>   test.txt returns this but bash does nothing,
-		//		with 0 exit_code
 	[ERROR_ARGUMENT_COUNT] = "please type => ./minishell\n",
 	[ERROR_NO_ENVP] = "Error: no envp\n",
 	[ERROR_TOO_MANY_ARGS] = "bash: exit: too many arguments\n",
 	[ERROR_NUMERIC_ARG] = "bash: exit: numeric argument required\n",
 	[ERROR_ALLOCATION] = "Allocation Failure\n",
 	[ERROR_NULL_PATH] = "bash: path not found\n",
-	[ERROR_CMD_NOT_FOUND] = "bash: command not found: \n",
 	[ERROR_WRONG_CHAR] = "Error: wrong character\n",
 	[ERROR_FILE_NOT_FOUND] = "bash: file not found: \n",
 	[ERROR_PIPE] = "bash: pipe error: \n",
@@ -42,7 +39,6 @@ char	*ft_error(t_error code)
 	[ERROR_EMPTY_LINE] = "Error: empty line\n",
 	[ERROR_INVALID_IDENTIFIER] = "Error: invalid identifier\n",
 	[UNDEFINED_ERROR] = "Undefined Error\n"};
-
 	if (code < 0 || code >= UNDEFINED_ERROR)
 		return (str[UNDEFINED_ERROR]);
 	else

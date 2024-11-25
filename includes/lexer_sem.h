@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/07/23 14:39:03 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/20 13:11:01 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:21:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,14 @@ bool				define_dsmaller(t_data *data, t_token *token);
 bool				define_dgreater(t_data *data, t_token *token);
 
 //  cmds_from_tokens.c
-
 t_token				*redir_first(t_token *current);
-char				*do_cat_addition(t_data *data, t_token *current, char *cmd);
+// char				*do_cat_addition(t_data *data, t_token *current, char *cmd);
 bool				is_first_after_pipe(t_token *current);
 char				**cmds_between_pipes(t_data *data, char **cmds);
 char				**cmds_from_tokens(t_data *data);
 bool				is_redir_inside(t_token *current);
 
 // cmds_between_pipes.c
-
 bool				handle_heredoc(t_data *data, t_token **current, char **cmds, int *j);
 bool				handle_redirection(t_token **current, bool *cat_cmd, bool *no_cmd);
 char				*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd);
