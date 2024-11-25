@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 12:42:29 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 14:33:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ bool	start_exec(t_info *info)
 	{
 		free_2d_null(&cmd_matrix);
 		free_system(info->data);
+		if (info->pipe_read_end != STDIN_FILENO)
+			ms_close(info->data, info->pipe_read_end);
 		exit(info->data->exit_code);
 	}
 	close_fds_from_next_cmds(info);

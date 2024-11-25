@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/25 13:59:19 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 14:06:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 
 bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 {
-	char	*temp;
-
 	while ((*current) && (*current)->type != T_PIPE && !is_redir(*current))
 	{
 		cmds[*j] = ms_strjoin_with_free_1st(data, cmds[*j], " ");
