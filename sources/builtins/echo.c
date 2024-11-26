@@ -39,23 +39,24 @@ bool	check_n_flag(char **cmds, int *index, bool *n_flag)
 				i++;
 			}
 			else
-				break;
+				break ;
 		}
 		else
-			break;
+			break ;
 	}
 	*index = i;
 	return (*n_flag);
 }
 
 int	print_home_env_value(t_env *env, t_data *data)
-{	
-	char *env_value;
+{
+	char	*env_value;
 
 	env_value = NULL;
 	while (env != NULL && env->value != NULL)
 	{
-		if (ft_strncmp(env->key, "HOME", 4) == 0 && (int)ft_strlen(env->key) == 4) // only print var if HOME exists
+		if (ft_strncmp(env->key, "HOME", 4) == 0 && \
+			(int)ft_strlen(env->key) == 4)
 			env_value = env->value;
 		env = env->next;
 	}
@@ -80,7 +81,8 @@ int	print_commands(char **cmds, int start_index, int out_fd, t_info *info)
 	{
 		if (ft_strncmp(cmds[i], "~", 1) == 0 && ft_strlen(cmds[i]) == 1)
 		{
-			return_value = print_home_env_value(info->data->env_list, info->data);
+			return_value = print_home_env_value(info->data->env_list, \
+				info->data);
 			if (return_value != SUCCESS)
 				return (return_value);
 		}

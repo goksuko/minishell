@@ -29,7 +29,7 @@ void	print_env_var(t_env *var, int fd)
 		ft_putstr_fd(var->value, fd);
 		ft_putstr_fd("\"", fd);
 	}
-	else if (var->value != NULL && ft_strcmp(var->value, "") == 0) // NEW
+	else if (var->value != NULL && ft_strcmp(var->value, "") == 0)
 		ft_putstr_fd("=\"\"", fd);
 	ft_putstr_fd("\n", fd);
 }

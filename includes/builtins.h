@@ -68,12 +68,16 @@ void	print_env_var(t_env *var, int fd);
 int		ft_strcmp(const char *s1, const char *s2);
 
 // EXPORT WITH ARGS
-int		create_new_env(t_data **data, char *command);
+int		create_new_env(t_data **data, char *command, char *new_key);
 void	add_new_env_node(t_env **env_list, t_env *new_env);
-char	*extract_key(char *command);
 bool	verify_key(char *key, int fd);
+int		handle_key(t_data *data,char *command);
+bool	check_key_existence(t_data *data, char *key);
 int		handle_allocation_error_env(t_data *data);
+int		create_new_env_error_handling(t_data *data, char *new_key, char *new_value);
 char	*get_new_value(char *command, int start);
-char	*get_new_key(char *command);
+char	*extract_key(char *command);
+int		update_env_value(t_data *data, char *key, char *command);
+int		create_new_env(t_data **data, char *command, char *new_key);
 
 #endif

@@ -12,11 +12,8 @@
 
 #include "../../includes/minishell.h"
 
-// int	ft_cd_error(t_data *data, char **cwd, char **old_cwd, int return_value)
 int	ft_cd_error(t_data *data, char **cwd, int return_value)
 {
-	// printf("----FT_CD_ERROR----\n");
-	// free_and_null(&*old_cwd); // Debugging purposes 
 	free_and_null(&*cwd);
 	if (return_value == ERROR_TOO_MANY_ARGS)
 	{
@@ -38,14 +35,12 @@ int	ft_cd_error(t_data *data, char **cwd, int return_value)
 
 int	handle_cd_error(t_cd_data *cd_data, int error_code)
 {
-	// printf("----HANLDE_CD_ERROR----\n");
 	return (ft_cd_error(cd_data->data, &cd_data->cwd, \
 	error_code));
 }
 
 int	change_directory(char *path, t_cd_data *cd_data)
 {
-	printf("----CHANGE DIRECTORY-----\n");
 	if (errno == ENOMEM || chdir(path) != 0)
 		return (handle_cd_error(cd_data, ERROR_NO_FILE_DIR));
 	return (SUCCESS);
@@ -53,7 +48,6 @@ int	change_directory(char *path, t_cd_data *cd_data)
 
 int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 {
-	// printf("---HANDLE SPECIAL CASES---\n");
 	int	cmd_len;
 
 	cmd_len = ft_strlen(cmds[0]);

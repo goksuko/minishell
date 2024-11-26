@@ -45,6 +45,7 @@ BUILTINS = 				builtins.c \
 						export_parent.c \
 						export_print_env.c \
 						export_new_env.c \
+						export_error_handling.c \
 						unset.c \
 
 EXECUTE =				child_processes.c \
