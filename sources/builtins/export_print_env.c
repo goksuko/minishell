@@ -23,7 +23,8 @@ void	print_env_var(t_env *var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(var->key, fd);
-	if (var->value != NULL && ft_strncmp(var->value, "", 1) != 0)
+	if (var->value != NULL && ft_strcmp(var->value, "") != 0)
+	// if (var->value != NULL && ft_strncmp(var->value, "", 1) != 0)
 	{
 		ft_putstr_fd("=\"", fd);
 		ft_putstr_fd(var->value, fd);
