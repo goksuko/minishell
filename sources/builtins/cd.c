@@ -80,7 +80,7 @@ int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 	return_value = handle_special_cases(cmds, &cd_data);
 	if (return_value != SUCCESS)
 		return (return_value);
-	// free_and_null(&cd_data.cwd); // cannot free_and_null cd_data.cwd because cd_data.old_cwd points tothe same address and that is how the ose the OLDPWD
+	// free_and_null(&cd_data.cwd); // cannot free_and_null cd_data.cwd because cd_data.old_cwd points to the same address and that is how the lose the OLDPWD
 	cd_data.cwd = getcwd(NULL, 0);
 	if (errno == ENOMEM || cd_data.cwd == NULL)
 		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
