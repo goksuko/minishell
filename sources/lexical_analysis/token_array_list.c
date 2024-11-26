@@ -72,6 +72,9 @@ t_token	*create_token_list(t_data *data, char **token_array)
 		return (NULL);
 	}
 	if (check_unclosed_quotes(data, token_lst) == false)
+	{
+		free_token_list(&token_lst);
 		return (NULL);
+	}
 	return (token_lst);
 }
