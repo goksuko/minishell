@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/25 10:36:53 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/12/10 12:53:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,4 +133,6 @@ void	**ms_calloc(t_data *data, size_t nmemb, size_t size);
 char	*ms_strjoin(t_data *data, const char *s1, const char *s2);
 char	*ms_strdup(t_data *data, const char *s);
 char	**ms_split(t_data *data, char const *s, char c);
+char	*ms_strjoin_with_free_1st(t_data *data, char *s1, const char *s2);
+
 #endif

@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_parent_export(char **cmds, t_data *data)
+int	ft_parent_export(char **cmds, t_data *data) // NOT BEING CALLED ANYWHERE IT SEEMS!
 {
 	int	i;
 	int	out_fd;
@@ -32,7 +32,7 @@ int	ft_parent_export(char **cmds, t_data *data)
 				free_system_error(data, ERROR_INVALID_IDENTIFIER);
 				return (ERROR_INVALID_IDENTIFIER);
 			}
-			return_value = create_new_env(&data, cmds[i]);
+			return_value = handle_key(data, cmds[i]);
 			i++;
 		}
 	}

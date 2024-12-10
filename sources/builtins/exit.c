@@ -27,7 +27,7 @@ int	handle_numeric_arg(char *exit_code, t_data *data)
 		return_value = exit_atoi(exit_code, data);
 		if (return_value == SUCCESS)
 		{
-			free_system(data); // CORRECT? TBC
+			free_system(data);
 			exit(data->exit_code);
 		}
 	}

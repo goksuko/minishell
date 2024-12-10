@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && (*s1 == *s2))
 	{
@@ -34,20 +34,6 @@ bool	verify_key(char *key, int fd)
 	return (true);
 }
 
-char	*extract_key(char *command)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	while (command[i] != '=')
-		i++;
-	key = ft_substr(command, 0, i);
-	if (key == NULL)
-		return (NULL);
-	return (key);
-}
-
 void	add_new_env_node(t_env **env_list, t_env *new_env)
 {
 	t_env	*current;
@@ -67,4 +53,54 @@ void	add_new_env_node(t_env **env_list, t_env *new_env)
 		new_env->next = current->next;
 		current->next = new_env;
 	}
+}
+
+int	create_new_env(t_data **data, char *command, char *new_key)
+{
+	char	*new_value;
+	int		i;
+	t_env	*new_env;
+
+	i = ft_strlen(new_key);
+	if (command[i] == '=')
+	{
+		i++;
+		new_value = get_new_value(command, i);
+		if (errno == ENOMEM || new_value == NULL)
+			return (create_new_env_error_handling(*data, new_key, NULL));
+	}
+	else
+		new_value = NULL;
+	new_env = ft_new_node(*data, new_key, new_value);
+	if (errno == ENOMEM || new_env == NULL)
+		return (create_new_env_error_handling(*data, new_key, new_value));
+	add_new_env_node(&(*data)->env_list, new_env);
+	return (SUCCESS);
+}
+
+int	update_env_value(t_data *data, char *key, char *command)
+{
+	t_env	*current;
+	int		i;
+
+	current = data->env_list;
+	while (current != NULL)
+	{
+		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
+		{
+			i = ft_strlen(key);
+			if (command[i] == '=')
+			{
+				i++;
+				free(current->value);
+				current->value = get_new_value(command, i);
+				if (errno == ENOMEM || current->value == NULL)
+					return (create_new_env_error_handling(data, key, NULL));
+			}
+			break ;
+		}
+		current = current->next;
+	}
+	free(key);
+	return (SUCCESS);
 }

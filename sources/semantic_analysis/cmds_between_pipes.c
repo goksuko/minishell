@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:34:41 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/24 21:42:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 14:06:35 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 	{
 		if (*cat_cmd)
 		{
-			cmd = ms_strjoin(data, cmd, " ");
-			cmd = ms_strjoin(data, cmd, (*current)->next->expanded_value);
+			cmd = ms_strjoin_with_free_1st(data, cmd, " ");
+			cmd = ms_strjoin_with_free_1st(data, cmd, (*current)->next->expanded_value);
 			*cat_cmd = false;
 		}
 		(*current) = (*current)->next->next;
@@ -99,16 +99,10 @@ char	*handle_redirection2(t_data *data, t_token **current, bool *cat_cmd)
 
 bool	handle_command(t_data *data, t_token **current, char **cmds, int *j)
 {
-	char	*temp;
-
 	while ((*current) && (*current)->type != T_PIPE && !is_redir(*current))
 	{
-		temp = cmds[*j];
-		cmds[*j] = ms_strjoin(data, cmds[*j], " ");
-		free(temp);
-		temp = cmds[*j];
-		cmds[*j] = ms_strjoin(data, cmds[*j], (*current)->expanded_value);
-		free(temp);
+		cmds[*j] = ms_strjoin_with_free_1st(data, cmds[*j], " ");
+		cmds[*j] = ms_strjoin_with_free_1st(data, cmds[*j], (*current)->expanded_value);
 		(*current) = (*current)->next;
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 12:02:00 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/10/27 12:03:31 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 13:55:40 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ char	*ms_strjoin(t_data *data, const char *s1, const char *s2)
 	str = ft_strjoin(s1, s2);
 	if (str == NULL)
 		ft_exit_perror(data, ERROR_ALLOCATION);
+	return (str);
+}
+
+char	*ms_strjoin_with_free_1st(t_data *data, char *s1, const char *s2)
+{
+	char	*str;
+
+	str = ft_strjoin(s1, s2);
+	if (str == NULL)
+		ft_exit_perror(data, ERROR_ALLOCATION);
+	free_and_null(&s1);
 	return (str);
 }
 
