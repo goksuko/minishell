@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/06/29 21:30:01 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/20 23:25:21 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:36:53 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	struct s_info	*info;
 	struct s_env	*env_list;
 	struct s_token	*tokens;
+	struct s_cd_data	*cd_data;
 }					t_data;
 
 typedef struct s_info
@@ -66,6 +67,14 @@ typedef struct s_info
 	int				pipe_read_end;
 	struct s_data	*data;
 }					t_info;
+
+typedef struct s_cd_data
+{
+	t_data  *data;
+	char    *cwd;
+	char    *old_cwd;
+	struct s_env   *env_list;
+} t_cd_data;
 
 typedef struct s_env
 {

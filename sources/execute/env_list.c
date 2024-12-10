@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:58:36 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/23 15:43:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 12:08:05 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ t_env	*ft_new_node(t_data *data, char *key, char *value)
 	node = ft_calloc(sizeof(t_env), 1);
 	if (errno == ENOMEM || node == NULL)
 		ft_exit_data_perror(data, ERROR_ALLOCATION, "node in ft_new_node");
-	node->key = key;
-	node->value = value;
+	node->key = ms_strdup(data, key);
+	//copied the key to the node
+	node->value = ms_strdup(data, value);
+	//copied the value to the node
 	node->next = NULL;
 	return (node);
 }
@@ -62,6 +64,7 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 {
 	char	*key;
 	char	*value;
+	t_env	*node;
 
 	if (pos)
 	{
@@ -82,5 +85,9 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 		if (find_data_if_no_pos(data, envp_i, &key, &value))
 			return (NULL);
 	}
-	return (ft_new_node(data, key, value));
+	//changed below
+	node = ft_new_node(data, key, value);
+	free_and_null(&key);
+	free_and_null(&value);
+	return (node);
 }

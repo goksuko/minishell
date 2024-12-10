@@ -6,20 +6,20 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/09/25 13:40:48 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/25 10:09:34 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:28:46 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-typedef struct s_cd_data
-{
-	t_data  *data;
-	char    *cwd;
-	char    *old_cwd;
-	t_env   *env_list;
-} t_cd_data;
+// typedef struct s_cd_data
+// {
+// 	t_data  *data;
+// 	char    *cwd;
+// 	char    *old_cwd;
+// 	t_env   *env_list;
+// } t_cd_data;
 
 bool	is_builtin(char *command);
 int		execute_builtin(char **cmds, t_data *data);

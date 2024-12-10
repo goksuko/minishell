@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:59:22 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/23 15:59:11 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:54:38 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,28 @@ void	update_shell(t_data *data, t_env **env_list)
 {
 	t_env	*env;
 	t_env	*start;
-	char	*cwd;
+	// char	*cwd;
 
 	start = *env_list;
 	env = *env_list;
-	cwd = NULL;
-	cwd = getcwd(0, 0);
-	if (cwd == NULL)
-		ft_exit_data_perror(data, ERROR_ALLOCATION, "cwd in update_shell");
+	// cwd = NULL;
+	// cwd = getcwd(0, 0);
+	// if (cwd == NULL)
+	// 	ft_exit_data_perror(data, ERROR_ALLOCATION, "cwd in update_shell");
 	while (env)
 	{
 		if (ft_strncmp("SHELL", env->key, 5) == 0)
 		{
 			free_and_null(&env->value);
-			env->value = ms_strdup(data, cwd);
+			env->value = ms_strdup(data, data->cd_data->cwd);
+			printf("env->value: %s\n", env->value);
 			break ;
 		}
 		env = env->next;
 	}
 	env_list = &start;
-	free_and_null(&cwd);
+	// free_and_null(&cwd);
+
 	return ;
 }
 

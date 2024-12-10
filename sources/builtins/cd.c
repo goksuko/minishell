@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:45:47 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/25 10:26:20 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2024/11/25 10:43:16 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,24 +72,29 @@ int	handle_special_cases(char **cmds, t_cd_data *cd_data)
 
 int	ft_cd(char **cmds, t_env *env_list, t_data *data)
 {
-	t_cd_data	cd_data;
+	t_cd_data	*cd_data;
 	int			return_value;
 
-	cd_data.data = data;
-	cd_data.env_list = env_list;
-	cd_data.cwd = getcwd(NULL, 0);
-	if (errno == ENOMEM || cd_data.cwd == NULL)
-		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	cd_data.old_cwd = cd_data.cwd;
+	cd_data = data->cd_data;
+	// data->cd_data->env_list = env_list;
+	// cd_data.cwd = getcwd(NULL, 0);
+	// if (errno == ENOMEM || cd_data.cwd == NULL)
+		// return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
+	printf("old_cwd: %s\n", cd_data->old_cwd);
+	printf("cwd: %s\n", cd_data->cwd);	
+	free_and_null(&cd_data->old_cwd);
+	cd_data->old_cwd = cd_data->cwd;
 	if (cmds && cmds[0] != NULL && cmds[1] != NULL)
-		return (handle_cd_error(&cd_data, ERROR_TOO_MANY_ARGS));
-	return_value = handle_special_cases(cmds, &cd_data);
+		return (handle_cd_error(cd_data, ERROR_TOO_MANY_ARGS));
+	return_value = handle_special_cases(cmds, cd_data);
 	if (return_value != SUCCESS)
 		return (return_value);
-	free_and_null(&cd_data.cwd);
-	cd_data.cwd = getcwd(NULL, 0);
-	if (errno == ENOMEM || cd_data.cwd == NULL)
-		return (handle_cd_error(&cd_data, ERROR_ALLOCATION));
-	update_env_list(&env_list, cd_data.old_cwd, cd_data.cwd, &cd_data);
+	free_and_null(&cd_data->cwd);
+	cd_data->cwd = getcwd(NULL, 0);
+	if (errno == ENOMEM || cd_data->cwd == NULL)
+		return (handle_cd_error(cd_data, ERROR_ALLOCATION));
+	printf("old_cwd: %s\n", cd_data->old_cwd);
+	printf("cwd: %s\n", cd_data->cwd);
+	update_env_list(&env_list, cd_data->old_cwd, cd_data->cwd, cd_data);
 	return (return_value);
 }
