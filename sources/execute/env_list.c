@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 22:58:36 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/23 15:43:23 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2025/01/13 12:28:15 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 	char	*key;
 	char	*value;
 
+	value = NULL;
+	key = NULL;
 	if (pos)
 	{
 		key = ft_substr(envp_i, 0, pos);
@@ -80,7 +82,7 @@ t_env	*create_node(t_data *data, char *envp_i, int pos)
 	else
 	{
 		if (find_data_if_no_pos(data, envp_i, &key, &value))
-			return (NULL);
+			return (free_and_null(&key), free_and_null(&value), NULL);
 	}
 	return (ft_new_node(data, key, value));
 }

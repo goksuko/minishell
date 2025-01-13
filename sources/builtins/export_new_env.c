@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/25 13:46:16 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/11/17 15:23:46 by vbusekru      ########   odam.nl         */
+/*   Updated: 2025/01/13 11:13:25 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	create_new_env(t_data **data, char *command, char *new_key)
 	if (errno == ENOMEM || new_env == NULL)
 		return (create_new_env_error_handling(*data, new_key, new_value));
 	add_new_env_node(&(*data)->env_list, new_env);
+	free_and_null(&new_key);
+	free_and_null(&new_value);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/24 15:49:58 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/24 15:49:58 by vbusekru      ########   odam.nl         */
+/*   Updated: 2025/01/13 11:57:21 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ char	*add_str(char *to_update, char *str_to_add)
 	char	*temp;
 
 	temp = ft_strjoin(to_update, str_to_add);
-	free(to_update);
+	// free(to_update);
 	// free(str_to_add); commented out for now for memory check purposes
-	if (temp == NULL)
-		return (NULL);
+	// if (temp == NULL)
+	// 	return (NULL);
 	return (temp);
 }
 
@@ -38,21 +38,26 @@ char	*add_char(char *to_update, char char_to_add)
 bool	dollar_in_loop(t_data *data, char **new, char *str, int *i)
 {
 	char	*temp;
+	char	*temp2;
 
 	temp = NULL;
 	(*i)++;
 	temp = process_dollar_sign(data, &str[*i], i);
 	if (temp == NULL)
 		return (false);
-	*new = add_str(*new, temp);
-	if (temp != NULL)
-		free(temp);
+	temp2 = ms_strdup(data, *new);
+	free_and_null(new);
+	// *new = add_str(temp2, temp);
+	*new = ms_strjoin(data, temp2, temp);
+	// if (temp != NULL) // removed for export BAR='$VAR' test (see Slack) and commenting out removed memory leaks
+	// 	free(temp);
+	free_and_null(&temp2);
 	if (*new == NULL)
 		return (false);
 	return (true);
 }
 
-char	*handle_dollar_sign(t_data *data, char *str)
+char	*handle_dollar_sign(t_data *data, char *str) //str = "echo $HOME" echo /home/goksu/... $pid
 {
 	int		i;
 	char	*new;

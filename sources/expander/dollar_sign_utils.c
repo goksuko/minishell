@@ -6,7 +6,7 @@
 /*   By: vbusekru <vbusekru@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/24 15:50:59 by vbusekru      #+#    #+#                 */
-/*   Updated: 2024/10/24 15:50:59 by vbusekru      ########   odam.nl         */
+/*   Updated: 2025/01/13 11:58:43 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_env_str(t_data *data, char *str, int *index)
 		return (NULL);
 	ft_strlcpy(temp, str, i + 1);
 	env = ft_get_env(data->env_list, temp);
-	free (temp);
+	free (temp); //?
 	if (env == NULL)
 	{
 		env = ft_strdup("");
@@ -62,10 +62,10 @@ char	*expand_pid(int *i)
 	return (temp);
 }
 
-char	*expand_env_variable(t_data *data, char *str, int *i)
-{
-	return (get_env_str(data, str, i));
-}
+// char	*expand_env_variable(t_data *data, char *str, int *i)
+// {
+// 	return (get_env_str(data, str, i));
+// }
 
 char	*process_dollar_sign(t_data *data, char *str, int *i)
 {
@@ -75,6 +75,6 @@ char	*process_dollar_sign(t_data *data, char *str, int *i)
 		return (expand_pid(i));
 	else if (str[0] != '\0' && (ft_isalnum(str[0]) == 1 || \
 	str[0] == '_')) // "_" or " " ??
-		return (expand_env_variable(data, str, i));
+		return (get_env_str(data, str, i));
 	return (NULL);
 }
