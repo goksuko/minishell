@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/19 23:09:06 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/25 14:33:32 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2025/01/14 23:19:49 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	start_exec(t_info *info)
 	cmd_matrix = ms_split(info->data, info->data->cmds[info->curr_cmd], ' ');
 	update_path(info->data);
 	path = before_exec(info->data->cmds[info->curr_cmd], info, cmd_matrix);
-	close_fds(info->data, info);
+	// close_fds(info->data, info);
 	if (path == NULL)
 	{
 		free_2d_null(&cmd_matrix);

@@ -6,7 +6,7 @@
 /*   By: akaya-oz <akaya-oz@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/27 01:13:14 by akaya-oz      #+#    #+#                 */
-/*   Updated: 2024/11/18 12:19:26 by akaya-oz      ########   odam.nl         */
+/*   Updated: 2025/01/14 22:46:32 by akaya-oz      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 bool	close_fds(t_data *data, t_info *info)
 {
+	printf("close_fds\n");
 	if (info->pipefd[0] != STDIN_FILENO)
 	{
+		// printf("pipefd[0]: %d\n", info->pipefd[0]);
 		ms_close(data, info->pipefd[0]);
 		info->pipefd[0] = STDIN_FILENO;
 	}
@@ -65,16 +67,20 @@ bool	print_fds(t_data *data, t_info *info)
 
 bool	do_child(t_data *data, t_info *info, char **command_array)
 {
+	printf("do_child\n");
 	if (command_array)
 	{
+		printf("command_array: %s\n", command_array[0]);
 		if (handle_builtin(info, command_array) == false)
 		{
+			printf("test1\n");
 			close_fds(data, info);
 			close_fds_from_next_cmds(info);
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
+			printf("test2\n");
 			close_fds(data, info);
 			close_fds_from_next_cmds(info);
 			exit(EXIT_SUCCESS);
@@ -82,6 +88,7 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 	}
 	else
 	{
+		printf("test3\n");
 		if (start_exec(info) == false)
 			return (false);
 	}
@@ -90,6 +97,7 @@ bool	do_child(t_data *data, t_info *info, char **command_array)
 
 void	do_parent(t_info *info)
 {
+	printf("do_parent\n");
 	if (info->fd_out != -10)
 	{
 		ms_close(info->data, info->fd_out);
@@ -107,6 +115,7 @@ void	do_parent(t_info *info)
 	}
 	if (info->pipe_read_end != STDIN_FILENO)
 	{
+		// printf("pipe_read_end: %d\n", info->pipe_read_end);
 		ms_close(info->data, info->pipe_read_end);
 		if (info->pipefd[0] != STDIN_FILENO)
 			info->pipe_read_end = info->pipefd[0];
