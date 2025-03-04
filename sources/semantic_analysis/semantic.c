@@ -15,10 +15,7 @@
 bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][0] != -10)
-	{
 		ms_close(data, info->fds[i][0]);
-		// free_and_null(&info->infile);
-	}
 	info->fds[i][0] = current->fd_in;
 	info->fd_in = current->fd_in;
 	free_and_null(&info->infile);
@@ -29,10 +26,7 @@ bool	handle_infile(t_data *data, t_info *info, int i, t_token *current)
 bool	handle_outfile(t_data *data, t_info *info, int i, t_token *current)
 {
 	if (info->fds[i][1] != -10)
-	{
 		ms_close(data, info->fds[i][1]);
-		// free_and_null(&info->outfile);
-	}
 	info->fds[i][1] = current->fd_out;
 	info->fd_out = current->fd_out;
 	free_and_null(&info->outfile);
@@ -93,8 +87,5 @@ bool	semantic_analysis(t_data *data)
 		return (false);
 	if (data->cmds == NULL)
 		return (false);
-	// printf("cmds:\n");
-	// printf_array(data->cmds);
-	// printf("**********\n");
 	return (true);
 }

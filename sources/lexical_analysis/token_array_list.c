@@ -43,7 +43,6 @@ t_token	*array_to_list(char **tokens, int token_count)
 	head = init_new_token(tokens[i], token_type_check(tokens[i]), token_count);
 	if (head == NULL)
 		return (free_matrix(tokens), NULL);
-	// head->is_head = true;
 	current = head;
 	i++;
 	while (tokens[i] != NULL)

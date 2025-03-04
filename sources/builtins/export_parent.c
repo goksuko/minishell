@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_parent_export(char **cmds, t_data *data) // NOT BEING CALLED ANYWHERE IT SEEMS!
+int	ft_parent_export(char **cmds, t_data *data) 
 {
 	int	i;
 	int	out_fd;

@@ -20,7 +20,7 @@ void	skip_quotes(char *line, int *i)
 	(*i)++;
 	while (line[*i] != '\0' && line[*i] != quote)
 		(*i)++;
-	if (line[*i] == quote) // NEW
+	if (line[*i] == quote)
 		(*i)++;
 }
 

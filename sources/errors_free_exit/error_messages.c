@@ -31,7 +31,6 @@ int	ft_print_error(t_error code)
 	return (code);
 }
 
-// ft_exit_str_fd(ERROR_MUTEX_INIT, STDERR_FILENO);
 void	ft_exit_str_fd(t_error code, int fd)
 {
 	ft_putstr_fd(ft_error(code), fd);

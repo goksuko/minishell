@@ -35,7 +35,7 @@ bool	verify_oldpwd_pwd(t_env *env_list)
 }
 
 void	update_env_list(t_env **env_list, char *old_cwd, char *new_cwd, \
-		t_cd_data *cd_data)// 
+		t_cd_data *cd_data)
 {
 	t_env	*env;
 
@@ -114,14 +114,14 @@ int	cd_old_pwd(t_env *env_list, t_data *data, t_cd_data *cd_data)
 	old_pwd = ft_get_env(env_list, "OLDPWD");
 	if (errno == ENOMEM || old_pwd == NULL)
 	{
-		printf("Freee 1\n");
+		ft_printf("Freee 1\n");
 		free(cd_data->cwd);
 		free_system_error(data, ERROR_OLDPWD);
 		return (ERROR_OLDPWD);
 	}
 	if (errno == ENOMEM || chdir(old_pwd) != 0)
 	{
-		printf("Freee 2\n");
+		ft_printf("Freee 2\n");
 		free(cd_data->cwd);
 		free(old_pwd);
 		free_system_error(data, ERROR_NO_FILE_DIR);

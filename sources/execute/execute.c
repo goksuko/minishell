@@ -42,15 +42,7 @@ bool	execute_shell(t_data *data)
 	int	exit_code;
 
 	if (!*data->cmds)
-	// {
-	// 	printf("no cmds\n");
 		return (true);
-	// }
-	// else
-	// {
-	// 	printf("cmds in execute shell\n");
-	// 	printf_array(data->cmds);
-	// }
 	data->nbr_of_pipes = find_pipe_count(data->tokens);
 	data->info->here_doc_cmd = heredoc_position(data->tokens);
 	if (create_children(data) == false)

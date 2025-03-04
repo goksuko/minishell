@@ -60,8 +60,6 @@ char	**cmds_between_pipes(t_data *data, char **cmds)
 		j++;
 	}
 	cmds[j] = NULL;
-	// printf("cmds: \n");
-	// printf_array(cmds);
 	return (cmds);
 }
 

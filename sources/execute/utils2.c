@@ -12,20 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-// int	close_safe(int fd, t_info *info)
-// {
-// 	if (close(fd) < 0)
-// 		ft_exit_data_perror(info->data, ERROR_CLOSE, "in close safe");
-// 	return (0);
-// }
-
-// int	dup2_safe(int oldfd, int newfd, t_info *info)
-// {
-// 	if (dup2(oldfd, newfd) == -1)
-// 		ft_exit_data_perror(info->data, ERROR_DUP2, "in dup2 safe");
-// 	return (0);
-// }
-
 char	*ft_strcpy(char *dest, char *src, int len)
 {
 	int	i;

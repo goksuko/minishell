@@ -39,8 +39,7 @@ bool	line_is_empty(char *line)
 	int	i;
 
 	i = 0;
-	// while (line && line[i]) // to be checked if it creates a problem in the program
-	while (line[i]) // to be checked if it creates a problem in the program
+	while (line[i])
 		i++;
 	return (i == 0);
 }

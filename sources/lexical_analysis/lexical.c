@@ -18,32 +18,28 @@ void	printf_array(char **array) // for debugging
 
 	if (!array)
 	{
-		printf("Array is NULL\n");
+		ft_printf("Array is NULL\n");
 		return ;
 	}
 	i = 0;
 	while (array[i] != NULL)
 	{
-		printf("%s\n", array[i]);
+		ft_printf("%s\n", array[i]);
 		i++;
 	}
 }
 
 bool	is_file_check(t_data *data, t_token *token_lst)
 {
-	// printf("---Is File Check---\n"); // DEBUGGING PURPOSES!
 	t_token	*current;
 
 	current = token_lst;
 	while (current != NULL)
 	{
-		// printf("current->value: %s\n", current->value); // DEBUGGING PURPOSES!
 		if (is_redir(current) == true)
 		{
-			// printf("Redirection found\n"); // DEBUGGING PURPOSES!
 			if (define_token_fd(data, current) == false)
 			{
-				// printf("define_token_fd() failed for token: %s\n", current->value); //Debugging purposes
 				if (data->exit_code == 126 || data->exit_code == 127)
 					return(false);
 				while (current && current->type != T_PIPE)
@@ -80,10 +76,5 @@ t_token	*lexical_analysis(t_data *data, char *line)
 	if (token_lst == NULL)
 		return (NULL);
 	is_file_check(data, token_lst);
-	// if (is_file_check(data, token_lst) == false)
-	// {
-	// 	// printf("is_file_check() failed\n"); // DEBUGGING PURPOSES!
-	// 	return (NULL);
-	// }
 	return (token_lst);
 }

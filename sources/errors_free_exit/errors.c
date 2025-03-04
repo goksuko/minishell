@@ -61,12 +61,10 @@ void	free_info(t_info *info)
 		free_and_null(&info->limiter);
 	if (info->path)
 		free_and_null(&info->path);
-	// free(info);
-	// info = NULL;
 	return ;
 }
 
-void	free_env(t_env **env_var) // Not sure if elsewhere already! Need to check !
+void	free_env(t_env **env_var)
 {
 	t_env	*current;
 	t_env	*next;

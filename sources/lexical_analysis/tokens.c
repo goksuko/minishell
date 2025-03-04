@@ -59,7 +59,7 @@ int	heredoc_position(t_token *current)
 		if (current && current->type == T_PIPE)
 		{
 			i++;
-			current = current->next; // to skip the pipe
+			current = current->next;
 		}
 	}
 	if (current == NULL)

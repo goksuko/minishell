@@ -78,14 +78,11 @@ bool	minishell_routine(t_data *data)
 		return (free_and_null(&line), true);
 	expander(&data);
 	free_and_null(&line);
-	// ft_print_tokens(data->tokens); //DEBUGGING PURPOSES!
 	if (semantic_analysis(data) == false)
 		return (false);
-	// printf("\n**********Result*********\n\n");
 	if (execute_shell(data) == false)
 		return (false);
 	ms_unlink(data, "0ur_h3r3_d0c");
-	// printf("\n**********Exit code: %d***\n", data->exit_code);
 	return (true);
 }
 
@@ -115,10 +112,9 @@ int	main(int argc, char *argv[], char **envp)
 	make_initial_path_checks(&data, envp);
 	while (1)
 	{
-		// handle_signals(PARENT); // recheck position
 		set_signals(&data);
 		if(minishell_routine(&data) == false)
-			close_fds(&data, &info); //why only in false? I have to think about it
+			close_fds(&data, &info);
 		free_system(&data);
 	}
 	return (data.exit_code);

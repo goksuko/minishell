@@ -64,10 +64,6 @@ void	free_system(t_data *data)
 		free_info(data->info);
 	if (data && data->tokens)
 		free_token_list(&data->tokens);
-	// if (data && data->envp && data->envp[0])
-	// 	free_2d_null(&data->envp);
-	// if (data && data->env_list)
-	// 	free_env(&data->env_list);
 	if (data && data->path)
 		free_and_null(&data->path);
 	return ;
@@ -78,8 +74,6 @@ void	free_data(t_data **data)
 	free_system(*data);
 	if ((*data) && (*data)->envp && (*data)->envp[0])
 		free_2d_null(&(*data)->envp);
-	// if ((*data) && (*data)->path)
-	// 	free_and_null(&(*data)->path);
 	if ((*data) && (*data)->env_list)
 		free_env(&(*data)->env_list);
 	close_fds(*data, (*data)->info);

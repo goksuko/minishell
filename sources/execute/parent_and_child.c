@@ -37,28 +37,28 @@ bool	close_fds(t_data *data, t_info *info)
 	return (true);
 }
 
-bool	print_fds(t_data *data, t_info *info)
+bool	print_fds(t_data *data, t_info *info) // for debugging
 {
 	(void)data;
 	if (info->pipefd[0] != STDIN_FILENO)
 	{
-		printf("pipefd[0]: %d\n", info->pipefd[0]);
+		ft_printf("pipefd[0]: %d\n", info->pipefd[0]);
 	}
 	if (info->fd_out != -10)
 	{
-		printf("fd_out: %d\n", info->fd_out);
+		ft_printf("fd_out: %d\n", info->fd_out);
 	}
 	if (info->fd_in != -10)
 	{
-		printf("fd_in: %d\n", info->fd_in);
+		ft_printf("fd_in: %d\n", info->fd_in);
 	}
 	if (info->pipefd[1] != STDOUT_FILENO)
 	{
-		printf("pipefd[1]: %d\n", info->pipefd[1]);
+		ft_printf("pipefd[1]: %d\n", info->pipefd[1]);
 	}
 	if (info->pipe_read_end != STDIN_FILENO)
 	{
-		printf("pipe_read_end: %d\n", info->pipe_read_end);
+		ft_printf("pipe_read_end: %d\n", info->pipe_read_end);
 	}
 	return (true);
 }

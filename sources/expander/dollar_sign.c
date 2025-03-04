@@ -17,10 +17,6 @@ char	*add_str(char *to_update, char *str_to_add)
 	char	*temp;
 
 	temp = ft_strjoin(to_update, str_to_add);
-	// free(to_update);
-	// free(str_to_add); commented out for now for memory check purposes
-	// if (temp == NULL)
-	// 	return (NULL);
 	return (temp);
 }
 
@@ -47,17 +43,14 @@ bool	dollar_in_loop(t_data *data, char **new, char *str, int *i)
 		return (false);
 	temp2 = ms_strdup(data, *new);
 	free_and_null(new);
-	// *new = add_str(temp2, temp);
 	*new = ms_strjoin(data, temp2, temp);
-	// if (temp != NULL) // removed for export BAR='$VAR' test (see Slack) and commenting out removed memory leaks
-	// 	free(temp);
 	free_and_null(&temp2);
 	if (*new == NULL)
 		return (false);
 	return (true);
 }
 
-char	*handle_dollar_sign(t_data *data, char *str) //str = "echo $HOME" echo /home/goksu/... $pid
+char	*handle_dollar_sign(t_data *data, char *str)
 {
 	int		i;
 	char	*new;

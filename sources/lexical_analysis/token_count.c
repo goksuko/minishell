@@ -42,9 +42,6 @@ int	count_tokens(char *line)
 			break ;
 		count++;
 		skip_token(line, &i);
-		// if (line[i]) // Perhaps remove entirely because this creates a false count
-		// 	i++; // Perhaps remove entirely because this creates a false count
 	}
-	// printf("Number of tokens in this line: %d\n", count); // DEBUGGING PURPOSES!
 	return (count);
 }

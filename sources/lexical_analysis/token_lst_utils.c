@@ -33,48 +33,47 @@ t_token	*init_new_token(char *str, t_token_type type, int token_count)
 	new_token->fd_in = -10;
 	new_token->fd_out = -10;
 	new_token->here_doc_fd = -10;
-	new_token->is_head = false; // is this needed and used because I see it was commented out in array_to_list()
+	new_token->is_head = false;
 	new_token->limiter = NULL;
 	return (new_token);
 }
 
-void	ft_print_tokens(t_token *tokens) // Only for testing purposes
+void	ft_print_tokens(t_token *tokens) // Only for debugging
 {
-	// printf("----PRINT TOKENS----\n");
 	int		i;
 	t_token	*temp;
 
 	if (tokens == NULL)
 	{
-		printf("No tokens\n");
+		ft_printf("No tokens\n");
 		return ;
 	}
 	i = 1;
 	temp = tokens;
 	while (temp != NULL)
 	{
-		printf("===Token number --%d--\n", i);
+		ft_printf("===Token number --%d--\n", i);
 		if (temp->value != NULL)
-			printf("Value: %s\n", temp->value);
+			ft_printf("Value: %s\n", temp->value);
 		else
-			printf("Value: (null)\n");
+			ft_printf("Value: (null)\n");
 		if (temp->expanded_value != NULL)
-			printf("Expanded value: %s\n", temp->expanded_value);
+			ft_printf("Expanded value: %s\n", temp->expanded_value);
 		else
-			printf("Expanded value: (null)\n");
-		printf("Token type: %s\n", token_type_to_string(temp->type));
+			ft_printf("Expanded value: (null)\n");
+		ft_printf("Token type: %s\n", token_type_to_string(temp->type));
 		if (temp->limiter != NULL)
-			printf("Limiter: %s\n", temp->limiter);
+			ft_printf("Limiter: %s\n", temp->limiter);
 		else
-			printf("Limiter: (null)\n");
+			ft_printf("Limiter: (null)\n");
 		if (temp->fd_in != -10)
-			printf("Fd_in: %d\n", temp->fd_in);
+			ft_printf("Fd_in: %d\n", temp->fd_in);
 		else
-			printf("Fd_in: (not set)\n");
+			ft_printf("Fd_in: (not set)\n");
 		if (temp->fd_out != -10)
-			printf("Fd_out: %d\n", temp->fd_out);
+			ft_printf("Fd_out: %d\n", temp->fd_out);
 		else
-			printf("Fd_out: (not set)\n");
+			ft_printf("Fd_out: (not set)\n");
 		temp = temp->next;
 		i++;
 	}
